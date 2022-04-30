@@ -1,15 +1,13 @@
-import { AnchorProvider, Program } from "@project-serum/anchor";
-import { PublicKey, SystemProgram } from "@solana/web3.js";
 import * as anchor from "@project-serum/anchor";
+import { Program } from "@project-serum/anchor";
+import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import { Buffer } from "buffer";
-import { TokenVote as TokenVoteTypes } from "../target/types/token_vote";
-import { TOKEN_PROGRAM_ID } from "@project-serum/anchor/dist/cjs/utils/token";
-import { TokenInstructions } from "@project-serum/serum";
+import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 
-const strToBuffer = (str: string, length: number): Buffer => {
+const strToArr = (str: string, length: number): Array<number> => {
   const buff = Buffer.alloc(length);
   buff.write(str, 0);
-  return buff;
+  return Array.from(buff);
 };
 
 describe("nftoken", () => {
@@ -17,191 +15,192 @@ describe("nftoken", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
-  const program = anchor.workspace.TokenVote as Program<TokenVoteTypes>;
+  const program = anchor.workspace.Nftoken as Program<NftokenTypes>;
 
-  test("creates a new poll", async () => {
-    // #region ctor
-    // Initialize the program's state struct.
-    const question = strToBuffer(
-      `wen retreat? ${Math.random().toFixed(5)}`,
-      32
-    );
-    const option1 = strToBuffer("A", 16);
-    const option2 = strToBuffer("B", 16);
+  test("mints an NFT", async () => {
+    const name = strToArr("nft1", 32);
+    const image_url = strToArr("url1", 128);
+    const metadata_url = strToArr("url2", 128);
 
-    const [pollConfigPubkey, pollConfigBump] =
-      await PublicKey.findProgramAddress([question], program.programId);
+    const nftKeypair = Keypair.generate();
 
-    const controller = anchor.AnchorProvider.local().wallet.publicKey;
-
-    const mint = await createMint(provider);
-    const token = await createTokenAccount({
-      provider: provider,
-      mint: mint,
-      owner: controller,
-    });
-    await mintTo({ provider: provider, mint: mint, token: token, amount: 1 });
-    // TODO: mint to the token account
+    const holder = anchor.AnchorProvider.local().wallet.publicKey;
 
     const sig1 = await program.methods
-      .createPoll(Array.from(question), [
-        Array.from(option1),
-        Array.from(option2),
+      .mintNft(
+        name,
+        image_url,
+        metadata_url,
+        false // collection_included
+      )
+      .accounts({
+        nftAccount: nftKeypair.publicKey,
+        holder,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([nftKeypair])
+      .rpc();
+
+    console.log("Mint NFT", sig1);
+
+    const nftResult = await program.account.nftAccount.fetch(
+      nftKeypair.publicKey
+    );
+    logNft(nftResult);
+  });
+
+  test("creates a collection", async () => {
+    const name = strToArr("col1", 32);
+    const image_url = strToArr("colimg1", 128);
+    const metadata_url = strToArr("colmeta1", 128);
+
+    const collectionKeypair = Keypair.generate();
+
+    const creator = anchor.AnchorProvider.local().wallet.publicKey;
+
+    const sig1 = await program.methods
+      .createCollection(name, image_url, metadata_url)
+      .accounts({
+        collectionAccount: collectionKeypair.publicKey,
+        creator,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([collectionKeypair])
+      .rpc();
+
+    console.log("Create Collection", sig1);
+
+    const collectionResult = await program.account.collectionAccount.fetch(
+      collectionKeypair.publicKey
+    );
+    logCollection(collectionResult);
+  });
+
+  test.only("mints an NFT into a collection", async () => {
+    const col_name = strToArr("col1", 32);
+    const col_image_url = strToArr("colimg1", 128);
+    const col_metadata_url = strToArr("colmeta1", 128);
+
+    const collectionKeypair = Keypair.generate();
+
+    const creator = anchor.AnchorProvider.local().wallet.publicKey;
+
+    const colsig1 = await program.methods
+      .createCollection(col_name, col_image_url, col_metadata_url)
+      .accounts({
+        collectionAccount: collectionKeypair.publicKey,
+        creator: creator,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([collectionKeypair])
+      .rpc();
+    console.log("Created Collection", colsig1);
+
+    const collectionResult = await program.account.collectionAccount.fetch(
+      collectionKeypair.publicKey
+    );
+
+    console.log("Collection Address:", collectionKeypair.publicKey.toBase58());
+    logCollection(collectionResult);
+
+    const nft_name = strToArr("nft1", 32);
+    const nft_image_url = strToArr("url1", 128);
+    const nft_metadata_url = strToArr("url2", 128);
+
+    const nftKeypair = Keypair.generate();
+
+    const holder = anchor.AnchorProvider.local().wallet.publicKey;
+
+    const sig1 = await program.methods
+      .mintNft(
+        nft_name,
+        nft_image_url,
+        nft_metadata_url,
+        true // collection_included
+      )
+      .accounts({
+        nftAccount: nftKeypair.publicKey,
+        holder,
+        systemProgram: SystemProgram.programId,
+      })
+      .remainingAccounts([
+        {
+          pubkey: collectionKeypair.publicKey, // collection ID
+          isSigner: false,
+          isWritable: false,
+        },
+        {
+          pubkey: creator, // collection authority
+          isSigner: false,
+          isWritable: false,
+        },
       ])
-      .accounts({
-        pollConfig: pollConfigPubkey,
-        controller,
-        mint,
-        token,
-        systemProgram: SystemProgram.programId,
-      })
-      .signers([])
+      .signers([nftKeypair])
       .rpc();
 
-    console.log("Create Poll", sig1);
-    // #endregion ctor
+    console.log("Mint NFT", sig1);
 
-    // Fetch the state struct from the network.
-    // #region accessor
-    const configResult = await program.account.pollConfig.fetch(
-      pollConfigPubkey
+    const nftResult = await program.account.nftAccount.fetch(
+      nftKeypair.publicKey
     );
-    console.log("config", configResult);
-
-    const [voteAccountPubkey] = await PublicKey.findProgramAddress(
-      [pollConfigPubkey.toBuffer(), token.toBuffer()],
-      program.programId
-    );
-
-    const voteSig1 = await program.methods
-      .voteOnPoll(0)
-      .accounts({
-        voteAccount: voteAccountPubkey,
-        pollConfig: pollConfigPubkey,
-        voter: controller,
-        token,
-        systemProgram: SystemProgram.programId,
-      })
-      .signers([])
-      .rpc();
-    console.log("Vote 1", voteSig1);
+    logNft(nftResult);
   });
 });
 
-async function createMint(provider: AnchorProvider, authority?: PublicKey) {
-  if (authority === undefined) {
-    authority = provider.wallet.publicKey;
-  }
-  const mint = anchor.web3.Keypair.generate();
-  const instructions = await createMintInstructions(
-    provider,
-    authority,
-    mint.publicKey
+type NftAccount = {
+  holder: PublicKey;
+  delegate: PublicKey | null;
+  update_authority: PublicKey | null;
+  name: Array<number>;
+  imageUrl: Array<number>;
+  metadataUrl: Array<number>;
+  collection: PublicKey | null;
+};
+
+type CollectionAccount = {
+  update_authority: PublicKey | null;
+  name: Array<number>;
+  imageUrl: Array<number>;
+  metadataUrl: Array<number>;
+};
+
+const arrayToStr = (arr: Array<number>): string => {
+  const buffer = Buffer.from(arr);
+  const str = buffer.toString("utf-8");
+  return str.replace(/\0/g, "");
+};
+
+const logNft = (nft: NftAccount) => {
+  console.log(
+    "NFT:",
+    JSON.stringify(
+      {
+        holder: nft.holder.toString(),
+        update_authority: nft.update_authority?.toString() ?? null,
+        delegate: nft.delegate?.toString(),
+        name: arrayToStr(nft.name),
+        imageUrl: arrayToStr(nft.imageUrl),
+        metadataUrl: arrayToStr(nft.metadataUrl),
+        collection: nft.collection?.toString() ?? null,
+      },
+      null,
+      2
+    )
   );
+};
 
-  const tx = new anchor.web3.Transaction();
-  tx.add(...instructions);
-
-  await provider.sendAndConfirm(tx, [mint]);
-
-  return mint.publicKey;
-}
-
-async function createMintInstructions(
-  provider: AnchorProvider,
-  authority: PublicKey,
-  mint: PublicKey
-) {
-  return [
-    anchor.web3.SystemProgram.createAccount({
-      fromPubkey: provider.wallet.publicKey,
-      newAccountPubkey: mint,
-      space: 82,
-      lamports: await provider.connection.getMinimumBalanceForRentExemption(82),
-      programId: TOKEN_PROGRAM_ID,
-    }),
-    TokenInstructions.initializeMint({
-      mint,
-      decimals: 0,
-      mintAuthority: authority,
-    }),
-  ];
-}
-
-async function createTokenAccount({
-  provider,
-  mint,
-  owner,
-}: {
-  provider: AnchorProvider;
-  mint: PublicKey;
-  owner: PublicKey;
-}) {
-  const vault = anchor.web3.Keypair.generate();
-  const tx = new anchor.web3.Transaction();
-  tx.add(
-    ...(await createTokenAccountInstrs(provider, vault.publicKey, mint, owner))
+const logCollection = (coll: CollectionAccount) => {
+  console.log(
+    "Collection:",
+    JSON.stringify(
+      {
+        name: arrayToStr(coll.name),
+        imageUrl: arrayToStr(coll.imageUrl),
+        metadataUrl: arrayToStr(coll.metadataUrl),
+        update_authority: coll.update_authority?.toString(),
+      },
+      null,
+      2
+    )
   );
-  await provider.sendAndConfirm(tx, [vault]);
-  return vault.publicKey;
-}
-
-async function createTokenAccountInstrs(
-  provider: AnchorProvider,
-  newAccountPubkey: PublicKey,
-  mint: PublicKey,
-  owner: PublicKey,
-  lamports?: number
-) {
-  if (lamports === undefined) {
-    lamports = await provider.connection.getMinimumBalanceForRentExemption(165);
-  }
-  return [
-    anchor.web3.SystemProgram.createAccount({
-      fromPubkey: provider.wallet.publicKey,
-      newAccountPubkey,
-      space: 165,
-      lamports,
-      programId: TOKEN_PROGRAM_ID,
-    }),
-    TokenInstructions.initializeAccount({
-      account: newAccountPubkey,
-      mint,
-      owner,
-    }),
-  ];
-}
-
-async function mintTo({
-  provider,
-  mint,
-  token,
-  amount,
-}: {
-  provider: AnchorProvider;
-  mint: PublicKey;
-  token: PublicKey;
-  amount: number;
-}) {
-  const tx = new anchor.web3.Transaction();
-  tx.add(
-    ...(await createMintToIxs(provider.wallet.publicKey, mint, token, amount))
-  );
-  await provider.sendAndConfirm(tx, []);
-}
-
-async function createMintToIxs(
-  mintAuthority: PublicKey,
-  mint: PublicKey,
-  token: PublicKey,
-  amount: number
-) {
-  return [
-    TokenInstructions.mintTo({
-      mint,
-      destination: token,
-      amount,
-      mintAuthority,
-    }),
-  ];
-}
+};
