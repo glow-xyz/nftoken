@@ -1,0 +1,9 @@
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[programs.localnet]
+nftoken = "FfqiTwF9Ez1QFZKxCEUoSr4UiYAaUb3QWGgsbG3QKSoh"
+
+[scripts]
+test = "yarn jest"

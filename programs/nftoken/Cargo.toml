@@ -1,0 +1,18 @@
+[package]
+name = "nftoken"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "nftoken"
+
+[features]
+no-entrypoint = []
+cpi = ["no-entrypoint"]
+
+[dependencies]
+anchor-lang = "0.24.2"
+anchor-spl = "0.24.2"
+borsh = { version = "0.9", features = ["const-generics"] }
