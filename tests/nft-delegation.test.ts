@@ -6,6 +6,8 @@ import { createCollection } from "./utils/create-collection";
 import { createNft } from "./utils/create-nft";
 import { logNft, strToArr } from "./utils/test-utils";
 
+const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
+
 describe("delegate", () => {
   // Configure the client to use the local cluster.
   const provider = anchor.AnchorProvider.env();
@@ -54,6 +56,6 @@ describe("delegate", () => {
     console.log("Undelegate NFT signature", undelegate_sig);
 
     const undelegated = await program.account.nftAccount.fetch(nft_pubkey);
-    expect(undelegated.delegate).toBe(null);
+    expect(undelegated.delegate.toBase58()).toEqual(NULL_PUBKEY_STRING);
   });
 });
