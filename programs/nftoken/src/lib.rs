@@ -58,11 +58,11 @@ pub mod nftoken {
 
         let delegate = nft_account.delegate;
 
-        let transfer_allowed = 
+        let transfer_allowed =
             // The NFT holder can make a transfer
             nft_account.holder.key() == signer.key()
-            // So can the delegate, if the delegate is set.
-            || (delegate.is_some() && delegate.unwrap().key() == signer.key());
+                // So can the delegate, if the delegate is set.
+                || (delegate.is_some() && delegate.unwrap().key() == signer.key());
 
         require!(transfer_allowed, NftokenError::TransferUnauthorized);
 
@@ -71,38 +71,30 @@ pub mod nftoken {
 
         Ok(())
     }
-    
-    // TODO: should this support both setting / unsetting the delegate? 
+
     pub fn delegate_nft(
-        ctx: Context<DelegateNft>
-    ) -> anchor_lang::Result<()> {
-        let signer = &ctx.accounts.signer;
-        let nft_account = &mut ctx.accounts.nft_account;
-        let action_allowed = nft_account.holder.key() == signer.key();
-        require!(action_allowed, NftokenError::DelegateUnauthorized);
-
-        nft_account.delegate = Some(ctx.accounts.delegate.key());
-
-        Ok(())
-    }
-
-    // TODO: who has permissions on the delegate?
-    pub fn undelegate_nft(
-        ctx: Context<UndelegateNft>
-    ) -> anchor_lang::Result<()> {
+        ctx: Context<DelegateNft>,
+        set_delegate: bool,
+    ) -> Result<()> {
         let signer = &ctx.accounts.signer;
         let nft_account = &mut ctx.accounts.nft_account;
 
-        let current_delegate = &nft_account.delegate;
-        let action_allowed = 
-            // The NFT holder can remove the delegate
-            nft_account.holder.key() == signer.key()
-            // So can the delegate, if the delegate is set.
-            || (current_delegate.is_some() && current_delegate.unwrap().key() == signer.key());
+        if set_delegate {
+            let action_allowed = nft_account.holder.key() == signer.key();
+            require!(action_allowed, NftokenError::Unauthorized);
 
-        require!(action_allowed, NftokenError::DelegateUnauthorized);
+            nft_account.delegate = Some(ctx.remaining_accounts[0].key());
+        } else {
+            let current_delegate = &nft_account.delegate;
+            let action_allowed =
+                // The NFT holder can remove the delegate
+                nft_account.holder.key() == signer.key()
+                    // So can the delegate, if the delegate is set.
+                    || (current_delegate.is_some() && current_delegate.unwrap().key() == signer.key());
 
-        nft_account.delegate = None;
+            require!(action_allowed, NftokenError::DelegateUnauthorized);
+            nft_account.delegate = None;
+        }
 
         Ok(())
     }
@@ -112,7 +104,7 @@ pub mod nftoken {
         name: [u8; 32],
         image_url: [u8; 128],
         metadata_url: [u8; 128],
-    ) -> anchor_lang::Result<()> {
+    ) -> Result<()> {
         let collection_account = &mut ctx.accounts.collection_account;
 
         collection_account.update_authority = Some(ctx.accounts.creator.key());
@@ -129,7 +121,8 @@ pub mod nftoken {
 #[account]
 pub struct NftAccount {
     pub holder: Pubkey,
-    pub name: [u8; 32], // Metaplex uses `String`, but this is bad
+    pub name: [u8; 32],
+    // Metaplex uses `String`, but this is bad
     pub image_url: [u8; 128],
     pub metadata_url: [u8; 128],
     pub update_authority: Option<Pubkey>,
@@ -141,7 +134,8 @@ pub struct NftAccount {
 ///       fixed size then we are going to break `getProgramAccounts`
 #[account]
 pub struct CollectionAccount {
-    pub name: [u8; 32], // Metaplex uses `String`, but this is bad
+    pub name: [u8; 32],
+    // Metaplex uses `String`, but this is bad
     pub image_url: [u8; 128],
     pub metadata_url: [u8; 128],
     pub update_authority: Option<Pubkey>,
@@ -149,10 +143,10 @@ pub struct CollectionAccount {
 
 #[derive(Accounts)]
 #[instruction(
-    name: [u8; 32],
-    image_url: [u8; 128],
-    metadata_url: [u8; 128],
-    collection_included: bool
+name: [u8; 32],
+image_url: [u8; 128],
+metadata_url: [u8; 128],
+collection_included: bool
 )]
 pub struct MintNft<'info> {
     #[account(init, payer = holder, space = 500)]
@@ -184,20 +178,9 @@ pub struct TransferNft<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction()]
+#[instruction(set_delegate: bool)]
 pub struct DelegateNft<'info> {
-    pub nft_account: Account<'info, NftAccount>,
-
     #[account(mut)]
-    pub signer: Signer<'info>,
-
-    /// CHECK: this can be any type
-    pub delegate: AccountInfo<'info>,
-}
-
-#[derive(Accounts)]
-#[instruction()]
-pub struct UndelegateNft<'info> {
     pub nft_account: Account<'info, NftAccount>,
 
     #[account(mut)]
