@@ -45,6 +45,7 @@ export const createNft = async ({
       nftAccount: nftKeypair.publicKey,
       holder,
       systemProgram: SystemProgram.programId,
+      clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
     })
     .signers([nftKeypair])
     .rpc();

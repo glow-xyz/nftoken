@@ -29,6 +29,7 @@ export type NftAccount = {
   name: Array<number>;
   imageUrl: Array<number>;
   metadataUrl: Array<number>;
+  createdAt: string;
   collection: PublicKey | null;
 };
 
@@ -58,6 +59,7 @@ export const logNft = (nft: NftAccount | null) => {
           imageUrl: arrayToStr(nft.imageUrl),
           metadataUrl: arrayToStr(nft.metadataUrl),
           collection: nft.collection?.toString() ?? null,
+          created_at: nft.createdAt,
         },
         null,
         2

@@ -34,6 +34,7 @@ pub fn mint_nft_inner(
     nft_account.name = name;
     nft_account.image_url = image_url;
     nft_account.metadata_url = metadata_url;
+    nft_account.created_at = ctx.accounts.clock.unix_timestamp;
 
     Ok(())
 }
@@ -63,5 +64,6 @@ pub struct MintNft<'info> {
     pub holder: Signer<'info>,
 
     pub system_program: Program<'info, System>,
+    pub clock: Sysvar<'info, Clock>,
 }
 

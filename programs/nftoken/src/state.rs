@@ -27,5 +27,7 @@ pub struct NftAccount {
 
     pub collection: Pubkey,
     pub delegate: Pubkey,
+
+    pub created_at: i64,
 }
 
