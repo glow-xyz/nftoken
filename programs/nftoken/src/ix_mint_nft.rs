@@ -40,7 +40,6 @@ pub fn mint_nft_inner(
 }
 
 
-
 /// This is the instruction data that gets passed into the `mint_nft` instruction.
 ///
 /// # Remaining Accounts
