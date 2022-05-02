@@ -8,7 +8,6 @@ pub mod ix_transfer_collection;
 pub mod ix_transfer_nft;
 pub mod ix_update_collection;
 
-
 use anchor_lang::prelude::*;
 
 use crate::ix_create_collection::*;
