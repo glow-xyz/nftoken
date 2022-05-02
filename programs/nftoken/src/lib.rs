@@ -1,6 +1,6 @@
 pub mod constants;
 pub mod errors;
-pub mod state;
+pub mod account_types;
 pub mod ix_create_collection;
 pub mod ix_delegate_nft;
 pub mod ix_mint_nft;

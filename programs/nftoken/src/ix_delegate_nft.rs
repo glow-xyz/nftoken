@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use crate::state::*;
+use crate::account_types::*;
 use crate::constants::*;
 use crate::errors::*;
 

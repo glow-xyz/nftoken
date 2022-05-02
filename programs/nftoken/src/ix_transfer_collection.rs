@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use crate::state::CollectionAccount;
+use crate::account_types::CollectionAccount;
 use crate::errors::NftokenError;
 
 /// This allows transferring the `creator` authority on a collection. When you transfer

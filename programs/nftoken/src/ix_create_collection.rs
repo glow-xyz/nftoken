@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
-use crate::state::CollectionAccount;
-use crate::errors::NftokenError;
+use crate::account_types::CollectionAccount;
 
 /// # Create Collection
 ///

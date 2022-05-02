@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use crate::state::CollectionAccount;
+use crate::account_types::CollectionAccount;
 use crate::errors::NftokenError;
 
 /// `update_collection` allows updating metadata about the collection on chain.
