@@ -1,4 +1,4 @@
-name: Program Test
+name: Test Anchor Program
 
 on: [pull_request]
 
@@ -7,6 +7,7 @@ env:
 
 jobs:
   build:
+    name: Test Program with JS Client
     runs-on: ubuntu-latest
     container: projectserum/build:v0.24.2
 
