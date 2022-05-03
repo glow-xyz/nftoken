@@ -25,7 +25,7 @@ jobs:
       - name: Check solana config
         run: solana config get
       - name: Install yarn dependencies
-        run: pnpm install
+        run: npm install pnpm -g && pnpm install
       - name: Build
         run: anchor build
       - name: Run tests
