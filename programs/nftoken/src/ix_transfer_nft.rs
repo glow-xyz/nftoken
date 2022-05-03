@@ -33,6 +33,7 @@ pub fn transfer_nft_inner(ctx: Context<TransferNft>) -> Result<()> {
 #[derive(Accounts)]
 #[instruction()]
 pub struct TransferNft<'info> {
+    #[account(mut)]
     pub nft_account: Account<'info, NftAccount>,
 
     #[account(mut)]
