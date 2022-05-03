@@ -1,0 +1,33 @@
+name: Test Anchor Program
+
+on: [pull_request]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Test Program with JS Client
+    runs-on: ubuntu-latest
+    container: projectserum/build:v0.24.2
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: List rustup toolchains
+        run: rustup toolchain list
+      - name: Set default toolchain
+        run: rustup default stable
+      - name: List rustup toolchains
+        run: rustup toolchain list
+      - name: Generate new keygen
+        run: solana-keygen new
+      - name: Set solana target cluster to local
+        run: solana config set --url http:localhost:8899
+      - name: Check solana config
+        run: solana config get
+      - name: Install yarn dependencies
+        run: npm install pnpm -g && pnpm install
+      - name: Build
+        run: anchor build
+      - name: Run tests
+        run: anchor test
