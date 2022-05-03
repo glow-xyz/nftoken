@@ -1,4 +1,3 @@
-import { Key } from "readline";
 import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
@@ -43,6 +42,7 @@ export const createCollection = async ({
       collectionAccount: collection_keypair.publicKey,
       creator,
       systemProgram: SystemProgram.programId,
+      clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
     })
     .signers([collection_keypair])
     .rpc();

@@ -2,8 +2,8 @@ use anchor_lang::prelude::*;
 use crate::account_types::*;
 use crate::errors::*;
 
-pub fn mint_nft_inner(
-    ctx: Context<MintNft>,
+pub fn create_nft_inner(
+    ctx: Context<CreateNft>,
     name: [u8; 32],
     image_url: [u8; 128],
     metadata_url: [u8; 128],
@@ -55,7 +55,8 @@ pub fn mint_nft_inner(
     metadata_url: [u8; 128],
     collection_included: bool
 )]
-pub struct MintNft<'info> {
+pub struct CreateNft<'info> {
+    // TODO: we should choose the size for this so that creating an NFToken is at least 2x cheaper than a Metaplex NFT
     #[account(init, payer = holder, space = 500)]
     pub nft_account: Account<'info, NftAccount>,
 

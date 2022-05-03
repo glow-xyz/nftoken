@@ -17,6 +17,7 @@ pub fn create_collection_inner(
     collection_account.image_url = image_url;
     collection_account.metadata_url = metadata_url;
     collection_account.creator_can_update = true;
+    collection_account.created_at = ctx.accounts.clock.unix_timestamp;
 
     Ok(())
 }
@@ -31,4 +32,5 @@ pub struct CreateCollection<'info> {
     pub creator: Signer<'info>,
 
     pub system_program: Program<'info, System>,
+    pub clock: Sysvar<'info, Clock>,
 }
