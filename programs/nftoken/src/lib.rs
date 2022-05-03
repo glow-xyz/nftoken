@@ -3,7 +3,7 @@ pub mod errors;
 pub mod account_types;
 pub mod ix_create_collection;
 pub mod ix_delegate_nft;
-pub mod ix_mint_nft;
+pub mod ix_create_nft;
 pub mod ix_transfer_collection;
 pub mod ix_transfer_nft;
 pub mod ix_update_collection;
@@ -12,7 +12,7 @@ use anchor_lang::prelude::*;
 
 use crate::ix_create_collection::*;
 use crate::ix_delegate_nft::*;
-use crate::ix_mint_nft::*;
+use crate::ix_create_nft::*;
 use crate::ix_transfer_collection::*;
 use crate::ix_transfer_nft::*;
 use crate::ix_update_collection::*;
@@ -24,8 +24,8 @@ pub mod nftoken {
     use crate::ix_transfer_collection::transfer_collection_inner;
     use super::*;
 
-    pub fn mint_nft(ctx: Context<MintNft>, name: [u8; 32], image_url: [u8; 128], metadata_url: [u8; 128], collection_included: bool) -> Result<()> {
-        return mint_nft_inner(ctx, name, image_url, metadata_url, collection_included);
+    pub fn create_nft(ctx: Context<CreateNft>, name: [u8; 32], image_url: [u8; 128], metadata_url: [u8; 128], collection_included: bool) -> Result<()> {
+        return create_nft_inner(ctx, name, image_url, metadata_url, collection_included);
     }
 
     pub fn transfer_nft(ctx: Context<TransferNft>) -> Result<()> {
