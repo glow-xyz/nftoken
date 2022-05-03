@@ -33,7 +33,7 @@ describe("nftoken", () => {
     const holder = anchor.AnchorProvider.local().wallet.publicKey;
 
     const sig1 = await program.methods
-      .mintNft(
+      .createNft(
         nft_name,
         nft_image_url,
         nft_metadata_url,
