@@ -23,7 +23,7 @@ use crate::ix_nft_transfer::*;
 use crate::ix_nft_unset_collection::*;
 use crate::ix_nft_unset_delegate::*;
 
-declare_id!("Edc4wW4o8wyxm8NVGcizYX731ioTGxvvHPxnByXmR7iQ");
+declare_id!("nf1oJ8Q7mTTSpa13u91B4rMdystqjK619QN24quqvym");
 
 #[program]
 pub mod nftoken {
