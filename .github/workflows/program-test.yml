@@ -41,7 +41,6 @@ jobs:
         with:
           fetch-depth: 1
       - name: Install PNPM and dependencies
-        if: steps.filter.outputs.has_change == 'true'
         run: npm i pnpm@7.0.0 -g && pnpm install
       - name: Typescript Compile (tsc)
         run: pnpm run tsc
