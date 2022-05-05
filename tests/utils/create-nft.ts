@@ -1,4 +1,3 @@
-import { Key } from "readline";
 import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
