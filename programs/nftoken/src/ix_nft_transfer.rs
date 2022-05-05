@@ -9,7 +9,7 @@ use crate::errors::*;
 pub fn transfer_nft_inner(ctx: Context<TransferNft>) -> Result<()> {
     // TODO check that you are either the delegate or the owner
     let signer = &ctx.accounts.signer;
-    let nft_account = &mut ctx.accounts.nft_account;
+    let nft_account = &mut ctx.accounts.nft;
 
     let delegate = nft_account.delegate;
 
@@ -34,7 +34,7 @@ pub fn transfer_nft_inner(ctx: Context<TransferNft>) -> Result<()> {
 #[instruction()]
 pub struct TransferNft<'info> {
     #[account(mut)]
-    pub nft_account: Account<'info, NftAccount>,
+    pub nft: Account<'info, NftAccount>,
 
     #[account(mut)]
     pub signer: Signer<'info>,

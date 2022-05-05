@@ -6,11 +6,11 @@ use crate::errors::NftokenError;
 ///
 /// TODO: consider if we want to allow only passing in some things to update, what would that
 ///       look like? like if you want to update the `name` but leave everything else as default.
-pub fn update_collection_inner(
-    ctx: Context<UpdateCollection>,
+pub fn collection_update_inner(
+    ctx: Context<CollectionUpdate>,
     name: [u8; 32],
-    image_url: [u8; 128],
-    metadata_url: [u8; 128],
+    image_url: [u8; 64],
+    metadata_url: [u8; 64],
     creator_can_update: bool
 ) -> Result<()> {
     let collection_account = &mut ctx.accounts.collection_account;
@@ -28,8 +28,8 @@ pub fn update_collection_inner(
 }
 
 #[derive(Accounts)]
-#[instruction(name: [u8; 32], image_url: [u8; 128], metadata_url: [u8; 128])]
-pub struct UpdateCollection<'info> {
+#[instruction(name: [u8; 32], image_url: [u8; 64], metadata_url: [u8; 64])]
+pub struct CollectionUpdate<'info> {
     #[account(mut, has_one = creator)]
     pub collection_account: Account<'info, CollectionAccount>,
 

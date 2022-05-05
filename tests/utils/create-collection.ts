@@ -23,13 +23,14 @@ export const createCollection = async ({
 }): Promise<{
   signature: Base58;
   creator: PublicKey;
+  collection_pubkey: PublicKey;
   collection_keypair: Keypair;
 }> => {
   const name = strToArr(_name || generateAlphaNumericString(16), 32);
-  const image_url = strToArr(_image_url || generateAlphaNumericString(16), 128);
+  const image_url = strToArr(_image_url || generateAlphaNumericString(16), 64);
   const metadata_url = strToArr(
     _metadata_url || generateAlphaNumericString(16),
-    128
+    64
   );
 
   const collection_keypair = Keypair.generate();
@@ -55,5 +56,5 @@ export const createCollection = async ({
   );
   logCollection(fetched_collection);
 
-  return { signature, collection_keypair, creator };
+  return { signature, collection_pubkey: collection_keypair.publicKey, collection_keypair, creator };
 };

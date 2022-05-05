@@ -2,14 +2,20 @@ use anchor_lang::prelude::*;
 use crate::account_types::*;
 use crate::errors::*;
 
-pub fn create_nft_inner(
-    ctx: Context<CreateNft>,
+/// # Create NFT
+///
+/// This sets the current `holder == creator == signer` so this is useful if you are creating
+/// NFTs that you will be the manager of.
+///
+/// If you want to let other people mint your NFTs, you should use the upcoming Mintlist feature.
+pub fn nft_create_inner(
+    ctx: Context<NftCreate>,
     name: [u8; 32],
-    image_url: [u8; 128],
-    metadata_url: [u8; 128],
+    image_url: [u8; 64],
+    metadata_url: [u8; 64],
     collection_included: bool,
 ) -> Result<()> {
-    let nft_account = &mut ctx.accounts.nft_account;
+    let nft_account = &mut ctx.accounts.nft;
 
     if collection_included {
         let collection_info: &AccountInfo = &ctx.remaining_accounts[0];
@@ -29,12 +35,14 @@ pub fn create_nft_inner(
         nft_account.collection = *collection_info.key;
     }
 
+    nft_account.version = 1;
     nft_account.holder = ctx.accounts.holder.key();
     nft_account.creator = ctx.accounts.holder.key();
     nft_account.name = name;
     nft_account.image_url = image_url;
     nft_account.metadata_url = metadata_url;
     nft_account.created_at = ctx.accounts.clock.unix_timestamp;
+    nft_account.creator_can_update = true;
 
     Ok(())
 }
@@ -51,14 +59,14 @@ pub fn create_nft_inner(
 #[derive(Accounts)]
 #[instruction(
     name: [u8; 32],
-    image_url: [u8; 128],
-    metadata_url: [u8; 128],
+    image_url: [u8; 64],
+    metadata_url: [u8; 64],
     collection_included: bool
 )]
-pub struct CreateNft<'info> {
+pub struct NftCreate<'info> {
     // TODO: we should choose the size for this so that creating an NFToken is at least 2x cheaper than a Metaplex NFT
     #[account(init, payer = holder, space = 500)]
-    pub nft_account: Account<'info, NftAccount>,
+    pub nft: Account<'info, NftAccount>,
 
     #[account(mut)]
     pub holder: Signer<'info>,

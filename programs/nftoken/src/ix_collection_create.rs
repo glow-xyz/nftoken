@@ -4,14 +4,15 @@ use crate::account_types::CollectionAccount;
 /// # Create Collection
 ///
 /// This creates a *collection* account which NFTs can be associated with.
-pub fn create_collection_inner(
-    ctx: Context<CreateCollection>,
+pub fn collection_create_inner(
+    ctx: Context<CollectionCreate>,
     name: [u8; 32],
-    image_url: [u8; 128],
-    metadata_url: [u8; 128],
+    image_url: [u8; 64],
+    metadata_url: [u8; 64],
 ) -> Result<()> {
     let collection_account = &mut ctx.accounts.collection_account;
 
+    collection_account.version = 1;
     collection_account.creator = ctx.accounts.creator.key();
     collection_account.name = name;
     collection_account.image_url = image_url;
@@ -23,8 +24,8 @@ pub fn create_collection_inner(
 }
 
 #[derive(Accounts)]
-#[instruction(name: [u8; 32], image_url: [u8; 128], metadata_url: [u8; 128])]
-pub struct CreateCollection<'info> {
+#[instruction(name: [u8; 32], image_url: [u8; 64], metadata_url: [u8; 64])]
+pub struct CollectionCreate<'info> {
     #[account(init, payer = creator, space = 500)]
     pub collection_account: Account<'info, CollectionAccount>,
 

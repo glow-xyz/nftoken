@@ -1,3 +1,4 @@
+import { Key } from "readline";
 import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
@@ -22,12 +23,13 @@ export const createNft = async ({
 }): Promise<{
   signature: Base58;
   nft_pubkey: PublicKey;
+  nft_keypair: Keypair;
 }> => {
   const name = strToArr(_name || generateAlphaNumericString(16), 32);
-  const image_url = strToArr(_image_url || generateAlphaNumericString(16), 128);
+  const image_url = strToArr(_image_url || generateAlphaNumericString(16), 64);
   const metadata_url = strToArr(
     _metadata_url || generateAlphaNumericString(16),
-    128
+    64
   );
 
   const nftKeypair = Keypair.generate();
@@ -42,7 +44,7 @@ export const createNft = async ({
       false // collection_included
     )
     .accounts({
-      nftAccount: nftKeypair.publicKey,
+      nft: nftKeypair.publicKey,
       holder,
       systemProgram: SystemProgram.programId,
       clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
@@ -57,5 +59,9 @@ export const createNft = async ({
   );
   logNft(nftResult);
 
-  return { signature, nft_pubkey: nftKeypair.publicKey };
+  return {
+    signature,
+    nft_pubkey: nftKeypair.publicKey,
+    nft_keypair: nftKeypair,
+  };
 };
