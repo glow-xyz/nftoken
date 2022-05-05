@@ -6,9 +6,9 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-    name: Test Program with JS Client
-    runs-on: ubuntu-latest
+  run_js_tests:
+    name: Anchor Tests
+    runs-on: ubuntu-20.04
     container: projectserum/build:v0.24.2
 
     steps:
@@ -29,5 +29,7 @@ jobs:
         run: npm install pnpm -g && pnpm install
       - name: Build
         run: anchor build
+      - name: Typescript Compile (tsc)
+        run: pnpm run tsc
       - name: Run tests
         run: anchor test

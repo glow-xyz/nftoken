@@ -14,7 +14,8 @@
     "node": ">=11"
   },
   "scripts": {
-    "test": "anchor test --skip-lint"
+    "test": "anchor test --skip-lint",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@project-serum/anchor": "^0.24.2",
