@@ -3,7 +3,7 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [programs.localnet]
-nftoken = "nf1oJ8Q7mTTSpa13u91B4rMdystqjK619QN24quqvym"
+nftoken = "nf2DH8Wq3uZdYEkqFqQ2LQ8rVJx6Lffw6jPa2JWBgXH"
 
 [scripts]
 test = "yarn jest"
