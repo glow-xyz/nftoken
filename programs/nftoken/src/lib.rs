@@ -25,7 +25,7 @@ use crate::ix_nft_unset_collection::*;
 use crate::ix_nft_unset_delegate::*;
 use crate::ix_nft_update::*;
 
-declare_id!("nf1oJ8Q7mTTSpa13u91B4rMdystqjK619QN24quqvym");
+declare_id!("nf2DH8Wq3uZdYEkqFqQ2LQ8rVJx6Lffw6jPa2JWBgXH");
 
 #[program]
 pub mod nftoken {
