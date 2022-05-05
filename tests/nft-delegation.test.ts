@@ -1,12 +1,9 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
-import { Keypair, SystemProgram } from "@solana/web3.js";
+import { Keypair } from "@solana/web3.js";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createCollection } from "./utils/create-collection";
 import { createNft } from "./utils/create-nft";
-import { logNft, strToArr } from "./utils/test-utils";
-
-const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
+import { logNft, NULL_PUBKEY_STRING } from "./utils/test-utils";
 
 describe("delegate", () => {
   // Configure the client to use the local cluster.
@@ -22,18 +19,12 @@ describe("delegate", () => {
     const signer = anchor.AnchorProvider.local().wallet.publicKey;
 
     const delegate_sig = await program.methods
-      .delegateNft(true)
+      .nftSetDelegate()
       .accounts({
-        nftAccount: nft_pubkey,
-        signer,
+        nft: nft_pubkey,
+        holder: signer,
+        delegate: delegate_keypair.publicKey
       })
-      .remainingAccounts([
-        {
-          pubkey: delegate_keypair.publicKey,
-          isSigner: false,
-          isWritable: false,
-        },
-      ])
       .signers([])
       .rpc();
     console.log("Delegate NFT signature", delegate_sig);
@@ -46,9 +37,9 @@ describe("delegate", () => {
     );
 
     const undelegate_sig = await program.methods
-      .delegateNft(false)
+      .nftUnsetDelegate()
       .accounts({
-        nftAccount: nft_pubkey,
+        nft: nft_pubkey,
         signer,
       })
       .signers([])

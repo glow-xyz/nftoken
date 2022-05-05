@@ -21,7 +21,7 @@ describe("transfer nft", () => {
     const signature = await program.methods
       .transferNft()
       .accounts({
-        nftAccount: nft_pubkey,
+        nft: nft_pubkey,
         signer,
         recipient,
       })

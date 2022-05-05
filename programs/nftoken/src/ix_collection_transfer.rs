@@ -4,7 +4,7 @@ use crate::errors::NftokenError;
 
 /// This allows transferring the `creator` authority on a collection. When you transfer
 /// the `creator` you lose all privileges and the `new_creator` gets all of your permissions.
-pub fn transfer_collection_inner(ctx: Context<TransferCollection>) -> Result<()> {
+pub fn collection_transfer_creator_inner(ctx: Context<CollectionTransferCreator>) -> Result<()> {
     let collection_account = &mut ctx.accounts.collection_account;
 
     let action_allowed = collection_account.creator.key() == ctx.accounts.creator.key();
@@ -19,7 +19,7 @@ pub fn transfer_collection_inner(ctx: Context<TransferCollection>) -> Result<()>
 
 #[derive(Accounts)]
 #[instruction()]
-pub struct TransferCollection<'info> {
+pub struct CollectionTransferCreator<'info> {
     #[account(mut)]
     pub collection_account: Account<'info, CollectionAccount>,
 

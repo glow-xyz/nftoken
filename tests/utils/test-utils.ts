@@ -1,6 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 import { Buffer } from "buffer";
 
+export const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
 export type Base58 = string;
 export type Base64 = string;
 
@@ -25,7 +26,7 @@ export const generateAlphaNumericString = (
 export type NftAccount = {
   holder: PublicKey;
   delegate: PublicKey | null;
-  update_authority: PublicKey | null;
+  creator: PublicKey | null;
   name: Array<number>;
   imageUrl: Array<number>;
   metadataUrl: Array<number>;
@@ -34,7 +35,7 @@ export type NftAccount = {
 };
 
 export type CollectionAccount = {
-  update_authority: PublicKey | null;
+  creator: PublicKey | null;
   name: Array<number>;
   imageUrl: Array<number>;
   metadataUrl: Array<number>;
@@ -53,7 +54,7 @@ export const logNft = (nft: NftAccount | null) => {
       JSON.stringify(
         {
           holder: nft.holder.toString(),
-          update_authority: nft.update_authority?.toString() ?? null,
+          creator: nft.creator?.toString() ?? null,
           delegate: nft.delegate?.toString() ?? null,
           name: arrayToStr(nft.name),
           imageUrl: arrayToStr(nft.imageUrl),
@@ -75,7 +76,7 @@ export const logCollection = (coll: CollectionAccount) => {
         name: arrayToStr(coll.name),
         imageUrl: arrayToStr(coll.imageUrl),
         metadataUrl: arrayToStr(coll.metadataUrl),
-        update_authority: coll.update_authority?.toString(),
+        creator: coll.creator?.toString(),
       },
       null,
       2
