@@ -29,18 +29,7 @@ jobs:
         run: npm install pnpm -g && pnpm install
       - name: Build
         run: anchor build
-      - name: Run tests
-        run: anchor test
-
-  ts_check:
-    name: Typescript Checks
-    runs-on: ubuntu-20.04
-    container: node:16.10.0-alpine3.13
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-      - name: Install PNPM and dependencies
-        run: npm i pnpm@7.0.0 -g && pnpm install
       - name: Typescript Compile (tsc)
         run: pnpm run tsc
+      - name: Run tests
+        run: anchor test
