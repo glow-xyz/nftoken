@@ -6,8 +6,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-    name: Test Program with JS Client
+  run_js_tests:
+    name: Anchor Tests
     runs-on: ubuntu-latest
     container: projectserum/build:v0.24.2
 
@@ -31,3 +31,17 @@ jobs:
         run: anchor build
       - name: Run tests
         run: anchor test
+
+  ts_check:
+    name: Typescript Checks
+    runs-on: ubuntu-20.04
+    container: node:16.10.0-alpine3.13
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Install PNPM and dependencies
+        if: steps.filter.outputs.has_change == 'true'
+        run: npm i pnpm@7.0.0 -g && pnpm install
+      - name: Typescript Compile (tsc)
+        run: pnpm run tsc

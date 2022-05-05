@@ -38,7 +38,7 @@ export const createCollection = async ({
   const creator = anchor.AnchorProvider.local().wallet.publicKey;
 
   const signature = await program.methods
-    .createCollection(name, image_url, metadata_url)
+    .collectionCreate(name, image_url, metadata_url)
     .accounts({
       collectionAccount: collection_keypair.publicKey,
       creator,
@@ -56,5 +56,10 @@ export const createCollection = async ({
   );
   logCollection(fetched_collection);
 
-  return { signature, collection_pubkey: collection_keypair.publicKey, collection_keypair, creator };
+  return {
+    signature,
+    collection_pubkey: collection_keypair.publicKey,
+    collection_keypair,
+    creator,
+  };
 };
