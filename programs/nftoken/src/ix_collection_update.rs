@@ -2,7 +2,9 @@ use anchor_lang::prelude::*;
 use crate::account_types::CollectionAccount;
 use crate::errors::NftokenError;
 
-/// `update_collection` allows updating metadata about the collection on chain.
+///  # Update Collection
+///
+/// Update the collection information on chain.
 ///
 /// TODO: consider if we want to allow only passing in some things to update, what would that
 ///       look like? like if you want to update the `name` but leave everything else as default.
@@ -13,7 +15,7 @@ pub fn collection_update_inner(
     metadata_url: [u8; 64],
     creator_can_update: bool
 ) -> Result<()> {
-    let collection_account = &mut ctx.accounts.collection_account;
+    let collection_account = &mut ctx.accounts.collection;
 
     let action_allowed = collection_account.creator.key() == ctx.accounts.creator.key();
     require!(action_allowed, NftokenError::Unauthorized);
@@ -31,7 +33,7 @@ pub fn collection_update_inner(
 #[instruction(name: [u8; 32], image_url: [u8; 64], metadata_url: [u8; 64])]
 pub struct CollectionUpdate<'info> {
     #[account(mut, has_one = creator)]
-    pub collection_account: Account<'info, CollectionAccount>,
+    pub collection: Account<'info, CollectionAccount>,
 
     #[account(mut)]
     pub creator: Signer<'info>,
