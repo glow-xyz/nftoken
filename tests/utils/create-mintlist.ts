@@ -87,7 +87,6 @@ export function getMintlistAccountSize(numMints: number): number {
     // created_at
     8 +
     // mint_infos
-    // FIXME: When we figure out how to store the list of `MintInfo`'s, we might need to add the size of the container.
     numMints * getMintInfoSize()
   );
 }

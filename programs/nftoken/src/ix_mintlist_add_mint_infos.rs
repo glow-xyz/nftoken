@@ -10,23 +10,24 @@ pub fn mintlist_add_mint_infos_inner(
 ) -> Result<()> {
     let mintlist_account = &mut ctx.accounts.mintlist.load_mut()?;
 
-    let added_len: u16 = mint_infos
+    let len_to_add: u16 = mint_infos
         .len()
         .try_into()
         .map_err(|_err| error!(NftokenError::TooManyMintInfos))?;
 
-    let available_mint_info_slots = mintlist_account.num_mints - mintlist_account.mint_infos_added;
+    let mint_infos_added = mintlist_account.mint_infos_added;
+    let available_mint_info_slots = mintlist_account.num_mints - mint_infos_added;
 
     require!(
-        added_len as u16 <= available_mint_info_slots,
+        len_to_add as u16 <= available_mint_info_slots,
         NftokenError::TooManyMintInfos
     );
 
     for (i, mint_info) in mint_infos.iter().enumerate() {
-        mintlist_account.mint_infos[usize::from(added_len) + i] = mint_info.into()
+        mintlist_account.mint_infos[usize::from(mint_infos_added) + i] = mint_info.into()
     }
 
-    mintlist_account.mint_infos_added += added_len;
+    mintlist_account.mint_infos_added += len_to_add;
 
     Ok(())
 }

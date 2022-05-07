@@ -5,6 +5,13 @@ export const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
 export type Base58 = string;
 export type Base64 = string;
 
+export const nullArray32 = nullArray(32);
+export const nullArray64 = nullArray(64);
+
+export function nullArray(length: number) {
+  return Array.from({ length }, () => 0);
+}
+
 export const strToArr = (str: string, length: number): Array<number> => {
   const buff = Buffer.alloc(length);
   buff.write(str, 0);
@@ -41,7 +48,13 @@ export type CollectionAccount = {
   metadataUrl: Array<number>;
 };
 
-const arrayToStr = (arr: Array<number>): string => {
+export type MintInfo = {
+  name: number[];
+  imageUrl: number[];
+  metadataUrl: number[];
+};
+
+export const arrayToStr = (arr: Array<number>): string => {
   const buffer = Buffer.from(arr);
   const str = buffer.toString("utf-8");
   return str.replace(/\0/g, "");
