@@ -4,6 +4,8 @@ pub mod account_types;
 pub mod ix_collection_create;
 pub mod ix_collection_transfer;
 pub mod ix_collection_update;
+pub mod ix_mintlist_add_mint_infos;
+pub mod ix_mintlist_create;
 pub mod ix_nft_create;
 pub mod ix_nft_set_collection;
 pub mod ix_nft_set_delegate;
@@ -17,6 +19,8 @@ use anchor_lang::prelude::*;
 use crate::ix_collection_create::*;
 use crate::ix_collection_transfer::*;
 use crate::ix_collection_update::*;
+use crate::ix_mintlist_add_mint_infos::*;
+use crate::ix_mintlist_create::*;
 use crate::ix_nft_create::*;
 use crate::ix_nft_set_collection::*;
 use crate::ix_nft_set_delegate::*;
@@ -53,4 +57,9 @@ pub mod nftoken {
     pub fn collection_update(ctx: Context<CollectionUpdate>, name: [u8; 32], image_url: [u8; 64], metadata_url: [u8; 64], creator_can_update: bool) -> Result<()> { return collection_update_inner(ctx, name, image_url, metadata_url, creator_can_update); }
 
     pub fn transfer_collection(ctx: Context<CollectionTransferCreator>) -> Result<()> { return collection_transfer_creator_inner(ctx); }
+
+    // Mintlist instructions
+    pub fn mintlist_create(ctx: Context<MintlistCreate>, args: MintlistCreateArgs) -> Result<()> { return mintlist_create_inner(ctx, args); }
+
+    pub fn mintlist_add_mint_infos_inner(ctx: Context<MintlistAddMintInfos>, args: MintlistAddMintInfosArgs) -> Result<()> { return mintlist_add_mint_infos_inner(ctx, args); }
 }
