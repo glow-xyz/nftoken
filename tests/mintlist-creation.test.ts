@@ -14,11 +14,11 @@ describe("mintlist_create", () => {
     const treasuryKeypair = web3.Keypair.generate();
     const goLiveDate = new BN(Math.floor(Date.now() / 1000));
     const price = new BN(web3.LAMPORTS_PER_SOL);
-    const numMints = new BN(10000);
+    const numMints = 10000;
 
     const mintlistKeypair = web3.Keypair.generate();
 
-    const mintlistAccountSize = getMintlistAccountSize(numMints.toNumber());
+    const mintlistAccountSize = getMintlistAccountSize(numMints);
 
     const createMintlistAccountInstruction =
       anchor.web3.SystemProgram.createAccount({
@@ -37,7 +37,7 @@ describe("mintlist_create", () => {
         treasurySol: treasuryKeypair.publicKey,
         goLiveDate,
         price,
-        numMints: numMints,
+        numMints,
         mintingOrder: "sequential",
       })
       .accounts({
@@ -62,8 +62,8 @@ describe("mintlist_create", () => {
     assert.deepEqual(mintlistData.treasurySol, treasuryKeypair.publicKey);
     assert.deepEqual(mintlistData.goLiveDate.toNumber(), goLiveDate.toNumber());
     assert.equal(mintlistData.price.toNumber(), price.toNumber());
-    assert.deepEqual(mintlistData.numMints.toNumber(), numMints.toNumber());
-    assert.deepEqual(mintlistData.mintsRedeemed.toNumber(), 0);
+    assert.deepEqual(mintlistData.numMints, numMints);
+    assert.deepEqual(mintlistData.mintsRedeemed, 0);
     assert.deepEqual(mintlistData.mintingOrder, { sequential: {} });
     assert.deepEqual(mintlistData.collection, web3.PublicKey.default);
     assert(mintlistData.createdAt.toNumber() <= Date.now() / 1000);

@@ -50,7 +50,7 @@ pub struct MintlistCreateArgs {
     pub price: u64,
 
     /// Maximum number of NFTs that can be minted from the mintlist.
-    pub num_mints: u64,
+    pub num_mints: u16,
 
     /// Order of going through the list of `MintInfo`'s during the minting process.
     /// Can be "sequential" or "random".

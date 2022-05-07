@@ -38,7 +38,17 @@ pub struct NftAccount {
 #[account(zero_copy)]
 pub struct MintlistAccount {
     pub version: u8, // 1
-    _version_alignment: [u8; 7], // 7
+
+    /// Order of going through the list of `MintInfo`'s during the minting process.
+    pub minting_order: MintingOrder, // 1
+
+    /// Maximum number of NFTs that can be minted from the mintlist.
+    pub num_mints: u16, // 2
+
+    /// Number of NFTs already minted from the mintlist.
+    pub mints_redeemed: u16, // 2
+
+    _alignment: [u8; 2], // 2
 
     /// The pubkey that will be set as the creator of the NTFs minted from the mintlist.
     pub creator: Pubkey, // 32
@@ -52,16 +62,6 @@ pub struct MintlistAccount {
     /// Price to pay for minting an NFT from the mintlist.
     pub price: u64, // 8
 
-    /// Maximum number of NFTs that can be minted from the mintlist.
-    pub num_mints: u64, // 8
-
-    /// Number of NFTs already minted from the mintlist.
-    pub mints_redeemed: u64, // 8
-
-    /// Order of going through the list of `MintInfo`'s during the minting process.
-    pub minting_order: MintingOrder, // 1
-    _minting_order_alignment: [u8; 7], // 7
-
     /// Optional pubkey of the collection the NFTs minted from the mintlist will belong to.
     pub collection: Pubkey, // 32
 
@@ -73,11 +73,19 @@ pub struct MintlistAccount {
 }
 
 impl MintlistAccount {
-    pub fn size(num_mints: u64) -> usize {
+    pub fn size(num_mints: u16) -> usize {
         // Account discriminator
         8
         // version
-        + 8
+        + 1
+        // minting_order
+        + 1
+        // num_mints
+        + 2
+        // mints_redeemed
+        + 2
+        // _alignment
+        + 2
         // creator
         + 32
         // treasury_sol
@@ -85,12 +93,6 @@ impl MintlistAccount {
         // go_live_date
         + 8
         // price
-        + 8
-        // num_mints
-        + 8
-        // mints_redeemed
-        + 8
-        // minting_order
         + 8
         // collection
         + 32
@@ -126,6 +128,7 @@ pub struct MintInfo {
     pub image_url: [u8; 64], // 64
     pub metadata_url: [u8; 64], // 64
     pub minted: bool, // 1
+    _alignment: [u8; 7] // 7
 }
 
 impl MintInfo {
@@ -138,6 +141,8 @@ impl MintInfo {
         + 64
         // minted
         + 1
+        // _alignment
+        + 7
     }
 }
 

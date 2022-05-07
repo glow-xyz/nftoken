@@ -3,7 +3,15 @@ export function getMintlistAccountSize(numMints: number): number {
     // Account discriminator
     8 +
     // version
-    8 +
+    1 +
+    // minting_order
+    1 +
+    // num_mints
+    2 +
+    // mints_redeemed
+    2 +
+    // _alignment
+    2 +
     // creator
     32 +
     // treasury_sol
@@ -11,12 +19,6 @@ export function getMintlistAccountSize(numMints: number): number {
     // go_live_date
     8 +
     // price
-    8 +
-    // num_mints
-    8 +
-    // mints_redeemed
-    8 +
-    // minting_order
     8 +
     // collection
     32 +
@@ -37,6 +39,8 @@ function getMintInfoSize(): number {
     // metadata_url
     64 +
     // minted
-    1
+    1 +
+    // _alignment
+    7
   );
 }
