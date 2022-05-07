@@ -108,7 +108,7 @@ pub mod nftoken {
         return mintlist_create_inner(ctx, args);
     }
 
-    pub fn mintlist_add_mint_infos_inner(
+    pub fn mintlist_add_mint_infos(
         ctx: Context<MintlistAddMintInfos>,
         mint_infos: Vec<MintInfoArg>,
     ) -> Result<()> {

@@ -2,7 +2,7 @@ import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { Program, web3, BN } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { getMintlistAccountSize } from "./utils/create-mintlist";
+import { createMintlist } from "./utils/create-mintlist";
 
 describe("mintlist_create", () => {
   const provider = anchor.AnchorProvider.env();
@@ -16,46 +16,13 @@ describe("mintlist_create", () => {
     const price = new BN(web3.LAMPORTS_PER_SOL);
     const numMints = 10000;
 
-    const mintlistKeypair = web3.Keypair.generate();
-
-    const mintlistAccountSize = getMintlistAccountSize(numMints);
-
-    const createMintlistAccountInstruction =
-      anchor.web3.SystemProgram.createAccount({
-        fromPubkey: provider.wallet.publicKey,
-        newAccountPubkey: mintlistKeypair.publicKey,
-        space: mintlistAccountSize,
-        lamports:
-          await program.provider.connection.getMinimumBalanceForRentExemption(
-            mintlistAccountSize
-          ),
-        programId: program.programId,
-      });
-
-    await program.methods
-      .mintlistCreate({
-        treasurySol: treasuryKeypair.publicKey,
-        goLiveDate,
-        price,
-        numMints,
-        mintingOrder: "sequential",
-      })
-      .accounts({
-        mintlist: mintlistKeypair.publicKey,
-        creator: provider.wallet.publicKey,
-        clock: web3.SYSVAR_CLOCK_PUBKEY,
-      })
-      .signers([mintlistKeypair])
-      .preInstructions([createMintlistAccountInstruction])
-      .rpc()
-      .catch((e) => {
-        console.error(e.logs);
-        throw e;
-      });
-
-    const mintlistData = await program.account.mintlistAccount.fetch(
-      mintlistKeypair.publicKey
-    );
+    const { mintlistData } = await createMintlist({
+      treasury: treasuryKeypair.publicKey,
+      goLiveDate,
+      price,
+      numMints,
+      program,
+    });
 
     assert.equal(mintlistData.version, 1);
     assert.deepEqual(mintlistData.creator, provider.wallet.publicKey);

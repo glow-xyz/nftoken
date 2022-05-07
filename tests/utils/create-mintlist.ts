@@ -1,3 +1,65 @@
+import * as anchor from "@project-serum/anchor";
+import { BN, Program, web3 } from "@project-serum/anchor";
+import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
+
+export async function createMintlist({
+  treasury,
+  goLiveDate,
+  price,
+  numMints,
+  program,
+}: {
+  treasury: web3.PublicKey;
+  goLiveDate: BN;
+  price: BN;
+  numMints: number;
+  program: Program<NftokenTypes>;
+}) {
+  const { wallet } = anchor.AnchorProvider.local();
+
+  const mintlistKeypair = web3.Keypair.generate();
+  const mintlistAccountSize = getMintlistAccountSize(numMints);
+
+  const createMintlistAccountInstruction =
+    anchor.web3.SystemProgram.createAccount({
+      fromPubkey: wallet.publicKey,
+      newAccountPubkey: mintlistKeypair.publicKey,
+      space: mintlistAccountSize,
+      lamports:
+        await program.provider.connection.getMinimumBalanceForRentExemption(
+          mintlistAccountSize
+        ),
+      programId: program.programId,
+    });
+
+  await program.methods
+    .mintlistCreate({
+      treasurySol: treasury,
+      goLiveDate,
+      price,
+      numMints,
+      mintingOrder: "sequential",
+    })
+    .accounts({
+      mintlist: mintlistKeypair.publicKey,
+      creator: wallet.publicKey,
+      clock: web3.SYSVAR_CLOCK_PUBKEY,
+    })
+    .signers([mintlistKeypair])
+    .preInstructions([createMintlistAccountInstruction])
+    .rpc()
+    .catch((e) => {
+      console.error(e.logs);
+      throw e;
+    });
+
+  const mintlistData = await program.account.mintlistAccount.fetch(
+    mintlistKeypair.publicKey
+  );
+
+  return { mintlistAddress: mintlistKeypair.publicKey, mintlistData };
+}
+
 export function getMintlistAccountSize(numMints: number): number {
   return (
     // Account discriminator
