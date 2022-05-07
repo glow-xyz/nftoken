@@ -3,7 +3,7 @@ export function getMintlistAccountSize(numMints: number): number {
     // Account discriminator
     8 +
     // version
-    1 +
+    8 +
     // creator
     32 +
     // treasury_sol
@@ -17,7 +17,7 @@ export function getMintlistAccountSize(numMints: number): number {
     // mints_redeemed
     8 +
     // minting_order
-    1 +
+    8 +
     // collection
     32 +
     // created_at

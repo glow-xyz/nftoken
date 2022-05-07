@@ -5,7 +5,7 @@ use crate::errors::*;
 
 /// Adds multiple `MintInfo`'s to the `mintlist`.
 pub fn mintlist_add_mint_infos_inner(ctx: Context<MintlistAddMintInfos>, args: MintlistAddMintInfosArgs) -> Result<()> {
-    let mintlist_account = &mut ctx.accounts.mintlist;
+    // let mintlist_account = &mut ctx.accounts.mintlist;
     todo!()
     // Ok(())
 }
@@ -13,7 +13,7 @@ pub fn mintlist_add_mint_infos_inner(ctx: Context<MintlistAddMintInfos>, args: M
 #[derive(Accounts)]
 pub struct MintlistAddMintInfos<'info> {
     #[account(mut, has_one = creator)]
-    mintlist: Account<'info, MintlistAccount>,
+    mintlist: AccountLoader<'info, MintlistAccount>,
 
     #[account(mut)]
     pub creator: Signer<'info>,

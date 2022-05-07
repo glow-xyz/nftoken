@@ -35,9 +35,10 @@ pub struct NftAccount {
     pub created_at: i64, // 8
 }
 
-#[account]
+#[account(zero_copy)]
 pub struct MintlistAccount {
     pub version: u8, // 1
+    _version_alignment: [u8; 7], // 7
 
     /// The pubkey that will be set as the creator of the NTFs minted from the mintlist.
     pub creator: Pubkey, // 32
@@ -59,6 +60,7 @@ pub struct MintlistAccount {
 
     /// Order of going through the list of `MintInfo`'s during the minting process.
     pub minting_order: MintingOrder, // 1
+    _minting_order_alignment: [u8; 7], // 7
 
     /// Optional pubkey of the collection the NFTs minted from the mintlist will belong to.
     pub collection: Pubkey, // 32
@@ -75,7 +77,7 @@ impl MintlistAccount {
         // Account discriminator
         8
         // version
-        + 1
+        + 8
         // creator
         + 32
         // treasury_sol
@@ -89,7 +91,7 @@ impl MintlistAccount {
         // mints_redeemed
         + 8
         // minting_order
-        + 1
+        + 8
         // collection
         + 32
         // created_at
@@ -100,7 +102,7 @@ impl MintlistAccount {
     }
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Copy)]
 #[non_exhaustive]
 pub enum MintingOrder {
     Sequential,
