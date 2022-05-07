@@ -12,4 +12,6 @@ pub enum NftokenError {
     MintlistAccountTooSmall,
     #[msg("Invalid `minting_order`. Must be one of `sequential` or `random`")]
     InvalidMintingOrder,
+    #[msg("Too many `mint_infos`")]
+    TooManyMintInfos,
 }

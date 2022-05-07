@@ -1,6 +1,6 @@
-use std::convert::TryFrom;
-use anchor_lang::prelude::*;
 use crate::errors::NftokenError;
+use anchor_lang::prelude::*;
+use std::convert::TryFrom;
 
 #[account]
 pub struct CollectionAccount {
@@ -22,15 +22,15 @@ pub struct NftAccount {
 
     pub holder: Pubkey, // 32
 
-    pub creator: Pubkey, // 32
+    pub creator: Pubkey,          // 32
     pub creator_can_update: bool, // 1
 
-    pub name: [u8; 32], // 32
-    pub image_url: [u8; 64], // 64
+    pub name: [u8; 32],         // 32
+    pub image_url: [u8; 64],    // 64
     pub metadata_url: [u8; 64], // 64
 
     pub collection: Pubkey, // 32
-    pub delegate: Pubkey, // 32
+    pub delegate: Pubkey,   // 32
 
     pub created_at: i64, // 8
 }
@@ -48,7 +48,7 @@ pub struct MintlistAccount {
     /// Number of NFTs already minted from the mintlist.
     pub mints_redeemed: u16, // 2
 
-    _alignment: [u8; 2], // 2
+    pub mint_infos_added: u16, // 2
 
     /// The pubkey that will be set as the creator of the NTFs minted from the mintlist.
     pub creator: Pubkey, // 32
@@ -67,9 +67,7 @@ pub struct MintlistAccount {
 
     pub created_at: i64, // 8
 
-    // FIXME: Figure out how to store the list of MintInfo's without explicitly
-    //        including it in the account type, to skip eager deserialization.
-    //        Can we use `AccountLoader` or shall we copy whatever CandyMachine does?
+    pub mint_infos: [MintInfo; 10000],
 }
 
 impl MintlistAccount {
@@ -84,7 +82,7 @@ impl MintlistAccount {
         + 2
         // mints_redeemed
         + 2
-        // _alignment
+        // mint_infos_added
         + 2
         // creator
         + 32
@@ -122,13 +120,13 @@ impl TryFrom<String> for MintingOrder {
     }
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
+#[zero_copy]
 pub struct MintInfo {
-    pub name: [u8; 32], // 32
-    pub image_url: [u8; 64], // 64
+    pub name: [u8; 32],         // 32
+    pub image_url: [u8; 64],    // 64
     pub metadata_url: [u8; 64], // 64
-    pub minted: bool, // 1
-    _alignment: [u8; 7] // 7
+    pub minted: bool,           // 1
+    _alignment: [u8; 7],        // 7
 }
 
 impl MintInfo {
@@ -146,4 +144,21 @@ impl MintInfo {
     }
 }
 
+impl From<&MintInfoArg> for MintInfo {
+    fn from(mint_info: &MintInfoArg) -> Self {
+        Self {
+            name: mint_info.name,
+            image_url: mint_info.image_url,
+            metadata_url: mint_info.metadata_url,
+            minted: false,
+            _alignment: Default::default(),
+        }
+    }
+}
 
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
+pub struct MintInfoArg {
+    pub name: [u8; 32],         // 32
+    pub image_url: [u8; 64],    // 64
+    pub metadata_url: [u8; 64], // 64
+}
