@@ -1,7 +1,7 @@
 /**
  * This file is copy-pasted from the anchor codebase,
  * because it's a private API which we should either ask to make public
- * or
+ * or we can replace this with beet and our custom defined types.
  *
  * @module
  */
