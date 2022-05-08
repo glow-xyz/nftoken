@@ -29,6 +29,8 @@ jobs:
         run: npm install pnpm -g && pnpm install
       - name: Build
         run: anchor build
+      - name: Lint
+        run: pnpm run lint
       - name: Typescript Compile (tsc)
         run: pnpm run tsc
       - name: Run tests
