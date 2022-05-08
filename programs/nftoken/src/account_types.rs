@@ -90,7 +90,7 @@ impl MintlistAccount {
         }
 
         // Check if the mintlist is ready for minting
-        if self.go_live_date < now {
+        if self.go_live_date > now {
             return false;
         }
 

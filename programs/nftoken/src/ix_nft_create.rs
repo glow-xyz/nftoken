@@ -7,7 +7,7 @@ use anchor_lang::prelude::*;
 /// This sets the current `holder == creator == signer` so this is useful if you are creating
 /// NFTs that you will be the manager of.
 ///
-/// If you want to let other people mint your NFTs, you should use the upcoming Mintlist feature.
+/// If you want to let other people mint your NFTs, you should use the `Mintlist` feature.
 pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<()> {
     let nft_account = &mut ctx.accounts.nft;
 

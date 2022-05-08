@@ -40,7 +40,7 @@ export const createNft = async ({
       name: name,
       imageUrl: image_url,
       metadataUrl: metadata_url,
-      collectionIncluded: true, // collection_included
+      collectionIncluded: false, // collection_included
     })
     .accounts({
       nft: nftKeypair.publicKey,
@@ -49,7 +49,11 @@ export const createNft = async ({
       clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
     })
     .signers([nftKeypair])
-    .rpc();
+    .rpc()
+    .catch((e) => {
+      console.error(e.logs);
+      throw e;
+    });
 
   console.log("Mint NFT", signature);
 

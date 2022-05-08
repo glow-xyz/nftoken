@@ -89,7 +89,7 @@ describe("mintlist_add_mint_infos", () => {
   });
 });
 
-function createMintInfoArg(index: number) {
+export function createMintInfoArg(index: number) {
   return {
     name: strToArr(`Pesky Animals #${index}`, 32),
     imageUrl: strToArr(generateAlphaNumericString(16), 64),

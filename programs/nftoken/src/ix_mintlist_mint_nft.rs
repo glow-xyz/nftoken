@@ -18,14 +18,13 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
     // Get information about the NFT we are going to mint
     // TODO: support random generation mode
 
-    let nft_index = mintlist.num_nfts_redeemed + 1;
+    let mint_info_size = MintInfo::size();
+    let mint_info_pos = MintlistAccount::size(mintlist.num_nfts_redeemed);
+
     mintlist.num_nfts_redeemed += 1; // TODO: do checked addition
 
-    let mint_info_size = MintInfo::size();
-    let mint_info_pos = MintlistAccount::size(nft_index);
-
     let mintlist_account_info = mintlist.to_account_info();
-    let mut mintlist_data = mintlist_account_info.data.borrow_mut();
+    let mintlist_data = mintlist_account_info.data.borrow_mut();
     let mint_info_data = &mut &mintlist_data[mint_info_pos..(mint_info_pos + mint_info_size)];
 
     let mut mint_info: MintInfo = AnchorDeserialize::deserialize(mint_info_data)?;
