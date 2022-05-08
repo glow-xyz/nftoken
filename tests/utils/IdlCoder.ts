@@ -7,7 +7,10 @@
  */
 
 import camelCase from "camelcase";
+
+// @ts-ignore
 import { Layout } from "buffer-layout";
+
 import * as borsh from "@project-serum/borsh";
 import {
   IdlEnumVariant,
