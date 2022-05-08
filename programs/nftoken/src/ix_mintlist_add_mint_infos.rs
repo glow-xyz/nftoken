@@ -33,7 +33,6 @@ pub fn mintlist_add_mint_infos_inner(
     for (i, mint_info_arg) in mint_infos.iter().enumerate() {
         let mint_info = MintInfo::from(mint_info_arg);
         mint_info.serialize(&mut &mut mintlist_data[insertion_byte_pos + i * mint_info_size..])?
-        // mintlist_account.mint_infos[usize::from(mint_infos_added) + i] = mint_info.into()
     }
 
     Ok(())
