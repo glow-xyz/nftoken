@@ -15,13 +15,13 @@ describe("mintlist_add_mint_infos", () => {
     const treasuryKeypair = web3.Keypair.generate();
     const goLiveDate = new BN(Math.floor(Date.now() / 1000));
     const price = new BN(web3.LAMPORTS_PER_SOL);
-    const numMints = 1000;
+    const numTotalNfts = 1000;
 
     const { mintlistAddress } = await createMintlist({
       treasury: treasuryKeypair.publicKey,
       goLiveDate,
       price,
-      numMints,
+      numTotalNfts,
       program,
     });
 

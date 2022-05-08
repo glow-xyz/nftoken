@@ -1,5 +1,6 @@
 use crate::errors::NftokenError;
 use anchor_lang::prelude::*;
+use anchor_lang::solana_program::clock::UnixTimestamp;
 use std::convert::TryFrom;
 
 #[account]
@@ -55,28 +56,48 @@ pub struct MintlistAccount {
     pub minting_order: MintingOrder,
 
     /// Maximum number of NFTs that can be minted from the mintlist.
-    pub num_mints: u16,
-
-    /// Number of NFTs already minted from the mintlist.
-    pub mints_redeemed: u16,
+    pub num_total_nfts: u16,
 
     /// Number of already uploaded mint_infos.
-    pub mint_infos_added: u16,
+    pub num_nfts_configured: u16,
+
+    /// Number of NFTs already minted from the mintlist.
+    pub num_nfts_redeemed: u16,
 
     /// Optional pubkey of the collection the NFTs minted from the mintlist will belong to.
     pub collection: Pubkey,
 
     /// Timestamp when the mintlist was created.
     pub created_at: i64,
-    //
     // ---------------------------------------
-    // Below we store `mint_infos`, we don't declare them on the type to avoid Anchor deserialization.
+    // Below we store `mint_infos`, we don't declare them on the type to avoid Anchor
+    // deserialization. We cannot deserialize the mint infos since that will take us above the
+    // stack and compute limits.
     //
     // `mint_infos`: MintInfo::size() x num_mints
 }
 
 impl MintlistAccount {
-    pub fn size(num_mints: u16) -> usize {
+    pub fn is_mintable(&self, now: UnixTimestamp) -> bool {
+        // Check if we have finished setting up the Mintlist
+        if self.num_nfts_configured != self.num_total_nfts {
+            return false;
+        }
+
+        // Check if the mintlist has available nfts
+        if self.num_nfts_redeemed >= self.num_total_nfts {
+            return false;
+        }
+
+        // Check if the mintlist is ready for minting
+        if self.go_live_date < now {
+            return false;
+        }
+
+        return true;
+    }
+
+    pub fn size(num_nfts: u16) -> usize {
         // Account discriminator
         8
         // version
@@ -95,14 +116,14 @@ impl MintlistAccount {
         + 2
         // mints_redeemed
         + 2
-        // mint_infos_added
+        // num_nfts_configured
         + 2
         // collection
         + 32
         // created_at
         + 8
         // mint_infos
-        + num_mints as usize * MintInfo::size()
+        + num_nfts as usize * MintInfo::size()
     }
 }
 

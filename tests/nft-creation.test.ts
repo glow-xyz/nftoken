@@ -33,12 +33,12 @@ describe("nftoken", () => {
     const holder = anchor.AnchorProvider.local().wallet.publicKey;
 
     const sig1 = await program.methods
-      .nftCreate(
-        nft_name,
-        nft_image_url,
-        nft_metadata_url,
-        true // collection_included
-      )
+      .nftCreate({
+        name: nft_name,
+        imageUrl: nft_image_url,
+        metadataUrl: nft_metadata_url,
+        collectionIncluded: true, // collection_included
+      })
       .accounts({
         nft: nftKeypair.publicKey,
         holder,

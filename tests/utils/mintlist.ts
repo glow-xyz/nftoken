@@ -15,19 +15,19 @@ export async function createMintlist({
   treasury,
   goLiveDate,
   price,
-  numMints,
+  numTotalNfts,
   program,
 }: {
   treasury: web3.PublicKey;
   goLiveDate: BN;
   price: BN;
-  numMints: number;
+  numTotalNfts: number;
   program: Program<NftokenTypes>;
 }) {
   const { wallet } = anchor.AnchorProvider.local();
 
   const mintlistKeypair = web3.Keypair.generate();
-  const mintlistAccountSize = getMintlistAccountSize(numMints);
+  const mintlistAccountSize = getMintlistAccountSize(numTotalNfts);
 
   const createMintlistAccountInstruction =
     anchor.web3.SystemProgram.createAccount({
@@ -46,7 +46,7 @@ export async function createMintlist({
       treasurySol: treasury,
       goLiveDate,
       price,
-      numMints,
+      numTotalNfts,
       mintingOrder: "sequential",
     })
     .accounts({
@@ -92,7 +92,7 @@ export async function getMintlistData(
   const mintInfosBuffer = mintlistRawData.slice(mintInfosBytesOffset);
 
   const mintInfos = Array.from(
-    { length: mintlistData.mintInfosAdded },
+    { length: mintlistData.numNftsConfigured },
     (_, i) => {
       const start = i * MINT_INFO_LAYOUT.span;
       return MINT_INFO_LAYOUT.decode(
@@ -106,7 +106,7 @@ export async function getMintlistData(
   return mintlistData;
 }
 
-export function getMintlistAccountSize(numMints: number): number {
+export function getMintlistAccountSize(numTotalNfts: number): number {
   return (
     // Account discriminator
     8 +
@@ -133,6 +133,6 @@ export function getMintlistAccountSize(numMints: number): number {
     // created_at
     8 +
     // mint_infos
-    numMints * MINT_INFO_LAYOUT.span
+    numTotalNfts * MINT_INFO_LAYOUT.span
   );
 }

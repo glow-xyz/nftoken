@@ -36,12 +36,12 @@ export const createNft = async ({
   const holder = anchor.AnchorProvider.local().wallet.publicKey;
 
   const signature = await program.methods
-    .nftCreate(
-      name,
-      image_url,
-      metadata_url,
-      false // collection_included
-    )
+    .nftCreate({
+      name: name,
+      imageUrl: image_url,
+      metadataUrl: metadata_url,
+      collectionIncluded: true, // collection_included
+    })
     .accounts({
       nft: nftKeypair.publicKey,
       holder,
