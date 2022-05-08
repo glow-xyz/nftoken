@@ -1,7 +1,8 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@project-serum/anchor': ^0.24.2
+  '@project-serum/borsh': ^0.2.5
   '@project-serum/serum': ^0.13.64
   '@solana/web3.js': ^1.39.1
   '@types/jest': ^27.4.1
@@ -9,6 +10,8 @@ specifiers:
   axios: ^0.26.1
   bignumber.js: ^9.0.2
   buffer: ^6.0.3
+  buffer-layout: ^1.2.2
+  camelcase: ^6.3.0
   jest: ^27.5.1
   lodash: ^4.17.21
   luxon: ^2.3.2
@@ -20,6 +23,7 @@ specifiers:
 
 dependencies:
   '@project-serum/anchor': 0.24.2
+  '@project-serum/borsh': 0.2.5_@solana+web3.js@1.39.1
   '@project-serum/serum': 0.13.64
   '@solana/web3.js': 1.39.1
   '@types/jest': 27.4.1
@@ -27,12 +31,14 @@ dependencies:
   axios: 0.26.1
   bignumber.js: 9.0.2
   buffer: 6.0.3
+  buffer-layout: 1.2.2
+  camelcase: 6.3.0
   jest: 27.5.1
   lodash: 4.17.21
   luxon: 2.3.2
   p-limit: 4.0.0
   prettier: 2.6.2
-  ts-jest: 27.1.4_9985e1834e803358b7be1e6ce5ca0eea
+  ts-jest: 27.1.4_tgc6da2oqazvrn56dzwolsqo5i
   typescript: 4.6.3
   zod: 3.14.4
 
@@ -3018,7 +3024,7 @@ packages:
       circular-json: 0.5.9
       eventemitter3: 4.0.7
       uuid: 8.3.2
-      ws: 7.5.7_d6955b83f926115bf12ffeabab6deaae
+      ws: 7.5.7_22kvxa7zeyivx4jp72v2w3pkvy
     optionalDependencies:
       bufferutil: 4.0.6
       utf-8-validate: 5.0.9
@@ -3307,7 +3313,7 @@ packages:
     resolution: {integrity: sha1-YdvC1Ttp/2CRoSoWj9fUMxB+QPE=}
     dev: false
 
-  /ts-jest/27.1.4_9985e1834e803358b7be1e6ce5ca0eea:
+  /ts-jest/27.1.4_tgc6da2oqazvrn56dzwolsqo5i:
     resolution: {integrity: sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -3555,7 +3561,7 @@ packages:
         optional: true
     dev: false
 
-  /ws/7.5.7_d6955b83f926115bf12ffeabab6deaae:
+  /ws/7.5.7_22kvxa7zeyivx4jp72v2w3pkvy:
     resolution: {integrity: sha512-KMvVuFzpKBuiIXW3E4u3mySRO2/mCHSyZDJQM5NQ9Q9KHWHWh0NHgfbRMLLrceUK5qAL4ytALJbpRMjixFZh8A==}
     engines: {node: '>=8.3.0'}
     peerDependencies:
