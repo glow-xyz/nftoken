@@ -24,11 +24,16 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
     mintlist.num_nfts_redeemed += 1; // TODO: do checked addition
 
     let mintlist_account_info = mintlist.to_account_info();
-    let mintlist_data = mintlist_account_info.data.borrow_mut();
+    let mut mintlist_data = mintlist_account_info.data.borrow_mut();
+
+    require!(mintlist_data[mint_info_pos] == 0, NftokenError::Unauthorized)
+
+    // The first byte of the `mint_info` is `minted`, so this sets minted = true
+    mintlist_data[mint_info_pos] = 1;
+
     let mint_info_data = &mut &mintlist_data[mint_info_pos..(mint_info_pos + mint_info_size)];
 
     let mut mint_info: MintInfo = AnchorDeserialize::deserialize(mint_info_data)?;
-    mint_info.minted = true;
 
     let nft = &mut ctx.accounts.nft;
     nft.collection = mintlist.collection;

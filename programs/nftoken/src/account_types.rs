@@ -147,10 +147,10 @@ impl TryFrom<String> for MintingOrder {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintInfo {
+    pub minted: bool,           // 1
     pub name: [u8; 32],         // 32
     pub image_url: [u8; 64],    // 64
     pub metadata_url: [u8; 64], // 64
-    pub minted: bool,           // 1
 }
 
 impl MintInfo {
