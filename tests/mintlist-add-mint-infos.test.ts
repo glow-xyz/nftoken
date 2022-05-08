@@ -85,6 +85,6 @@ describe("mintlist_add_mint_infos", () => {
 
 export function createMintInfoArg(index: number) {
   return {
-    metadataUrl: strToArr(generateAlphaNumericString(16), 64),
+    metadataUrl: strToArr(`generateAlphaNumericString(16)--${index}`, 64),
   };
 }
