@@ -33,7 +33,7 @@ use crate::ix_nft_update::*;
 
 use crate::account_types::*;
 
-declare_id!("nf2DH8Wq3uZdYEkqFqQ2LQ8rVJx6Lffw6jPa2JWBgXH");
+declare_id!("nf3AprLEeRuC3SawVf65ouNQrK6vjT95MdQPTSUY17r");
 
 #[program]
 pub mod nftoken {
