@@ -1,10 +1,8 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
-import { Keypair, SystemProgram } from "@solana/web3.js";
+import { Keypair } from "@solana/web3.js";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createCollection } from "./utils/create-collection";
 import { createNft } from "./utils/create-nft";
-import { logNft, strToArr } from "./utils/test-utils";
 
 describe("transfer nft", () => {
   // Configure the client to use the local cluster.

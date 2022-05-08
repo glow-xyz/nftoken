@@ -47,8 +47,6 @@ describe("mintlist_add_mint_infos", () => {
     assert.equal(mintlistData.mintInfos.length, batchSize);
 
     for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
-      assert.deepEqual(mintInfo.name, mintInfos1[i].name);
-      assert.deepEqual(mintInfo.imageUrl, mintInfos1[i].imageUrl);
       assert.deepEqual(mintInfo.metadataUrl, mintInfos1[i].metadataUrl);
     }
 
@@ -72,12 +70,8 @@ describe("mintlist_add_mint_infos", () => {
 
     for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
       if (i < batchSize) {
-        assert.deepEqual(mintInfo.name, mintInfos1[i].name);
-        assert.deepEqual(mintInfo.imageUrl, mintInfos1[i].imageUrl);
         assert.deepEqual(mintInfo.metadataUrl, mintInfos1[i].metadataUrl);
       } else if (i < batchSize * 2) {
-        assert.deepEqual(mintInfo.name, mintInfos2[i - batchSize].name);
-        assert.deepEqual(mintInfo.imageUrl, mintInfos2[i - batchSize].imageUrl);
         assert.deepEqual(
           mintInfo.metadataUrl,
           mintInfos2[i - batchSize].metadataUrl
@@ -91,8 +85,6 @@ describe("mintlist_add_mint_infos", () => {
 
 export function createMintInfoArg(index: number) {
   return {
-    name: strToArr(`Pesky Animals #${index}`, 32),
-    imageUrl: strToArr(generateAlphaNumericString(16), 64),
     metadataUrl: strToArr(generateAlphaNumericString(16), 64),
   };
 }

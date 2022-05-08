@@ -1,4 +1,5 @@
 use crate::account_types::*;
+use crate::constants::*;
 use crate::errors::*;
 use anchor_lang::prelude::*;
 
@@ -38,10 +39,7 @@ pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<
     nft_account.version = 1;
     nft_account.holder = ctx.accounts.holder.key();
     nft_account.creator = ctx.accounts.holder.key();
-    nft_account.name = args.name;
-    nft_account.image_url = args.image_url;
     nft_account.metadata_url = args.metadata_url;
-    nft_account.created_at = ctx.accounts.clock.unix_timestamp;
     nft_account.creator_can_update = true;
 
     Ok(())
@@ -59,20 +57,17 @@ pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<
 #[instruction(args: NftCreateArgs)]
 pub struct NftCreate<'info> {
     // TODO: we should choose the size for this so that creating an NFToken is at least 2x cheaper than a Metaplex NFT
-    #[account(init, payer = holder, space = 500)]
+    #[account(init, payer = holder, space = NFT_ACCOUNT_SIZE)]
     pub nft: Account<'info, NftAccount>,
 
     #[account(mut)]
     pub holder: Signer<'info>,
 
     pub system_program: Program<'info, System>,
-    pub clock: Sysvar<'info, Clock>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct NftCreateArgs {
-    pub name: [u8; 32],
-    pub image_url: [u8; 64],
     pub metadata_url: [u8; 64],
     pub collection_included: bool,
 }

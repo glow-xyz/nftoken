@@ -49,10 +49,7 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
     nft.collection = mintlist.collection;
     nft.creator = mintlist.creator;
     nft.holder = ctx.accounts.signer.key();
-    nft.name = mint_info.name;
-    nft.image_url = mint_info.image_url;
     nft.metadata_url = mint_info.metadata_url;
-    nft.created_at = ctx.accounts.clock.unix_timestamp;
     nft.creator_can_update = true;
 
     Ok(())

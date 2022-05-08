@@ -44,14 +44,8 @@ pub mod nftoken {
         return nft_create_inner(ctx, args);
     }
 
-    pub fn nft_update(
-        ctx: Context<NftUpdate>,
-        name: [u8; 32],
-        image_url: [u8; 64],
-        metadata_url: [u8; 64],
-        creator_can_update: bool,
-    ) -> Result<()> {
-        return nft_update_inner(ctx, name, image_url, metadata_url, creator_can_update);
+    pub fn nft_update(ctx: Context<NftUpdate>, args: NftUpdateArgs) -> Result<()> {
+        return nft_update_inner(ctx, args);
     }
 
     pub fn nft_transfer(ctx: Context<TransferNft>) -> Result<()> {
@@ -77,21 +71,16 @@ pub mod nftoken {
     /// Collection Instructions
     pub fn collection_create(
         ctx: Context<CollectionCreate>,
-        name: [u8; 32],
-        image_url: [u8; 64],
-        metadata_url: [u8; 64],
+        args: CollectionCreateArgs,
     ) -> Result<()> {
-        return collection_create_inner(ctx, name, image_url, metadata_url);
+        return collection_create_inner(ctx, args);
     }
 
     pub fn collection_update(
         ctx: Context<CollectionUpdate>,
-        name: [u8; 32],
-        image_url: [u8; 64],
-        metadata_url: [u8; 64],
-        creator_can_update: bool,
+        args: CollectionUpdateArgs,
     ) -> Result<()> {
-        return collection_update_inner(ctx, name, image_url, metadata_url, creator_can_update);
+        return collection_update_inner(ctx, args);
     }
 
     pub fn transfer_collection(ctx: Context<CollectionTransferCreator>) -> Result<()> {

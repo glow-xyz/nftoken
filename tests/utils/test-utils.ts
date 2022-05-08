@@ -34,8 +34,6 @@ export type NftAccount = {
   holder: PublicKey;
   delegate: PublicKey | null;
   creator: PublicKey | null;
-  name: Array<number>;
-  imageUrl: Array<number>;
   metadataUrl: Array<number>;
   createdAt: string;
   collection: PublicKey | null;
@@ -43,14 +41,10 @@ export type NftAccount = {
 
 export type CollectionAccount = {
   creator: PublicKey | null;
-  name: Array<number>;
-  imageUrl: Array<number>;
   metadataUrl: Array<number>;
 };
 
 export type MintInfo = {
-  name: number[];
-  imageUrl: number[];
   metadataUrl: number[];
 };
 
@@ -69,8 +63,6 @@ export const logNft = (nft: NftAccount | null) => {
           holder: nft.holder.toString(),
           creator: nft.creator?.toString() ?? null,
           delegate: nft.delegate?.toString() ?? null,
-          name: arrayToStr(nft.name),
-          imageUrl: arrayToStr(nft.imageUrl),
           metadataUrl: arrayToStr(nft.metadataUrl),
           collection: nft.collection?.toString() ?? null,
           created_at: nft.createdAt,
@@ -86,8 +78,6 @@ export const logCollection = (coll: CollectionAccount) => {
     "Collection:",
     JSON.stringify(
       {
-        name: arrayToStr(coll.name),
-        imageUrl: arrayToStr(coll.imageUrl),
         metadataUrl: arrayToStr(coll.metadataUrl),
         creator: coll.creator?.toString(),
       },

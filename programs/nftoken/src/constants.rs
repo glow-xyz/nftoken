@@ -4,4 +4,5 @@ use anchor_lang::prelude::*;
 /// as the system program.
 pub const NULL_PUBKEY: Pubkey = Pubkey::new_from_array([0; 32]);
 
-pub const NFT_ACCOUNT_SIZE: usize = 500;
+pub const NFT_ACCOUNT_SIZE: usize = 220;
+pub const COLLECTION_ACCOUNT_SIZE: usize = 300;

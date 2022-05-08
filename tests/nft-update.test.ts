@@ -15,13 +15,11 @@ describe("update NFT", () => {
   test("properly updates metadata", async () => {
     const { nft_pubkey } = await createNft({ program });
 
-    const name = strToArr("new-name", 32);
-    const image_url = strToArr("new-image", 64);
-    const metadata_url = strToArr("new-meta", 64);
-    const creator_can_update = true;
+    const metadataUrl = strToArr("new-meta", 64);
+    const creatorCanUpdate = true;
 
     const signature = await program.methods
-      .nftUpdate(name, image_url, metadata_url, creator_can_update)
+      .nftUpdate({ metadataUrl, creatorCanUpdate })
       .accounts({
         nft: nft_pubkey,
         creator: signer,
@@ -32,22 +30,18 @@ describe("update NFT", () => {
 
     const updated = await program.account.nftAccount.fetch(nft_pubkey);
 
-    expect(updated.name).toEqual(name);
-    expect(updated.imageUrl).toEqual(image_url);
-    expect(updated.metadataUrl).toEqual(metadata_url);
-    expect(updated.creatorCanUpdate).toEqual(creator_can_update);
+    expect(updated.metadataUrl).toEqual(metadataUrl);
+    expect(updated.creatorCanUpdate).toEqual(creatorCanUpdate);
   });
 
   test("doesn't allow update if !creator_can_update", async () => {
     const { nft_pubkey } = await createNft({ program });
 
-    const name = strToArr("new-name", 32);
-    const image_url = strToArr("new-image", 64);
-    const metadata_url = strToArr("new-meta", 64);
-    const creator_can_update = false;
+    const metadataUrl = strToArr("new-meta", 64);
+    const creatorCanUpdate = false;
 
     const signature = await program.methods
-      .nftUpdate(name, image_url, metadata_url, creator_can_update)
+      .nftUpdate({ metadataUrl, creatorCanUpdate })
       .accounts({
         nft: nft_pubkey,
         creator: signer,
@@ -58,14 +52,12 @@ describe("update NFT", () => {
 
     const updated = await program.account.nftAccount.fetch(nft_pubkey);
 
-    expect(updated.name).toEqual(name);
-    expect(updated.imageUrl).toEqual(image_url);
-    expect(updated.metadataUrl).toEqual(metadata_url);
-    expect(updated.creatorCanUpdate).toEqual(creator_can_update);
+    expect(updated.metadataUrl).toEqual(metadataUrl);
+    expect(updated.creatorCanUpdate).toEqual(creatorCanUpdate);
 
     // This should error since the collection can't be updated
     const promise = program.methods
-      .nftUpdate(name, image_url, metadata_url, creator_can_update)
+      .nftUpdate({ metadataUrl, creatorCanUpdate })
       .accounts({
         nft: nft_pubkey,
         creator: signer,

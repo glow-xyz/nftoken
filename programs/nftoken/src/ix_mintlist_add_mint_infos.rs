@@ -19,7 +19,7 @@ pub fn mintlist_add_mint_infos_inner(
     let available_mint_info_slots = mintlist.num_total_nfts - num_nfts_configured;
 
     require!(
-        len_to_add as u16 <= available_mint_info_slots,
+        len_to_add <= available_mint_info_slots,
         NftokenError::TooManyMintInfos
     );
 

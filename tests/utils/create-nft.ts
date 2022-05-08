@@ -10,13 +10,9 @@ import {
 } from "./test-utils";
 
 export const createNft = async ({
-  name: _name,
-  image_url: _image_url,
   metadata_url: _metadata_url,
   program,
 }: {
-  name?: string;
-  image_url?: string;
   metadata_url?: string;
   program: Program<NftokenTypes>;
 }): Promise<{
@@ -24,8 +20,6 @@ export const createNft = async ({
   nft_pubkey: PublicKey;
   nft_keypair: Keypair;
 }> => {
-  const name = strToArr(_name || generateAlphaNumericString(16), 32);
-  const image_url = strToArr(_image_url || generateAlphaNumericString(16), 64);
   const metadata_url = strToArr(
     _metadata_url || generateAlphaNumericString(16),
     64
@@ -37,8 +31,6 @@ export const createNft = async ({
 
   const signature = await program.methods
     .nftCreate({
-      name: name,
-      imageUrl: image_url,
       metadataUrl: metadata_url,
       collectionIncluded: false, // collection_included
     })
@@ -46,7 +38,6 @@ export const createNft = async ({
       nft: nftKeypair.publicKey,
       holder,
       systemProgram: SystemProgram.programId,
-      clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
     })
     .signers([nftKeypair])
     .rpc()

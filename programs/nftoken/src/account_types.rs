@@ -10,11 +10,7 @@ pub struct CollectionAccount {
     pub creator: Pubkey,
     pub creator_can_update: bool,
 
-    pub name: [u8; 32],
-    pub image_url: [u8; 64],
     pub metadata_url: [u8; 64],
-
-    pub created_at: i64,
 }
 
 #[account]
@@ -26,14 +22,10 @@ pub struct NftAccount {
     pub creator: Pubkey,          // 32
     pub creator_can_update: bool, // 1
 
-    pub name: [u8; 32],         // 32
-    pub image_url: [u8; 64],    // 64
-    pub metadata_url: [u8; 64], // 64
-
     pub collection: Pubkey, // 32
     pub delegate: Pubkey,   // 32
 
-    pub created_at: i64, // 8
+    pub metadata_url: [u8; 64], // 64
 }
 
 #[account]
@@ -148,38 +140,28 @@ impl TryFrom<String> for MintingOrder {
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintInfo {
     pub minted: bool,           // 1
-    pub name: [u8; 32],         // 32
-    pub image_url: [u8; 64],    // 64
     pub metadata_url: [u8; 64], // 64
 }
 
 impl MintInfo {
     pub fn size() -> usize {
-        // name
-        32
-        // image_url
-        + 64
+        // minted
+        1
         // metadata_url
         + 64
-        // minted
-        + 1
     }
 }
 
 impl From<&MintInfoArg> for MintInfo {
     fn from(mint_info: &MintInfoArg) -> Self {
         Self {
-            name: mint_info.name,
-            image_url: mint_info.image_url,
-            metadata_url: mint_info.metadata_url,
             minted: false,
+            metadata_url: mint_info.metadata_url,
         }
     }
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintInfoArg {
-    pub name: [u8; 32],
-    pub image_url: [u8; 64],
     pub metadata_url: [u8; 64],
 }

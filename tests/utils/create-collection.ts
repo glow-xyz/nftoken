@@ -1,23 +1,18 @@
-import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
+import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
 import {
   Base58,
   generateAlphaNumericString,
   logCollection,
-  logNft,
   strToArr,
 } from "./test-utils";
 
 export const createCollection = async ({
-  name: _name,
-  image_url: _image_url,
   metadata_url: _metadata_url,
   program,
 }: {
-  name?: string;
-  image_url?: string;
   metadata_url?: string;
   program: Program<NftokenTypes>;
 }): Promise<{
@@ -26,9 +21,7 @@ export const createCollection = async ({
   collection_pubkey: PublicKey;
   collection_keypair: Keypair;
 }> => {
-  const name = strToArr(_name || generateAlphaNumericString(16), 32);
-  const image_url = strToArr(_image_url || generateAlphaNumericString(16), 64);
-  const metadata_url = strToArr(
+  const metadataUrl = strToArr(
     _metadata_url || generateAlphaNumericString(16),
     64
   );
@@ -38,12 +31,11 @@ export const createCollection = async ({
   const creator = anchor.AnchorProvider.local().wallet.publicKey;
 
   const signature = await program.methods
-    .collectionCreate(name, image_url, metadata_url)
+    .collectionCreate({ metadataUrl })
     .accounts({
       collectionAccount: collection_keypair.publicKey,
       creator,
       systemProgram: SystemProgram.programId,
-      clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
     })
     .signers([collection_keypair])
     .rpc();
