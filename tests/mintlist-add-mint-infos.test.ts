@@ -2,15 +2,8 @@ import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { Program, web3, BN } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createMintlist } from "./utils/create-mintlist";
-import {
-  generateAlphaNumericString,
-  strToArr,
-  MintInfo,
-  nullArray32,
-  nullArray64,
-  arrayToStr,
-} from "./utils/test-utils";
+import { createMintlist, getMintlistData } from "./utils/mintlist";
+import { generateAlphaNumericString, strToArr } from "./utils/test-utils";
 
 describe("mintlist_add_mint_infos", () => {
   const provider = anchor.AnchorProvider.env();
@@ -22,7 +15,7 @@ describe("mintlist_add_mint_infos", () => {
     const treasuryKeypair = web3.Keypair.generate();
     const goLiveDate = new BN(Math.floor(Date.now() / 1000));
     const price = new BN(web3.LAMPORTS_PER_SOL);
-    const numMints = 10000;
+    const numMints = 1000;
 
     const { mintlistAddress } = await createMintlist({
       treasury: treasuryKeypair.publicKey,
@@ -49,23 +42,14 @@ describe("mintlist_add_mint_infos", () => {
       })
       .rpc();
 
-    let mintlistData = await program.account.mintlistAccount.fetch(
-      mintlistAddress
-    );
+    let mintlistData = await getMintlistData(program, mintlistAddress);
 
-    for (const [i, mintInfo] of (
-      mintlistData.mintInfos as MintInfo[]
-    ).entries()) {
-      if (i < batchSize) {
-        assert.deepEqual(mintInfo.name, mintInfos1[i].name);
-        assert.deepEqual(mintInfo.imageUrl, mintInfos1[i].imageUrl);
-        assert.deepEqual(mintInfo.metadataUrl, mintInfos1[i].metadataUrl);
-      } else {
-        // Check that the rest of the mintInfos are not populated.
-        assert.deepEqual(mintInfo.name, nullArray32);
-        assert.deepEqual(mintInfo.imageUrl, nullArray64);
-        assert.deepEqual(mintInfo.metadataUrl, nullArray64);
-      }
+    assert.equal(mintlistData.mintInfos.length, batchSize);
+
+    for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
+      assert.deepEqual(mintInfo.name, mintInfos1[i].name);
+      assert.deepEqual(mintInfo.imageUrl, mintInfos1[i].imageUrl);
+      assert.deepEqual(mintInfo.metadataUrl, mintInfos1[i].metadataUrl);
     }
 
     // Second batch.
@@ -82,11 +66,11 @@ describe("mintlist_add_mint_infos", () => {
       })
       .rpc();
 
-    mintlistData = await program.account.mintlistAccount.fetch(mintlistAddress);
+    mintlistData = await getMintlistData(program, mintlistAddress);
 
-    for (const [i, mintInfo] of (
-      mintlistData.mintInfos as MintInfo[]
-    ).entries()) {
+    assert.equal(mintlistData.mintInfos.length, batchSize * 2);
+
+    for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
       if (i < batchSize) {
         assert.deepEqual(mintInfo.name, mintInfos1[i].name);
         assert.deepEqual(mintInfo.imageUrl, mintInfos1[i].imageUrl);
@@ -98,11 +82,6 @@ describe("mintlist_add_mint_infos", () => {
           mintInfo.metadataUrl,
           mintInfos2[i - batchSize].metadataUrl
         );
-      } else {
-        // Check that the rest of the mintInfos are not populated.
-        assert.deepEqual(mintInfo.name, nullArray32);
-        assert.deepEqual(mintInfo.imageUrl, nullArray64);
-        assert.deepEqual(mintInfo.metadataUrl, nullArray64);
       }
     }
 

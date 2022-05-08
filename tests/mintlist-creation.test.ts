@@ -2,7 +2,7 @@ import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { Program, web3, BN } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createMintlist } from "./utils/create-mintlist";
+import { createMintlist } from "./utils/mintlist";
 
 describe("mintlist_create", () => {
   const provider = anchor.AnchorProvider.env();

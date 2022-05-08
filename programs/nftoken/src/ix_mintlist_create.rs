@@ -1,12 +1,11 @@
-use std::convert::TryInto;
-use anchor_lang::prelude::*;
 use crate::account_types::*;
 use crate::errors::*;
-
+use anchor_lang::prelude::*;
+use std::convert::TryInto;
 
 /// # Create Mintlist
 pub fn mintlist_create_inner(ctx: Context<MintlistCreate>, args: MintlistCreateArgs) -> Result<()> {
-    let mintlist_account = &mut ctx.accounts.mintlist.load_init()?;
+    let mintlist_account = &mut ctx.accounts.mintlist;
 
     mintlist_account.version = 1;
     mintlist_account.creator = ctx.accounts.creator.key();
@@ -30,7 +29,7 @@ pub struct MintlistCreate<'info> {
         zero,
         constraint = mintlist.to_account_info().data_len() >= MintlistAccount::size(args.num_mints) @ NftokenError::MintlistAccountTooSmall
     )]
-    pub mintlist: AccountLoader<'info, MintlistAccount>,
+    pub mintlist: Account<'info, MintlistAccount>,
 
     #[account(mut)]
     pub creator: Signer<'info>,

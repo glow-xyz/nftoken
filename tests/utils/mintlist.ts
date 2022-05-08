@@ -1,6 +1,15 @@
+import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
-import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
+import { Nftoken as NftokenTypes, IDL } from "../../target/types/nftoken";
+import { PublicKey } from "@solana/web3.js";
+import { IdlCoder } from "./IdlCoder";
+
+// TODO: Consider using `beet` or some other library for creating this layout.
+const MINT_INFO_LAYOUT = IdlCoder.typeDefLayout(
+  IDL.types.find((type) => type.name === "MintInfo")!,
+  IDL.types
+);
 
 export async function createMintlist({
   treasury,
@@ -60,20 +69,49 @@ export async function createMintlist({
   return { mintlistAddress: mintlistKeypair.publicKey, mintlistData };
 }
 
+export async function getMintlistData(
+  program: Program<NftokenTypes>,
+  mintlistAddress: PublicKey
+) {
+  const mintlistRawData = await program.provider.connection
+    .getAccountInfo(mintlistAddress)
+    .then((accountInfo) => accountInfo?.data);
+  assert(
+    mintlistRawData,
+    `Cannot find Mintlist account with address ${mintlistAddress.toBase58()}.`
+  );
+
+  const mintlistData = program.coder.accounts.decode(
+    "MintlistAccount",
+    mintlistRawData
+  );
+
+  // We need to deserialize `mintInfos` manually because they aren't declared in the anchor `Mintlist` type.
+
+  const mintInfosBytesOffset = getMintlistAccountSize(0);
+  const mintInfosBuffer = mintlistRawData.slice(mintInfosBytesOffset);
+
+  const mintInfos = Array.from(
+    { length: mintlistData.mintInfosAdded },
+    (_, i) => {
+      const start = i * MINT_INFO_LAYOUT.span;
+      return MINT_INFO_LAYOUT.decode(
+        mintInfosBuffer.slice(start, start + MINT_INFO_LAYOUT.span)
+      );
+    }
+  );
+
+  mintlistData.mintInfos = mintInfos;
+
+  return mintlistData;
+}
+
 export function getMintlistAccountSize(numMints: number): number {
   return (
     // Account discriminator
     8 +
     // version
     1 +
-    // minting_order
-    1 +
-    // num_mints
-    2 +
-    // mints_redeemed
-    2 +
-    // _alignment
-    2 +
     // creator
     32 +
     // treasury_sol
@@ -82,26 +120,19 @@ export function getMintlistAccountSize(numMints: number): number {
     8 +
     // price
     8 +
+    // minting_order
+    1 +
+    // num_mints
+    2 +
+    // mints_redeemed
+    2 +
+    // _alignment
+    2 +
     // collection
     32 +
     // created_at
     8 +
     // mint_infos
-    numMints * getMintInfoSize()
-  );
-}
-
-function getMintInfoSize(): number {
-  return (
-    // name
-    32 +
-    // image_url
-    64 +
-    // metadata_url
-    64 +
-    // minted
-    1 +
-    // _alignment
-    7
+    numMints * MINT_INFO_LAYOUT.span
   );
 }

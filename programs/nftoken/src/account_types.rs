@@ -35,39 +35,44 @@ pub struct NftAccount {
     pub created_at: i64, // 8
 }
 
-#[account(zero_copy)]
+#[account]
 pub struct MintlistAccount {
-    pub version: u8, // 1
-
-    /// Order of going through the list of `MintInfo`'s during the minting process.
-    pub minting_order: MintingOrder, // 1
-
-    /// Maximum number of NFTs that can be minted from the mintlist.
-    pub num_mints: u16, // 2
-
-    /// Number of NFTs already minted from the mintlist.
-    pub mints_redeemed: u16, // 2
-
-    pub mint_infos_added: u16, // 2
+    pub version: u8,
 
     /// The pubkey that will be set as the creator of the NTFs minted from the mintlist.
-    pub creator: Pubkey, // 32
+    pub creator: Pubkey,
 
     /// SOL wallet to receive proceedings from SOL payments.
-    pub treasury_sol: Pubkey, // 32
+    pub treasury_sol: Pubkey,
 
     /// Timestamp when minting is allowed.
-    pub go_live_date: i64, // 8
+    pub go_live_date: i64,
 
     /// Price to pay for minting an NFT from the mintlist.
-    pub price: u64, // 8
+    pub price: u64,
+
+    /// Order of going through the list of `MintInfo`'s during the minting process.
+    pub minting_order: MintingOrder,
+
+    /// Maximum number of NFTs that can be minted from the mintlist.
+    pub num_mints: u16,
+
+    /// Number of NFTs already minted from the mintlist.
+    pub mints_redeemed: u16,
+
+    /// Number of already uploaded mint_infos.
+    pub mint_infos_added: u16,
 
     /// Optional pubkey of the collection the NFTs minted from the mintlist will belong to.
-    pub collection: Pubkey, // 32
+    pub collection: Pubkey,
 
-    pub created_at: i64, // 8
-
-    pub mint_infos: [MintInfo; 10000],
+    /// Timestamp when the mintlist was created.
+    pub created_at: i64,
+    //
+    // ---------------------------------------
+    // Below we store `mint_infos`, we don't declare them on the type to avoid Anchor deserialization.
+    //
+    // `mint_infos`: MintInfo::size() x num_mints
 }
 
 impl MintlistAccount {
@@ -76,14 +81,6 @@ impl MintlistAccount {
         8
         // version
         + 1
-        // minting_order
-        + 1
-        // num_mints
-        + 2
-        // mints_redeemed
-        + 2
-        // mint_infos_added
-        + 2
         // creator
         + 32
         // treasury_sol
@@ -92,13 +89,20 @@ impl MintlistAccount {
         + 8
         // price
         + 8
+        // minting_order
+        + 1
+        // num_mints
+        + 2
+        // mints_redeemed
+        + 2
+        // mint_infos_added
+        + 2
         // collection
         + 32
         // created_at
         + 8
         // mint_infos
-        // FIXME: When we figure out how to store the list of `MintInfo`'s, we might need to add the size of the container.
-        + (num_mints as usize) * MintInfo::size()
+        + num_mints as usize * MintInfo::size()
     }
 }
 
@@ -120,13 +124,12 @@ impl TryFrom<String> for MintingOrder {
     }
 }
 
-#[zero_copy]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintInfo {
     pub name: [u8; 32],         // 32
     pub image_url: [u8; 64],    // 64
     pub metadata_url: [u8; 64], // 64
     pub minted: bool,           // 1
-    _alignment: [u8; 7],        // 7
 }
 
 impl MintInfo {
@@ -139,8 +142,6 @@ impl MintInfo {
         + 64
         // minted
         + 1
-        // _alignment
-        + 7
     }
 }
 
@@ -151,14 +152,13 @@ impl From<&MintInfoArg> for MintInfo {
             image_url: mint_info.image_url,
             metadata_url: mint_info.metadata_url,
             minted: false,
-            _alignment: Default::default(),
         }
     }
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintInfoArg {
-    pub name: [u8; 32],         // 32
-    pub image_url: [u8; 64],    // 64
-    pub metadata_url: [u8; 64], // 64
+    pub name: [u8; 32],
+    pub image_url: [u8; 64],
+    pub metadata_url: [u8; 64],
 }
