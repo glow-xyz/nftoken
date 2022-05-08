@@ -49,6 +49,7 @@ describe("mintlist_mint_nft", () => {
         nft: nftKeypair.publicKey,
         signer,
         systemProgram: SystemProgram.programId,
+        treasurySol: treasuryKeypair.publicKey,
         clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
       })
       .signers([nftKeypair])
