@@ -27,7 +27,7 @@ describe("mintlist_add_mint_infos", () => {
 
     // TODO: If we want to include larger batches, we will need to update / avoid buffer-layout which is
     //       some weird range out of bounds error.
-    const batchSize = 50;
+    const batchSize = 10;
 
     // First batch.
     const mintInfos1 = Array.from({ length: batchSize }, (_, i) => {
