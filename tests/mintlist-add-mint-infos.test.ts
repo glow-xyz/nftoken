@@ -1,9 +1,9 @@
-import assert from "assert";
 import * as anchor from "@project-serum/anchor";
-import { Program, web3, BN } from "@project-serum/anchor";
+import { BN, Program, web3 } from "@project-serum/anchor";
+import assert from "assert";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createMintlist, getMintlistData } from "./utils/mintlist";
-import { generateAlphaNumericString, strToArr } from "./utils/test-utils";
+import { strToArr } from "./utils/test-utils";
 
 describe("mintlist_add_mint_infos", () => {
   const provider = anchor.AnchorProvider.env();
