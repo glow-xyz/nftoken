@@ -110,7 +110,6 @@ describe("mintlist_mint_nft", () => {
           throw e;
         });
 
-      console.log("Mintlist Mint NFT sig:", sig);
       console.log(
         (await getMintlistData({ program, mintlistPubkey })).mintInfos
       );
@@ -125,13 +124,7 @@ describe("mintlist_mint_nft", () => {
     });
     console.log(
       "After Random Mints",
-      JSON.stringify(
-        mintlistDataAfter.mintInfos.map(
-          ({ metadataUrl, ...data }: any) => data
-        ),
-        null,
-        2
-      )
+      JSON.stringify(mintlistDataAfter.mintInfos, null, 2)
     );
 
     // TODO: expect that the right stuff has changed
