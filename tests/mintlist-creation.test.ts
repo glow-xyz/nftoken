@@ -14,13 +14,13 @@ describe("mintlist_create", () => {
     const treasuryKeypair = web3.Keypair.generate();
     const goLiveDate = new BN(Math.floor(Date.now() / 1000));
     const price = new BN(web3.LAMPORTS_PER_SOL);
-    const numTotalNfts = 10000;
+    const numNftsTotal = 10000;
 
     const { mintlistData } = await createEmptyMintlist({
       treasury: treasuryKeypair.publicKey,
       goLiveDate,
       price,
-      numTotalNfts,
+      numNftsTotal,
       program,
     });
 
@@ -29,7 +29,7 @@ describe("mintlist_create", () => {
     assert.deepEqual(mintlistData.treasurySol, treasuryKeypair.publicKey);
     assert.deepEqual(mintlistData.goLiveDate.toNumber(), goLiveDate.toNumber());
     assert.equal(mintlistData.price.toNumber(), price.toNumber());
-    assert.deepEqual(mintlistData.numTotalNfts, numTotalNfts);
+    assert.deepEqual(mintlistData.numNftsTotal, numNftsTotal);
     assert.deepEqual(mintlistData.numNftsRedeemed, 0);
     assert.deepEqual(mintlistData.mintingOrder, { sequential: {} });
     assert.deepEqual(mintlistData.collection, web3.PublicKey.default);

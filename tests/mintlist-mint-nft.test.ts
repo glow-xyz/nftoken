@@ -16,13 +16,13 @@ describe("mintlist_mint_nft", () => {
     const treasuryKeypair = web3.Keypair.generate();
     const goLiveDate = new BN(0);
     const price = new BN(web3.LAMPORTS_PER_SOL);
-    const numTotalNfts = 1;
+    const numNftsTotal = 1;
 
     const { mintlistAddress } = await createEmptyMintlist({
       treasury: treasuryKeypair.publicKey,
       goLiveDate,
       price,
-      numTotalNfts,
+      numNftsTotal,
       program,
     });
 
@@ -84,7 +84,7 @@ describe("mintlist_mint_nft", () => {
 
     const signer = anchor.AnchorProvider.local().wallet.publicKey;
 
-    for (const _idx of _.range(initialMintlistData.numTotalNfts)) {
+    for (const _idx of _.range(initialMintlistData.numNftsTotal)) {
       const nftKeypair = Keypair.generate();
 
       // Mint an NFT!

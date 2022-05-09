@@ -5,27 +5,21 @@ use std::convert::TryFrom;
 
 #[account]
 pub struct CollectionAccount {
-    pub version: u8,
-
-    pub creator: Pubkey,
-    pub creator_can_update: bool,
-
-    pub metadata_url: [u8; 64],
+    pub version: u8,              // 1
+    pub creator: Pubkey,          // 32
+    pub creator_can_update: bool, // 1
+    pub metadata_url: [u8; 64],   // 1
 }
 
 #[account]
 pub struct NftAccount {
-    pub version: u8, // 1
-
-    pub holder: Pubkey, // 32
-
+    pub version: u8,              // 1
+    pub holder: Pubkey,           // 32
     pub creator: Pubkey,          // 32
     pub creator_can_update: bool, // 1
-
-    pub collection: Pubkey, // 32
-    pub delegate: Pubkey,   // 32
-
-    pub metadata_url: [u8; 64], // 64
+    pub collection: Pubkey,       // 32
+    pub delegate: Pubkey,         // 32
+    pub metadata_url: [u8; 64],   // 64
 }
 
 #[account]
@@ -47,20 +41,36 @@ pub struct MintlistAccount {
     /// Order of going through the list of `MintInfo`'s during the minting process.
     pub minting_order: MintingOrder,
 
-    /// Maximum number of NFTs that can be minted from the mintlist.
-    pub num_total_nfts: u16,
-
-    /// Number of already uploaded mint_infos.
-    pub num_nfts_configured: u16,
-
-    /// Number of NFTs already minted from the mintlist.
-    pub num_nfts_redeemed: u16,
-
-    /// Optional pubkey of the collection the NFTs minted from the mintlist will belong to.
+    /// Pubkey of the collection the NFTs minted from the mintlist will belong to.
     pub collection: Pubkey,
+
+    /// Metadata that stores name, avatar, etc of the mintlist
+    pub metadata_url: [u8; 64],
 
     /// Timestamp when the mintlist was created.
     pub created_at: i64,
+
+    /// Maximum number of NFTs that can be minted from the mintlist.
+    pub num_nfts_total: u32,
+
+    /// Number of NFTs already minted from the mintlist.
+    pub num_nfts_redeemed: u32,
+
+    /// Number of already uploaded mint_infos.
+    /// Note: we store this and the `mint_infos` next to each other so that we can treat the two
+    /// combined as `Vec<MintInfo>`. Borsh serialized a `Vec` as:
+    ///
+    /// ```
+    /// repr(len() as u32);
+    /// for el in x {
+    ///   repr(el as ident);
+    /// }
+    /// ```
+    ///
+    /// But we can't store a `Vec<MintInfo>` here since we want to avoid Rust attempting to
+    /// deserialize the `mint_info` list which would cause Solana to go over the stack / frame
+    /// limits.
+    pub num_nfts_configured: u32,
     // ---------------------------------------
     // Below we store `mint_infos`, we don't declare them on the type to avoid Anchor
     // deserialization. We cannot deserialize the mint infos since that will take us above the
@@ -72,12 +82,12 @@ pub struct MintlistAccount {
 impl MintlistAccount {
     pub fn is_mintable(&self, now: UnixTimestamp) -> bool {
         // Check if we have finished setting up the Mintlist
-        if self.num_nfts_configured != self.num_total_nfts {
+        if self.num_nfts_configured != self.num_nfts_total {
             return false;
         }
 
         // Check if the mintlist has available nfts
-        if self.num_nfts_redeemed >= self.num_total_nfts {
+        if self.num_nfts_redeemed >= self.num_nfts_total {
             return false;
         }
 
@@ -89,7 +99,8 @@ impl MintlistAccount {
         return true;
     }
 
-    pub fn size(num_nfts: u16) -> usize {
+    // TODO: can we get this from the MintlistAccount itself?
+    pub fn size(num_nfts: u32) -> usize {
         // Account discriminator
         8
         // version
@@ -104,16 +115,18 @@ impl MintlistAccount {
         + 8
         // minting_order
         + 1
-        // num_mints
-        + 2
-        // mints_redeemed
-        + 2
-        // num_nfts_configured
-        + 2
         // collection
         + 32
+        // metadata_url
+        + 64
         // created_at
         + 8
+        // num_mints
+        + 4
+        // mints_redeemed
+        + 4
+        // num_nfts_configured
+        + 4
         // mint_infos
         + num_nfts as usize * MintInfo::size()
     }

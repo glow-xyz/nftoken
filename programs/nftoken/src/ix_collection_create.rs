@@ -9,12 +9,12 @@ pub fn collection_create_inner(
     ctx: Context<CollectionCreate>,
     args: CollectionCreateArgs,
 ) -> Result<()> {
-    let collection_account = &mut ctx.accounts.collection_account;
+    let collection = &mut ctx.accounts.collection;
 
-    collection_account.version = 1;
-    collection_account.creator = ctx.accounts.creator.key();
-    collection_account.metadata_url = args.metadata_url;
-    collection_account.creator_can_update = true;
+    collection.version = 1;
+    collection.creator = ctx.accounts.creator.key();
+    collection.metadata_url = args.metadata_url;
+    collection.creator_can_update = true;
 
     Ok(())
 }
@@ -23,7 +23,7 @@ pub fn collection_create_inner(
 #[instruction(args: CollectionCreateArgs)]
 pub struct CollectionCreate<'info> {
     #[account(init, payer = creator, space = COLLECTION_ACCOUNT_SIZE)]
-    pub collection_account: Account<'info, CollectionAccount>,
+    pub collection: Account<'info, CollectionAccount>,
 
     #[account(mut)]
     pub creator: Signer<'info>,

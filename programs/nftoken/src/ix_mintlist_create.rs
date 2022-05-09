@@ -1,19 +1,27 @@
 use crate::account_types::*;
+use crate::constants::*;
 use crate::errors::*;
 use anchor_lang::prelude::*;
 use std::convert::TryInto;
 
 /// # Create Mintlist
 pub fn mintlist_create_inner(ctx: Context<MintlistCreate>, args: MintlistCreateArgs) -> Result<()> {
-    let mintlist_account = &mut ctx.accounts.mintlist;
+    let collection = &mut ctx.accounts.collection;
+    collection.version = 1;
+    collection.creator = ctx.accounts.creator.key();
+    collection.metadata_url = args.collection_metadata_url;
+    collection.creator_can_update = true;
 
+    let mintlist_account = &mut ctx.accounts.mintlist;
     mintlist_account.version = 1;
     mintlist_account.creator = ctx.accounts.creator.key();
-    mintlist_account.treasury_sol = args.treasury_sol;
+    mintlist_account.treasury_sol = ctx.accounts.treasury_sol.key();
     mintlist_account.go_live_date = args.go_live_date;
+    mintlist_account.metadata_url = args.metadata_url;
     mintlist_account.price = args.price;
-    mintlist_account.num_total_nfts = args.num_total_nfts;
+    mintlist_account.num_nfts_total = args.num_nfts_total;
     mintlist_account.minting_order = args.minting_order.try_into()?;
+    mintlist_account.collection = collection.key();
     mintlist_account.created_at = ctx.accounts.clock.unix_timestamp;
 
     Ok(())
@@ -27,21 +35,31 @@ pub struct MintlistCreate<'info> {
     /// that can be included into the same transaction as the `mintlist_create` instruction.
     #[account(
         zero,
-        constraint = mintlist.to_account_info().data_len() >= MintlistAccount::size(args.num_total_nfts) @ NftokenError::MintlistAccountTooSmall
+        constraint = mintlist.to_account_info().data_len() >= MintlistAccount::size(args.num_nfts_total) @ NftokenError::MintlistAccountTooSmall
     )]
     pub mintlist: Account<'info, MintlistAccount>,
+
+    #[account(init, payer = creator, space = COLLECTION_ACCOUNT_SIZE)]
+    pub collection: Account<'info, CollectionAccount>,
 
     #[account(mut)]
     pub creator: Signer<'info>,
 
+    /// SOL wallet to receive proceedings from SOL payments.
+    /// CHECK: this can be any type
+    pub treasury_sol: AccountInfo<'info>,
+
     pub clock: Sysvar<'info, Clock>,
+    pub system_program: Program<'info, System>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintlistCreateArgs {
-    // TODO: update this to be an account that is passed in
-    /// SOL wallet to receive proceedings from SOL payments.
-    pub treasury_sol: Pubkey,
+    /// Information like name, avatar, etc of the mintlist is stored offchain.
+    pub metadata_url: [u8; 64],
+
+    /// We create a new collection for every Mintlist.
+    pub collection_metadata_url: [u8; 64],
 
     /// Timestamp when minting is allowed.
     pub go_live_date: i64,
@@ -50,7 +68,7 @@ pub struct MintlistCreateArgs {
     pub price: u64,
 
     /// Maximum number of NFTs that can be minted from the mintlist.
-    pub num_total_nfts: u16,
+    pub num_nfts_total: u32,
 
     /// Order of going through the list of `MintInfo`'s during the minting process.
     /// Can be "sequential" or "random".

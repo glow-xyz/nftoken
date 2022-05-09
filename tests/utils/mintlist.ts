@@ -2,10 +2,10 @@ import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes, IDL } from "../../target/types/nftoken";
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { createMintInfoArg } from "../mintlist-add-mint-infos.test";
 import { IdlCoder } from "./IdlCoder";
-import { arrayToStr } from "./test-utils";
+import { arrayToStr, strToArr } from "./test-utils";
 
 // TODO: Consider using `beet` or some other library for creating this layout.
 const MINT_INFO_LAYOUT = IdlCoder.typeDefLayout(
@@ -19,21 +19,21 @@ export async function createEmptyMintlist({
   treasury,
   goLiveDate,
   price,
-  numTotalNfts,
+  numNftsTotal,
   program,
   mintingOrder = "sequential",
 }: {
   treasury: web3.PublicKey;
   goLiveDate: BN;
   price: BN;
-  numTotalNfts: number;
+  numNftsTotal: number;
   program: Program<NftokenTypes>;
   mintingOrder?: MintingOrder;
 }) {
   const { wallet } = anchor.AnchorProvider.local();
 
   const mintlistKeypair = web3.Keypair.generate();
-  const mintlistAccountSize = getMintlistAccountSize(numTotalNfts);
+  const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
 
   const createMintlistAccountInstruction =
     anchor.web3.SystemProgram.createAccount({
@@ -49,16 +49,19 @@ export async function createEmptyMintlist({
 
   await program.methods
     .mintlistCreate({
-      treasurySol: treasury,
       goLiveDate,
       price,
-      numTotalNfts,
+      numNftsTotal,
       mintingOrder,
+      metadataUrl: strToArr('random-meta', 64),
+      collectionMetadataUrl: strToArr('coll-random-meta', 64),
     })
     .accounts({
       mintlist: mintlistKeypair.publicKey,
       creator: wallet.publicKey,
       clock: web3.SYSVAR_CLOCK_PUBKEY,
+      treasurySol: treasury,
+      systemProgram: SystemProgram.programId,
     })
     .signers([mintlistKeypair])
     .preInstructions([createMintlistAccountInstruction])
@@ -82,7 +85,7 @@ type MintlistData = {
   goLiveDate: BN;
   price: BN;
   mintingOrder: MintingOrder;
-  numTotalNfts: number;
+  numNftsTotal: number;
   numNftsConfigured: number;
   numNftsRedeemed: number;
   collection: string;
@@ -132,7 +135,7 @@ export async function getMintlistData({
   return mintlistData;
 }
 
-export function getMintlistAccountSize(numTotalNfts: number): number {
+export function getMintlistAccountSize(numNftsTotal: number): number {
   return (
     // Account discriminator
     8 +
@@ -159,7 +162,7 @@ export function getMintlistAccountSize(numTotalNfts: number): number {
     // created_at
     8 +
     // mint_infos
-    numTotalNfts * MINT_INFO_LAYOUT.span
+    numNftsTotal * MINT_INFO_LAYOUT.span
   );
 }
 
@@ -184,7 +187,7 @@ export async function createMintlistWithInfos({
     treasury,
     goLiveDate,
     price,
-    numTotalNfts: ADD_INFOS_BATCH_SIZE,
+    numNftsTotal: ADD_INFOS_BATCH_SIZE,
     program,
     mintingOrder,
   });
