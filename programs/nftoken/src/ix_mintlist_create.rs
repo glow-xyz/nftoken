@@ -30,6 +30,9 @@ pub fn mintlist_create_inner(ctx: Context<MintlistCreate>, args: MintlistCreateA
 #[derive(Accounts)]
 #[instruction(args: MintlistCreateArgs)]
 pub struct MintlistCreate<'info> {
+    #[account(mut)]
+    pub creator: Signer<'info>,
+
     /// Due to the 10kb limit on the size of accounts that can be initialized via CPI,
     /// the `mintlist` account must be initialized through a separate SystemProgram instruction,
     /// that can be included into the same transaction as the `mintlist_create` instruction.
@@ -41,9 +44,6 @@ pub struct MintlistCreate<'info> {
 
     #[account(init, payer = creator, space = COLLECTION_ACCOUNT_SIZE)]
     pub collection: Account<'info, CollectionAccount>,
-
-    #[account(mut)]
-    pub creator: Signer<'info>,
 
     /// SOL wallet to receive proceedings from SOL payments.
     /// CHECK: this can be any type

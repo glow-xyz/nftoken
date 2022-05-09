@@ -22,11 +22,11 @@ pub fn collection_create_inner(
 #[derive(Accounts)]
 #[instruction(args: CollectionCreateArgs)]
 pub struct CollectionCreate<'info> {
-    #[account(init, payer = creator, space = COLLECTION_ACCOUNT_SIZE)]
-    pub collection_account: Account<'info, CollectionAccount>,
-
     #[account(mut)]
     pub creator: Signer<'info>,
+
+    #[account(init, payer = creator, space = COLLECTION_ACCOUNT_SIZE)]
+    pub collection_account: Account<'info, CollectionAccount>,
 
     pub system_program: Program<'info, System>,
 }

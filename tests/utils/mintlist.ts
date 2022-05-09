@@ -2,7 +2,7 @@ import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes, IDL } from "../../target/types/nftoken";
-import { PublicKey, SystemProgram } from "@solana/web3.js";
+import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import { createMintInfoArg } from "../mintlist-add-mint-infos.test";
 import { IdlCoder } from "./IdlCoder";
 import { arrayToStr, strToArr } from "./test-utils";
@@ -47,6 +47,8 @@ export async function createEmptyMintlist({
       programId: program.programId,
     });
 
+  const collectionKeypair = Keypair.generate();
+
   await program.methods
     .mintlistCreate({
       goLiveDate,
@@ -57,13 +59,14 @@ export async function createEmptyMintlist({
       collectionMetadataUrl: strToArr("coll-random-meta", 64),
     })
     .accounts({
+      collection: collectionKeypair.publicKey,
       mintlist: mintlistKeypair.publicKey,
       creator: wallet.publicKey,
       clock: web3.SYSVAR_CLOCK_PUBKEY,
       treasurySol: treasury,
       systemProgram: SystemProgram.programId,
     })
-    .signers([mintlistKeypair])
+    .signers([mintlistKeypair, collectionKeypair])
     .preInstructions([createMintlistAccountInstruction])
     .rpc()
     .catch((e) => {

@@ -32,7 +32,6 @@ describe("mintlist_create", () => {
     assert.deepEqual(mintlistData.numNftsTotal, numNftsTotal);
     assert.deepEqual(mintlistData.numNftsRedeemed, 0);
     assert.deepEqual(mintlistData.mintingOrder, { sequential: {} });
-    assert.deepEqual(mintlistData.collection, web3.PublicKey.default);
     assert(mintlistData.createdAt.toNumber() <= Date.now() / 1000);
   });
 });
