@@ -5,6 +5,7 @@ import { Nftoken as NftokenTypes, IDL } from "../../target/types/nftoken";
 import { PublicKey } from "@solana/web3.js";
 import { createMintInfoArg } from "../mintlist-add-mint-infos.test";
 import { IdlCoder } from "./IdlCoder";
+import { arrayToStr } from "./test-utils";
 
 // TODO: Consider using `beet` or some other library for creating this layout.
 const MINT_INFO_LAYOUT = IdlCoder.typeDefLayout(
@@ -74,16 +75,33 @@ export async function createEmptyMintlist({
   return { mintlistAddress: mintlistKeypair.publicKey, mintlistData };
 }
 
-export async function getMintlistData(
-  program: Program<NftokenTypes>,
-  mintlistAddress: PublicKey
-) {
+type MintlistData = {
+  version: number;
+  creator: string;
+  treasurySol: string;
+  goLiveDate: BN;
+  price: BN;
+  mintingOrder: MintingOrder;
+  numTotalNfts: number;
+  numNftsConfigured: number;
+  numNftsRedeemed: number;
+  collection: string;
+  mintInfos: Array<{ minted: boolean; metadataUrl: string }>;
+};
+
+export async function getMintlistData({
+  program,
+  mintlistPubkey,
+}: {
+  program: Program<NftokenTypes>;
+  mintlistPubkey: PublicKey;
+}): Promise<MintlistData> {
   const mintlistRawData = await program.provider.connection
-    .getAccountInfo(mintlistAddress)
+    .getAccountInfo(mintlistPubkey)
     .then((accountInfo) => accountInfo?.data);
   assert(
     mintlistRawData,
-    `Cannot find Mintlist account with address ${mintlistAddress.toBase58()}.`
+    `Cannot find Mintlist account with address ${mintlistPubkey.toBase58()}.`
   );
 
   const mintlistData = program.coder.accounts.decode(
@@ -104,7 +122,10 @@ export async function getMintlistData(
         mintInfosBuffer.slice(start, start + MINT_INFO_LAYOUT.span)
       );
     }
-  );
+  ).map(({ minted, metadataUrl }) => ({
+    minted,
+    metadataUrl: arrayToStr(metadataUrl),
+  }));
 
   mintlistData.mintInfos = mintInfos;
 
@@ -158,7 +179,7 @@ export async function createMintlistWithInfos({
   price: BN;
   program: Program<NftokenTypes>;
   mintingOrder?: MintingOrder;
-}) {
+}): Promise<{ mintlistPubkey: PublicKey; mintlistData: MintlistData }> {
   const { mintlistAddress } = await createEmptyMintlist({
     treasury,
     goLiveDate,
@@ -182,8 +203,9 @@ export async function createMintlistWithInfos({
     })
     .rpc();
 
-  const mintlistData = await program.account.mintlistAccount.fetch(
-    mintlistAddress
-  );
-  return { mintlistAddress, mintlistData };
+  const mintlistData = await getMintlistData({
+    mintlistPubkey: mintlistAddress,
+    program,
+  });
+  return { mintlistPubkey: mintlistAddress, mintlistData };
 }

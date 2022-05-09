@@ -3,7 +3,11 @@ import { BN, Program, web3 } from "@project-serum/anchor";
 import assert from "assert";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createEmptyMintlist, getMintlistData } from "./utils/mintlist";
-import { strToArr } from "./utils/test-utils";
+import {
+  arrayToStr,
+  generateAlphaNumericString,
+  strToArr,
+} from "./utils/test-utils";
 
 describe("mintlist_add_mint_infos", () => {
   const provider = anchor.AnchorProvider.env();
@@ -42,12 +46,18 @@ describe("mintlist_add_mint_infos", () => {
       })
       .rpc();
 
-    let mintlistData = await getMintlistData(program, mintlistAddress);
+    let mintlistData = await getMintlistData({
+      program: program,
+      mintlistPubkey: mintlistAddress,
+    });
 
     assert.equal(mintlistData.mintInfos.length, batchSize);
 
     for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
-      assert.deepEqual(mintInfo.metadataUrl, mintInfos1[i].metadataUrl);
+      assert.deepEqual(
+        mintInfo.metadataUrl,
+        arrayToStr(mintInfos1[i].metadataUrl)
+      );
     }
 
     // Second batch.
@@ -64,17 +74,23 @@ describe("mintlist_add_mint_infos", () => {
       })
       .rpc();
 
-    mintlistData = await getMintlistData(program, mintlistAddress);
+    mintlistData = await getMintlistData({
+      program: program,
+      mintlistPubkey: mintlistAddress,
+    });
 
     assert.equal(mintlistData.mintInfos.length, batchSize * 2);
 
     for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
       if (i < batchSize) {
-        assert.deepEqual(mintInfo.metadataUrl, mintInfos1[i].metadataUrl);
+        assert.deepEqual(
+          mintInfo.metadataUrl,
+          arrayToStr(mintInfos1[i].metadataUrl)
+        );
       } else if (i < batchSize * 2) {
         assert.deepEqual(
           mintInfo.metadataUrl,
-          mintInfos2[i - batchSize].metadataUrl
+          arrayToStr(mintInfos2[i - batchSize].metadataUrl)
         );
       }
     }
@@ -85,6 +101,6 @@ describe("mintlist_add_mint_infos", () => {
 
 export function createMintInfoArg(index: number) {
   return {
-    metadataUrl: strToArr(`generateAlphaNumericString(16)--${index}`, 64),
+    metadataUrl: strToArr(`${generateAlphaNumericString(16)}--${index}`, 64),
   };
 }

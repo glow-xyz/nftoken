@@ -1,6 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
 import { Keypair, SystemProgram } from "@solana/web3.js";
+import _ from "lodash";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createMintInfoArg } from "./mintlist-add-mint-infos.test";
 import {
@@ -63,7 +64,10 @@ describe("mintlist_mint_nft", () => {
 
     console.log("Mintlist Mint NFT sig:", sig);
 
-    await getMintlistData(program, mintlistAddress);
+    await getMintlistData({
+      program: program,
+      mintlistPubkey: mintlistAddress,
+    });
 
     // TODO: expect stuff has changed
   });
@@ -73,45 +77,54 @@ describe("mintlist_mint_nft", () => {
     const goLiveDate = new BN(0);
     const price = new BN(web3.LAMPORTS_PER_SOL);
 
-    const { mintlistAddress } = await createMintlistWithInfos({
-      treasury: treasuryKeypair.publicKey,
-      goLiveDate,
-      price,
-      program,
-      mintingOrder: "random",
-    });
-
-    const nftKeypair = Keypair.generate();
-    const signer = anchor.AnchorProvider.local().wallet.publicKey;
-
-    // Mint an NFT!
-    const sig = await program.methods
-      .mintlistMintNft()
-      .accounts({
-        mintlist: mintlistAddress,
-        nft: nftKeypair.publicKey,
-        signer,
-        systemProgram: SystemProgram.programId,
-        treasurySol: treasuryKeypair.publicKey,
-        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
-        slothashes: anchor.web3.SYSVAR_SLOT_HASHES_PUBKEY,
-      })
-      .signers([nftKeypair])
-      .rpc()
-      .catch((e) => {
-        console.error(e.logs);
-        throw e;
+    const { mintlistPubkey, mintlistData: initialMintlistData } =
+      await createMintlistWithInfos({
+        treasury: treasuryKeypair.publicKey,
+        goLiveDate,
+        price,
+        program,
+        mintingOrder: "random",
       });
 
-    console.log("Mintlist Mint NFT sig:", sig);
+    const signer = anchor.AnchorProvider.local().wallet.publicKey;
+
+    for (const _idx of _.range(initialMintlistData.numTotalNfts)) {
+      const nftKeypair = Keypair.generate();
+
+      // Mint an NFT!
+      const sig = await program.methods
+        .mintlistMintNft()
+        .accounts({
+          mintlist: mintlistPubkey,
+          nft: nftKeypair.publicKey,
+          signer,
+          systemProgram: SystemProgram.programId,
+          treasurySol: treasuryKeypair.publicKey,
+          clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+          slothashes: anchor.web3.SYSVAR_SLOT_HASHES_PUBKEY,
+        })
+        .signers([nftKeypair])
+        .rpc()
+        .catch((e) => {
+          console.error(e.logs);
+          throw e;
+        });
+
+      console.log("Mintlist Mint NFT sig:", sig);
+      console.log(
+        (await getMintlistData({ program, mintlistPubkey })).mintInfos
+      );
+    }
 
     // TODO: how do we test if this is _random_
     //       test that the first 10 NFTs out of 10k are not the first 10 sequentially
     //       this has odds of 1/(10k^10) so it won't make tests flaky
-
-    const mintlistDataAfter = await getMintlistData(program, mintlistAddress);
+    const mintlistDataAfter = await getMintlistData({
+      program: program,
+      mintlistPubkey: mintlistPubkey,
+    });
     console.log(
-      "After Random Mint",
+      "After Random Mints",
       JSON.stringify(
         mintlistDataAfter.mintInfos.map(
           ({ metadataUrl, ...data }: any) => data
