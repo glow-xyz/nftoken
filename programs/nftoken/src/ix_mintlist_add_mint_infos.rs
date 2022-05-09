@@ -3,6 +3,8 @@ use crate::errors::*;
 use anchor_lang::prelude::*;
 use std::convert::TryInto;
 
+/// # Mintlist - Add Mint Infos
+///
 /// Adds multiple `MintInfo`'s to the `mintlist`.
 pub fn mintlist_add_mint_infos_inner(
     ctx: Context<MintlistAddMintInfos>,
@@ -10,13 +12,13 @@ pub fn mintlist_add_mint_infos_inner(
 ) -> Result<()> {
     let mintlist = &mut ctx.accounts.mintlist;
 
-    let len_to_add: u16 = mint_infos
+    let len_to_add: u32 = mint_infos
         .len()
         .try_into()
         .map_err(|_err| error!(NftokenError::TooManyMintInfos))?;
 
     let num_nfts_configured = mintlist.num_nfts_configured;
-    let available_mint_info_slots = mintlist.num_total_nfts - num_nfts_configured;
+    let available_mint_info_slots = mintlist.num_nfts_total - num_nfts_configured;
 
     require!(
         len_to_add <= available_mint_info_slots,

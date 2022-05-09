@@ -93,7 +93,7 @@ fn get_mint_info_index(
             //    that corresponds to the `available_index`
             //
             // TODO: spend more time verifying this code since it was inspired by Metaplex Candy Machine
-            let nfts_available = mintlist.num_total_nfts - mintlist.num_nfts_redeemed;
+            let nfts_available = mintlist.num_nfts_total - mintlist.num_nfts_redeemed;
 
             let recent_hash_data = slothashes.data.borrow();
 
@@ -120,7 +120,7 @@ fn get_mint_info_index(
             let mut nft_index: usize = 0;
             let mut available_nfts_seen: usize = 0;
 
-            for _i in 0..mintlist.num_total_nfts {
+            for _i in 0..mintlist.num_nfts_total {
                 if mintlist_data[mint_info_pos] == 0 {
                     if available_nfts_seen == available_index {
                         break;
