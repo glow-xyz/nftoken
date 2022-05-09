@@ -1,9 +1,13 @@
-import assert from "assert";
 import * as anchor from "@project-serum/anchor";
-import { Program, web3, BN } from "@project-serum/anchor";
+import { BN, Program, web3 } from "@project-serum/anchor";
+import assert from "assert";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createMintlist, getMintlistData } from "./utils/mintlist";
-import { generateAlphaNumericString, strToArr } from "./utils/test-utils";
+import { createEmptyMintlist, getMintlistData } from "./utils/mintlist";
+import {
+  arrayToStr,
+  generateAlphaNumericString,
+  strToArr,
+} from "./utils/test-utils";
 
 describe("mintlist_add_mint_infos", () => {
   const provider = anchor.AnchorProvider.env();
@@ -15,21 +19,21 @@ describe("mintlist_add_mint_infos", () => {
     const treasuryKeypair = web3.Keypair.generate();
     const goLiveDate = new BN(Math.floor(Date.now() / 1000));
     const price = new BN(web3.LAMPORTS_PER_SOL);
-    const numMints = 1000;
+    const numTotalNfts = 1000;
 
-    const { mintlistAddress } = await createMintlist({
+    const { mintlistAddress } = await createEmptyMintlist({
       treasury: treasuryKeypair.publicKey,
       goLiveDate,
       price,
-      numMints,
+      numTotalNfts,
       program,
     });
 
-    // This is maximum number of mintInfo's that fits in a transaction.
-    const batchSize = 6;
+    // TODO: If we want to include larger batches, we will need to update / avoid buffer-layout which is
+    //       some weird range out of bounds error.
+    const batchSize = 10;
 
     // First batch.
-
     const mintInfos1 = Array.from({ length: batchSize }, (_, i) => {
       return createMintInfoArg(i);
     });
@@ -42,14 +46,18 @@ describe("mintlist_add_mint_infos", () => {
       })
       .rpc();
 
-    let mintlistData = await getMintlistData(program, mintlistAddress);
+    let mintlistData = await getMintlistData({
+      program: program,
+      mintlistPubkey: mintlistAddress,
+    });
 
     assert.equal(mintlistData.mintInfos.length, batchSize);
 
     for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
-      assert.deepEqual(mintInfo.name, mintInfos1[i].name);
-      assert.deepEqual(mintInfo.imageUrl, mintInfos1[i].imageUrl);
-      assert.deepEqual(mintInfo.metadataUrl, mintInfos1[i].metadataUrl);
+      assert.deepEqual(
+        mintInfo.metadataUrl,
+        arrayToStr(mintInfos1[i].metadataUrl)
+      );
     }
 
     // Second batch.
@@ -66,21 +74,23 @@ describe("mintlist_add_mint_infos", () => {
       })
       .rpc();
 
-    mintlistData = await getMintlistData(program, mintlistAddress);
+    mintlistData = await getMintlistData({
+      program: program,
+      mintlistPubkey: mintlistAddress,
+    });
 
     assert.equal(mintlistData.mintInfos.length, batchSize * 2);
 
     for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
       if (i < batchSize) {
-        assert.deepEqual(mintInfo.name, mintInfos1[i].name);
-        assert.deepEqual(mintInfo.imageUrl, mintInfos1[i].imageUrl);
-        assert.deepEqual(mintInfo.metadataUrl, mintInfos1[i].metadataUrl);
-      } else if (i < batchSize * 2) {
-        assert.deepEqual(mintInfo.name, mintInfos2[i - batchSize].name);
-        assert.deepEqual(mintInfo.imageUrl, mintInfos2[i - batchSize].imageUrl);
         assert.deepEqual(
           mintInfo.metadataUrl,
-          mintInfos2[i - batchSize].metadataUrl
+          arrayToStr(mintInfos1[i].metadataUrl)
+        );
+      } else if (i < batchSize * 2) {
+        assert.deepEqual(
+          mintInfo.metadataUrl,
+          arrayToStr(mintInfos2[i - batchSize].metadataUrl)
         );
       }
     }
@@ -89,10 +99,8 @@ describe("mintlist_add_mint_infos", () => {
   });
 });
 
-function createMintInfoArg(index: number) {
+export function createMintInfoArg(index: number) {
   return {
-    name: strToArr(`Pesky Animals #${index}`, 32),
-    imageUrl: strToArr(generateAlphaNumericString(16), 64),
-    metadataUrl: strToArr(generateAlphaNumericString(16), 64),
+    metadataUrl: strToArr(`${generateAlphaNumericString(16)}--${index}`, 64),
   };
 }

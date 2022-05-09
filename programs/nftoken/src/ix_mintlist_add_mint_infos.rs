@@ -15,21 +15,21 @@ pub fn mintlist_add_mint_infos_inner(
         .try_into()
         .map_err(|_err| error!(NftokenError::TooManyMintInfos))?;
 
-    let mint_infos_added = mintlist.mint_infos_added;
-    let available_mint_info_slots = mintlist.num_mints - mint_infos_added;
+    let num_nfts_configured = mintlist.num_nfts_configured;
+    let available_mint_info_slots = mintlist.num_total_nfts - num_nfts_configured;
 
     require!(
-        len_to_add as u16 <= available_mint_info_slots,
+        len_to_add <= available_mint_info_slots,
         NftokenError::TooManyMintInfos
     );
 
-    mintlist.mint_infos_added += len_to_add;
+    mintlist.num_nfts_configured += len_to_add;
 
     let mintlist_account_info = mintlist.to_account_info();
     let mut mintlist_data = mintlist_account_info.data.borrow_mut();
 
     let mint_info_size = MintInfo::size();
-    let insertion_byte_pos = MintlistAccount::size(mint_infos_added);
+    let insertion_byte_pos = MintlistAccount::size(num_nfts_configured);
     for (i, mint_info_arg) in mint_infos.iter().enumerate() {
         let mint_info = MintInfo::from(mint_info_arg);
         mint_info.serialize(&mut &mut mintlist_data[insertion_byte_pos + i * mint_info_size..])?

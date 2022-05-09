@@ -12,7 +12,7 @@ pub fn mintlist_create_inner(ctx: Context<MintlistCreate>, args: MintlistCreateA
     mintlist_account.treasury_sol = args.treasury_sol;
     mintlist_account.go_live_date = args.go_live_date;
     mintlist_account.price = args.price;
-    mintlist_account.num_mints = args.num_mints;
+    mintlist_account.num_total_nfts = args.num_total_nfts;
     mintlist_account.minting_order = args.minting_order.try_into()?;
     mintlist_account.created_at = ctx.accounts.clock.unix_timestamp;
 
@@ -27,7 +27,7 @@ pub struct MintlistCreate<'info> {
     /// that can be included into the same transaction as the `mintlist_create` instruction.
     #[account(
         zero,
-        constraint = mintlist.to_account_info().data_len() >= MintlistAccount::size(args.num_mints) @ NftokenError::MintlistAccountTooSmall
+        constraint = mintlist.to_account_info().data_len() >= MintlistAccount::size(args.num_total_nfts) @ NftokenError::MintlistAccountTooSmall
     )]
     pub mintlist: Account<'info, MintlistAccount>,
 
@@ -39,6 +39,7 @@ pub struct MintlistCreate<'info> {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintlistCreateArgs {
+    // TODO: update this to be an account that is passed in
     /// SOL wallet to receive proceedings from SOL payments.
     pub treasury_sol: Pubkey,
 
@@ -49,7 +50,7 @@ pub struct MintlistCreateArgs {
     pub price: u64,
 
     /// Maximum number of NFTs that can be minted from the mintlist.
-    pub num_mints: u16,
+    pub num_total_nfts: u16,
 
     /// Order of going through the list of `MintInfo`'s during the minting process.
     /// Can be "sequential" or "random".

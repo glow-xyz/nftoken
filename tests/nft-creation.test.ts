@@ -24,8 +24,6 @@ describe("nftoken", () => {
   test("mints an NFT into a collection", async () => {
     const { creator, collection_keypair } = await createCollection({ program });
 
-    const nft_name = strToArr("nft1", 32);
-    const nft_image_url = strToArr("url1", 64);
     const nft_metadata_url = strToArr("url2", 64);
 
     const nftKeypair = Keypair.generate();
@@ -33,17 +31,14 @@ describe("nftoken", () => {
     const holder = anchor.AnchorProvider.local().wallet.publicKey;
 
     const sig1 = await program.methods
-      .nftCreate(
-        nft_name,
-        nft_image_url,
-        nft_metadata_url,
-        true // collection_included
-      )
+      .nftCreate({
+        metadataUrl: nft_metadata_url,
+        collectionIncluded: true, // collection_included
+      })
       .accounts({
         nft: nftKeypair.publicKey,
         holder,
         systemProgram: SystemProgram.programId,
-        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
       })
       .remainingAccounts([
         {

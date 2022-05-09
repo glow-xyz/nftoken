@@ -3,7 +3,9 @@ import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes, IDL } from "../../target/types/nftoken";
 import { PublicKey } from "@solana/web3.js";
+import { createMintInfoArg } from "../mintlist-add-mint-infos.test";
 import { IdlCoder } from "./IdlCoder";
+import { arrayToStr } from "./test-utils";
 
 // TODO: Consider using `beet` or some other library for creating this layout.
 const MINT_INFO_LAYOUT = IdlCoder.typeDefLayout(
@@ -11,23 +13,27 @@ const MINT_INFO_LAYOUT = IdlCoder.typeDefLayout(
   IDL.types
 );
 
-export async function createMintlist({
+type MintingOrder = "sequential" | "random";
+
+export async function createEmptyMintlist({
   treasury,
   goLiveDate,
   price,
-  numMints,
+  numTotalNfts,
   program,
+  mintingOrder = "sequential",
 }: {
   treasury: web3.PublicKey;
   goLiveDate: BN;
   price: BN;
-  numMints: number;
+  numTotalNfts: number;
   program: Program<NftokenTypes>;
+  mintingOrder?: MintingOrder;
 }) {
   const { wallet } = anchor.AnchorProvider.local();
 
   const mintlistKeypair = web3.Keypair.generate();
-  const mintlistAccountSize = getMintlistAccountSize(numMints);
+  const mintlistAccountSize = getMintlistAccountSize(numTotalNfts);
 
   const createMintlistAccountInstruction =
     anchor.web3.SystemProgram.createAccount({
@@ -46,8 +52,8 @@ export async function createMintlist({
       treasurySol: treasury,
       goLiveDate,
       price,
-      numMints,
-      mintingOrder: "sequential",
+      numTotalNfts,
+      mintingOrder,
     })
     .accounts({
       mintlist: mintlistKeypair.publicKey,
@@ -69,16 +75,33 @@ export async function createMintlist({
   return { mintlistAddress: mintlistKeypair.publicKey, mintlistData };
 }
 
-export async function getMintlistData(
-  program: Program<NftokenTypes>,
-  mintlistAddress: PublicKey
-) {
+type MintlistData = {
+  version: number;
+  creator: string;
+  treasurySol: string;
+  goLiveDate: BN;
+  price: BN;
+  mintingOrder: MintingOrder;
+  numTotalNfts: number;
+  numNftsConfigured: number;
+  numNftsRedeemed: number;
+  collection: string;
+  mintInfos: Array<{ minted: boolean; metadataUrl: string }>;
+};
+
+export async function getMintlistData({
+  program,
+  mintlistPubkey,
+}: {
+  program: Program<NftokenTypes>;
+  mintlistPubkey: PublicKey;
+}): Promise<MintlistData> {
   const mintlistRawData = await program.provider.connection
-    .getAccountInfo(mintlistAddress)
+    .getAccountInfo(mintlistPubkey)
     .then((accountInfo) => accountInfo?.data);
   assert(
     mintlistRawData,
-    `Cannot find Mintlist account with address ${mintlistAddress.toBase58()}.`
+    `Cannot find Mintlist account with address ${mintlistPubkey.toBase58()}.`
   );
 
   const mintlistData = program.coder.accounts.decode(
@@ -92,21 +115,24 @@ export async function getMintlistData(
   const mintInfosBuffer = mintlistRawData.slice(mintInfosBytesOffset);
 
   const mintInfos = Array.from(
-    { length: mintlistData.mintInfosAdded },
+    { length: mintlistData.numNftsConfigured },
     (_, i) => {
       const start = i * MINT_INFO_LAYOUT.span;
       return MINT_INFO_LAYOUT.decode(
         mintInfosBuffer.slice(start, start + MINT_INFO_LAYOUT.span)
       );
     }
-  );
+  ).map(({ minted, metadataUrl }) => ({
+    minted,
+    metadataUrl: arrayToStr(metadataUrl),
+  }));
 
   mintlistData.mintInfos = mintInfos;
 
   return mintlistData;
 }
 
-export function getMintlistAccountSize(numMints: number): number {
+export function getMintlistAccountSize(numTotalNfts: number): number {
   return (
     // Account discriminator
     8 +
@@ -133,6 +159,53 @@ export function getMintlistAccountSize(numMints: number): number {
     // created_at
     8 +
     // mint_infos
-    numMints * MINT_INFO_LAYOUT.span
+    numTotalNfts * MINT_INFO_LAYOUT.span
   );
+}
+
+// TODO: If we want to include larger batches, we will need to update / avoid buffer-layout which is
+//       some weird range out of bounds error.
+const ADD_INFOS_BATCH_SIZE = 10;
+
+export async function createMintlistWithInfos({
+  treasury,
+  goLiveDate,
+  price,
+  program,
+  mintingOrder,
+}: {
+  treasury: web3.PublicKey;
+  goLiveDate: BN;
+  price: BN;
+  program: Program<NftokenTypes>;
+  mintingOrder?: MintingOrder;
+}): Promise<{ mintlistPubkey: PublicKey; mintlistData: MintlistData }> {
+  const { mintlistAddress } = await createEmptyMintlist({
+    treasury,
+    goLiveDate,
+    price,
+    numTotalNfts: ADD_INFOS_BATCH_SIZE,
+    program,
+    mintingOrder,
+  });
+
+  const mintInfos = Array.from({ length: ADD_INFOS_BATCH_SIZE }, (_, i) => {
+    return createMintInfoArg(i);
+  });
+
+  const { wallet } = anchor.AnchorProvider.local();
+
+  await program.methods
+    .mintlistAddMintInfos(mintInfos)
+    .accounts({
+      mintlist: mintlistAddress,
+      creator: wallet.publicKey,
+    })
+    .rpc();
+
+  const mintlistData = await getMintlistData({
+    mintlistPubkey: mintlistAddress,
+    program,
+  });
+  return { mintlistPubkey: mintlistAddress, mintlistData };
 }
