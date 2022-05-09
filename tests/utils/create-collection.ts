@@ -33,7 +33,7 @@ export const createCollection = async ({
   const signature = await program.methods
     .collectionCreate({ metadataUrl })
     .accounts({
-      collection: collection_keypair.publicKey,
+      collectionAccount: collection_keypair.publicKey,
       creator,
       systemProgram: SystemProgram.programId,
     })

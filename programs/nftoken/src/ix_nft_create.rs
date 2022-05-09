@@ -10,7 +10,7 @@ use anchor_lang::prelude::*;
 ///
 /// If you want to let other people mint your NFTs, you should use the `Mintlist` feature.
 pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<()> {
-    let nft = &mut ctx.accounts.nft;
+    let nft_account = &mut ctx.accounts.nft;
 
     if args.collection_included {
         let collection_info: &AccountInfo = &ctx.remaining_accounts[0];
@@ -33,14 +33,14 @@ pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<
             NftokenError::Unauthorized
         );
 
-        nft.collection = *collection_info.key;
+        nft_account.collection = *collection_info.key;
     }
 
-    nft.version = 1;
-    nft.holder = ctx.accounts.holder.key();
-    nft.creator = ctx.accounts.holder.key();
-    nft.metadata_url = args.metadata_url;
-    nft.creator_can_update = true;
+    nft_account.version = 1;
+    nft_account.holder = ctx.accounts.holder.key();
+    nft_account.creator = ctx.accounts.holder.key();
+    nft_account.metadata_url = args.metadata_url;
+    nft_account.creator_can_update = true;
 
     Ok(())
 }

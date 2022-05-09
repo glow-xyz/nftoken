@@ -12,13 +12,13 @@ use crate::errors::*;
 /// the NFT to themselves and take control.
 pub fn nft_set_delegate_inner(ctx: Context<NftSetDelegate>) -> Result<()> {
     let holder = &ctx.accounts.holder;
-    let nft = &mut ctx.accounts.nft;
+    let nft_account = &mut ctx.accounts.nft;
 
-    let action_allowed = nft.holder.key() == holder.key();
+    let action_allowed = nft_account.holder.key() == holder.key();
     require!(action_allowed, NftokenError::Unauthorized);
 
     let delegate = ctx.accounts.delegate.key();
-    nft.delegate = delegate;
+    nft_account.delegate = delegate;
 
     Ok(())
 }
@@ -36,3 +36,5 @@ pub struct NftSetDelegate<'info> {
     /// CHECK: the delegate can be any account type
     pub delegate: AccountInfo<'info>,
 }
+
+

@@ -1,7 +1,7 @@
+use anchor_lang::prelude::*;
 use crate::account_types::*;
 use crate::constants::*;
 use crate::errors::*;
-use anchor_lang::prelude::*;
 
 /// Transfer an NFT to a different owner
 ///
@@ -9,13 +9,13 @@ use anchor_lang::prelude::*;
 pub fn transfer_nft_inner(ctx: Context<TransferNft>) -> Result<()> {
     // TODO check that you are either the delegate or the owner
     let signer = &ctx.accounts.signer;
-    let nft = &mut ctx.accounts.nft;
+    let nft_account = &mut ctx.accounts.nft;
 
-    let delegate = nft.delegate;
+    let delegate = nft_account.delegate;
 
     let transfer_allowed =
         // The NFT holder can make a transfer
-        nft.holder.key() == signer.key()
+        nft_account.holder.key() == signer.key()
             // So can the delegate, if the delegate is set.
             || delegate.key() == signer.key();
 
@@ -24,8 +24,8 @@ pub fn transfer_nft_inner(ctx: Context<TransferNft>) -> Result<()> {
     require!(recipient != NULL_PUBKEY, NftokenError::TransferUnauthorized);
     require!(transfer_allowed, NftokenError::TransferUnauthorized);
 
-    nft.holder = recipient;
-    nft.delegate = NULL_PUBKEY;
+    nft_account.holder = recipient;
+    nft_account.delegate = NULL_PUBKEY;
 
     Ok(())
 }
@@ -42,3 +42,4 @@ pub struct TransferNft<'info> {
     /// CHECK: this can be any type
     pub recipient: AccountInfo<'info>,
 }
+

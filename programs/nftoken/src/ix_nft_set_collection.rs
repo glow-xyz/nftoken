@@ -1,6 +1,6 @@
-use crate::account_types::{CollectionAccount, NftAccount};
-use crate::errors::*;
 use anchor_lang::prelude::*;
+use crate::errors::*;
+use crate::account_types::{CollectionAccount, NftAccount};
 
 /// # Set Collection
 ///
@@ -16,20 +16,19 @@ use anchor_lang::prelude::*;
 /// - `creator_can_update` = true
 /// - `creator == collection_authority` - the `collection.creator` has to sign this TX
 pub fn nft_set_collection_inner(ctx: Context<NftSetCollection>) -> Result<()> {
-    let nft = &mut ctx.accounts.nft;
+    let nft_account = &mut ctx.accounts.nft;
     let nft_authority_key = ctx.accounts.nft_authority.key();
 
-    let has_nft_auth = nft.creator.key() == nft_authority_key && nft.creator_can_update;
+    let has_nft_auth = nft_account.creator.key() == nft_authority_key && nft_account.creator_can_update;
     require!(has_nft_auth, NftokenError::Unauthorized);
 
     let collection_account = &ctx.accounts.collection;
     let collection_authority_key = ctx.accounts.collection_authority.key();
 
-    let has_collection_auth = collection_account.creator.key() == collection_authority_key
-        && collection_account.creator_can_update;
-    require!(has_collection_auth, NftokenError::Unauthorized);
+    let has_collection_auth = collection_account.creator.key() == collection_authority_key && collection_account.creator_can_update;
+    require!(has_collection_auth , NftokenError::Unauthorized);
 
-    nft.collection = collection_account.key();
+    nft_account.collection = collection_account.key();
 
     Ok(())
 }

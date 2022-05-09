@@ -6,14 +6,14 @@ use anchor_lang::prelude::*;
 ///
 /// Update the nft information on chain.
 pub fn nft_update_inner(ctx: Context<NftUpdate>, args: NftUpdateArgs) -> Result<()> {
-    let nft = &mut ctx.accounts.nft;
+    let nft_account = &mut ctx.accounts.nft;
 
-    let action_allowed = nft.creator.key() == ctx.accounts.creator.key();
+    let action_allowed = nft_account.creator.key() == ctx.accounts.creator.key();
     require!(action_allowed, NftokenError::Unauthorized);
-    require!(nft.creator_can_update, NftokenError::Unauthorized);
+    require!(nft_account.creator_can_update, NftokenError::Unauthorized);
 
-    nft.metadata_url = args.metadata_url;
-    nft.creator_can_update = args.creator_can_update;
+    nft_account.metadata_url = args.metadata_url;
+    nft_account.creator_can_update = args.creator_can_update;
 
     Ok(())
 }
