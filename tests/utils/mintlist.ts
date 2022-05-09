@@ -53,8 +53,8 @@ export async function createEmptyMintlist({
       price,
       numNftsTotal,
       mintingOrder,
-      metadataUrl: strToArr('random-meta', 64),
-      collectionMetadataUrl: strToArr('coll-random-meta', 64),
+      metadataUrl: strToArr("random-meta", 64),
+      collectionMetadataUrl: strToArr("coll-random-meta", 64),
     })
     .accounts({
       mintlist: mintlistKeypair.publicKey,
@@ -137,30 +137,19 @@ export async function getMintlistData({
 
 export function getMintlistAccountSize(numNftsTotal: number): number {
   return (
-    // Account discriminator
     8 +
-    // version
     1 +
-    // creator
     32 +
-    // treasury_sol
     32 +
-    // go_live_date
     8 +
-    // price
     8 +
-    // minting_order
     1 +
-    // num_mints
-    2 +
-    // mints_redeemed
-    2 +
-    // _alignment
-    2 +
-    // collection
     32 +
-    // created_at
+    64 +
     8 +
+    4 +
+    4 +
+    4 +
     // mint_infos
     numNftsTotal * MINT_INFO_LAYOUT.span
   );

@@ -3,6 +3,8 @@ use crate::errors::*;
 use anchor_lang::prelude::*;
 use std::convert::TryInto;
 
+/// # Mintlist - Add Mint Infos
+///
 /// Adds multiple `MintInfo`'s to the `mintlist`.
 pub fn mintlist_add_mint_infos_inner(
     ctx: Context<MintlistAddMintInfos>,
