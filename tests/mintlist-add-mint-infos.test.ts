@@ -2,7 +2,7 @@ import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
 import assert from "assert";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createMintlist, getMintlistData } from "./utils/mintlist";
+import { createEmptyMintlist, getMintlistData } from "./utils/mintlist";
 import { strToArr } from "./utils/test-utils";
 
 describe("mintlist_add_mint_infos", () => {
@@ -17,7 +17,7 @@ describe("mintlist_add_mint_infos", () => {
     const price = new BN(web3.LAMPORTS_PER_SOL);
     const numTotalNfts = 1000;
 
-    const { mintlistAddress } = await createMintlist({
+    const { mintlistAddress } = await createEmptyMintlist({
       treasury: treasuryKeypair.publicKey,
       goLiveDate,
       price,

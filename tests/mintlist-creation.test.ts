@@ -2,7 +2,7 @@ import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { Program, web3, BN } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createMintlist } from "./utils/mintlist";
+import { createEmptyMintlist } from "./utils/mintlist";
 
 describe("mintlist_create", () => {
   const provider = anchor.AnchorProvider.env();
@@ -16,7 +16,7 @@ describe("mintlist_create", () => {
     const price = new BN(web3.LAMPORTS_PER_SOL);
     const numTotalNfts = 10000;
 
-    const { mintlistData } = await createMintlist({
+    const { mintlistData } = await createEmptyMintlist({
       treasury: treasuryKeypair.publicKey,
       goLiveDate,
       price,

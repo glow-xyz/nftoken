@@ -3,6 +3,7 @@ import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes, IDL } from "../../target/types/nftoken";
 import { PublicKey } from "@solana/web3.js";
+import { createMintInfoArg } from "../mintlist-add-mint-infos.test";
 import { IdlCoder } from "./IdlCoder";
 
 // TODO: Consider using `beet` or some other library for creating this layout.
@@ -11,18 +12,22 @@ const MINT_INFO_LAYOUT = IdlCoder.typeDefLayout(
   IDL.types
 );
 
-export async function createMintlist({
+type MintingOrder = "sequential" | "random";
+
+export async function createEmptyMintlist({
   treasury,
   goLiveDate,
   price,
   numTotalNfts,
   program,
+  mintingOrder = "sequential",
 }: {
   treasury: web3.PublicKey;
   goLiveDate: BN;
   price: BN;
   numTotalNfts: number;
   program: Program<NftokenTypes>;
+  mintingOrder?: MintingOrder;
 }) {
   const { wallet } = anchor.AnchorProvider.local();
 
@@ -47,7 +52,7 @@ export async function createMintlist({
       goLiveDate,
       price,
       numTotalNfts,
-      mintingOrder: "sequential",
+      mintingOrder,
     })
     .accounts({
       mintlist: mintlistKeypair.publicKey,
@@ -135,4 +140,50 @@ export function getMintlistAccountSize(numTotalNfts: number): number {
     // mint_infos
     numTotalNfts * MINT_INFO_LAYOUT.span
   );
+}
+
+// TODO: If we want to include larger batches, we will need to update / avoid buffer-layout which is
+//       some weird range out of bounds error.
+const ADD_INFOS_BATCH_SIZE = 10;
+
+export async function createMintlistWithInfos({
+  treasury,
+  goLiveDate,
+  price,
+  program,
+  mintingOrder,
+}: {
+  treasury: web3.PublicKey;
+  goLiveDate: BN;
+  price: BN;
+  program: Program<NftokenTypes>;
+  mintingOrder?: MintingOrder;
+}) {
+  const { mintlistAddress } = await createEmptyMintlist({
+    treasury,
+    goLiveDate,
+    price,
+    numTotalNfts: ADD_INFOS_BATCH_SIZE,
+    program,
+    mintingOrder,
+  });
+
+  const mintInfos = Array.from({ length: ADD_INFOS_BATCH_SIZE }, (_, i) => {
+    return createMintInfoArg(i);
+  });
+
+  const { wallet } = anchor.AnchorProvider.local();
+
+  await program.methods
+    .mintlistAddMintInfos(mintInfos)
+    .accounts({
+      mintlist: mintlistAddress,
+      creator: wallet.publicKey,
+    })
+    .rpc();
+
+  const mintlistData = await program.account.mintlistAccount.fetch(
+    mintlistAddress
+  );
+  return { mintlistAddress, mintlistData };
 }
