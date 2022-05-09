@@ -88,7 +88,7 @@ describe("mintlist_mint_nft", () => {
       const nftKeypair = Keypair.generate();
 
       // Mint an NFT!
-      const sig = await program.methods
+      await program.methods
         .mintlistMintNft()
         .accounts({
           mintlist: mintlistPubkey,
