@@ -6,6 +6,7 @@ specifiers:
   '@project-serum/serum': ^0.13.64
   '@solana/web3.js': ^1.39.1
   '@types/jest': ^27.4.1
+  '@types/lodash': ^4.14.182
   '@typescript-eslint/eslint-plugin': ^5.22.0
   '@typescript-eslint/parser': ^5.22.0
   assert: ^2.0.0
@@ -31,6 +32,7 @@ dependencies:
   '@project-serum/serum': 0.13.64
   '@solana/web3.js': 1.39.1
   '@types/jest': 27.4.1
+  '@types/lodash': 4.14.182
   '@typescript-eslint/eslint-plugin': 5.22.0_n2lil345gvye5jswmtmh7xme2i
   '@typescript-eslint/parser': 5.22.0_c3alnx6mxv77hhhkcvisj3heci
   assert: 2.0.0

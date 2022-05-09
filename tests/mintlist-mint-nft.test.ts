@@ -4,11 +4,7 @@ import { Keypair, SystemProgram } from "@solana/web3.js";
 import _ from "lodash";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createMintInfoArg } from "./mintlist-add-mint-infos.test";
-import {
-  createEmptyMintlist,
-  createMintlistWithInfos,
-  getMintlistData,
-} from "./utils/mintlist";
+import { createEmptyMintlist, createMintlistWithInfos, getMintlistData } from "./utils/mintlist";
 
 describe("mintlist_mint_nft", () => {
   const provider = anchor.AnchorProvider.env();
