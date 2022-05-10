@@ -5,7 +5,7 @@ use anchor_lang::prelude::*;
 
 /// # Create NFT
 ///
-/// This sets the current `holder == creator == signer` so this is useful if you are creating
+/// This sets the current `creator == signer` so this is useful if you are creating
 /// NFTs that you will be the manager of.
 ///
 /// If you want to let other people mint your NFTs, you should use the `Mintlist` feature.
@@ -38,9 +38,9 @@ pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<
 
     nft.version = 1;
     nft.holder = ctx.accounts.holder.key();
-    nft.creator = ctx.accounts.holder.key();
-    nft.metadata_url = args.metadata_url;
+    nft.creator = ctx.accounts.creator.key();
     nft.creator_can_update = true;
+    nft.metadata_url = args.metadata_url;
 
     Ok(())
 }
@@ -57,10 +57,12 @@ pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<
 #[instruction(args: NftCreateArgs)]
 pub struct NftCreate<'info> {
     #[account(mut)]
-    pub holder: Signer<'info>,
+    pub creator: Signer<'info>,
 
-    // TODO: we should choose the size for this so that creating an NFToken is at least 2x cheaper than a Metaplex NFT
-    #[account(init, payer = holder, space = NFT_ACCOUNT_SIZE)]
+    /// CHECK: this can be any type we want
+    pub holder: AccountInfo<'info>,
+
+    #[account(init, payer = creator, space = NFT_ACCOUNT_SIZE)]
     pub nft: Account<'info, NftAccount>,
 
     pub system_program: Program<'info, System>,
