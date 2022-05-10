@@ -36,7 +36,7 @@ pub struct MintlistAccount {
     pub go_live_date: i64,
 
     /// Price to pay for minting an NFT from the mintlist.
-    pub price: u64,
+    pub price_lamports: u64,
 
     /// Order of going through the list of `MintInfo`'s during the minting process.
     pub minting_order: MintingOrder,
