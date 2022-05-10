@@ -43,7 +43,6 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
     );
 
     let mint_info_index = get_mint_info_index(&*mintlist, &mut mintlist_data, slothashes);
-    msg!("Got mint_info_index {}", mint_info_index);
     let mint_info_pos = MintlistAccount::size(mint_info_index.try_into().unwrap());
 
     // We make sure that we haven't minted this yet.
@@ -113,7 +112,6 @@ fn get_mint_info_index(
                 // We can cast from u64 → usize since we have done mod nfts_available which is u16
                 .try_into()
                 .unwrap();
-            msg!("Got available_index {}", available_index);
 
             let mut mint_info_pos = MintlistAccount::size(0);
 
@@ -134,7 +132,6 @@ fn get_mint_info_index(
                 mint_info_pos = mint_info_pos.checked_add(MintInfo::size()).unwrap();
             }
 
-            msg!("Got nft_index {}", nft_index);
             nft_index
         }
     };

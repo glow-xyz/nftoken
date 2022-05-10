@@ -12,9 +12,11 @@ import {
 export const createNft = async ({
   metadata_url: _metadata_url,
   program,
+  holder,
 }: {
   metadata_url?: string;
   program: Program<NftokenTypes>;
+  holder?: PublicKey | null;
 }): Promise<{
   signature: Base58;
   nft_pubkey: PublicKey;
@@ -27,7 +29,7 @@ export const createNft = async ({
 
   const nftKeypair = Keypair.generate();
 
-  const holder = anchor.AnchorProvider.local().wallet.publicKey;
+  const creator = anchor.AnchorProvider.local().wallet.publicKey;
 
   const signature = await program.methods
     .nftCreate({
@@ -36,7 +38,8 @@ export const createNft = async ({
     })
     .accounts({
       nft: nftKeypair.publicKey,
-      holder,
+      creator,
+      holder: holder ?? creator,
       systemProgram: SystemProgram.programId,
     })
     .signers([nftKeypair])

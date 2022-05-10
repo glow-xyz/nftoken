@@ -4,21 +4,35 @@ import { Keypair, SystemProgram } from "@solana/web3.js";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createCollection } from "./utils/create-collection";
 import { createNft } from "./utils/create-nft";
-import { logNft, strToArr } from "./utils/test-utils";
+import { logNft, NULL_PUBKEY_STRING, strToArr } from "./utils/test-utils";
 
-describe("nftoken", () => {
-  // Configure the client to use the local cluster.
+describe("ix_nft_create", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
   const program = anchor.workspace.Nftoken as Program<NftokenTypes>;
 
   test("mints an NFT", async () => {
-    await createNft({ program });
+    const creator = anchor.AnchorProvider.local().wallet.publicKey;
+    const { nft_pubkey } = await createNft({ program });
+    const nft = await program.account.nftAccount.fetch(nft_pubkey);
+
+    expect(nft.creator.toBase58()).toEqual(creator.toBase58());
+    expect(nft.holder.toBase58()).toEqual(creator.toBase58());
+    expect(nft.collection.toBase58()).toEqual(NULL_PUBKEY_STRING);
+    expect(nft.version).toEqual(1);
   });
 
-  test("creates a collection", async () => {
-    await createCollection({ program });
+  test("mints an NFT to a different holder", async () => {
+    const creator = anchor.AnchorProvider.local().wallet.publicKey;
+    const holder = Keypair.generate().publicKey;
+    const { nft_pubkey } = await createNft({ program, holder });
+    const nft = await program.account.nftAccount.fetch(nft_pubkey);
+
+    expect(nft.creator.toBase58()).toEqual(creator.toBase58());
+    expect(nft.holder.toBase58()).toEqual(holder.toBase58());
+    expect(nft.collection.toBase58()).toEqual(NULL_PUBKEY_STRING);
+    expect(nft.version).toEqual(1);
   });
 
   test("mints an NFT into a collection", async () => {
@@ -28,8 +42,6 @@ describe("nftoken", () => {
 
     const nftKeypair = Keypair.generate();
 
-    const holder = anchor.AnchorProvider.local().wallet.publicKey;
-
     const sig1 = await program.methods
       .nftCreate({
         metadataUrl: nft_metadata_url,
@@ -37,7 +49,8 @@ describe("nftoken", () => {
       })
       .accounts({
         nft: nftKeypair.publicKey,
-        holder,
+        creator,
+        holder: creator,
         systemProgram: SystemProgram.programId,
       })
       .remainingAccounts([
