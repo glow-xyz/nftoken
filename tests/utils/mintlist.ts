@@ -18,14 +18,14 @@ type MintingOrder = "sequential" | "random";
 export async function createEmptyMintlist({
   treasury,
   goLiveDate,
-  price,
+  priceLamports,
   numNftsTotal,
   program,
   mintingOrder = "sequential",
 }: {
   treasury: web3.PublicKey;
   goLiveDate: BN;
-  price: BN;
+  priceLamports: BN;
   numNftsTotal: number;
   program: Program<NftokenTypes>;
   mintingOrder?: MintingOrder;
@@ -52,7 +52,7 @@ export async function createEmptyMintlist({
   await program.methods
     .mintlistCreate({
       goLiveDate,
-      price,
+      priceLamports,
       numNftsTotal,
       mintingOrder,
       metadataUrl: strToArr("random-meta", 64),
@@ -86,7 +86,7 @@ type MintlistData = {
   creator: string;
   treasurySol: string;
   goLiveDate: BN;
-  price: BN;
+  priceLamports: BN;
   mintingOrder: MintingOrder;
   numNftsTotal: number;
   numNftsConfigured: number;
@@ -165,20 +165,20 @@ const ADD_INFOS_BATCH_SIZE = 10;
 export async function createMintlistWithInfos({
   treasury,
   goLiveDate,
-  price,
+  priceLamports,
   program,
   mintingOrder,
 }: {
   treasury: web3.PublicKey;
   goLiveDate: BN;
-  price: BN;
+  priceLamports: BN;
   program: Program<NftokenTypes>;
   mintingOrder?: MintingOrder;
 }): Promise<{ mintlistPubkey: PublicKey; mintlistData: MintlistData }> {
   const { mintlistAddress } = await createEmptyMintlist({
     treasury,
     goLiveDate,
-    price,
+    priceLamports,
     numNftsTotal: ADD_INFOS_BATCH_SIZE,
     program,
     mintingOrder,

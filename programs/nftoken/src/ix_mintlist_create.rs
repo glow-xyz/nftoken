@@ -18,7 +18,7 @@ pub fn mintlist_create_inner(ctx: Context<MintlistCreate>, args: MintlistCreateA
     mintlist_account.treasury_sol = ctx.accounts.treasury_sol.key();
     mintlist_account.go_live_date = args.go_live_date;
     mintlist_account.metadata_url = args.metadata_url;
-    mintlist_account.price = args.price;
+    mintlist_account.price_lamports = args.price_lamports;
     mintlist_account.num_nfts_total = args.num_nfts_total;
     mintlist_account.minting_order = args.minting_order.try_into()?;
     mintlist_account.collection = collection.key();
@@ -49,8 +49,8 @@ pub struct MintlistCreate<'info> {
     /// CHECK: this can be any type
     pub treasury_sol: AccountInfo<'info>,
 
-    pub clock: Sysvar<'info, Clock>,
     pub system_program: Program<'info, System>,
+    pub clock: Sysvar<'info, Clock>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
@@ -65,7 +65,7 @@ pub struct MintlistCreateArgs {
     pub go_live_date: i64,
 
     /// Price to pay for minting an NFT from the mintlist.
-    pub price: u64,
+    pub price_lamports: u64,
 
     /// Maximum number of NFTs that can be minted from the mintlist.
     pub num_nfts_total: u32,

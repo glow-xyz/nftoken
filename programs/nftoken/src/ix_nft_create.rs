@@ -56,12 +56,12 @@ pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<
 #[derive(Accounts)]
 #[instruction(args: NftCreateArgs)]
 pub struct NftCreate<'info> {
+    #[account(mut)]
+    pub holder: Signer<'info>,
+
     // TODO: we should choose the size for this so that creating an NFToken is at least 2x cheaper than a Metaplex NFT
     #[account(init, payer = holder, space = NFT_ACCOUNT_SIZE)]
     pub nft: Account<'info, NftAccount>,
-
-    #[account(mut)]
-    pub holder: Signer<'info>,
 
     pub system_program: Program<'info, System>,
 }

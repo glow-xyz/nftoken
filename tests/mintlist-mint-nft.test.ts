@@ -15,13 +15,13 @@ describe("mintlist_mint_nft", () => {
   it("should mint a single NFT", async () => {
     const treasuryKeypair = web3.Keypair.generate();
     const goLiveDate = new BN(0);
-    const price = new BN(web3.LAMPORTS_PER_SOL);
+    const priceLamports = new BN(web3.LAMPORTS_PER_SOL);
     const numNftsTotal = 1;
 
     const { mintlistAddress } = await createEmptyMintlist({
       treasury: treasuryKeypair.publicKey,
       goLiveDate,
-      price,
+      priceLamports,
       numNftsTotal,
       program,
     });
@@ -71,13 +71,13 @@ describe("mintlist_mint_nft", () => {
   it("should mint a random NFT", async () => {
     const treasuryKeypair = web3.Keypair.generate();
     const goLiveDate = new BN(0);
-    const price = new BN(web3.LAMPORTS_PER_SOL);
+    const priceLamports = new BN(web3.LAMPORTS_PER_SOL);
 
     const { mintlistPubkey, mintlistData: initialMintlistData } =
       await createMintlistWithInfos({
         treasury: treasuryKeypair.publicKey,
         goLiveDate,
-        price,
+        priceLamports,
         program,
         mintingOrder: "random",
       });

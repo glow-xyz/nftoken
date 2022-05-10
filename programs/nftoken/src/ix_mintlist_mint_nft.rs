@@ -29,7 +29,7 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
 
     // Pay for the NFT by transferring SOL from the signer / minter → the treasury.
     // We check that the `treasury.key == mintlist.treasury_sol`.
-    let ix = system_instruction::transfer(&signer.key(), &treasury.key(), mintlist.price);
+    let ix = system_instruction::transfer(&signer.key(), &treasury.key(), mintlist.price_lamports);
     solana_program::program::invoke(&ix, &[signer.to_account_info().clone(), treasury.clone()])?;
 
     let mintlist_account_info = mintlist.to_account_info();
