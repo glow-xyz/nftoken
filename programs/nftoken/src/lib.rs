@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
 
-use crate::account_types::*;
 use crate::ix_collection_create::*;
 use crate::ix_collection_transfer::*;
 use crate::ix_collection_update::*;
@@ -39,6 +38,7 @@ pub mod nftoken {
     use super::*;
 
     /// NFT Instructions
+
     pub fn nft_create(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<()> {
         return nft_create_inner(ctx, args);
     }
@@ -68,6 +68,7 @@ pub mod nftoken {
     }
 
     /// Collection Instructions
+
     pub fn collection_create(
         ctx: Context<CollectionCreate>,
         args: CollectionCreateArgs,
@@ -86,16 +87,17 @@ pub mod nftoken {
         return collection_transfer_creator_inner(ctx);
     }
 
-    /// Mintlist instructions
+    /// Mintlist Instructions
+
     pub fn mintlist_create(ctx: Context<MintlistCreate>, args: MintlistCreateArgs) -> Result<()> {
         return mintlist_create_inner(ctx, args);
     }
 
     pub fn mintlist_add_mint_infos(
         ctx: Context<MintlistAddMintInfos>,
-        mint_infos: Vec<MintInfoArg>,
+        args: MintlistAddMintInfosArgs,
     ) -> Result<()> {
-        return mintlist_add_mint_infos_inner(ctx, mint_infos);
+        return mintlist_add_mint_infos_inner(ctx, args);
     }
 
     pub fn mintlist_mint_nft(ctx: Context<MintlistMintNft>) -> Result<()> {
