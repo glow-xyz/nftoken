@@ -15,6 +15,7 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["@types/buffer-layout.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "program-tests/@types/buffer-layout.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
