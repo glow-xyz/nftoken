@@ -37,8 +37,6 @@ declare_id!("nf4i4ZyQcYa3KbRnQDzBAncVpLJtS99aMEbjU2PwyKs");
 pub mod nftoken {
     use super::*;
 
-    /// NFT Instructions
-
     pub fn nft_create(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<()> {
         return nft_create_inner(ctx, args);
     }
@@ -67,8 +65,6 @@ pub mod nftoken {
         return nft_unset_collection_inner(ctx);
     }
 
-    /// Collection Instructions
-
     pub fn collection_create(
         ctx: Context<CollectionCreate>,
         args: CollectionCreateArgs,
@@ -86,8 +82,6 @@ pub mod nftoken {
     pub fn transfer_collection(ctx: Context<CollectionTransferCreator>) -> Result<()> {
         return collection_transfer_creator_inner(ctx);
     }
-
-    /// Mintlist Instructions
 
     pub fn mintlist_create(ctx: Context<MintlistCreate>, args: MintlistCreateArgs) -> Result<()> {
         return mintlist_create_inner(ctx, args);

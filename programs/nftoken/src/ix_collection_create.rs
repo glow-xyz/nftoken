@@ -1,10 +1,11 @@
-use crate::account_types::CollectionAccount;
-use crate::constants::COLLECTION_ACCOUNT_SIZE;
+//! # Create Collection
+//!
+//! This creates a *collection* account which NFTs can be associated with.
 use anchor_lang::prelude::*;
 
-/// # Create Collection
-///
-/// This creates a *collection* account which NFTs can be associated with.
+use crate::account_types::CollectionAccount;
+use crate::constants::COLLECTION_ACCOUNT_SIZE;
+
 pub fn collection_create_inner(
     ctx: Context<CollectionCreate>,
     args: CollectionCreateArgs,
