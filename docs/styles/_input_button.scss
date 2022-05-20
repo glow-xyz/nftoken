@@ -1,0 +1,308 @@
+body {
+  // Buttons and input fields share the same padding / font size, etc.
+  // For icon-only buttons, vertical and horizontal paddings are the
+  // same. This allows the button to be a square / circle.
+  // The icon-only padding must be the same as the horizontal padding
+  // of the regular input / button.
+  --input-horizontal-padding: 0.875rem;
+  --input-vertical-padding: 0.625rem;
+  --input-padding: var(--input-vertical-padding) var(--input-horizontal-padding);
+  --button-icon-only-padding: 0.625rem;
+  --input-font-size: 1rem;
+  --input-label-font-size: 0.875rem;
+  --input-line-height: 1;
+  --input-element-gap: 0.5rem;
+  // 2 * vertical padding + font size + 2px (1px border on each side)
+  // This is needed since line-height doesn't work as expected for input
+  // but does work for buttons. And we need inputs / buttons to be the
+  // same height.
+  --input-height: calc(2.25rem + 2px);
+  --input-textarea-line-height: 1.5;
+  // To compensate for text area line height
+  --input-textarea-padding: 0.375rem 0.75rem;
+
+  --small-input-padding: 0.4375rem 0.625rem;
+  --small-button-icon-only-padding: 0.4375rem;
+  --small-input-font-size: 0.875rem;
+  --small-input-label-font-size: 0.75rem;
+  --small-input-element-gap: 0.375rem;
+  --small-input-height: calc(1.75rem + 2px);
+
+  --large-input-horizontal-padding: 1.125rem;
+  --large-input-vertical-padding: 0.75rem;
+  --large-input-padding: var(--large-input-vertical-padding)
+    var(--large-input-horizontal-padding);
+  --large-input-padding: 0.75rem 1.125rem;
+  --large-button-icon-only-padding: 0.75rem;
+  --large-input-font-size: 1.125rem;
+  --large-input-label-font-size: 1rem;
+  --large-input-element-gap: 0.625rem;
+  --large-input-height: calc(2.625rem + 2px);
+  --large-input-textarea-padding: 0.425rem 1rem;
+
+  // For (color) dots.
+  --dot-size: 0.5rem;
+  --small-dot-size: 0.375rem;
+  --large-dot-size: 0.625rem;
+
+  --segment-color: var(--secondary-color);
+  --segment-hover-color: var(--primary-color);
+  --segment-gap: 0.25rem;
+  --segment-padding: 0.25rem 0.75rem;
+  --segment-icon-gap: 0.375rem;
+  --small-segment-gap: 0.125rem;
+  --small-segment-padding: 0.25rem 0.5rem;
+  --small-segment-font-size: 0.8rem;
+  --segment-selected-color: var(--primary-color);
+  --segment-divider-color: var(--tertiary-divider-color);
+  --segment-slider-bg-color: var(--primary-bg-color);
+  --segment-bg-color: var(--pale-gray);
+
+  // Toggle
+  --toggle-width: 2.375rem;
+  --toggle-height: 1.5rem;
+  --toggle-gap: 0.125rem;
+
+  --large-toggle-width: 2.75rem;
+  --large-toggle-height: 1.75rem;
+  --large-toggle-gap: 0.125rem;
+}
+
+body,
+body.force-light,
+body.dark.force-light {
+  --input-color: var(--primary-color);
+  --input-bg-color: var(--primary-bg-color);
+  --input-hover-bg-color: var(--primary-bg-color);
+  --input-box-shadow: none;
+  --input-border-color: var(--secondary-border-color);
+  --input-border-thickness: 1px;
+  --input-border: 1px solid var(--input-border-color);
+  --input-group-bg-color: var(--secondary-bg-color);
+  --input-disabled-color: var(--tertiary-color);
+  --input-hover-box-shadow: none;
+  --input-hover-border-color: var(--tertiary-color);
+  --input-focus-bg-color: var(--primary-bg-color);
+  --input-focus-box-shadow: none;
+  --input-focus-border-color: var(--primary-color);
+  --solid-input-bg-color: var(--secondary-bg-color);
+  --disabled-background-color: var(--secondary-bg-color);
+  --placeholder-color: var(--quaternary-color);
+  --tagged-input-item-bg-color: var(--secondary-bg-color);
+
+  --primary-button-color: var(--white);
+  --primary-button-bg-color: var(--gray-90);
+  --primary-button-hover-bg-color: var(--gray-80);
+  --primary-button-link-color: var(--gray-80);
+  --primary-button-hover-link-color: var(--gray-90);
+
+  --secondary-button-color: var(--white);
+  --secondary-button-bg-color: var(--gray-60);
+  --secondary-button-hover-bg-color: var(--gray-70);
+  --secondary-button-link-color: var(--gray-60);
+  --secondary-button-hover-link-color: var(--gray-70);
+
+  --brand-button-color: var(--white);
+  &,
+  .theme-root {
+    --brand-button-bg-color: var(--brand-color);
+    --brand-button-hover-bg-color: var(--brand-active-color);
+    --brand-button-link-color: var(--brand-color);
+    --brand-button-hover-link-color: var(--brand-active-color);
+  }
+
+  --success-button-color: var(--white);
+  --success-button-bg-color: var(--success-color);
+  --success-button-hover-bg-color: var(--success-active-color);
+  --success-button-link-color: var(--success-color);
+  --success-button-hover-link-color: var(--success-active-color);
+
+  --error-button-color: var(--white);
+  --error-button-bg-color: var(--error-color);
+  --error-button-hover-bg-color: var(--error-active-color);
+  --error-button-link-color: var(--error-color);
+  --error-button-hover-link-color: var(--error-active-color);
+
+  --light-button-color: var(--secondary-color);
+  --light-button-bg-color: var(--pale-gray);
+  --light-button-hover-color: var(--primary-bg-color);
+  --light-button-hover-bg-color: var(--secondary-color);
+  --light-outline-button-border-color: var(--quaternary-bg-color);
+
+  // TODO: Move this to its own file.
+  --checkbox-border-color: var(--input-border-color);
+  --checkbox-box-shadow: none;
+  --checkbox-bg-color: var(--input-bg-color);
+  --checkbox-check-color: var(--primary-bg-color);
+  --checkbox-checked-bg-color: var(--primary-color);
+  --checkbox-hover-border-color: var(--secondary-color);
+
+  --select-menu-border-color: var(--border-color);
+  --select-menu-hover-color: var(--secondary-bg-color);
+  --select-menu-focus-color: var(--tertiary-bg-color);
+  &,
+  .theme-root {
+    --select-menu-selected-color: var(--brand-color);
+  }
+
+  --toggle-bg-color: var(--darker-pale-gray);
+  --toggle-disabled-bg-color: var(--pale-gray);
+  --toggle-active-bg-color: var(--primary-color);
+  --toggle-active-disabled-bg-color: var(--tertiary-color);
+  --toggle-success-active-bg-color: var(--success-color);
+  --toggle-success-active-disabled-bg-color: var(--darker-pale-green);
+}
+
+body.dark {
+  --primary-button-color: var(--black);
+  --primary-button-bg-color: var(--white);
+  --primary-button-hover-bg-color: var(--gray-20);
+  --primary-button-link-color: var(--gray-20);
+  --primary-button-hover-link-color: var(--white);
+
+  --secondary-button-bg-color: var(--gray-70);
+  --secondary-button-hover-bg-color: var(--gray-80);
+  --secondary-button-link-color: var(--gray-60);
+  --secondary-button-hover-link-color: var(--gray-50);
+
+  --success-button-bg-color: var(--green-50);
+  --success-button-hover-bg-color: var(--green-60);
+  --success-button-link-color: var(--green-50);
+  --success-button-hover-link-color: var(--green-40);
+
+  --error-button-bg-color: var(--red-50);
+  --error-button-hover-bg-color: var(--red-60);
+  --error-button-link-color: var(--red-50);
+  --error-button-hover-link-color: var(--red-40);
+
+  --segment-slider-bg-color: var(--pale-white);
+
+  --toggle-bg-color: var(--white-translucent);
+  --toggle-disabled-bg-color: var(--darker-pale-gray);
+  --toggle-active-bg-color: var(--success-color);
+  --toggle-active-disabled-bg-color: var(--green-70);
+  --toggle-success-active-disabled-bg-color: var(--green-70);
+}
+
+.highlight-label:focus-within .luma-input-label {
+  color: var(--input-focus-border-color);
+}
+
+.highlight-label.error .luma-input-label {
+  color: var(--error-color);
+}
+
+.luma-input {
+  transition: var(--transition);
+  color: var(--input-color);
+  line-height: var(--input-line-height);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--input-border-color);
+  background-color: var(--input-bg-color);
+  height: var(--input-height);
+  padding: var(--input-padding);
+  font-size: var(--input-font-size);
+  width: 100%;
+
+  // Fixes mobile Safari shadow
+  background-image: -webkit-gradient(
+    linear,
+    0% 0%,
+    0% 100%,
+    from(hsla(0, 0%, 100%, 0)),
+    to(hsla(0, 0%, 100%, 0))
+  );
+  background-image: -webkit-linear-gradient(
+    hsla(0, 0%, 100%, 0),
+    hsla(0, 0%, 100%, 0)
+  );
+
+  &:not(:disabled):hover {
+    border-color: var(--input-hover-border-color);
+    background-color: var(--input-hover-bg-color);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:focus,
+  &:focus:hover {
+    background-color: var(--input-focus-bg-color);
+    border-color: var(--input-focus-border-color);
+    outline: 0;
+  }
+
+  &::placeholder {
+    color: var(--placeholder-color);
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    color: var(--placeholder-color);
+  }
+
+  &::-ms-input-placeholder {
+    color: var(--placeholder-color);
+  }
+
+  &:-moz-focusring {
+    text-shadow: none;
+  }
+}
+
+.luma-input-wrapper {
+  .inner-wrapper {
+    // So that baseline is the input, not the label.
+    // This allows us to align a button on the right.
+    display: inline-block;
+    width: 100%;
+  }
+
+  &:focus-within {
+    .luma-input-label {
+      color: var(--input-focus-border-color);
+    }
+
+    &:not(.error) .helper-text {
+      color: var(--input-focus-border-color);
+      border-color: var(--input-focus-border-color);
+    }
+  }
+
+  .helper-text {
+    transition: var(--transition);
+    font-size: var(--input-label-font-size);
+  }
+
+  &.error {
+    .luma-input-label,
+    .helper-text {
+      color: var(--error-color);
+      border-color: var(--error-color);
+    }
+
+    .luma-input,
+    .luma-input:hover,
+    .luma-input:focus,
+    .luma-input:focus:hover {
+      border-color: var(--error-color);
+    }
+  }
+
+  .helper-text {
+    color: var(--tertiary-color);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  &:focus-within,
+  &.error {
+    .helper-text.show {
+      padding-top: 0.25rem;
+      max-height: 50px;
+      opacity: 1;
+    }
+  }
+}

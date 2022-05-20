@@ -30,8 +30,8 @@ jobs:
       - name: Build
         run: anchor build
       - name: Lint
-        run: pnpm run lint
+        run: pnpm --filter program-tests run lint
       - name: Typescript Compile (tsc)
-        run: pnpm run tsc
+        run: pnpm --filter program-tests run tsc
       - name: Run tests
         run: anchor test

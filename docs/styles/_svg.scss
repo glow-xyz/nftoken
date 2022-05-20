@@ -1,0 +1,7 @@
+.svg-sm {
+  &svg,
+  svg {
+    width: var(--small-font-size);
+    height: var(--small-font-size);
+  }
+}

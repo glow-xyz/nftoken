@@ -1,0 +1,145 @@
+// ALL our styles, except for variables, MUST be below bootstrap.
+@import "variables";
+
+@import "color";
+@import "brand_color";
+
+@import "base";
+@import "utils";
+@import "layout";
+@import "typography";
+@import "svg";
+
+@import "animation";
+@import "button";
+@import "controls";
+@import "overlay";
+@import "nav";
+@import "nprogress";
+@import "shadow";
+@import "shimmer";
+@import "editor";
+@import "table";
+@import "responsive";
+
+@import "input_button";
+@import "text";
+@import "react_select";
+
+@import "lux_button";
+
+@import "gif_recording";
+
+@import "section";
+
+@import "lux_button_switcher";
+@import "lux_checkbox";
+@import "lux_input_label";
+@import "lux_input_wrapper";
+@import "lux_input";
+@import "lux_spinner";
+@import "lux_textarea";
+@import "lux_toggle";
+@import "lux_empty_state";
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  color: var(--primary-color);
+  background-color: var(--primary-bg-color);
+  font-family: -apple-system, BlinkMacSystemFont, Inter, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+
+  &.scroll-locked {
+    overflow: hidden;
+  }
+}
+
+pre {
+  color: var(--primary-color);
+}
+
+.wide-page-wrapper,
+.wide-page-wrapper + .global-footer {
+  --max-width: 1000px;
+}
+
+a,
+.btn,
+.animated,
+.collapsing {
+  transition: var(--transition);
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+h4 {
+  font-weight: var(--bold-font-weight);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.shadowed-card {
+  background-color: var(--primary-bg-color);
+  box-shadow: var(--shadow-xs);
+  border-radius: var(--border-radius);
+}
+
+textarea {
+  resize: none;
+}
+
+.input-group-text {
+  color: var(--tertiary-color);
+  background-color: var(--input-group-bg-color);
+  border-color: var(--input-border-color);
+  box-shadow: var(--input-box-shadow);
+  border-radius: var(--border-radius);
+}
+
+.blue-dashes-left {
+  border-left: 2px dashed var(--divider-color);
+  padding-left: 1.5rem;
+  margin-left: 0.55rem;
+}
+
+.collapse:not(.show) {
+  display: none !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.noselect {
+  user-select: none;
+}
+
+.rounded-border {
+  border-radius: var(--border-radius);
+  border: 1px solid var(--divider-color);
+  overflow: hidden;
+}
+
+svg.walletconnect-qrcode__image {
+  width: inherit;
+  height: inherit;
+}

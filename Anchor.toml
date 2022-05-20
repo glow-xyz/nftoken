@@ -6,4 +6,4 @@ wallet = "~/.config/solana/id.json"
 nftoken = "nf4i4ZyQcYa3KbRnQDzBAncVpLJtS99aMEbjU2PwyKs"
 
 [scripts]
-test = "yarn jest"
+test = "pnpm --filter program-tests exec jest"

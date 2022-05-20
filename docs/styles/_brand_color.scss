@@ -1,0 +1,62 @@
+body,
+body.force-light,
+body.dark.force-light {
+  --discord-fg-color: #5865f2;
+  --discord-bg-color: #5865f2;
+  --discord-active-fg-color: #2738f3;
+  --discord-active-bg-color: #2738f3;
+  --discord-contrast-color: white;
+
+  --ethereum-fg-color: #954fff;
+  --ethereum-bg-color: #954fff;
+  --ethereum-active-fg-color: #6600ff;
+  --ethereum-active-bg-color: #6600ff;
+  --ethereum-contrast-color: white;
+
+  --google-fg-color: #4285f4;
+  --google-bg-color: #4285f4;
+  --google-active-fg-color: #0d6aff;
+  --google-active-bg-color: #0d6aff;
+  --google-contrast-color: white;
+
+  --slack-fg-color: #7a2d83;
+  --slack-bg-color: #7a2d83;
+  --slack-active-fg-color: #650070;
+  --slack-active-bg-color: #650070;
+  --slack-contrast-color: white;
+
+  --twitter-fg-color: #1da1f2;
+  --twitter-bg-color: #1da1f2;
+  --twitter-active-fg-color: #0088dd;
+  --twitter-active-bg-color: #0088dd;
+  --twitter-contrast-color: white;
+
+  --youtube-fg-color: #ff0000;
+  --youtube-bg-color: #ff0000;
+  --youtube-active-fg-color: #be0000;
+  --youtube-active-bg-color: #be0000;
+  --youtube-contrast-color: white;
+
+  --zoom-fg-color: #2d8cff;
+  --zoom-bg-color: #2d8cff;
+  --zoom-active-fg-color: #006cf0;
+  --zoom-active-bg-color: #006cf0;
+  --zoom-contrast-color: white;
+}
+
+body.dark {
+  --discord-fg-color: #7883fd;
+  --discord-active-fg-color: #98a0ff;
+  --ethereum-fg-color: #a66bff;
+  --ethereum-active-fg-color: #b583ff;
+  --google-fg-color: #6ca4ff;
+  --google-active-fg-color: rgb(169, 201, 255);
+  --slack-fg-color: #be55ca;
+  --slack-active-fg-color: #f281ff;
+  --twitter-fg-color: #1da1f2;
+  --twitter-active-fg-color: #4ebbff;
+  --youtube-fg-color: #ff3a3a;
+  --youtube-active-fg-color: #ff6666;
+  --zoom-fg-color: #4d9dff;
+  --zoom-active-fg-color: #6aadff;
+}

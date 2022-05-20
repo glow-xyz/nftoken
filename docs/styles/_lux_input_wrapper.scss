@@ -1,0 +1,150 @@
+.luma-input-wrapper {
+  .accessory-text {
+    line-height: var(--input-line-height);
+    color: var(--secondary-color);
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--border-radius);
+  }
+
+  &.accessory-left {
+    .accessory-text {
+      border-right: 0;
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+
+    .luma-input {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+  }
+
+  &.accessory-right {
+    .accessory-text {
+      border-left: 0;
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+
+    .luma-input {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+  }
+
+  &.solid {
+    .luma-input {
+      background-color: var(--solid-input-bg-color);
+      border-color: var(--solid-input-bg-color);
+    }
+
+    .accessory-text {
+      border-color: var(--solid-input-bg-color);
+      background-color: var(--primary-bg-color);
+    }
+  }
+
+  &.two-columns {
+    display: flex;
+    align-items: stretch;
+
+    .inner-wrapper {
+      width: 50%;
+      max-width: 320px;
+      flex-shrink: 0;
+    }
+
+    .helper-text {
+      margin-left: 2rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--tertiary-color);
+      padding-top: 0 !important;
+      max-height: 100% !important;
+      display: flex;
+      align-items: center;
+    }
+
+    @media (max-width: 650px) {
+      display: block;
+
+      .inner-wrapper {
+        width: 100%;
+      }
+
+      .helper-text {
+        margin-left: 0;
+        padding-left: 0;
+        display: block;
+        border-left: 0;
+        padding-top: 0 !important;
+        max-height: 0 !important;
+        max-width: 320px;
+      }
+
+      &:focus-within,
+      &.error {
+        .helper-text.show {
+          padding-top: 0.25rem !important;
+          max-height: 50px !important;
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  textarea.luma-input {
+    // This ensures that the input sizing is correct.
+    // If you need to put a button next to the textarea together with the
+    // label, use flex-end instead of flex-baseline. This will ensure that
+    // the button is bottom-aligned.
+    // Baseline alignment is unfortunately not supported for textarea
+    // since I can't get it to work in Chrome.
+    vertical-align: top;
+    line-height: var(--input-textarea-line-height);
+  }
+
+  &.medium {
+    .luma-input,
+    .accessory-text {
+      font-size: var(--input-font-size);
+      height: var(--input-height);
+      padding: var(--input-padding);
+    }
+
+    textarea.luma-input {
+      padding: var(--input-textarea-padding);
+    }
+
+    &.round {
+      .luma-input,
+      .accessory-text {
+        border-radius: calc(var(--input-height) / 2);
+      }
+    }
+  }
+
+  &.large {
+    .helper-text {
+      font-size: var(--large-input-label-font-size);
+    }
+
+    .luma-input,
+    .accessory-text {
+      font-size: var(--large-input-font-size);
+      height: var(--large-input-height);
+      padding: var(--large-input-padding);
+    }
+
+    textarea.luma-input {
+      padding: var(--large-input-textarea-padding);
+    }
+
+    &.round {
+      .luma-input,
+      .accessory-text {
+        border-radius: calc(var(--large-input-height) / 2);
+      }
+    }
+  }
+}

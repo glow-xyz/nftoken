@@ -7,10 +7,9 @@ module.exports = {
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
-  testMatch: ["**/tests/*.test.(ts|tsx)"],
+  testMatch: ["**/*.test.(ts|tsx)"],
   testPathIgnorePatterns: ["./node_modules/"],
-  collectCoverage: true,
-  coverageReporters: ["json", "html"],
+  collectCoverage: false,
   globals: {
     "ts-jest": {
       // This helps the tests run faster

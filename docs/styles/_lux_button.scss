@@ -1,0 +1,569 @@
+.luma-button {
+  font-weight: var(--medium-font-weight);
+  border-radius: var(--border-radius);
+  position: relative;
+  white-space: nowrap;
+  justify-content: center;
+  outline-offset: 0.125rem;
+  outline: transparent solid 2px;
+
+  --padding: var(--input-padding);
+  --size: var(--input-font-size);
+  --gap: var(--input-element-gap);
+  --height: var(--input-height);
+
+  &.round {
+    border-radius: calc(var(--input-height) / 2);
+  }
+
+  &.icon-only {
+    --padding: var(--button-icon-only-padding);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &.small {
+    --padding: var(--small-input-padding);
+    --size: var(--small-input-font-size);
+    --gap: var(--small-input-element-gap);
+    --height: var(--small-input-height);
+
+    &.round {
+      border-radius: calc(var(--small-input-height) / 2);
+    }
+
+    &.icon-only {
+      --padding: var(--small-button-icon-only-padding);
+    }
+  }
+
+  &.large {
+    --padding: var(--large-input-padding);
+    --size: var(--large-input-font-size);
+    --gap: var(--large-input-element-gap);
+    --height: var(--large-input-height);
+
+    &.round {
+      border-radius: calc(var(--large-input-height) / 2);
+    }
+
+    &.icon-only {
+      --padding: var(--large-button-icon-only-padding);
+    }
+  }
+
+  font-size: var(--size);
+  padding: var(--padding);
+  height: var(--height);
+  width: fit-content;
+
+  // Needed because luma-button's default is fit-content.
+  &.full-width {
+    width: 100%;
+  }
+
+  svg {
+    width: var(--size);
+    height: var(--size);
+    flex-shrink: 0;
+
+    &:not(.spinner) {
+      stroke-width: 2.5;
+    }
+  }
+
+  .label {
+    line-height: 1;
+  }
+
+  &.no-icon {
+    &.loading {
+      .label {
+        opacity: 0;
+      }
+
+      svg {
+        position: absolute;
+        left: calc(50% - calc(0.5 * var(--size)));
+      }
+    }
+  }
+
+  &.icon-left {
+    svg {
+      margin-right: var(--gap);
+    }
+  }
+
+  &.icon-right {
+    svg {
+      margin-left: var(--gap);
+    }
+  }
+
+  &.link {
+    padding: 0;
+    height: auto;
+    border: none;
+    outline-offset: 0.375rem;
+
+    svg {
+      width: calc(var(--size) / 1.1);
+      height: calc(var(--size) / 1.1);
+    }
+  }
+
+  &.naked {
+    border: none;
+  }
+
+  &:focus-visible {
+    &.primary {
+      outline: var(--primary-button-bg-color) solid 2px;
+    }
+
+    &.secondary {
+      outline: var(--secondary-button-bg-color) solid 2px;
+    }
+
+    &.brand {
+      outline: var(--brand-button-bg-color) solid 2px;
+    }
+
+    &.success {
+      outline: var(--success-button-bg-color) solid 2px;
+    }
+
+    &.error {
+      outline: var(--error-button-bg-color) solid 2px;
+    }
+
+    &.light {
+      outline: var(--secondary-button-bg-color) solid 2px;
+    }
+
+    &.discord {
+      outline: var(--discord-fg-color) solid 2px;
+    }
+
+    &.ethereum {
+      outline: var(--ethereum-fg-color) solid 2px;
+    }
+
+    &.google {
+      outline: var(--google-fg-color) solid 2px;
+    }
+
+    &.slack {
+      outline: var(--slack-fg-color) solid 2px;
+    }
+
+    &.twitter {
+      outline: var(--twitter-fg-color) solid 2px;
+    }
+
+    &.youtube {
+      outline: var(--youtube-fg-color) solid 2px;
+    }
+
+    &.zoom {
+      outline: var(--zoom-fg-color) solid 2px;
+    }
+  }
+
+  &.outline {
+    background-color: transparent;
+
+    &.primary {
+      color: var(--primary-button-bg-color);
+    }
+
+    &.secondary {
+      color: var(--secondary-button-bg-color);
+    }
+
+    &.brand {
+      color: var(--brand-button-bg-color);
+    }
+
+    &.success {
+      color: var(--success-button-bg-color);
+    }
+
+    &.error {
+      color: var(--error-button-bg-color);
+    }
+
+    &.light {
+      color: var(--light-button-color);
+      border-color: var(--light-outline-button-border-color);
+    }
+
+    &.discord {
+      color: var(--discord-fg-color);
+    }
+
+    &.ethereum {
+      color: var(--ethereum-fg-color);
+    }
+
+    &.google {
+      color: var(--google-fg-color);
+    }
+
+    &.slack {
+      color: var(--slack-fg-color);
+    }
+
+    &.twitter {
+      color: var(--twitter-fg-color);
+    }
+
+    &.youtube {
+      color: var(--youtube-fg-color);
+    }
+
+    &.zoom {
+      color: var(--zoom-fg-color);
+    }
+  }
+
+  &.link,
+  &.naked {
+    background-color: transparent;
+
+    &.primary {
+      color: var(--primary-button-link-color);
+    }
+
+    &.secondary {
+      color: var(--secondary-button-link-color);
+    }
+
+    &.brand {
+      color: var(--brand-button-link-color);
+    }
+
+    &.success {
+      color: var(--success-button-link-color);
+    }
+
+    &.error {
+      color: var(--error-button-link-color);
+    }
+
+    &.light {
+      color: var(--light-button-color);
+    }
+
+    &.discord {
+      color: var(--discord-fg-color);
+    }
+
+    &.ethereum {
+      color: var(--ethereum-fg-color);
+    }
+
+    &.google {
+      color: var(--google-fg-color);
+    }
+
+    &.slack {
+      color: var(--slack-fg-color);
+    }
+
+    &.twitter {
+      color: var(--twitter-fg-color);
+    }
+
+    &.youtube {
+      color: var(--youtube-fg-color);
+    }
+
+    &.zoom {
+      color: var(--zoom-fg-color);
+    }
+  }
+
+  &.solid,
+  &.outline {
+    border: 1px solid;
+  }
+
+  &.primary {
+    border-color: var(--primary-button-bg-color);
+
+    &.solid {
+      color: var(--primary-button-color);
+      background-color: var(--primary-button-bg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--primary-button-color);
+      background-color: var(--primary-button-hover-bg-color);
+      border-color: var(--primary-button-hover-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--primary-button-hover-link-color);
+    }
+  }
+
+  &.secondary {
+    border-color: var(--secondary-button-bg-color);
+
+    &.solid {
+      color: var(--secondary-button-color);
+      background-color: var(--secondary-button-bg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--secondary-button-color);
+      background-color: var(--secondary-button-hover-bg-color);
+      border-color: var(--secondary-button-hover-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--secondary-button-hover-link-color);
+    }
+  }
+
+  &.brand {
+    border-color: var(--brand-button-bg-color);
+
+    &.solid {
+      color: var(--brand-button-color);
+      background-color: var(--brand-button-bg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--brand-button-color);
+      background-color: var(--brand-button-hover-bg-color);
+      border-color: var(--brand-button-hover-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--brand-button-hover-link-color);
+    }
+  }
+
+  &.success {
+    border-color: var(--success-button-bg-color);
+
+    &.solid {
+      color: var(--success-button-color);
+      background-color: var(--success-button-bg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--success-button-color);
+      background-color: var(--success-button-hover-bg-color);
+      border-color: var(--success-button-hover-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--success-button-hover-link-color);
+    }
+  }
+
+  &.error {
+    border-color: var(--error-button-bg-color);
+
+    &.solid {
+      color: var(--error-button-color);
+      background-color: var(--error-button-bg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--error-button-color);
+      background-color: var(--error-button-hover-bg-color);
+      border-color: var(--error-button-hover-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--error-button-hover-link-color);
+    }
+  }
+
+  &.light {
+    border-color: transparent;
+
+    &.solid {
+      color: var(--light-button-color);
+      background-color: var(--light-button-bg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--light-button-hover-color);
+      background-color: var(--light-button-hover-bg-color);
+      border-color: var(--light-button-hover-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--light-button-hover-bg-color);
+    }
+  }
+
+  &.discord {
+    border-color: var(--discord-bg-color);
+
+    &.solid {
+      color: var(--discord-contrast-color);
+      background-color: var(--discord-bg-color);
+    }
+
+    &.outline {
+      border-color: var(--discord-fg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--discord-contrast-color);
+      background-color: var(--discord-active-bg-color);
+      border-color: var(--discord-active-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--discord-active-fg-color);
+    }
+  }
+
+  &.ethereum {
+    border-color: var(--ethereum-bg-color);
+
+    &.solid {
+      color: var(--ethereum-contrast-color);
+      background-color: var(--ethereum-bg-color);
+    }
+
+    &.outline {
+      border-color: var(--ethereum-fg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--ethereum-contrast-color);
+      background-color: var(--ethereum-active-bg-color);
+      border-color: var(--ethereum-active-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--ethereum-active-fg-color);
+    }
+  }
+
+  &.google {
+    border-color: var(--google-bg-color);
+
+    &.solid {
+      color: var(--google-contrast-color);
+      background-color: var(--google-bg-color);
+    }
+
+    &.outline {
+      border-color: var(--google-fg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--google-contrast-color);
+      background-color: var(--google-active-bg-color);
+      border-color: var(--google-active-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--google-active-fg-color);
+    }
+  }
+
+  &.slack {
+    border-color: var(--slack-bg-color);
+
+    &.solid {
+      color: var(--slack-contrast-color);
+      background-color: var(--slack-bg-color);
+    }
+
+    &.outline {
+      border-color: var(--slack-fg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--slack-contrast-color);
+      background-color: var(--slack-active-bg-color);
+      border-color: var(--slack-active-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--slack-active-fg-color);
+    }
+  }
+
+  &.twitter {
+    border-color: var(--twitter-bg-color);
+
+    &.solid {
+      color: var(--twitter-contrast-color);
+      background-color: var(--twitter-bg-color);
+    }
+
+    &.outline {
+      border-color: var(--twitter-fg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--twitter-contrast-color);
+      background-color: var(--twitter-active-bg-color);
+      border-color: var(--twitter-active-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--twitter-active-fg-color);
+    }
+  }
+
+  &.youtube {
+    border-color: var(--youtube-bg-color);
+
+    &.solid {
+      color: var(--youtube-contrast-color);
+      background-color: var(--youtube-bg-color);
+    }
+
+    &.outline {
+      border-color: var(--youtube-fg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--youtube-contrast-color);
+      background-color: var(--youtube-active-bg-color);
+      border-color: var(--youtube-active-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--youtube-active-fg-color);
+    }
+  }
+
+  &.zoom {
+    border-color: var(--zoom-bg-color);
+
+    &.solid {
+      color: var(--zoom-contrast-color);
+      background-color: var(--zoom-bg-color);
+    }
+
+    &.outline {
+      border-color: var(--zoom-fg-color);
+    }
+
+    &:not(.link):not(:disabled):hover {
+      color: var(--zoom-contrast-color);
+      background-color: var(--zoom-active-bg-color);
+      border-color: var(--zoom-active-bg-color);
+    }
+
+    &.link:not(:disabled):hover {
+      color: var(--zoom-active-fg-color);
+    }
+  }
+}

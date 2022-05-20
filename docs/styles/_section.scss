@@ -1,0 +1,50 @@
+.section-title-wrapper {
+  .section-title-row {
+    margin-bottom: 1.25rem;
+  }
+
+  h2 {
+    font-size: var(--section-title-font-size);
+    font-weight: var(--bold-font-weight);
+    color: var(--primary-color);
+    margin-bottom: 0;
+  }
+
+  .right-element {
+    margin: -0.25rem 0;
+  }
+
+  .section-subtitle {
+    margin-top: -0.75rem;
+    margin-bottom: 1.25rem;
+    color: var(--secondary-color);
+    font-size: var(--section-subtitle-font-size);
+    position: relative;
+
+    &.indicator {
+      padding-left: 20px;
+
+      &:before {
+        position: absolute;
+        content: "";
+        width: 10px;
+        height: 10px;
+        left: 0;
+        top: 0.4375rem;
+        border-radius: 100%;
+      }
+
+      &.indicator-error:before {
+        background-color: var(--error-color);
+      }
+
+      &.indicator-success:before {
+        background-color: var(--success-color);
+      }
+
+      &.indicator-warning:before {
+        background-color: var(--warning-color);
+      }
+    }
+  }
+}
