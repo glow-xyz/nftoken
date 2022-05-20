@@ -33,7 +33,7 @@ describe("mintlist_mint_nft", () => {
     const mintInfos = [createMintInfoArg(0)];
 
     await program.methods
-      .mintlistAddMintInfos(mintInfos)
+      .mintlistAddMintInfos({ currentNftCount: 0, mintInfos })
       .accounts({
         mintlist: mintlistAddress,
         creator: provider.wallet.publicKey,

@@ -191,7 +191,7 @@ export async function createMintlistWithInfos({
   const { wallet } = anchor.AnchorProvider.local();
 
   await program.methods
-    .mintlistAddMintInfos(mintInfos)
+    .mintlistAddMintInfos({ currentNftCount: 0, mintInfos })
     .accounts({
       mintlist: mintlistAddress,
       creator: wallet.publicKey,
