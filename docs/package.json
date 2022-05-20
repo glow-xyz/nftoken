@@ -5,6 +5,7 @@
     "build": "next build",
     "start": "next start"
   },
+  "type": "module",
   "dependencies": {
     "@markdoc/markdoc": "0.1.2",
     "@markdoc/next.js": "0.1.4-1",
