@@ -6,6 +6,8 @@ edition = "2021"
 authors = ["Victor pontis <victor@glow.app"]
 license = "MIT"
 repository = "https://github.com/glow-xyz/nftoken"
+readme = "../../README.md"
+
 
 [lib]
 crate-type = ["cdylib", "lib"]
