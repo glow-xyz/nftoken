@@ -1,0 +1,18 @@
+// This adds rules that simplify the page to make it easier to record high quality GIFs
+// GIFs notably don't do well when there are many colors on the page, so shadows
+// and hover effects look really bad in small GIFs
+
+body.record-gif {
+  --light-shadow-xs: none;
+  --light-shadow-sm: none;
+  --light-shadow: none;
+  --light-shadow-lg: none;
+  --light-shadow-xl: none;
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+
+  --modal-border: 2px solid var(--divider-color);
+}

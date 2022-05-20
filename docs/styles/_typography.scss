@@ -1,0 +1,182 @@
+body {
+  --font: -apple-system, BlinkMacSystemFont, Inter, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  --mono-font: "SF Mono", menlo, monaco, consolas, "Courier New", Courier,
+    monospace;
+
+  --light-font-weight: 300;
+  --regular-font-weight: 400;
+  --medium-font-weight: 500;
+  --bold-font-weight: 700;
+  --black-font-weight: 800;
+
+  --huge-font-size: 1.5rem;
+  --larger-font-size: 1.25rem;
+  --large-font-size: 1.125rem;
+  --regular-font-size: 1rem;
+  --small-font-size: 0.875rem;
+  --tiny-font-size: 0.8125rem;
+  --micro-font-size: 0.75rem;
+  --pico-font-size: 0.5rem;
+
+  --section-title-font-size: var(--larger-font-size);
+  --section-subtitle-font-size: var(--regular-font-size);
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.text-tertiary {
+  color: var(--tertiary-color);
+}
+
+.text-quaternary {
+  color: var(--quaternary-color);
+}
+
+.text-success {
+  color: var(--success-color);
+}
+
+.text-error {
+  color: var(--error-color);
+}
+
+.text-warning {
+  color: var(--warning-color);
+}
+
+.text-xl {
+  font-size: var(--larger-font-size);
+}
+
+.text-lg {
+  font-size: var(--large-font-size);
+}
+
+.text-sm {
+  font-size: var(--small-font-size);
+}
+
+.text-xs {
+  font-size: var(--tiny-font-size);
+}
+
+.text-xxs {
+  font-size: var(--micro-font-size);
+}
+
+.b {
+  font-weight: var(--bold-font-weight);
+}
+
+.text-ellipses {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.break-words {
+  overflow-wrap: break-word;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.pre-line {
+  white-space: pre-line;
+}
+
+.whitespace-pre {
+  white-space: pre;
+}
+
+.font-weight-regular {
+  font-weight: var(--regular-font-weight);
+}
+
+.font-weight-medium {
+  font-weight: var(--medium-font-weight);
+}
+
+.font-weight-bold {
+  font-weight: var(--bold-font-weight);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// Uses the same font but gives you monospace numbers
+.mono-number {
+  font-variant-numeric: tabular-nums;
+}
+
+// Useful for text that could be transcribed character by character, but does not require monospacing, for example
+// coupons. This adds markers like a line through a 0 and the curly part of an "l".
+.high-legibility {
+  font-feature-settings: "ss06" on;
+}
+
+.text-datetime {
+  font-feature-settings: "ss01" on, "ss02" on;
+}
+
+.text-cranberry {
+  color: var(--cranberry);
+}
+.text-white {
+  color: var(--white);
+}
+.text-gray {
+  color: var(--gray);
+}
+.text-barney {
+  color: var(--barney);
+}
+.text-red {
+  color: var(--red);
+}
+.text-green {
+  color: var(--green);
+}
+.text-blue {
+  color: var(--blue);
+}
+.text-purple {
+  color: var(--purple);
+}
+.text-yellow {
+  color: var(--yellow);
+}
+.text-orange {
+  color: var(--orange);
+}
+
+.lux-line-clamp {
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  text-overflow: ellipsis;
+}

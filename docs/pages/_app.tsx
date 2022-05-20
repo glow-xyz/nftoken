@@ -1,7 +1,15 @@
-import type { AppProps } from 'next/app'
+import type { AppProps } from "next/app";
 
-import '../public/globals.css'
+import "../public/globals.css";
+import "../styles/app.scss"
+import { TopNav } from "../components/shell/TopNav";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <TopNav />
+
+      <Component {...pageProps} />
+    </>
+  );
 }

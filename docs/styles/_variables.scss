@@ -1,0 +1,41 @@
+$adaptive-white: white;
+$adaptive-white2: #f6f9fc;
+$adaptive-white4: #e3e9f0;
+
+$background-color: $adaptive-white2;
+$disabled-background-color: $adaptive-white4;
+
+$colors: (
+  "adaptive-white": $adaptive-white,
+  "adaptive-white2": $adaptive-white2,
+  "adaptive-white4": $adaptive-white4,
+  "background-color": $background-color,
+  "disabled-background-color": $disabled-background-color,
+);
+
+body {
+  --max-width: 820px;
+  --horizontal-padding: 1rem;
+
+  --small-border-radius: 0.25rem;
+  --border-radius: 0.5rem;
+  --modal-border-radius: 1rem;
+
+  --ig-gradient: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  --tiktok-gradient: linear-gradient(45deg, #68c9d0 0%, #ef1c51 100%);
+  --facebook-brand-color: #1877f2;
+  --whatsapp-brand-color: #25d366;
+  --twitter-brand-color: #1d9bf0;
+  --linkedin-brand-color: #2867b2;
+  --messenger-brand-color: #593fff;
+  --gmail-brand-color: #ea4335;
+  --messages-brand-color: #65c466;
+  --discord-brand-color: #5865f2;
+}

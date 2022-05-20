@@ -1,0 +1,21 @@
+body {
+  --nav-bg-color: var(--secondary-bg-color);
+  --nav-bg-color-transparent: var(--secondary-bg-color-transparent);
+  --nav-item-color: var(--primary-color);
+  --nav-item-hover-color: var(--primary-color);
+  --nav-item-hover-bg-color: var(--tertiary-bg-color);
+  &,
+  .theme-root {
+    --nav-item-selected-color: var(--brand-color);
+  }
+
+  --tab-item-color: var(--secondary-color);
+  --tab-item-hover-color: var(--primary-color);
+  &,
+  .theme-root {
+    --tab-item-selected-color: var(--brand-color);
+  }
+
+  --marketing-nav-link-color: var(--tertiary-color);
+  --marketing-nav-link-hover-color: var(--secondary-color);
+}

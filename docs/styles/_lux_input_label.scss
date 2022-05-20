@@ -1,0 +1,31 @@
+.luma-input-label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-weight: var(--medium-font-weight);
+  color: var(--secondary-color);
+  transition: var(--transition);
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--input-focus-border-color);
+    }
+  }
+
+  &.focused {
+    color: var(--input-focus-border-color);
+  }
+
+  &.no-margin {
+    margin-bottom: 0;
+  }
+
+  &.medium {
+    font-size: var(--input-label-font-size);
+  }
+
+  &.large {
+    font-size: var(--large-input-label-font-size);
+  }
+}

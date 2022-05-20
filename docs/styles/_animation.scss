@@ -1,0 +1,54 @@
+body {
+  --transition-duration: 0.3s;
+  --fast-transition-duration: 0.2s;
+  --slow-transition-duration: 0.6s;
+  --transition-fn: cubic-bezier(0.4, 0, 0.2, 1);
+  --bounce-transition-fn: cubic-bezier(0.54, 1.12, 0.38, 1.11);
+
+  --transition: all var(--transition-duration) var(--transition-fn);
+  --bounce-transition: all var(--transition-duration)
+    var(--bounce-transition-fn);
+  --fast-transition: all var(--fast-transition-duration) var(--transition-fn);
+  --slow-transition: all var(--slow-transition-duration) var(--transition-fn);
+
+  @keyframes shake {
+    0% {
+      transform: translate(1px, 1px);
+    }
+    10% {
+      transform: translate(-1px, -2px);
+    }
+    20% {
+      transform: translate(-3px, 0px);
+    }
+    30% {
+      transform: translate(3px, 2px);
+    }
+    40% {
+      transform: translate(1px, -1px);
+    }
+    50% {
+      transform: translate(-1px, 2px);
+    }
+    60% {
+      transform: translate(-3px, 1px);
+    }
+    70% {
+      transform: translate(3px, 1px);
+    }
+    80% {
+      transform: translate(-1px, -1px);
+    }
+    90% {
+      transform: translate(1px, 2px);
+    }
+    100% {
+      transform: translate(1px, -2px);
+    }
+  }
+
+  .shake {
+    animation: shake 0.2s;
+    animation-iteration-count: infinite;
+  }
+}

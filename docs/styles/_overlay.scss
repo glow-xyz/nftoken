@@ -1,0 +1,23 @@
+body {
+  --modal-header-footer-padding: 0.75rem 1.25rem;
+  --modal-vertical-padding: 1rem;
+  --modal-horizontal-padding: 1.25rem;
+  --modal-padding: var(--modal-vertical-padding) var(--modal-horizontal-padding);
+
+  --modal-header-bg-color: var(--elevated-secondary-bg-color);
+  --modal-bg-color: var(--elevated-primary-bg-color);
+  --modal-border: none;
+
+  --menu-bg-color: var(--elevated-primary-bg-color);
+  --menu-inverted-bg-color: var(--primary-color);
+  --menu-inverted-border-color: var(--primary-divider-color);
+  --menu-item-color: var(--primary-color);
+  --menu-item-hover-color: var(--primary-color);
+  --menu-item-hover-bg-color: var(--hover-bg-color);
+  --menu-item-icon-color: var(--tertiary-color);
+  --menu-item-icon-hover-color: var(--tertiary-color);
+  --menu-search-bg-color: var(--elevated-primary-bg-color);
+  --menu-search-divider-color: var(--divider-color);
+  --menu-no-result-color: var(--tertiary-color);
+  --menu-border-color: var(--divider-color);
+}

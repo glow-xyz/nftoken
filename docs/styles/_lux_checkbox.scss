@@ -1,0 +1,113 @@
+.lux-checkbox {
+  position: relative;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  clear: both;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  :global(label) {
+    margin-bottom: 0;
+  }
+
+  .text-label {
+    flex: 1 1;
+    cursor: pointer;
+    color: var(--secondary-color);
+    line-height: 1.5;
+  }
+
+  .checkbox-text {
+    margin-left: 0.125rem;
+  }
+
+  .checkbox-title {
+    font-weight: var(--bold-font-weight);
+    font-size: 1rem;
+    margin-bottom: 0.125rem;
+    margin-left: 0.5rem;
+  }
+
+  .checkbox-desc {
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+
+    @media (max-width: 450px) {
+      font-size: 0.8rem;
+    }
+  }
+
+  &:hover {
+    :global(.checkbox-icon .checkbox-display) {
+      border-color: var(--checkbox-hover-border-color);
+    }
+  }
+
+  .checkbox-icon {
+    display: block;
+    position: relative;
+    margin-right: 0.5rem;
+    font-size: 0.5rem;
+    line-height: 1.2rem;
+    height: 1.2rem;
+    width: 1.2rem;
+    clear: both;
+
+    .input {
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .input,
+    .checkbox-display {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+
+    .checkbox-display {
+      cursor: pointer;
+      transition: var(--fast-transition);
+      transition-property: border-color;
+      border-radius: 0.25rem;
+      background-color: var(--checkbox-bg-color);
+      border: 0.125rem solid var(--checkbox-border-color);
+      box-shadow: var(--checkbox-box-shadow);
+    }
+
+    .checkbox-display::after {
+      transition: var(--fast-transition);
+      position: absolute;
+      content: "";
+      left: 0.55rem;
+      top: 0.55rem;
+      height: 0;
+      width: 0;
+      border: solid var(--checkbox-check-color);
+      border-width: 0 0.125rem 0.125rem 0;
+      opacity: 0;
+    }
+
+    input:checked ~ .checkbox-display {
+      border: none;
+      background-color: var(--checkbox-checked-bg-color);
+    }
+
+    input:checked ~ .checkbox-display::after {
+      -webkit-transform: rotate(45deg) scale(1);
+      -ms-transform: rotate(45deg) scale(1);
+      transform: rotate(45deg) scale(1);
+      opacity: 1;
+      left: 0.3875rem;
+      top: 0.1875rem;
+      width: 0.45rem;
+      height: 0.65rem;
+      background-color: transparent;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+body,
+body.force-light,
+body.dark.force-light {
+  // Sometimes we need shadows that don't turn dark mode, e.g. when we are
+  // using shadows above some images or other things that don't change color.
+  --light-shadow-xs: 0 1px 4px rgba(0, 0, 0, 0.1);
+  --light-shadow-sm: 0 0.7px 2.7px rgba(0, 0, 0, 0.02),
+    0 1.7px 6.9px rgba(0, 0, 0, 0.03), 0 3.5px 14.2px rgba(0, 0, 0, 0.04),
+    0 7.3px 29.2px rgba(0, 0, 0, 0.05), 0 20px 80px rgba(0, 0, 0, 0.06);
+  --light-shadow: 0 1.6px 2.7px rgba(0, 0, 0, 0.02),
+    0 4.2px 6.9px rgba(0, 0, 0, 0.03), 0 8.5px 14.2px rgba(0, 0, 0, 0.04),
+    0 17.5px 29.2px rgba(0, 0, 0, 0.05), 0 48px 80px rgba(0, 0, 0, 0.06);
+  --light-shadow-lg: 0 3.3px 2.7px rgba(0, 0, 0, 0.03),
+    0 8.3px 6.9px rgba(0, 0, 0, 0.04), 0 17px 14.2px rgba(0, 0, 0, 0.05),
+    0 35px 29.2px rgba(0, 0, 0, 0.06), 0 96px 80px rgba(0, 0, 0, 0.07);
+  --light-shadow-xl: 0 4.5px 2.7px rgba(0, 0, 0, 0.04),
+    0 11.3px 6.9px rgba(0, 0, 0, 0.06), 0 23px 14.2px rgba(0, 0, 0, 0.08),
+    0 47.5px 29.2px rgba(0, 0, 0, 0.1), 0 130px 80px rgba(0, 0, 0, 0.14);
+
+  --shadow-xs: var(--light-shadow-xs);
+  --shadow-sm: var(--light-shadow-sm);
+  --shadow: var(--light-shadow);
+  --shadow-lg: var(--light-shadow-lg);
+  --shadow-xl: var(--light-shadow-xl);
+}
+
+body.dark {
+  --shadow-xs: 0 1px 4px rgba(0, 0, 0, 0.25);
+  --shadow-sm: 0 0.7px 2.7px rgba(0, 0, 0, 0.25),
+    0 1.7px 6.9px rgba(0, 0, 0, 0.3), 0 3.5px 14.2px rgba(0, 0, 0, 0.35),
+    0 7.3px 29.2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 1.6px 2.7px rgba(0, 0, 0, 0.25), 0 4.2px 6.9px rgba(0, 0, 0, 0.3),
+    0 8.5px 14.2px rgba(0, 0, 0, 0.35), 0 17.5px 29.2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 3.3px 2.7px rgba(0, 0, 0, 0.3),
+    0 8.3px 6.9px rgba(0, 0, 0, 0.35), 0 17px 14.2px rgba(0, 0, 0, 0.4),
+    0 35px 29.2px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 4.5px 2.7px rgba(0, 0, 0, 0.3),
+    0 11.3px 6.9px rgba(0, 0, 0, 0.35), 0 23px 14.2px rgba(0, 0, 0, 0.4),
+    0 47.5px 29.2px rgba(0, 0, 0, 0.45);
+}

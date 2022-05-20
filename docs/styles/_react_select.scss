@@ -1,0 +1,137 @@
+.react-select-container,
+.react-select__menu-portal {
+  .react-select__control {
+    transition: var(--transition);
+    border: 1px solid var(--input-border-color);
+    color: var(--primary-color);
+    background-color: var(--input-bg-color);
+    border-radius: var(--border-radius);
+
+    .react-select__value-container {
+      cursor: text;
+    }
+
+    .react-select__indicator-separator {
+      background-color: var(--input-border-color);
+    }
+
+    .react-select__input {
+      color: var(--primary-color) !important;
+    }
+
+    .react-select__indicator {
+      color: var(--input-border-color);
+    }
+
+    .react-select__single-value,
+    .react-select__multi-value__label {
+      color: var(--primary-color);
+    }
+
+    .react-select__multi-value {
+      background-color: var(--tagged-input-item-bg-color);
+    }
+
+    .react-select__placeholder {
+      color: var(--placeholder-color);
+    }
+
+    .react-select__clear-indicator,
+    .react-select__multi-value__remove {
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .react-select__multi-value__label {
+      padding: 0.25rem 0.5rem;
+    }
+
+    .react-select__multi-value__remove {
+      color: var(--secondary-color);
+
+      &:hover {
+        color: var(--error-color);
+      }
+    }
+
+    &:hover {
+      border-color: var(--input-hover-border-color);
+      box-shadow: var(--input-hover-box-shadow);
+
+      .react-select__indicator {
+        color: var(--input-hover-border-color);
+      }
+    }
+
+    .react-select__clear-indicator:hover {
+      color: var(--error-color);
+    }
+
+    &.react-select__control--is-focused,
+    &.react-select__control--is-focused:hover {
+      border-color: var(--input-focus-border-color);
+      box-shadow: var(--input-focus-box-shadow);
+    }
+  }
+
+  .react-select__menu {
+    // This needs to beat things like <CityInput /> which has an icon with z-index: 1
+    z-index: 2;
+    border: 1px solid var(--select-menu-border-color);
+    box-shadow: var(--shadow-sm);
+    background-color: var(--input-bg-color);
+    overflow: hidden;
+    border-radius: var(--border-radius);
+  }
+
+  .react-select__option {
+    font-size: 0.9rem;
+  }
+
+  .react-select__option--is-focused {
+    background-color: var(--select-menu-hover-color);
+  }
+
+  .react-select__option:active {
+    background-color: var(--select-menu-focus-color);
+  }
+
+  .react-select__option--is-selected,
+  .react-select__option--is-selected:active {
+    background-color: var(--select-menu-selected-color);
+  }
+}
+
+.react-select-container.rounded,
+.react-select__menu-portal.rounded {
+  .react-select__control,
+  .react-select__multi-value {
+    border-radius: 1000px;
+  }
+}
+
+.react-select--is-disabled {
+  .react-select__control {
+    background-color: var(--disabled-background-color);
+  }
+
+  .react-select__value-container .react-select__single-value {
+    color: var(--secondary-color);
+  }
+}
+
+.not-searchable {
+  .react-select-container
+    .react-select__control
+    .react-select__value-container {
+    cursor: pointer;
+  }
+}
+
+.dropdown-wrapper.invalid {
+  .react-select-container {
+    .react-select__control {
+      border-color: var(--error-color);
+    }
+  }
+}
