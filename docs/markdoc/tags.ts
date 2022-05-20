@@ -1,2 +1,9 @@
 /* Use this file to export your Markdoc tags */
-export default {}
+import { CreateNftSection } from "../components/CreateNftSection";
+
+export default {
+  ["create-nft-section"]: {
+    render: CreateNftSection,
+    attributes: {},
+  },
+};
