@@ -1,8 +1,11 @@
 [package]
 name = "nftoken"
 version = "0.1.0"
-description = "Created with Anchor"
-edition = "2018"
+description = "A new, simple NFT standard for Solana"
+edition = "2021"
+authors = ["Victor pontis <victor@glow.app"]
+license = "MIT"
+repository = "https://github.com/glow-xyz/nftoken"
 
 [lib]
 crate-type = ["cdylib", "lib"]

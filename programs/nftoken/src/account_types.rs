@@ -3,9 +3,12 @@ use anchor_lang::prelude::*;
 use anchor_lang::solana_program::clock::UnixTimestamp;
 use std::convert::TryFrom;
 
+/// The collection account stores the metadata for a collection of NFTs.
 #[account]
 pub struct CollectionAccount {
-    pub version: u8,              // 1
+    /// This versions the account so that we can store different data formats in the future.
+    /// The first version is 1.
+    pub version: u8, // 1
     pub creator: Pubkey,          // 32
     pub creator_can_update: bool, // 1
     pub metadata_url: [u8; 64],   // 1
