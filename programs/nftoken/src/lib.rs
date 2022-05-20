@@ -1,3 +1,20 @@
+use anchor_lang::prelude::*;
+
+use crate::account_types::*;
+use crate::ix_collection_create::*;
+use crate::ix_collection_transfer::*;
+use crate::ix_collection_update::*;
+use crate::ix_mintlist_add_mint_infos::*;
+use crate::ix_mintlist_create::*;
+use crate::ix_mintlist_mint_nft::*;
+use crate::ix_nft_create::*;
+use crate::ix_nft_set_collection::*;
+use crate::ix_nft_set_delegate::*;
+use crate::ix_nft_transfer::*;
+use crate::ix_nft_unset_collection::*;
+use crate::ix_nft_unset_delegate::*;
+use crate::ix_nft_update::*;
+
 pub mod account_types;
 pub mod constants;
 pub mod errors;
@@ -14,24 +31,6 @@ pub mod ix_nft_transfer;
 pub mod ix_nft_unset_collection;
 pub mod ix_nft_unset_delegate;
 pub mod ix_nft_update;
-
-use anchor_lang::prelude::*;
-
-use crate::ix_collection_create::*;
-use crate::ix_collection_transfer::*;
-use crate::ix_collection_update::*;
-use crate::ix_mintlist_add_mint_infos::*;
-use crate::ix_mintlist_create::*;
-use crate::ix_mintlist_mint_nft::*;
-use crate::ix_nft_create::*;
-use crate::ix_nft_set_collection::*;
-use crate::ix_nft_set_delegate::*;
-use crate::ix_nft_transfer::*;
-use crate::ix_nft_unset_collection::*;
-use crate::ix_nft_unset_delegate::*;
-use crate::ix_nft_update::*;
-
-use crate::account_types::*;
 
 declare_id!("nf4i4ZyQcYa3KbRnQDzBAncVpLJtS99aMEbjU2PwyKs");
 

@@ -4,7 +4,11 @@ import { Keypair, SystemProgram } from "@solana/web3.js";
 import _ from "lodash";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createMintInfoArg } from "./mintlist-add-mint-infos.test";
-import { createEmptyMintlist, createMintlistWithInfos, getMintlistData } from "./utils/mintlist";
+import {
+  createEmptyMintlist,
+  createMintlistWithInfos,
+  getMintlistData,
+} from "./utils/mintlist";
 
 describe("mintlist_mint_nft", () => {
   const provider = anchor.AnchorProvider.env();
@@ -105,23 +109,15 @@ describe("mintlist_mint_nft", () => {
           console.error(e.logs);
           throw e;
         });
-
-      console.log(
-        (await getMintlistData({ program, mintlistPubkey })).mintInfos
-      );
     }
 
     // TODO: how do we test if this is _random_
     //       test that the first 10 NFTs out of 10k are not the first 10 sequentially
     //       this has odds of 1/(10k^10) so it won't make tests flaky
-    const mintlistDataAfter = await getMintlistData({
+    await getMintlistData({
       program: program,
       mintlistPubkey: mintlistPubkey,
     });
-    console.log(
-      "After Random Mints",
-      JSON.stringify(mintlistDataAfter.mintInfos, null, 2)
-    );
 
     // TODO: expect that the right stuff has changed
   });
