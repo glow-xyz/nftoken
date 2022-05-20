@@ -9,8 +9,7 @@ module.exports = {
   },
   testMatch: ["**/*.test.(ts|tsx)"],
   testPathIgnorePatterns: ["./node_modules/"],
-  collectCoverage: true,
-  coverageReporters: ["json", "html"],
+  collectCoverage: false,
   globals: {
     "ts-jest": {
       // This helps the tests run faster
