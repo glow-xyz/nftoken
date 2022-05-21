@@ -1,5 +1,4 @@
 use crate::account_types::*;
-use crate::constants::*;
 use crate::errors::*;
 use anchor_lang::prelude::*;
 use std::convert::TryInto;
@@ -56,10 +55,10 @@ pub struct MintlistCreate<'info> {
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintlistCreateArgs {
     /// Information like name, avatar, etc of the mintlist is stored offchain.
-    pub metadata_url: [u8; 64],
+    pub metadata_url: [u8; 96],
 
     /// We create a new collection for every Mintlist.
-    pub collection_metadata_url: [u8; 64],
+    pub collection_metadata_url: [u8; 96],
 
     /// Timestamp when minting is allowed.
     pub go_live_date: i64,

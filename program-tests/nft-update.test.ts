@@ -15,7 +15,7 @@ describe("update NFT", () => {
   test("properly updates metadata", async () => {
     const { nft_pubkey } = await createNft({ program });
 
-    const metadataUrl = strToArr("new-meta", 64);
+    const metadataUrl = strToArr("new-meta", 96);
     const creatorCanUpdate = true;
 
     const signature = await program.methods
@@ -37,7 +37,7 @@ describe("update NFT", () => {
   test("doesn't allow update if !creator_can_update", async () => {
     const { nft_pubkey } = await createNft({ program });
 
-    const metadataUrl = strToArr("new-meta", 64);
+    const metadataUrl = strToArr("new-meta", 96);
     const creatorCanUpdate = false;
 
     const signature = await program.methods

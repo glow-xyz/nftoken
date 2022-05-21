@@ -55,8 +55,8 @@ export async function createEmptyMintlist({
       priceLamports,
       numNftsTotal,
       mintingOrder,
-      metadataUrl: strToArr("random-meta", 64),
-      collectionMetadataUrl: strToArr("coll-random-meta", 64),
+      metadataUrl: strToArr("random-meta", 96),
+      collectionMetadataUrl: strToArr("coll-random-meta", 96),
     })
     .accounts({
       collection: collectionKeypair.publicKey,
@@ -148,7 +148,7 @@ export function getMintlistAccountSize(numNftsTotal: number): number {
     8 +
     1 +
     32 +
-    64 +
+    96 +
     8 +
     4 +
     4 +

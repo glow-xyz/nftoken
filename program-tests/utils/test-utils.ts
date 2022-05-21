@@ -3,10 +3,6 @@ import { Buffer } from "buffer";
 
 export const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
 export type Base58 = string;
-export type Base64 = string;
-
-export const nullArray32 = nullArray(32);
-export const nullArray64 = nullArray(64);
 
 export function nullArray(length: number) {
   return Array.from({ length }, () => 0);

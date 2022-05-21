@@ -9,21 +9,32 @@ pub struct CollectionAccount {
     /// This versions the account so that we can store different data formats in the future.
     /// The first version is 1.
     pub version: u8, // 1
-    pub creator: Pubkey,          // 32
-    pub creator_can_update: bool, // 1
-    pub metadata_url: [u8; 64],   // 1
+    pub creator: Pubkey,          // 32 = 33
+    pub creator_can_update: bool, // 1 = 32
+    pub metadata_url: [u8; 96],   // 96 = 128
+                                  // Discriminator 8 = 136
 }
+
+pub const COLLECTION_ACCOUNT_SIZE: usize = 200;
 
 #[account]
 pub struct NftAccount {
     pub version: u8,              // 1
-    pub holder: Pubkey,           // 32
-    pub creator: Pubkey,          // 32
-    pub creator_can_update: bool, // 1
-    pub collection: Pubkey,       // 32
-    pub delegate: Pubkey,         // 32
-    pub metadata_url: [u8; 64],   // 64
+    pub holder: Pubkey,           // 32 = 33
+    pub creator: Pubkey,          // 32 = 65
+    pub creator_can_update: bool, // 1  = 66
+    pub collection: Pubkey,       // 32 = 98
+    /// If this is zero'd out (set to 11111...1111 in base58) then the NFT is not delegated.
+    pub delegate: Pubkey, // 32 = 130
+    pub metadata_url: [u8; 96],   // 96 = 226
+                                  // discriminator 8 = 234
+
+                                  // Possible things to add later:
+                                  // - transfer counter - u8
+                                  // - is frozen - u8 / bool
 }
+
+pub const NFT_ACCOUNT_SIZE: usize = 240;
 
 #[account]
 pub struct MintlistAccount {
@@ -48,7 +59,7 @@ pub struct MintlistAccount {
     pub collection: Pubkey,
 
     /// Metadata that stores name, avatar, etc of the mintlist
-    pub metadata_url: [u8; 64],
+    pub metadata_url: [u8; 96],
 
     /// Timestamp when the mintlist was created.
     pub created_at: i64,
@@ -121,7 +132,7 @@ impl MintlistAccount {
         // collection
         + 32
         // metadata_url
-        + 64
+        + 96
         // created_at
         + 8
         // num_mints
@@ -156,7 +167,7 @@ impl TryFrom<String> for MintingOrder {
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintInfo {
     pub minted: bool,           // 1
-    pub metadata_url: [u8; 64], // 64
+    pub metadata_url: [u8; 96], // 96
 }
 
 impl MintInfo {
@@ -164,7 +175,7 @@ impl MintInfo {
         // minted
         1
         // metadata_url
-        + 64
+        + 96
     }
 }
 
@@ -179,5 +190,5 @@ impl From<&MintInfoArg> for MintInfo {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct MintInfoArg {
-    pub metadata_url: [u8; 64],
+    pub metadata_url: [u8; 96],
 }

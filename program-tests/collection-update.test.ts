@@ -15,7 +15,7 @@ describe("update collection", () => {
   test("properly updates metadata", async () => {
     const { collection_pubkey } = await createCollection({ program });
 
-    const metadata_url = strToArr("new-meta", 64);
+    const metadata_url = strToArr("new-meta", 96);
     const creator_can_update = true;
 
     const signature = await program.methods
@@ -42,7 +42,7 @@ describe("update collection", () => {
   test("doesn't allow update if !creator_can_update", async () => {
     const { collection_pubkey } = await createCollection({ program });
 
-    const metadata_url = strToArr("new-meta", 64);
+    const metadata_url = strToArr("new-meta", 96);
     const creator_can_update = false;
 
     const signature = await program.methods

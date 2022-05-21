@@ -1,5 +1,4 @@
 use crate::account_types::*;
-use crate::constants::*;
 use crate::errors::*;
 use anchor_lang::prelude::*;
 
@@ -70,6 +69,6 @@ pub struct NftCreate<'info> {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct NftCreateArgs {
-    pub metadata_url: [u8; 64],
+    pub metadata_url: [u8; 96],
     pub collection_included: bool,
 }

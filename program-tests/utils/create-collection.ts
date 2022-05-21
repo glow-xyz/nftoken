@@ -23,7 +23,7 @@ export const createCollection = async ({
 }> => {
   const metadataUrl = strToArr(
     _metadata_url || generateAlphaNumericString(16),
-    64
+    96
   );
 
   const collection_keypair = Keypair.generate();
