@@ -7,7 +7,6 @@ use anchor_lang::solana_program::sysvar::{slot_hashes, SysvarId};
 use arrayref::array_ref;
 
 use crate::account_types::*;
-use crate::constants::*;
 use crate::errors::*;
 
 /// # Mint NFT

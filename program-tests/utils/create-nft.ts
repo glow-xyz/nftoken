@@ -24,7 +24,7 @@ export const createNft = async ({
 }> => {
   const metadata_url = strToArr(
     _metadata_url || generateAlphaNumericString(16),
-    64
+    96
   );
 
   const nftKeypair = Keypair.generate();

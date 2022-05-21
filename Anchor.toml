@@ -3,7 +3,7 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [programs.localnet]
-nftoken = "nf4i4ZyQcYa3KbRnQDzBAncVpLJtS99aMEbjU2PwyKs"
+nftoken = "nft54LYxr6noyvwaQKChAmRpnvn6yZGZkFDtajPz3u8"
 
 [scripts]
 test = "pnpm --filter program-tests exec jest"

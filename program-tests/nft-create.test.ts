@@ -38,7 +38,7 @@ describe("ix_nft_create", () => {
   test("mints an NFT into a collection", async () => {
     const { creator, collection_keypair } = await createCollection({ program });
 
-    const nft_metadata_url = strToArr("url2", 64);
+    const nft_metadata_url = strToArr("url2", 96);
 
     const nftKeypair = Keypair.generate();
 
