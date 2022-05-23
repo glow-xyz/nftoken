@@ -27,7 +27,8 @@ pub struct NftAccount {
     /// If this is zero'd out (set to 11111...1111 in base58) then the NFT is not delegated.
     pub delegate: Pubkey, // 32 = 130
     pub metadata_url: [u8; 96],   // 96 = 226
-                                  // discriminator 8 = 234
+    pub royalties_enabled: bool,  // 1 = 227
+                                  // discriminator 8 = 235
 
                                   // Possible things to add later:
                                   // - transfer counter - u8
@@ -35,6 +36,25 @@ pub struct NftAccount {
 }
 
 pub const NFT_ACCOUNT_SIZE: usize = 240;
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Copy)]
+pub struct NftSecondaryCreator {
+    pub version: u8,       // 1
+    pub address: Pubkey,   // 32 = 33
+    pub basis_points: u16, // 2 = 35
+    pub verified: bool,    // 1 = 36
+}
+
+#[account]
+pub struct NftCreatorsAccount {
+    pub version: u8,                        // 1
+    pub nft: Pubkey,                        // 8 = 9
+    pub royalty_basis_points: u16,          // 2 = 11
+    pub creators: Vec<NftSecondaryCreator>, // N * 36
+}
+
+pub const MAX_NUM_CREATORS: usize = 5;
+pub const NFT_CREATORS_ACCOUNT_SIZE: usize = 11 + 35 * MAX_NUM_CREATORS;
 
 #[account]
 pub struct MintlistAccount {
