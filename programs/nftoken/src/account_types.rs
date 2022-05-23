@@ -40,21 +40,27 @@ pub const NFT_ACCOUNT_SIZE: usize = 240;
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Copy)]
 pub struct NftSecondaryCreator {
     pub version: u8,       // 1
-    pub address: Pubkey,   // 32 = 33
-    pub basis_points: u16, // 2 = 35
-    pub verified: bool,    // 1 = 36
+    pub bump: u8,          // 1 = 2
+    pub address: Pubkey,   // 32 = 34
+    pub basis_points: u16, // 2 = 36
+    pub verified: bool,    // 1 = 37
 }
+
+const NFT_SECONDARY_CREATOR_SIZE: usize = 37;
 
 #[account]
 pub struct NftCreatorsAccount {
     pub version: u8,                        // 1
     pub nft: Pubkey,                        // 8 = 9
     pub royalty_basis_points: u16,          // 2 = 11
-    pub creators: Vec<NftSecondaryCreator>, // N * 36
+    pub creators: Vec<NftSecondaryCreator>, // N * 37
 }
 
 pub const MAX_NUM_CREATORS: usize = 5;
-pub const NFT_CREATORS_ACCOUNT_SIZE: usize = 11 + 35 * MAX_NUM_CREATORS;
+pub const NFT_CREATORS_ACCOUNT_SIZE: usize = 11 +
+    // Vector length
+    4 +
+    NFT_SECONDARY_CREATOR_SIZE * MAX_NUM_CREATORS;
 
 #[account]
 pub struct MintlistAccount {

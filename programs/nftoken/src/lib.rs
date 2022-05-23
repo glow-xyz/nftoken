@@ -67,6 +67,13 @@ pub mod nftoken {
         return nft_unset_collection_inner(ctx);
     }
 
+    pub fn nft_setup_creators(
+        ctx: Context<NftSetupCreators>,
+        args: NftSetupCreatorsArgs,
+    ) -> Result<()> {
+        return nft_setup_creators_inner(ctx, args);
+    }
+
     pub fn collection_create(
         ctx: Context<CollectionCreate>,
         args: CollectionCreateArgs,

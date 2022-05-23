@@ -30,8 +30,8 @@ pub fn nft_setup_creators_inner(
     }
 
     // Ensure that creator verification is correct
-    for creator in args.creators.clone().into_iter() {
-        let account: &AccountInfo = &ctx.remaining_accounts[0];
+    for (idx, creator) in args.creators.clone().into_iter().enumerate() {
+        let account: &AccountInfo = &ctx.remaining_accounts[idx];
 
         require!(account.key() == creator.address, NftokenError::Unauthorized);
         if creator.verified {
@@ -63,13 +63,14 @@ pub fn nft_setup_creators_inner(
 #[derive(Accounts)]
 #[instruction(args: NftSetupCreatorsArgs)]
 pub struct NftSetupCreators<'info> {
+    /// This is the primary creator, the creator of the NFT.
     #[account(mut)]
     pub creator: Signer<'info>,
 
     #[account(mut, has_one = creator)]
     pub nft: Account<'info, NftAccount>,
 
-    #[account(init, payer = creator, space = NFT_CREATORS_ACCOUNT_SIZE)]
+    #[account(init, seeds = ["creators".as_bytes(), &nft.key().as_ref()], bump, payer = creator, space = NFT_CREATORS_ACCOUNT_SIZE)]
     pub nft_creators: Account<'info, NftCreatorsAccount>,
 
     pub system_program: Program<'info, System>,
