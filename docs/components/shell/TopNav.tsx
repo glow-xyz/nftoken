@@ -5,11 +5,13 @@ export const TopNav = () => {
   return (
     <div className="nav-bar">
       <nav className="flex-center spread">
-        <Link href="/" className="flex">
-          <a>NFToken</a>
+        <Link href="/">
+          <a className="font-weight-bold">NFToken</a>
         </Link>
 
-        <Link href={"https://github.com/glow-xyz/nftoken"}>GitHub</Link>
+        <Link href={"https://github.com/glow-xyz/nftoken"}>
+          <a>GitHub</a>
+        </Link>
       </nav>
 
       <style jsx>
