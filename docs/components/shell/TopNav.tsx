@@ -1,10 +1,9 @@
 import Link from "next/link";
-import React from "react";
 
 export const TopNav = () => {
   return (
-    <div className="nav-bar">
-      <nav className="flex-center spread">
+    <>
+      <header className="flex-center spread">
         <Link href="/">
           <a className="font-weight-bold">NFToken</a>
         </Link>
@@ -12,30 +11,25 @@ export const TopNav = () => {
         <Link href={"https://github.com/glow-xyz/nftoken"}>
           <a>GitHub</a>
         </Link>
-      </nav>
+      </header>
 
       <style jsx>
         {`
-          .nav-bar {
-            top: 0;
+          header {
+            width: 100%;
             position: sticky;
+            top: 0;
             z-index: 100;
-            display: flex;
-            width: 100%;
-            background-color: var(--light);
-          }
-
-          nav {
-            width: 100%;
-            border-bottom: 1px solid var(--divider-color);
+            border-bottom: 1px solid var(--tertiary-divider-color);
             padding: 1rem 2rem 1rem;
+            background-color: var(--secondary-bg-color);
           }
 
-          nav :global(a) {
+          header :global(a) {
             text-decoration: none;
           }
         `}
       </style>
-    </div>
+    </>
   );
 };
