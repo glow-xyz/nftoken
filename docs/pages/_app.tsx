@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import "../public/globals.css";
 import "../styles/app.scss";
@@ -19,6 +20,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       document.body.classList.remove("no-scroll");
     }
   }, [navOpen]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setNavOpen(false);
+  }, [router.pathname]);
 
   return (
     <>
