@@ -20,5 +20,15 @@ article h2 {
 
 article p {
   line-height: 1.5em;
-  font-weight: 300;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+}
+
+article p a {
+  color: var(--brand-color);
+  text-decoration: underline;
+}
+
+article p a:hover {
+  text-decoration: underline;
 }
