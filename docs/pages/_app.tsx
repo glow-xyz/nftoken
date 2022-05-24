@@ -6,6 +6,7 @@ import "../styles/app.scss";
 
 import { TopNav } from "../components/shell/TopNav";
 import { SideNav } from "../components/shell/SideNav";
+import { TableOfContents } from "../components/shell/TableOfContents";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,6 +21,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <main>
         <SideNav />
         <Component {...pageProps} />
+        <TableOfContents content={pageProps.markdoc?.content} />
       </main>
 
       <style jsx>{`
