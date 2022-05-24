@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import Head from "next/head";
 
 import "../public/globals.css";
 import "../styles/app.scss";
@@ -9,6 +10,11 @@ import { SideNav } from "../components/shell/SideNav";
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
+      <Head>
+        <title>{pageProps.markdoc.frontmatter.title}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+
       <TopNav />
 
       <main>
