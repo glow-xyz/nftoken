@@ -3,7 +3,7 @@ import { Program } from "@project-serum/anchor";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import { Buffer } from "buffer";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createNft } from "./utils/create-nft";
+import { createNft, updateNft } from "./utils/create-nft";
 
 describe("nft_setup_creators", () => {
   const provider = anchor.AnchorProvider.env();
@@ -280,6 +280,56 @@ describe("nft_setup_creators", () => {
         })
         .accounts({
           creator: creator1,
+          nft: nft_pubkey,
+          systemProgram: SystemProgram.programId,
+          nftCreators: nft_creators_pubkey,
+        })
+        .remainingAccounts([
+          {
+            pubkey: creator1.publicKey,
+            isSigner: false,
+            isWritable: false,
+          },
+        ])
+        .rpc();
+    }).rejects.toThrow();
+  });
+
+  it("cannot set the creator account if you the NFT can't be updated", async () => {
+    const creator1 = Keypair.generate();
+
+    const creators = [
+      {
+        address: creator1.publicKey,
+        verified: false,
+        basisPoints: 10_000,
+      },
+    ];
+
+    const primaryCreator = anchor.AnchorProvider.local().wallet.publicKey;
+    const { nft_pubkey } = await createNft({ program });
+
+    await updateNft({
+      nft_pubkey,
+      creator: primaryCreator,
+      metadataUrl: `newww! ${Math.random()}`,
+      creatorCanUpdate: false,
+      program,
+    });
+
+    const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
+      [Buffer.from("creators"), nft_pubkey.toBuffer()],
+      program.programId
+    );
+
+    await expect(async () => {
+      await program.methods
+        .nftSetupCreators({
+          royaltyBasisPoints: 500,
+          creators,
+        })
+        .accounts({
+          creator: primaryCreator,
           nft: nft_pubkey,
           systemProgram: SystemProgram.programId,
           nftCreators: nft_creators_pubkey,

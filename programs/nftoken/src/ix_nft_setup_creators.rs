@@ -7,12 +7,13 @@ use anchor_lang::prelude::*;
 /// This lets you set up an account that stores information about the creators for an NFT.
 ///
 /// This is useful for verifying creators and distributing royalties.
-///
-/// TODO: should we require that `nft.creator_can_update = true`?
 pub fn nft_setup_creators_inner(
     ctx: Context<NftSetupCreators>,
     args: NftSetupCreatorsArgs,
 ) -> Result<()> {
+    let nft = &mut ctx.accounts.nft;
+    require!(nft.creator_can_update, NftokenError::Unauthorized);
+
     // Ensure that the basis points are set up properly
     if args.royalty_basis_points != 0 {
         // Ensure that all of the basis points add up to 10_000 (100% * 100)
@@ -44,10 +45,9 @@ pub fn nft_setup_creators_inner(
     let nft_creators = &mut ctx.accounts.nft_creators;
     nft_creators.version = 1;
     nft_creators.royalty_basis_points = args.royalty_basis_points;
-    nft_creators.nft = ctx.accounts.nft.key();
+    nft_creators.nft = nft.key();
     nft_creators.creators = args.creators;
 
-    let nft = &mut ctx.accounts.nft;
     nft.royalties_enabled = true;
 
     Ok(())

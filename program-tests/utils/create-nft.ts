@@ -62,3 +62,33 @@ export const createNft = async ({
     nft_keypair: nftKeypair,
   };
 };
+
+export const updateNft = async ({
+  nft_pubkey,
+  creator,
+  metadataUrl: _metadataUrl,
+  creatorCanUpdate,
+  program,
+}: {
+  nft_pubkey: PublicKey;
+  creator: PublicKey;
+  metadataUrl: string;
+  creatorCanUpdate: boolean;
+  program: Program<NftokenTypes>;
+}) => {
+  const metadataUrl = strToArr("new-meta", 96);
+  const signature = await program.methods
+    .nftUpdate({ metadataUrl, creatorCanUpdate })
+    .accounts({
+      nft: nft_pubkey,
+      creator,
+    })
+    .signers([])
+    .rpc();
+  console.log("NFT Update", signature);
+
+  const updated = await program.account.nftAccount.fetch(nft_pubkey);
+
+  expect(updated.metadataUrl).toEqual(metadataUrl);
+  expect(updated.creatorCanUpdate).toEqual(creatorCanUpdate);
+};
