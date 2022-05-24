@@ -6,7 +6,9 @@ use anchor_lang::prelude::*;
 ///
 /// This lets you set up an account that stores information about the creators for an NFT.
 ///
-/// This is useful for verifying creators and distributing royalies.
+/// This is useful for verifying creators and distributing royalties.
+///
+/// TODO: should we require that `nft.creator_can_update = true`?
 pub fn nft_setup_creators_inner(
     ctx: Context<NftSetupCreators>,
     args: NftSetupCreatorsArgs,

@@ -1,5 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
+import { PublicKey } from "@solana/web3.js";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createCollection } from "./utils/create-collection";
 import { createNft } from "./utils/create-nft";

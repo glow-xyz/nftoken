@@ -65,6 +65,22 @@ describe("nft_setup_creators", () => {
         console.error(e);
         throw e;
       });
+
+    const onchain = await fetchNftCreators({
+      pubkey: nft_creators_pubkey,
+      program,
+    });
+    expect(onchain.creators[0].address.toBase58()).toEqual(
+      creator1.publicKey.toBase58()
+    );
+    expect(onchain.creators[0].basisPoints).toEqual(creators[0].basisPoints);
+    expect(onchain.creators[0].verified).toEqual(creators[0].verified);
+    expect(onchain.creators[1].address.toBase58()).toEqual(
+      creator2.publicKey.toBase58()
+    );
+    expect(onchain.creators[1].basisPoints).toEqual(creators[1].basisPoints);
+    expect(onchain.creators[1].verified).toEqual(creators[1].verified);
+    console.log(onchain);
   });
 
   it("does not verify if creator is not signed", async () => {
@@ -175,4 +191,129 @@ describe("nft_setup_creators", () => {
         .rpc();
     }).rejects.toThrow();
   });
+
+  it("cannot double set creator account", async () => {
+    const creator1 = Keypair.generate();
+
+    const creators = [
+      {
+        address: creator1.publicKey,
+        verified: false,
+        basisPoints: 10_000,
+      },
+    ];
+    const primaryCreator = anchor.AnchorProvider.local().wallet.publicKey;
+
+    const { nft_pubkey } = await createNft({ program });
+
+    const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
+      [Buffer.from("creators"), nft_pubkey.toBuffer()],
+      program.programId
+    );
+
+    await program.methods
+      .nftSetupCreators({
+        royaltyBasisPoints: 500,
+        creators,
+      })
+      .accounts({
+        creator: primaryCreator,
+        nft: nft_pubkey,
+        systemProgram: SystemProgram.programId,
+        nftCreators: nft_creators_pubkey,
+      })
+      .remainingAccounts([
+        {
+          pubkey: creator1.publicKey,
+          isSigner: false,
+          isWritable: false,
+        },
+      ])
+      .rpc();
+
+    await expect(async () => {
+      await program.methods
+        .nftSetupCreators({
+          royaltyBasisPoints: 500,
+          creators,
+        })
+        .accounts({
+          creator: primaryCreator,
+          nft: nft_pubkey,
+          systemProgram: SystemProgram.programId,
+          nftCreators: nft_creators_pubkey,
+        })
+        .remainingAccounts([
+          {
+            pubkey: creator1.publicKey,
+            isSigner: false,
+            isWritable: false,
+          },
+        ])
+        .rpc();
+    }).rejects.toThrow();
+  });
+
+  it("cannot set the creator account if you aren't the NFT creator", async () => {
+    const creator1 = Keypair.generate();
+
+    const creators = [
+      {
+        address: creator1.publicKey,
+        verified: false,
+        basisPoints: 10_000,
+      },
+    ];
+
+    const { nft_pubkey } = await createNft({ program });
+
+    const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
+      [Buffer.from("creators"), nft_pubkey.toBuffer()],
+      program.programId
+    );
+
+    await expect(async () => {
+      await program.methods
+        .nftSetupCreators({
+          royaltyBasisPoints: 500,
+          creators,
+        })
+        .accounts({
+          creator: creator1,
+          nft: nft_pubkey,
+          systemProgram: SystemProgram.programId,
+          nftCreators: nft_creators_pubkey,
+        })
+        .remainingAccounts([
+          {
+            pubkey: creator1.publicKey,
+            isSigner: false,
+            isWritable: false,
+          },
+        ])
+        .rpc();
+    }).rejects.toThrow();
+  });
 });
+
+const fetchNftCreators = async ({
+  pubkey,
+  program,
+}: {
+  pubkey: PublicKey;
+  program: Program<NftokenTypes>;
+}): Promise<{
+  version: number;
+  nft: PublicKey;
+  royaltyBasisPoints: number;
+  creators: Array<{
+    address: PublicKey;
+    basisPoints: number;
+    verified: boolean;
+  }>;
+}> => {
+  const creatorsAccount = await program.account.nftCreatorsAccount.fetch(
+    pubkey
+  );
+  return creatorsAccount as any;
+};
