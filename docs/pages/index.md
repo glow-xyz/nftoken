@@ -1,15 +1,15 @@
 ---
-title: Nftoken - Solana NFT Standard
+title: NFToken - Solana NFT Standard
 description: A new, simple standard for Solana NFTs
 ---
 
 # {% $markdoc.frontmatter.title %}
 
-## What is Nftoken?
+## What is NFToken?
 
-Nftoken is a new, simple standard for Solana NFTs. Nftoken makes it easy for developers, collectors, and wallets to display, interact with, and create NFTs.
+NFToken is a new, simple standard for Solana NFTs. NFToken makes it easy for developers, collectors, and wallets to display, interact with, and create NFTs.
 
-Nftoken is designed to be simple, cheap, and flexible.
+NFToken is designed to be simple, cheap, and flexible.
 
 ## Get Started
 

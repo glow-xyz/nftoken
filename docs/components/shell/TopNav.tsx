@@ -6,7 +6,7 @@ export const TopNav = () => {
     <div className="nav-bar">
       <nav className="flex-center spread">
         <Link href="/" className="flex">
-          <a>Nftoken</a>
+          <a>NFToken</a>
         </Link>
 
         <Link href={"https://github.com/glow-xyz/nftoken"}>GitHub</Link>
