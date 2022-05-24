@@ -1,4 +1,6 @@
+import classNames from "classnames";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const items = [
   {
@@ -16,6 +18,8 @@ const items = [
 ];
 
 export const SideNav = () => {
+  const router = useRouter();
+
   return (
     <nav>
       {items.map((item) => (
@@ -23,7 +27,13 @@ export const SideNav = () => {
           <h3 className="text-lg mb-2">{item.title}</h3>
           {item.links.map((link) => (
             <Link href={link.href} key={link.title}>
-              <a className="block mb-1 ml-2">{link.title}</a>
+              <a
+                className={classNames("block mb-1 ml-2", {
+                  current: router.pathname === link.href,
+                })}
+              >
+                {link.title}
+              </a>
             </Link>
           ))}
         </div>
@@ -32,6 +42,21 @@ export const SideNav = () => {
       <style jsx>{`
         nav {
           overflow: scroll;
+        }
+
+        a {
+          color: var(--secondary-color);
+          transition: none;
+        }
+
+        a:hover,
+        a.current {
+          text-decoration: underline;
+          text-decoration-color: var(--primary-border-color);
+        }
+
+        a.current {
+          color: var(--primary-color);
         }
       `}</style>
     </nav>

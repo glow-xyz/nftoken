@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 importers:
 
@@ -17,6 +17,7 @@ importers:
       '@types/node': 17.0.35
       '@types/react': 18.0.9
       '@types/react-dom': 18.0.4
+      classnames: ^2.3.1
       next: 12.1.6
       react: 18.1.0
       react-dom: 18.1.0
@@ -24,11 +25,12 @@ importers:
       typescript: 4.6.4
     dependencies:
       '@markdoc/markdoc': 0.1.2
-      '@markdoc/next.js': 0.1.4-1_6y6g4ccircr7cmrd64mitxyk3u
+      '@markdoc/next.js': 0.1.4-1_f63c6e084888a3f13223f71889df0add
       '@types/node': 17.0.35
       '@types/react': 18.0.9
       '@types/react-dom': 18.0.4
-      next: 12.1.6_wxb3ykjxrusviu6jpx7kfb2rse
+      classnames: 2.3.1
+      next: 12.1.6_b5c3bc29378d255453c97dfea2875191
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
       sass: 1.52.0
@@ -742,7 +744,7 @@ packages:
     engines: {node: '>=14.7.0'}
     dev: false
 
-  /@markdoc/next.js/0.1.4-1_6y6g4ccircr7cmrd64mitxyk3u:
+  /@markdoc/next.js/0.1.4-1_f63c6e084888a3f13223f71889df0add:
     resolution: {integrity: sha512-16pIWYgdYXboyCdr0+NDPNDu4eHvtuPAtjyzP1T/VW5b7Ls0aCARoiOIfbwruTyQDfsgN/QXNxEj/TAmeY66kw==}
     peerDependencies:
       '@markdoc/markdoc': ^0.1.1
@@ -751,7 +753,7 @@ packages:
     dependencies:
       '@markdoc/markdoc': 0.1.2
       js-yaml: 4.1.0
-      next: 12.1.6_wxb3ykjxrusviu6jpx7kfb2rse
+      next: 12.1.6_b5c3bc29378d255453c97dfea2875191
       react: 18.1.0
     dev: false
 
@@ -1696,6 +1698,10 @@ packages:
 
   /cjs-module-lexer/1.2.2:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
+    dev: false
+
+  /classnames/2.3.1:
+    resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
     dev: false
 
   /cliui/7.0.4:
@@ -3395,7 +3401,7 @@ packages:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
     dev: false
 
-  /next/12.1.6_wxb3ykjxrusviu6jpx7kfb2rse:
+  /next/12.1.6_b5c3bc29378d255453c97dfea2875191:
     resolution: {integrity: sha512-cebwKxL3/DhNKfg9tPZDQmbRKjueqykHHbgaoG4VBRH3AHQJ2HO0dbKFiS1hPhe1/qgc2d/hFeadsbPicmLD+A==}
     engines: {node: '>=12.22.0'}
     hasBin: true
