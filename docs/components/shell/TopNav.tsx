@@ -15,14 +15,19 @@ export const TopNav = () => {
 
       <style jsx>
         {`
+          :global(:root) {
+            --top-nav-height: 3.5rem;
+          }
+
           header {
             width: 100%;
             position: sticky;
             top: 0;
             z-index: 100;
             border-bottom: 1px solid var(--tertiary-divider-color);
-            padding: 1rem 2rem 1rem;
+            padding: 0 2rem;
             background-color: var(--secondary-bg-color);
+            height: var(--top-nav-height);
           }
 
           header :global(a) {

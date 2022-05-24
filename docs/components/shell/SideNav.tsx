@@ -42,6 +42,7 @@ export const SideNav = () => {
       <style jsx>{`
         nav {
           overflow: scroll;
+          max-height: 100%;
         }
 
         a {

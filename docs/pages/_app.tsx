@@ -28,9 +28,26 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         main {
           display: grid;
           grid-template-columns: 14rem 65ch 1fr;
-          grid-column-gap: 2rem;
-          padding: 2rem;
-          padding-bottom: 4rem;
+          grid-column-gap: 4rem;
+        }
+
+        main > :global(*):not(article) {
+          position: sticky;
+          top: var(--top-nav-height);
+          height: calc(100vh - var(--top-nav-height));
+        }
+
+        main > :global(*):nth-child(1) {
+          padding: 2rem 0 2rem 2rem;
+        }
+
+        main > :global(*):nth-child(2) {
+          padding-top: 2rem;
+          padding-bottom: 5rem;
+        }
+
+        main > :global(*):nth-child(3) {
+          padding: 2rem 2rem 2rem 0;
         }
       `}</style>
     </>
