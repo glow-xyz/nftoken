@@ -7,6 +7,7 @@ export const heading = {
   render: Heading,
   attributes: {
     level: { type: Number, required: true },
+    id: { type: String, required: true },
   },
   transform(node, config) {
     const attributes = node.transformAttributes(config);

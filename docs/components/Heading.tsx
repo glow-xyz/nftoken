@@ -6,19 +6,14 @@ import React from "react";
 
 export const Heading = ({
   level,
+  id,
   children,
 }: {
   level: number;
+  id: string;
   children: React.ReactNode;
 }) => {
   const Element = `h${level}` as keyof JSX.IntrinsicElements;
-
-  const id = children
-    .toString()
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/, "");
 
   return (
     <>

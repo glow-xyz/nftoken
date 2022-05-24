@@ -13,9 +13,10 @@ export const TableOfContents = ({ content }) => {
           )
           .map((child) => (
             <a
+              href={`#${child.attributes.id}`}
               key={child.children.join("")}
               style={{ marginLeft: 16 * (child.attributes.level - 2) }}
-              className="block text-sm text-secondary mb-2"
+              className="block text-sm mb-2"
             >
               {child.children.join("")}
             </a>
@@ -30,6 +31,14 @@ export const TableOfContents = ({ content }) => {
 
           a {
             max-width: max-content;
+            color: var(--secondary-color);
+            transition: none;
+          }
+
+          a:hover,
+          a.current {
+            text-decoration: underline;
+            text-decoration-color: var(--primary-border-color);
           }
         `}</style>
       </div>
