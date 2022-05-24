@@ -6,4 +6,4 @@ wallet = "~/.config/solana/id.json"
 nftoken = "nft54LYxr6noyvwaQKChAmRpnvn6yZGZkFDtajPz3u8"
 
 [scripts]
-test = "pnpm --filter program-tests exec jest nft-create --detectOpenHandles"
+test = "pnpm --filter program-tests exec jest"
