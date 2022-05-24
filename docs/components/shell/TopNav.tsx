@@ -16,11 +16,11 @@ export const TopNav = () => {
         {`
           .nav-bar {
             top: 0;
-            position: fixed;
+            position: sticky;
             z-index: 100;
             display: flex;
             width: 100%;
-            background: var(--light);
+            background-color: var(--light);
           }
 
           nav {

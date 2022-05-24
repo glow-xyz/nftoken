@@ -1,9 +1,9 @@
 ---
-title: Nftoken - the Solana NFT Standard
+title: Nftoken - Solana NFT Standard
 description: A new, simple standard for Solana NFTs
 ---
 
-# Nftoken
+# {% $markdoc.frontmatter.title %}
 
 ## What is Nftoken?
 
