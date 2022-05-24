@@ -2,7 +2,6 @@ import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createNft, updateNft } from "./utils/create-nft";
-import { strToArr } from "./utils/test-utils";
 
 describe("update NFT", () => {
   // Configure the client to use the local cluster.
