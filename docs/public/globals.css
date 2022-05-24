@@ -6,6 +6,11 @@ body {
   margin: 0;
 }
 
+body.no-scroll {
+  height: 100vh;
+  overflow: hidden;
+}
+
 article h1 {
   font-size: 2.2rem;
 }

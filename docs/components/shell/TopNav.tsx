@@ -1,12 +1,54 @@
 import Link from "next/link";
 
-export const TopNav = () => {
+export const TopNav = ({
+  navOpen,
+  toggleNav,
+}: {
+  navOpen: Boolean;
+  toggleNav: () => void;
+}) => {
   return (
     <>
       <header className="flex-center spread">
-        <Link href="/">
-          <a className="font-weight-bold">NFToken</a>
-        </Link>
+        <div className="flex-center">
+          <button className="menu-button mr-1" onClick={toggleNav}>
+            {navOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            )}
+          </button>
+
+          <Link href="/">
+            <a className="font-weight-bold">NFToken</a>
+          </Link>
+        </div>
 
         <Link href={"https://github.com/glow-xyz/nftoken"}>
           <a>GitHub</a>
@@ -32,6 +74,22 @@ export const TopNav = () => {
 
           header :global(a) {
             text-decoration: none;
+          }
+
+          .menu-button {
+            display: none;
+          }
+
+          @media (max-width: 800px) {
+            header {
+              padding: 0 1rem;
+            }
+
+            .menu-button {
+              display: block;
+              color: var(--secondary-color);
+              margin-bottom: 3px; /* Visually center */
+            }
           }
         `}
       </style>

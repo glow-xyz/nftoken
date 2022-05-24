@@ -28,7 +28,7 @@ export const SideNav = () => {
           {item.links.map((link) => (
             <Link href={link.href} key={link.title}>
               <a
-                className={classNames("block mb-1 ml-2", {
+                className={classNames("block mb-2 ml-2", {
                   current: router.pathname === link.href,
                 })}
               >
@@ -48,6 +48,7 @@ export const SideNav = () => {
         a {
           color: var(--secondary-color);
           transition: none;
+          line-height: 1.3;
         }
 
         a:hover,
