@@ -1,25 +1,21 @@
 import * as anchor from "@project-serum/anchor";
-import { Program } from "@project-serum/anchor";
 import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
-import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createCollection } from "./utils/create-collection";
-import { strToArr } from "./utils/test-utils";
+import { DEFAULT_KEYPAIR, program, strToArr } from "./utils/test-utils";
 
 describe("ix_collection_create", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
-  const program = anchor.workspace.Nftoken as Program<NftokenTypes>;
-
   test("creates a collection", async () => {
-    await createCollection({ program });
+    await createCollection({});
   });
 
   test("mints an NFT into a new collection in one transaction", async () => {
     const metadataUrl = strToArr("hi metadata", 96);
     const collection_keypair = Keypair.generate();
     const nft_keypair = Keypair.generate();
-    const creator = anchor.AnchorProvider.local().wallet.publicKey;
+    const creator = DEFAULT_KEYPAIR.publicKey;
 
     const tx = new Transaction();
     tx.add(
@@ -57,8 +53,7 @@ describe("ix_collection_create", () => {
     );
 
     try {
-      const signature = await program.provider.send?.(tx, [collection_keypair]);
-      console.log("MANUAL Signature", signature);
+      await program.provider.send?.(tx, [collection_keypair]);
     } catch (e: any) {
       console.error("Logs", e.logs);
       expect(false).toBe(true);

@@ -1,8 +1,34 @@
-import { PublicKey } from "@solana/web3.js";
+import { Program } from "@project-serum/anchor";
+import {
+  Nftoken as _NftokenIdlType,
+  IDL as _NftokenIdl,
+} from "../../target/types/nftoken";
+import * as anchor from "@project-serum/anchor";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { Buffer } from "buffer";
 
 export const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
 export type Base58 = string;
+
+export const program = anchor.workspace.Nftoken as Program<_NftokenIdlType>;
+
+export const NftokenIdl = _NftokenIdl;
+export type NftokenIdlType = _NftokenIdlType;
+export const PROGRAM_ID = "nft54LYxr6noyvwaQKChAmRpnvn6yZGZkFDtajPz3u8";
+
+// Anchor uses `nodewallet.ts` when testing to find and use a wallet. It automatically signs
+// transactions with this keypair.
+export const DEFAULT_KEYPAIR = Keypair.fromSecretKey(
+  Buffer.from(
+    JSON.parse(
+      require("fs").readFileSync(process.env.ANCHOR_WALLET, {
+        encoding: "utf-8",
+      })
+    )
+  )
+);
+
+export const METADATA_LENGTH = 96;
 
 export function nullArray(length: number) {
   return Array.from({ length }, () => 0);
