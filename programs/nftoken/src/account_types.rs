@@ -6,16 +6,20 @@ use std::convert::TryFrom;
 /// The collection account stores the metadata for a collection of NFTs.
 #[account]
 pub struct CollectionAccount {
-    // Discriminator = 8
+    // discriminator = 8
     /// This versions the account so that we can store different data formats in the future.
     /// The first version is 1.
     pub version: u8, // 1 = 9
     pub creator: Pubkey,          // 32 = 41
     pub creator_can_update: bool, // 1 = 42
+    pub unused_1: u8,             // 1 = 43
+    pub unused_2: u8,             // 1 = 44
+    pub unused_3: u8,             // 1 = 45
+    pub unused_4: u8,             // 1 = 46
     pub metadata_url: String,     // 4 +  bytes
 }
 
-pub const COLLECTION_BASE_ACCOUNT_SIZE: usize = 42 + 4;
+pub const COLLECTION_BASE_ACCOUNT_SIZE: usize = 46 + 4;
 pub const COLLECTION_DEFAULT_ACCOUNT_SIZE: usize = COLLECTION_BASE_ACCOUNT_SIZE + 100;
 
 #[account]
@@ -33,6 +37,10 @@ pub struct NftAccount {
     /// If the NFT `is_frozen` then it cannot be transferred without permission from the creator
     /// on the NFT.
     pub is_frozen: bool, // 1 = 140
+    pub unused_1: u8,             // 1 = 141
+    pub unused_2: u8,             // 1 = 142
+    pub unused_3: u8,             // 1 = 143
+    pub unused_4: u8,             // 1 = 144
     /// Fields beyond this point are variable length and we can't use `getProgramAccounts` with them
     /// anymore.
     pub metadata_url: String, // 4 + bytes for characters
@@ -41,7 +49,7 @@ pub struct NftAccount {
                                   // - transfer counter - u8 - could be useful for marketplace bid accounts
 }
 
-pub const NFT_BASE_ACCOUNT_SIZE: usize = 140 + 4;
+pub const NFT_BASE_ACCOUNT_SIZE: usize = 144 + 4;
 pub const NFT_DEFAULT_ACCOUNT_SIZE: usize = NFT_BASE_ACCOUNT_SIZE + 100;
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Copy)]
