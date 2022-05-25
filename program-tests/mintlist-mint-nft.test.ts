@@ -8,7 +8,7 @@ import {
   createMintlistWithInfos,
   getMintlistData,
 } from "./utils/mintlist";
-import { DEFAULT_KEYPAIR, program } from "./utils/test-utils";
+import { arrayToStr, DEFAULT_KEYPAIR, program } from "./utils/test-utils";
 
 describe("mintlist_mint_nft", () => {
   const provider = anchor.AnchorProvider.env();
@@ -62,12 +62,14 @@ describe("mintlist_mint_nft", () => {
 
     console.log("Mintlist Mint NFT sig:", sig);
 
-    await getMintlistData({
+    const data = await getMintlistData({
       program: program,
       mintlistPubkey: mintlistAddress,
     });
+    const nft = await program.account.nftAccount.fetch(nftKeypair.publicKey);
 
-    // TODO: expect stuff has changed
+    expect(data.mintInfos[0].minted).toEqual(true);
+    expect(nft.metadataUrl).toEqual(arrayToStr(mintInfos[0].metadataUrl));
   });
 
   it("should mint a random NFT", async () => {

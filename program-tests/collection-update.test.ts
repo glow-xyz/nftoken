@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { createCollection } from "./utils/create-collection";
-import { DEFAULT_KEYPAIR, program, strToArr } from "./utils/test-utils";
+import { DEFAULT_KEYPAIR, program } from "./utils/test-utils";
 
 describe("update collection", () => {
   // Configure the client to use the local cluster.
@@ -12,7 +12,7 @@ describe("update collection", () => {
   test("properly updates metadata", async () => {
     const { collection_pubkey } = await createCollection({});
 
-    const metadata_url = strToArr("new-meta", 96);
+    const metadata_url = "new-meta";
     const creator_can_update = true;
 
     const signature = await program.methods
@@ -39,7 +39,7 @@ describe("update collection", () => {
   test("doesn't allow update if !creator_can_update", async () => {
     const { collection_pubkey } = await createCollection({});
 
-    const metadata_url = strToArr("new-meta", 96);
+    const metadata_url = "new-meta";
     const creator_can_update = false;
 
     const signature = await program.methods

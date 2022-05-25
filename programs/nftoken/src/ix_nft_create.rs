@@ -61,7 +61,7 @@ pub struct NftCreate<'info> {
     /// CHECK: this can be any type we want
     pub holder: AccountInfo<'info>,
 
-    #[account(init, payer = creator, space = NFT_ACCOUNT_SIZE)]
+    #[account(init, payer = creator, space = NFT_BASE_ACCOUNT_SIZE + args.metadata_url.len())]
     pub nft: Account<'info, NftAccount>,
 
     pub system_program: Program<'info, System>,
@@ -69,6 +69,6 @@ pub struct NftCreate<'info> {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct NftCreateArgs {
-    pub metadata_url: [u8; 96],
+    pub metadata_url: String,
     pub collection_included: bool,
 }

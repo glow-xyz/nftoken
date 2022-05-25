@@ -6,36 +6,49 @@ use std::convert::TryFrom;
 /// The collection account stores the metadata for a collection of NFTs.
 #[account]
 pub struct CollectionAccount {
+    // discriminator = 8
     /// This versions the account so that we can store different data formats in the future.
     /// The first version is 1.
-    pub version: u8, // 1
-    pub creator: Pubkey,          // 32 = 33
-    pub creator_can_update: bool, // 1 = 32
-    pub metadata_url: [u8; 96],   // 96 = 128
-                                  // Discriminator 8 = 136
+    pub version: u8, // 1 = 9
+    pub creator: Pubkey,          // 32 = 41
+    pub creator_can_update: bool, // 1 = 42
+    pub unused_1: u8,             // 1 = 43
+    pub unused_2: u8,             // 1 = 44
+    pub unused_3: u8,             // 1 = 45
+    pub unused_4: u8,             // 1 = 46
+    pub metadata_url: String,     // 4 +  bytes
 }
 
-pub const COLLECTION_ACCOUNT_SIZE: usize = 200;
+pub const COLLECTION_BASE_ACCOUNT_SIZE: usize = 46 + 4;
+pub const COLLECTION_DEFAULT_ACCOUNT_SIZE: usize = COLLECTION_BASE_ACCOUNT_SIZE + 100;
 
 #[account]
 pub struct NftAccount {
-    pub version: u8,              // 1
-    pub holder: Pubkey,           // 32 = 33
-    pub creator: Pubkey,          // 32 = 65
-    pub creator_can_update: bool, // 1  = 66
-    pub collection: Pubkey,       // 32 = 98
+    // discriminator = 8
+    pub version: u8,              // 1 = 9
+    pub holder: Pubkey,           // 32 = 41
+    pub creator: Pubkey,          // 32 = 73
+    pub creator_can_update: bool, // 1  = 74
+    pub collection: Pubkey,       // 32 = 106
     /// If this is zero'd out (set to 11111...1111 in base58) then the NFT is not delegated.
-    pub delegate: Pubkey, // 32 = 130
-    pub metadata_url: [u8; 96],   // 96 = 226
-    pub has_creators: bool,       // 1 = 227
-                                  // discriminator 8 = 235
+    pub delegate: Pubkey, // 32 = 138
+    /// If the NFT has a linked `nft_creators` account which stores royalty information.
+    pub has_creators: bool, // 1 = 139
+    pub unused_1: u8,             // 1 = 140
+    pub unused_2: u8,             // 1 = 141
+    pub unused_3: u8,             // 1 = 142
+    pub unused_4: u8,             // 1 = 143
+    /// Fields beyond this point are variable length and we can't use `getProgramAccounts` with them
+    /// anymore.
+    pub metadata_url: String, // 4 + bytes for characters
 
-                                  // Possible things to add later:
-                                  // - transfer counter - u8
-                                  // - is frozen - u8 / bool
+                                  // Possible things to add later (consider adding now):
+                                  // - transfer counter - u8 - could be useful for marketplace bid accounts
+                                  // - is frozen
 }
 
-pub const NFT_ACCOUNT_SIZE: usize = 240;
+pub const NFT_BASE_ACCOUNT_SIZE: usize = 143 + 4;
+pub const NFT_DEFAULT_ACCOUNT_SIZE: usize = NFT_BASE_ACCOUNT_SIZE + 100;
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Copy)]
 pub struct NftSecondaryCreator {
