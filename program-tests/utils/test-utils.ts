@@ -14,7 +14,7 @@ export const program = anchor.workspace.Nftoken as Program<_NftokenIdlType>;
 
 export const NftokenIdl = _NftokenIdl;
 export type NftokenIdlType = _NftokenIdlType;
-export const PROGRAM_ID = "nft54LYxr6noyvwaQKChAmRpnvn6yZGZkFDtajPz3u8";
+export const PROGRAM_ID = "nf6WUrqMxWm2eQJ9m1H9BPFjKYyBVzue546URy4ULDC";
 
 // Anchor uses `nodewallet.ts` when testing to find and use a wallet. It automatically signs
 // transactions with this keypair.
