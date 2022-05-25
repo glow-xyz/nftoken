@@ -342,6 +342,66 @@ describe("nft_setup_creators", () => {
         .rpc();
     }).rejects.toThrow();
   });
+
+  it("has to use the correct PDA", async () => {
+    const creator1 = Keypair.generate();
+
+    const creators = [
+      { address: creator1.publicKey, verified: false, basisPoints: 10_000 },
+    ];
+
+    const primaryCreator = DEFAULT_KEYPAIR.publicKey;
+    const { nft_pubkey } = await createNft({});
+
+    const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
+      [Buffer.from("creators"), nft_pubkey.toBuffer()],
+      program.programId
+    );
+
+    await expect(async () => {
+      await program.methods
+        .nftSetupCreators({
+          royaltyBasisPoints: 500,
+          creators,
+        })
+        .accounts({
+          creator: primaryCreator,
+          nft: Keypair.generate().publicKey,
+          systemProgram: SystemProgram.programId,
+          nftCreators: nft_creators_pubkey,
+        })
+        .remainingAccounts([
+          {
+            pubkey: creator1.publicKey,
+            isSigner: false,
+            isWritable: false,
+          },
+        ])
+        .rpc();
+    }).rejects.toThrow();
+
+    await expect(async () => {
+      await program.methods
+        .nftSetupCreators({
+          royaltyBasisPoints: 500,
+          creators,
+        })
+        .accounts({
+          creator: primaryCreator,
+          nft: nft_pubkey,
+          systemProgram: SystemProgram.programId,
+          nftCreators: Keypair.generate().publicKey,
+        })
+        .remainingAccounts([
+          {
+            pubkey: creator1.publicKey,
+            isSigner: false,
+            isWritable: false,
+          },
+        ])
+        .rpc();
+    }).rejects.toThrow();
+  });
 });
 
 const fetchNftCreators = async ({
