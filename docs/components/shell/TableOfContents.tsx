@@ -1,4 +1,7 @@
-export const TableOfContents = ({ content }) => {
+import { MarkdocContent } from "../../types/markdoc";
+
+export const TableOfContents = ({ content }: { content: MarkdocContent }) => {
+  console.log(content);
   if (!content) {
     return null;
   }
@@ -6,21 +9,21 @@ export const TableOfContents = ({ content }) => {
   return (
     <div>
       <div className="table-of-contents">
-        {content.children
-          .filter(
-            // We don't include h1's because there's only one h1 in the page — the title.
-            (child) => child.name === "Heading" && child.attributes.level > 1
-          )
-          .map((child) => (
-            <a
-              href={`#${child.attributes.id}`}
-              key={child.children.join("")}
-              style={{ marginLeft: 16 * (child.attributes.level - 2) }}
-              className="block text-sm mb-2"
-            >
-              {child.children.join("")}
-            </a>
-          ))}
+        {content.children.map((child) => {
+          // We don't include h1's because the title is the only h1 on the page.
+          if (child.name === "Heading" && child.attributes.level > 1) {
+            return (
+              <a
+                href={`#${child.attributes.id}`}
+                key={child.children.join("")}
+                style={{ marginLeft: 16 * (child.attributes.level - 2) }}
+                className="block text-sm mb-2"
+              >
+                {child.children.join("")}
+              </a>
+            );
+          }
+        })}
 
         <style jsx>{`
           .table-of-contents {
