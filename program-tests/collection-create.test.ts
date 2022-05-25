@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
 import { createCollection } from "./utils/create-collection";
-import { DEFAULT_KEYPAIR, program, strToArr } from "./utils/test-utils";
+import { DEFAULT_KEYPAIR, program } from "./utils/test-utils";
 
 describe("ix_collection_create", () => {
   const provider = anchor.AnchorProvider.env();
@@ -12,7 +12,7 @@ describe("ix_collection_create", () => {
   });
 
   test("mints an NFT into a new collection in one transaction", async () => {
-    const metadataUrl = strToArr("hi metadata", 96);
+    const metadataUrl = "hi metadata";
     const collection_keypair = Keypair.generate();
     const nft_keypair = Keypair.generate();
     const creator = DEFAULT_KEYPAIR.publicKey;

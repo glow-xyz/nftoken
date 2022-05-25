@@ -6,12 +6,10 @@ import { createNft } from "./utils/create-nft";
 import { KeypairWallet } from "./utils/KeypairWallet";
 import {
   DEFAULT_KEYPAIR,
-  METADATA_LENGTH,
   NftokenIdl,
   NULL_PUBKEY_STRING,
   program,
   PROGRAM_ID,
-  strToArr,
 } from "./utils/test-utils";
 
 describe("ix_nft_create", () => {
@@ -44,7 +42,7 @@ describe("ix_nft_create", () => {
   test("mints an NFT into a collection", async () => {
     const { creator, collection_keypair } = await createCollection({});
 
-    const nft_metadata_url = strToArr("url2", 96);
+    const nft_metadata_url = "url2";
 
     const nftKeypair = Keypair.generate();
 
@@ -106,7 +104,7 @@ describe("ix_nft_create", () => {
       client: newClient,
     });
 
-    const nft_metadata_url = strToArr("url2", METADATA_LENGTH);
+    const nft_metadata_url = "url2";
 
     const nftKeypair = Keypair.generate();
 

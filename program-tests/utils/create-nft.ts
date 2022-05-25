@@ -6,8 +6,8 @@ import {
   DEFAULT_KEYPAIR,
   generateAlphaNumericString,
   logNft,
-  NftokenIdlType, program,
-  strToArr
+  NftokenIdlType,
+  program,
 } from "./test-utils";
 
 export const createNft = async ({
@@ -25,10 +25,7 @@ export const createNft = async ({
   nft_pubkey: PublicKey;
   nft_keypair: Keypair;
 }> => {
-  const metadata_url = strToArr(
-    _metadata_url || generateAlphaNumericString(16),
-    96
-  );
+  const metadata_url = _metadata_url || generateAlphaNumericString(16);
 
   const nftKeypair = Keypair.generate();
 
@@ -52,9 +49,7 @@ export const createNft = async ({
       throw e;
     });
 
-  const nftResult = await client.account.nftAccount.fetch(
-    nftKeypair.publicKey
-  );
+  const nftResult = await client.account.nftAccount.fetch(nftKeypair.publicKey);
   if (verbose) {
     logNft(nftResult);
   }
@@ -79,7 +74,7 @@ export const updateNft = async ({
   creatorCanUpdate: boolean;
   client?: Program<NftokenTypes>;
 }) => {
-  const metadataUrl = strToArr("new-meta", 96);
+  const metadataUrl = "new-meta";
   await client.methods
     .nftUpdate({ metadataUrl, creatorCanUpdate })
     .accounts({

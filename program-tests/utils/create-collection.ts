@@ -7,7 +7,6 @@ import {
   logCollection,
   NftokenIdlType,
   program,
-  strToArr,
 } from "./test-utils";
 
 export const createCollection = async ({
@@ -26,10 +25,7 @@ export const createCollection = async ({
   collection_pubkey: PublicKey;
   collection_keypair: Keypair;
 }> => {
-  const metadataUrl = strToArr(
-    _metadata_url || generateAlphaNumericString(16),
-    96
-  );
+  const metadataUrl = _metadata_url || generateAlphaNumericString(16);
 
   const collection_keypair = Keypair.generate();
 
