@@ -48,7 +48,7 @@ pub fn nft_setup_creators_inner(
     nft_creators.nft = nft.key();
     nft_creators.creators = args.creators;
 
-    nft.royalties_enabled = true;
+    nft.has_creators = true;
 
     Ok(())
 }

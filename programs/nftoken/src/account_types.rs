@@ -27,7 +27,7 @@ pub struct NftAccount {
     /// If this is zero'd out (set to 11111...1111 in base58) then the NFT is not delegated.
     pub delegate: Pubkey, // 32 = 130
     pub metadata_url: [u8; 96],   // 96 = 226
-    pub royalties_enabled: bool,  // 1 = 227
+    pub has_creators: bool,       // 1 = 227
                                   // discriminator 8 = 235
 
                                   // Possible things to add later:
