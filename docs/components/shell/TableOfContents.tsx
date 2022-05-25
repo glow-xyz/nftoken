@@ -1,7 +1,6 @@
 import { MarkdocContent } from "../../types/markdoc";
 
 export const TableOfContents = ({ content }: { content: MarkdocContent }) => {
-  console.log(content);
   if (!content) {
     return null;
   }
