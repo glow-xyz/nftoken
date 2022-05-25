@@ -9,7 +9,10 @@ export const heading = {
     level: { type: Number, required: true },
     id: { type: String, required: true },
   },
-  transform(node, config) {
+  transform(
+    node: { transformAttributes: Function; transformChildren: Function },
+    config: object
+  ) {
     const attributes = node.transformAttributes(config);
     const children = node.transformChildren(config);
 
