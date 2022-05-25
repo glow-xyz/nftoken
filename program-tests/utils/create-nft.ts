@@ -1,22 +1,25 @@
-import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
-import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
+import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
 import {
   Base58,
+  DEFAULT_KEYPAIR,
   generateAlphaNumericString,
   logNft,
-  strToArr,
+  NftokenIdlType, program,
+  strToArr
 } from "./test-utils";
 
 export const createNft = async ({
   metadata_url: _metadata_url,
-  program,
   holder,
+  verbose,
+  client = program,
 }: {
   metadata_url?: string;
-  program: Program<NftokenTypes>;
   holder?: PublicKey | null;
+  verbose?: boolean;
+  client?: Program<NftokenIdlType>;
 }): Promise<{
   signature: Base58;
   nft_pubkey: PublicKey;
@@ -29,9 +32,9 @@ export const createNft = async ({
 
   const nftKeypair = Keypair.generate();
 
-  const creator = anchor.AnchorProvider.local().wallet.publicKey;
+  const creator = DEFAULT_KEYPAIR.publicKey;
 
-  const signature = await program.methods
+  const signature = await client.methods
     .nftCreate({
       metadataUrl: metadata_url,
       collectionIncluded: false, // collection_included
@@ -45,20 +48,49 @@ export const createNft = async ({
     .signers([nftKeypair])
     .rpc()
     .catch((e) => {
-      console.error(e.logs);
+      console.error(e);
       throw e;
     });
 
-  console.log("Mint NFT", signature);
-
-  const nftResult = await program.account.nftAccount.fetch(
+  const nftResult = await client.account.nftAccount.fetch(
     nftKeypair.publicKey
   );
-  logNft(nftResult);
+  if (verbose) {
+    logNft(nftResult);
+  }
 
   return {
     signature,
     nft_pubkey: nftKeypair.publicKey,
     nft_keypair: nftKeypair,
   };
+};
+
+export const updateNft = async ({
+  nft_pubkey,
+  creator,
+  metadataUrl: _metadataUrl,
+  creatorCanUpdate,
+  client = program,
+}: {
+  nft_pubkey: PublicKey;
+  creator: PublicKey;
+  metadataUrl: string;
+  creatorCanUpdate: boolean;
+  client?: Program<NftokenTypes>;
+}) => {
+  const metadataUrl = strToArr("new-meta", 96);
+  await client.methods
+    .nftUpdate({ metadataUrl, creatorCanUpdate })
+    .accounts({
+      nft: nft_pubkey,
+      creator,
+    })
+    .signers([])
+    .rpc();
+
+  const updated = await client.account.nftAccount.fetch(nft_pubkey);
+
+  expect(updated.metadataUrl).toEqual(metadataUrl);
+  expect(updated.creatorCanUpdate).toEqual(creatorCanUpdate);
 };

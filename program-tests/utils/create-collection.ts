@@ -1,20 +1,25 @@
-import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
-import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
 import {
   Base58,
+  DEFAULT_KEYPAIR,
   generateAlphaNumericString,
   logCollection,
+  NftokenIdlType,
+  program,
   strToArr,
 } from "./test-utils";
 
 export const createCollection = async ({
   metadata_url: _metadata_url,
-  program,
+  creator_keypair = DEFAULT_KEYPAIR,
+  verbose,
+  client = program,
 }: {
   metadata_url?: string;
-  program: Program<NftokenTypes>;
+  creator_keypair?: Keypair;
+  verbose?: boolean;
+  client?: Program<NftokenIdlType>;
 }): Promise<{
   signature: Base58;
   creator: PublicKey;
@@ -28,30 +33,27 @@ export const createCollection = async ({
 
   const collection_keypair = Keypair.generate();
 
-  const creator = anchor.AnchorProvider.local().wallet.publicKey;
-
-  const signature = await program.methods
+  const signature = await client.methods
     .collectionCreate({ metadataUrl })
     .accounts({
       collection: collection_keypair.publicKey,
-      creator,
+      creator: creator_keypair.publicKey,
       systemProgram: SystemProgram.programId,
     })
-    .signers([collection_keypair])
+    .signers([collection_keypair, creator_keypair])
     .rpc();
-
-  console.log("Created Collection, signature:", signature);
-  console.log("Collection Address:", collection_keypair.publicKey.toBase58());
 
   const fetched_collection = await program.account.collectionAccount.fetch(
     collection_keypair.publicKey
   );
-  logCollection(fetched_collection);
+  if (verbose) {
+    logCollection(fetched_collection);
+  }
 
   return {
     signature,
     collection_pubkey: collection_keypair.publicKey,
     collection_keypair,
-    creator,
+    creator: creator_keypair.publicKey,
   };
 };
