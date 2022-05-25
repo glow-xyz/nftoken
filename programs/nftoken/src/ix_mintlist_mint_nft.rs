@@ -64,8 +64,13 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
     nft.creator = mintlist.creator;
     nft.holder = ctx.accounts.signer.key();
 
-    // TODO: figure out how to convert the fixed mintlist bytes into a utf-8 string
-    // nft.metadata_url = mint_info.metadata_url;
+    let metadata_url_vec: Vec<u8> = mint_info
+        .metadata_url
+        .into_iter()
+        // Strip out the null bytes
+        .filter(|&x| x != 0)
+        .collect();
+    nft.metadata_url = String::from_utf8(metadata_url_vec).unwrap();
 
     nft.creator_can_update = true;
 
