@@ -1,14 +1,12 @@
-import assert from "assert";
 import * as anchor from "@project-serum/anchor";
-import { Program, web3, BN } from "@project-serum/anchor";
-import { Nftoken as NftokenTypes } from "../target/types/nftoken";
+import { BN, web3 } from "@project-serum/anchor";
+import assert from "assert";
 import { createEmptyMintlist } from "./utils/mintlist";
+import { program } from "./utils/test-utils";
 
 describe("mintlist_create", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
-
-  const program = anchor.workspace.Nftoken as Program<NftokenTypes>;
 
   it("should create a mintlist", async () => {
     const treasuryKeypair = web3.Keypair.generate();
@@ -28,7 +26,10 @@ describe("mintlist_create", () => {
     assert.deepEqual(mintlistData.creator, provider.wallet.publicKey);
     assert.deepEqual(mintlistData.treasurySol, treasuryKeypair.publicKey);
     assert.deepEqual(mintlistData.goLiveDate.toNumber(), goLiveDate.toNumber());
-    assert.equal(mintlistData.priceLamports.toNumber(), priceLamports.toNumber());
+    assert.equal(
+      mintlistData.priceLamports.toNumber(),
+      priceLamports.toNumber()
+    );
     assert.deepEqual(mintlistData.numNftsTotal, numNftsTotal);
     assert.deepEqual(mintlistData.numNftsRedeemed, 0);
     assert.deepEqual(mintlistData.mintingOrder, { sequential: {} });

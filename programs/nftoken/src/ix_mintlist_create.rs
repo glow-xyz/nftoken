@@ -41,7 +41,7 @@ pub struct MintlistCreate<'info> {
     )]
     pub mintlist: Account<'info, MintlistAccount>,
 
-    #[account(init, payer = creator, space = COLLECTION_ACCOUNT_SIZE)]
+    #[account(init, payer = creator, space = COLLECTION_DEFAULT_ACCOUNT_SIZE)]
     pub collection: Account<'info, CollectionAccount>,
 
     /// SOL wallet to receive proceedings from SOL payments.
@@ -58,7 +58,7 @@ pub struct MintlistCreateArgs {
     pub metadata_url: [u8; 96],
 
     /// We create a new collection for every Mintlist.
-    pub collection_metadata_url: [u8; 96],
+    pub collection_metadata_url: String,
 
     /// Timestamp when minting is allowed.
     pub go_live_date: i64,

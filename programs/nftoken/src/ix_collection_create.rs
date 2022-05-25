@@ -3,7 +3,7 @@
 //! This creates a *collection* account which NFTs can be associated with.
 use anchor_lang::prelude::*;
 
-use crate::account_types::{CollectionAccount, COLLECTION_ACCOUNT_SIZE};
+use crate::account_types::{CollectionAccount, COLLECTION_BASE_ACCOUNT_SIZE};
 
 pub fn collection_create_inner(
     ctx: Context<CollectionCreate>,
@@ -25,7 +25,7 @@ pub struct CollectionCreate<'info> {
     #[account(mut)]
     pub creator: Signer<'info>,
 
-    #[account(init, payer = creator, space = COLLECTION_ACCOUNT_SIZE)]
+    #[account(init, payer = creator, space = COLLECTION_BASE_ACCOUNT_SIZE + args.metadata_url.len())]
     pub collection: Account<'info, CollectionAccount>,
 
     pub system_program: Program<'info, System>,
@@ -33,5 +33,5 @@ pub struct CollectionCreate<'info> {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct CollectionCreateArgs {
-    pub metadata_url: [u8; 96],
+    pub metadata_url: String,
 }

@@ -1,19 +1,17 @@
 import * as anchor from "@project-serum/anchor";
-import { BN, Program, web3 } from "@project-serum/anchor";
+import { BN, web3 } from "@project-serum/anchor";
 import assert from "assert";
-import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createEmptyMintlist, getMintlistData } from "./utils/mintlist";
 import {
   arrayToStr,
   generateAlphaNumericString,
+  program,
   strToArr,
 } from "./utils/test-utils";
 
 describe("mintlist_add_mint_infos", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
-
-  const program = anchor.workspace.Nftoken as Program<NftokenTypes>;
 
   it("should populate mintlist with mintInfo's", async () => {
     const treasuryKeypair = web3.Keypair.generate();

@@ -1,20 +1,18 @@
 import * as anchor from "@project-serum/anchor";
-import { BN, Program, web3 } from "@project-serum/anchor";
+import { BN, web3 } from "@project-serum/anchor";
 import { Keypair, SystemProgram } from "@solana/web3.js";
 import _ from "lodash";
-import { Nftoken as NftokenTypes } from "../target/types/nftoken";
 import { createMintInfoArg } from "./mintlist-add-mint-infos.test";
 import {
   createEmptyMintlist,
   createMintlistWithInfos,
   getMintlistData,
 } from "./utils/mintlist";
+import { arrayToStr, DEFAULT_KEYPAIR, program } from "./utils/test-utils";
 
 describe("mintlist_mint_nft", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
-
-  const program = anchor.workspace.Nftoken as Program<NftokenTypes>;
 
   it("should mint a single NFT", async () => {
     const treasuryKeypair = web3.Keypair.generate();
@@ -41,7 +39,7 @@ describe("mintlist_mint_nft", () => {
       .rpc();
 
     const nftKeypair = Keypair.generate();
-    const signer = anchor.AnchorProvider.local().wallet.publicKey;
+    const signer = DEFAULT_KEYPAIR.publicKey;
 
     // Mint an NFT!
     const sig = await program.methods
@@ -58,18 +56,20 @@ describe("mintlist_mint_nft", () => {
       .signers([nftKeypair])
       .rpc()
       .catch((e) => {
-        console.error(e.logs);
+        console.error(e);
         throw e;
       });
 
     console.log("Mintlist Mint NFT sig:", sig);
 
-    await getMintlistData({
+    const data = await getMintlistData({
       program: program,
       mintlistPubkey: mintlistAddress,
     });
+    const nft = await program.account.nftAccount.fetch(nftKeypair.publicKey);
 
-    // TODO: expect stuff has changed
+    expect(data.mintInfos[0].minted).toEqual(true);
+    expect(nft.metadataUrl).toEqual(arrayToStr(mintInfos[0].metadataUrl));
   });
 
   it("should mint a random NFT", async () => {
@@ -86,7 +86,7 @@ describe("mintlist_mint_nft", () => {
         mintingOrder: "random",
       });
 
-    const signer = anchor.AnchorProvider.local().wallet.publicKey;
+    const signer = DEFAULT_KEYPAIR.publicKey;
 
     for (const _idx of _.range(initialMintlistData.numNftsTotal)) {
       const nftKeypair = Keypair.generate();

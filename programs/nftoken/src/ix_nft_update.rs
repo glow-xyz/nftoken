@@ -30,6 +30,6 @@ pub struct NftUpdate<'info> {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct NftUpdateArgs {
-    pub metadata_url: [u8; 96],
+    pub metadata_url: String,
     pub creator_can_update: bool,
 }

@@ -1,8 +1,34 @@
-import { PublicKey } from "@solana/web3.js";
+import { Program } from "@project-serum/anchor";
+import {
+  Nftoken as _NftokenIdlType,
+  IDL as _NftokenIdl,
+} from "../../target/types/nftoken";
+import * as anchor from "@project-serum/anchor";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { Buffer } from "buffer";
 
 export const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
 export type Base58 = string;
+
+export const program = anchor.workspace.Nftoken as Program<_NftokenIdlType>;
+
+export const NftokenIdl = _NftokenIdl;
+export type NftokenIdlType = _NftokenIdlType;
+export const PROGRAM_ID = "nf6WUrqMxWm2eQJ9m1H9BPFjKYyBVzue546URy4ULDC";
+
+// Anchor uses `nodewallet.ts` when testing to find and use a wallet. It automatically signs
+// transactions with this keypair.
+export const DEFAULT_KEYPAIR = Keypair.fromSecretKey(
+  Buffer.from(
+    JSON.parse(
+      require("fs").readFileSync(process.env.ANCHOR_WALLET, {
+        encoding: "utf-8",
+      })
+    )
+  )
+);
+
+export const METADATA_LENGTH = 96;
 
 export function nullArray(length: number) {
   return Array.from({ length }, () => 0);
@@ -30,14 +56,13 @@ export type NftAccount = {
   holder: PublicKey;
   delegate: PublicKey | null;
   creator: PublicKey | null;
-  metadataUrl: Array<number>;
-  createdAt: string;
+  metadataUrl: string | number[];
   collection: PublicKey | null;
 };
 
 export type CollectionAccount = {
   creator: PublicKey | null;
-  metadataUrl: Array<number>;
+  metadataUrl: string | number[];
 };
 
 export type MintInfo = {
@@ -59,9 +84,8 @@ export const logNft = (nft: NftAccount | null) => {
           holder: nft.holder.toString(),
           creator: nft.creator?.toString() ?? null,
           delegate: nft.delegate?.toString() ?? null,
-          metadataUrl: arrayToStr(nft.metadataUrl),
+          metadataUrl: nft.metadataUrl,
           collection: nft.collection?.toString() ?? null,
-          created_at: nft.createdAt,
         },
         null,
         2
@@ -69,16 +93,18 @@ export const logNft = (nft: NftAccount | null) => {
   );
 };
 
-export const logCollection = (coll: CollectionAccount) => {
-  console.log(
-    "Collection:",
-    JSON.stringify(
-      {
-        metadataUrl: arrayToStr(coll.metadataUrl),
-        creator: coll.creator?.toString(),
-      },
-      null,
-      2
-    )
-  );
+export const logCollection = (coll: CollectionAccount | null) => {
+  if (coll) {
+    console.log(
+      "Collection:",
+      JSON.stringify(
+        {
+          metadataUrl: coll.metadataUrl,
+          creator: coll.creator?.toString(),
+        },
+        null,
+        2
+      )
+    );
+  }
 };

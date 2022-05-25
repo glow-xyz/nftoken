@@ -56,7 +56,7 @@ export async function createEmptyMintlist({
       numNftsTotal,
       mintingOrder,
       metadataUrl: strToArr("random-meta", 96),
-      collectionMetadataUrl: strToArr("coll-random-meta", 96),
+      collectionMetadataUrl: "coll-random-meta"
     })
     .accounts({
       collection: collectionKeypair.publicKey,

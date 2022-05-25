@@ -9,6 +9,7 @@ use crate::ix_mintlist_mint_nft::*;
 use crate::ix_nft_create::*;
 use crate::ix_nft_set_collection::*;
 use crate::ix_nft_set_delegate::*;
+use crate::ix_nft_setup_creators::*;
 use crate::ix_nft_transfer::*;
 use crate::ix_nft_unset_collection::*;
 use crate::ix_nft_unset_delegate::*;
@@ -26,12 +27,13 @@ pub mod ix_mintlist_mint_nft;
 pub mod ix_nft_create;
 pub mod ix_nft_set_collection;
 pub mod ix_nft_set_delegate;
+pub mod ix_nft_setup_creators;
 pub mod ix_nft_transfer;
 pub mod ix_nft_unset_collection;
 pub mod ix_nft_unset_delegate;
 pub mod ix_nft_update;
 
-declare_id!("nft54LYxr6noyvwaQKChAmRpnvn6yZGZkFDtajPz3u8");
+declare_id!("nf6WUrqMxWm2eQJ9m1H9BPFjKYyBVzue546URy4ULDC");
 
 #[program]
 pub mod nftoken {
@@ -63,6 +65,13 @@ pub mod nftoken {
 
     pub fn nft_unset_collection(ctx: Context<NftUnsetCollection>) -> Result<()> {
         return nft_unset_collection_inner(ctx);
+    }
+
+    pub fn nft_setup_creators(
+        ctx: Context<NftSetupCreators>,
+        args: NftSetupCreatorsArgs,
+    ) -> Result<()> {
+        return nft_setup_creators_inner(ctx, args);
     }
 
     pub fn collection_create(

@@ -63,7 +63,15 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
     nft.collection = mintlist.collection;
     nft.creator = mintlist.creator;
     nft.holder = ctx.accounts.signer.key();
-    nft.metadata_url = mint_info.metadata_url;
+
+    let metadata_url_vec: Vec<u8> = mint_info
+        .metadata_url
+        .into_iter()
+        // Strip out the null bytes
+        .filter(|&x| x != 0)
+        .collect();
+    nft.metadata_url = String::from_utf8(metadata_url_vec).unwrap();
+
     nft.creator_can_update = true;
 
     mintlist.num_nfts_redeemed = mintlist.num_nfts_redeemed.checked_add(1).unwrap();
@@ -141,7 +149,7 @@ pub struct MintlistMintNft<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
 
-    #[account(init, payer = signer, space = NFT_ACCOUNT_SIZE)]
+    #[account(init, payer = signer, space = NFT_DEFAULT_ACCOUNT_SIZE)]
     pub nft: Account<'info, NftAccount>,
 
     #[account(mut, has_one = treasury_sol)]
