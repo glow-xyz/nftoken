@@ -26,7 +26,7 @@ pub fn nft_setup_creators_inner(
         let basis_points_sum: u32 = basis_points.iter().sum();
         require!(basis_points_sum == 10_000, NftokenError::Unauthorized);
     } else {
-        // If royalty basis points = 0, then they should all be set to 0
+        // If royalty basis points = 0, then each creator should have 0 take
         for creator in args.creators.clone().into_iter() {
             require!(creator.basis_points == 0, NftokenError::Unauthorized);
         }
