@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import "../public/globals.css";
 import "../styles/app.scss";
 
+import { UserProvider } from "../components/UserContext";
 import { TopNav } from "../components/shell/TopNav";
 import { SideNav } from "../components/shell/SideNav";
 import { TableOfContents } from "../components/shell/TableOfContents";
@@ -28,7 +29,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }, [router.pathname]);
 
   return (
-    <>
+    <UserProvider>
       <Head>
         <title>{pageProps.markdoc?.frontmatter.title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -107,6 +108,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           }
         }
       `}</style>
-    </>
+    </UserProvider>
   );
 }

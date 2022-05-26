@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { useContext } from "react";
+import { UserContext } from "../UserContext";
 
 export const TopNav = ({
   navOpen,
@@ -7,6 +9,8 @@ export const TopNav = ({
   navOpen: Boolean;
   toggleNav: () => void;
 }) => {
+  const userContext = useContext(UserContext);
+
   return (
     <>
       <header className="flex-center spread">
@@ -50,9 +54,27 @@ export const TopNav = ({
           </Link>
         </div>
 
-        <Link href={"https://github.com/glow-xyz/nftoken"}>
-          <a>GitHub</a>
-        </Link>
+        <div className="flex-center">
+          <Link href={"https://github.com/glow-xyz/nftoken"}>
+            <a>GitHub</a>
+          </Link>
+
+          {userContext && !userContext.user && userContext.hasGlow && (
+            <button onClick={userContext.signIn} className="auth-button">
+              Sign in with Glow
+            </button>
+          )}
+
+          {userContext && !userContext.user && !userContext.hasGlow && (
+            <a
+              href="https://glow.app/dl"
+              target="_blank"
+              className="auth-button"
+            >
+              Download Glow<span className="extra"> to Sign In</span>
+            </a>
+          )}
+        </div>
       </header>
 
       <style jsx>
@@ -80,6 +102,17 @@ export const TopNav = ({
             display: none;
           }
 
+          .auth-button {
+            display: block;
+            background-color: var(--brand-color);
+            font-size: var(--small-font-size);
+            font-weight: var(--medium-font-weight);
+            color: var(--quaternary-color);
+            border-radius: 99px;
+            margin-left: 1rem;
+            padding: 0.1rem 0.6rem;
+          }
+
           @media (max-width: 800px) {
             header {
               padding: 0 1rem;
@@ -89,6 +122,12 @@ export const TopNav = ({
               display: block;
               color: var(--secondary-color);
               margin-bottom: 3px; /* Visually center */
+            }
+          }
+
+          @media (max-width: 500px) {
+            .auth-button .extra {
+              display: none;
             }
           }
         `}
