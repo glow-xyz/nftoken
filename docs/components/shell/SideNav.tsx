@@ -49,6 +49,7 @@ export const SideNav = () => {
           color: var(--secondary-color);
           transition: none;
           line-height: 1.3;
+          max-width: max-content;
         }
 
         a:hover,
