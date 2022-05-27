@@ -25,7 +25,7 @@ export const CreateNftSection = () => {
             onDragLeave={() => setImageInDropzone(false)}
             onDrop={() => setImageInDropzone(false)}
           >
-            <input type="file" name="image" id="image" />
+            <input type="file" accept="image/*" name="image" id="image" />
             <div>Drag and drop an image or click to browse.</div>
           </div>
         </div>
