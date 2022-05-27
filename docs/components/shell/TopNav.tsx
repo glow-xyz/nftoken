@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { useContext } from "react";
-import { UserContext } from "../UserContext";
+import { useGlowContext } from "@glow-app/glow-react";
 
 export const TopNav = ({
   navOpen,
@@ -9,7 +8,7 @@ export const TopNav = ({
   navOpen: Boolean;
   toggleNav: () => void;
 }) => {
-  const userContext = useContext(UserContext);
+  const { user } = useGlowContext();
 
   return (
     <>
@@ -59,13 +58,9 @@ export const TopNav = ({
             <a>GitHub</a>
           </Link>
 
-          {userContext && !userContext.user && userContext.hasGlow && (
-            <button onClick={userContext.signIn} className="auth-button">
-              Sign in with Glow
-            </button>
-          )}
+          {/* {!user && <GlowSignInButton />} */}
 
-          {userContext && !userContext.user && !userContext.hasGlow && (
+          {/* {userContext && !userContext.user && !userContext.hasGlow && (
             <a
               href="https://glow.app/dl"
               target="_blank"
@@ -73,7 +68,7 @@ export const TopNav = ({
             >
               Download Glow<span className="extra"> to Sign In</span>
             </a>
-          )}
+          )} */}
         </div>
       </header>
 
