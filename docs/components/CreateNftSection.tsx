@@ -36,6 +36,10 @@ export const CreateNftSection = () => {
       </form>
 
       <style jsx>{`
+        form {
+          max-width: 24rem;
+        }
+
         form > div {
           margin-bottom: 1rem;
         }
@@ -49,6 +53,9 @@ export const CreateNftSection = () => {
           padding: 1rem;
           border-radius: var(--border-radius);
           transition: var(--transition);
+          width: 24rem;
+          max-width: 100%;
+          text-align: center;
         }
 
         .dropzone.active {
