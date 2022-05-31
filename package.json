@@ -8,7 +8,7 @@
   },
   "scripts": {
     "rustdocs:publish": "cargo bump patch && git add .. && git commit -m 'Bump docs version' && cargo publish",
-    "deploy": "anchor build && solana program deploy target/deploy/nftoken.so",
+    "deploy": "anchor build && solana program deploy --url devnet -k ~/.config/solana/nfaYbP1RUufevaQSw2mCtofqQkGWa32JGfCVpPgxwX2.json target/deploy/nftoken.so",
     "test": "anchor test --skip-lint",
     "test:fast": "ANCHOR_PROVIDER_URL=http://127.0.0.1:8899 ANCHOR_WALLET=/Users/victor/.config/solana/id.json pnpm --filter program-tests exec jest"
   }
