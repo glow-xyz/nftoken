@@ -20,7 +20,7 @@ describe("ix_collection_create", () => {
     const tx = new Transaction();
     tx.add(
       await program.methods
-        .collectionCreate({ metadataUrl })
+        .collectionCreateV1({ metadataUrl })
         .accounts({
           collection: collection_keypair.publicKey,
           creator,
@@ -30,7 +30,7 @@ describe("ix_collection_create", () => {
     );
     tx.add(
       await program.methods
-        .nftCreate({ metadataUrl, collectionIncluded: true })
+        .nftCreateV1({ metadataUrl, collectionIncluded: true })
         .accounts({
           nft: nft_keypair.publicKey,
           creator,

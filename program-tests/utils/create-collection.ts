@@ -30,7 +30,7 @@ export const createCollection = async ({
   const collection_keypair = Keypair.generate();
 
   const signature = await client.methods
-    .collectionCreate({ metadataUrl })
+    .collectionCreateV1({ metadataUrl })
     .accounts({
       collection: collection_keypair.publicKey,
       creator: creator_keypair.publicKey,

@@ -8,6 +8,8 @@ license = "MIT"
 repository = "https://github.com/glow-xyz/nftoken"
 readme = "../../README.md"
 
+[profile.release]
+overflow-checks = true
 
 [lib]
 crate-type = ["cdylib", "lib"]

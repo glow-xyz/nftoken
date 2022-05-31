@@ -36,7 +36,7 @@ describe("nft_setup_creators", () => {
     );
 
     await program.methods
-      .nftSetupCreators({
+      .nftSetupCreatorsV1({
         royaltyBasisPoints: 500,
         creators,
       })
@@ -109,7 +109,7 @@ describe("nft_setup_creators", () => {
 
     await expect(async () => {
       await program.methods
-        .nftSetupCreators({
+        .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
         })
@@ -164,7 +164,7 @@ describe("nft_setup_creators", () => {
 
     await expect(async () => {
       await program.methods
-        .nftSetupCreators({
+        .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
         })
@@ -211,7 +211,7 @@ describe("nft_setup_creators", () => {
     );
 
     await program.methods
-      .nftSetupCreators({
+      .nftSetupCreatorsV1({
         royaltyBasisPoints: 500,
         creators,
       })
@@ -232,7 +232,7 @@ describe("nft_setup_creators", () => {
 
     await expect(async () => {
       await program.methods
-        .nftSetupCreators({
+        .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
         })
@@ -273,7 +273,7 @@ describe("nft_setup_creators", () => {
 
     await expect(async () => {
       await program.methods
-        .nftSetupCreators({
+        .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
         })
@@ -322,7 +322,7 @@ describe("nft_setup_creators", () => {
 
     await expect(async () => {
       await program.methods
-        .nftSetupCreators({
+        .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
         })
@@ -360,7 +360,7 @@ describe("nft_setup_creators", () => {
 
     await expect(async () => {
       await program.methods
-        .nftSetupCreators({
+        .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
         })
@@ -382,7 +382,7 @@ describe("nft_setup_creators", () => {
 
     await expect(async () => {
       await program.methods
-        .nftSetupCreators({
+        .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
         })

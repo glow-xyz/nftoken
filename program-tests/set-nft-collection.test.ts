@@ -20,7 +20,7 @@ describe("set / unset NFT collection", () => {
     const signer = DEFAULT_KEYPAIR.publicKey;
 
     const set_sig = await program.methods
-      .nftSetCollection()
+      .nftSetCollectionV1()
       .accounts({
         nft: nft_pubkey,
         nftAuthority: signer,
@@ -39,7 +39,7 @@ describe("set / unset NFT collection", () => {
     );
 
     const unset_sig = await program.methods
-      .nftUnsetCollection()
+      .nftUnsetCollectionV1()
       .accounts({
         nft: nft_pubkey,
         nftAuthority: signer,

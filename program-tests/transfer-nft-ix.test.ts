@@ -14,7 +14,7 @@ describe("transfer nft", () => {
     const recipient = Keypair.generate().publicKey;
     const signer = DEFAULT_KEYPAIR.publicKey;
     const signature = await program.methods
-      .nftTransfer()
+      .nftTransferV1()
       .accounts({
         nft: nft_pubkey,
         signer,
