@@ -32,7 +32,7 @@ export const createNft = async ({
   const creator = DEFAULT_KEYPAIR.publicKey;
 
   const signature = await client.methods
-    .nftCreate({
+    .nftCreateV1({
       metadataUrl: metadata_url,
       collectionIncluded: false, // collection_included
     })
@@ -76,7 +76,7 @@ export const updateNft = async ({
 }) => {
   const metadataUrl = "new-meta";
   await client.methods
-    .nftUpdate({ metadataUrl, creatorCanUpdate })
+    .nftUpdateV1({ metadataUrl, creatorCanUpdate })
     .accounts({
       nft: nft_pubkey,
       creator,

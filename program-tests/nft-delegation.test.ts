@@ -20,7 +20,7 @@ describe("delegate", () => {
     const signer = DEFAULT_KEYPAIR.publicKey;
 
     const delegate_sig = await program.methods
-      .nftSetDelegate()
+      .nftSetDelegateV1()
       .accounts({
         nft: nft_pubkey,
         holder: signer,
@@ -38,7 +38,7 @@ describe("delegate", () => {
     );
 
     const undelegate_sig = await program.methods
-      .nftUnsetDelegate()
+      .nftUnsetDelegateV1()
       .accounts({
         nft: nft_pubkey,
         signer,

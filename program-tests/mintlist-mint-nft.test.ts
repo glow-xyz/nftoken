@@ -31,7 +31,7 @@ describe("mintlist_mint_nft", () => {
     const mintInfos = [createMintInfoArg(0)];
 
     await program.methods
-      .mintlistAddMintInfos({ currentNftCount: 0, mintInfos })
+      .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos })
       .accounts({
         mintlist: mintlistAddress,
         creator: provider.wallet.publicKey,
@@ -43,7 +43,7 @@ describe("mintlist_mint_nft", () => {
 
     // Mint an NFT!
     const sig = await program.methods
-      .mintlistMintNft()
+      .mintlistMintNftV1()
       .accounts({
         mintlist: mintlistAddress,
         nft: nftKeypair.publicKey,
@@ -93,7 +93,7 @@ describe("mintlist_mint_nft", () => {
 
       // Mint an NFT!
       await program.methods
-        .mintlistMintNft()
+        .mintlistMintNftV1()
         .accounts({
           mintlist: mintlistPubkey,
           nft: nftKeypair.publicKey,

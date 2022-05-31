@@ -47,7 +47,7 @@ describe("ix_nft_create", () => {
     const nftKeypair = Keypair.generate();
 
     await program.methods
-      .nftCreate({
+      .nftCreateV1({
         metadataUrl: nft_metadata_url,
         collectionIncluded: true, // collection_included
       })
@@ -110,7 +110,7 @@ describe("ix_nft_create", () => {
 
     await expect(async () => {
       await program.methods
-        .nftCreate({
+        .nftCreateV1({
           metadataUrl: nft_metadata_url,
           collectionIncluded: true, // collection_included
         })
@@ -137,7 +137,7 @@ describe("ix_nft_create", () => {
     }).rejects.toThrow();
 
     await program.methods
-      .nftCreate({
+      .nftCreateV1({
         metadataUrl: nft_metadata_url,
         collectionIncluded: true, // collection_included
       })

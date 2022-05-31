@@ -16,7 +16,7 @@ describe("update collection", () => {
     const creator_can_update = true;
 
     const signature = await program.methods
-      .collectionUpdate({
+      .collectionUpdateV1({
         metadataUrl: metadata_url,
         creatorCanUpdate: creator_can_update,
       })
@@ -43,7 +43,7 @@ describe("update collection", () => {
     const creator_can_update = false;
 
     const signature = await program.methods
-      .collectionUpdate({
+      .collectionUpdateV1({
         metadataUrl: metadata_url,
         creatorCanUpdate: creator_can_update,
       })
@@ -64,7 +64,7 @@ describe("update collection", () => {
 
     // This should error since the collection can't be updated
     const promise = program.methods
-      .collectionUpdate({
+      .collectionUpdateV1({
         metadataUrl: metadata_url,
         creatorCanUpdate: creator_can_update,
       })
