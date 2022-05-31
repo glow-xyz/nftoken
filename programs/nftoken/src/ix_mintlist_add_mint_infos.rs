@@ -27,7 +27,10 @@ pub fn mintlist_add_mint_infos_inner(
         .map_err(|_err| error!(NftokenError::TooManyMintInfos))?;
 
     let num_nfts_configured = mintlist.num_nfts_configured;
-    let available_mint_info_slots = mintlist.num_nfts_total - num_nfts_configured;
+    let available_mint_info_slots = mintlist
+        .num_nfts_total
+        .checked_sub(num_nfts_configured)
+        .unwrap();
 
     require!(
         len_to_add <= available_mint_info_slots,
@@ -43,7 +46,12 @@ pub fn mintlist_add_mint_infos_inner(
     let insertion_byte_pos = MintlistAccount::size(num_nfts_configured);
     for (i, mint_info_arg) in args.mint_infos.iter().enumerate() {
         let mint_info = MintInfo::from(mint_info_arg);
-        mint_info.serialize(&mut &mut mintlist_data[insertion_byte_pos + i * mint_info_size..])?
+
+        // insertion_byte_pos + i * mint_info_size
+        let insertion_byte_pos_start = insertion_byte_pos
+            .checked_add(i.checked_mul(mint_info_size).unwrap())
+            .unwrap();
+        mint_info.serialize(&mut &mut mintlist_data[insertion_byte_pos_start..])?
     }
 
     Ok(())

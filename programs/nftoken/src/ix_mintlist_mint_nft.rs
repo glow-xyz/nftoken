@@ -54,7 +54,8 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
     mintlist_data[mint_info_pos] = 1;
 
     let mint_info_size = MintInfo::size();
-    let mint_info_data = &mut &mintlist_data[mint_info_pos..(mint_info_pos + mint_info_size)];
+    let mint_info_pos_end = mint_info_pos.checked_add(mint_info_size).unwrap();
+    let mint_info_data = &mut &mintlist_data[mint_info_pos..mint_info_pos_end];
     let mint_info: MintInfo = AnchorDeserialize::deserialize(mint_info_data)?;
 
     // Configure the minted NFT
@@ -99,7 +100,10 @@ fn get_mint_info_index(
             //    that corresponds to the `available_index`
             //
             // TODO: spend more time verifying this code since it was inspired by Metaplex Candy Machine
-            let nfts_available = mintlist.num_nfts_total - mintlist.num_nfts_redeemed;
+            let nfts_available = mintlist
+                .num_nfts_total
+                .checked_sub(mintlist.num_nfts_redeemed)
+                .unwrap();
 
             let recent_hash_data = slothashes.data.borrow();
 
