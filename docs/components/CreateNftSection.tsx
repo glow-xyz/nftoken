@@ -1,39 +1,34 @@
 import { useState } from "react";
 import classNames from "classnames";
+import { Formik, Field, useFormikContext } from "formik";
 
 export const CreateNftSection = () => {
-  const [imageinDropzone, setImageInDropzone] = useState(false);
-
   return (
     <div>
-      <form onSubmit={() => console.log("submit")}>
-        <div>
-          <label htmlFor="name" className="luma-input-label medium">
-            Name
-          </label>
-          <input type="text" name="name" id="name" className="luma-input" />
-        </div>
+      <Formik
+        initialValues={{ name: "", image: null }}
+        onSubmit={(values) => console.log(values)}
+      >
+        {(props) => (
+          <form onSubmit={props.handleSubmit}>
+            <div>
+              <label htmlFor="name" className="luma-input-label medium">
+                Name
+              </label>
+              <Field name="name" id="name" className="luma-input" />
+            </div>
 
-        <div>
-          <label htmlFor="image" className="luma-input-label medium">
-            NFT Image
-          </label>
-          <div
-            className={classNames("dropzone", { active: imageinDropzone })}
-            onDragEnter={() => setImageInDropzone(true)}
-            onDragOver={() => setImageInDropzone(true)}
-            onDragLeave={() => setImageInDropzone(false)}
-            onDrop={() => setImageInDropzone(false)}
-          >
-            <input type="file" accept="image/*" name="image" id="image" />
-            <div>Drag and drop an image or click to browse.</div>
-          </div>
-        </div>
+            <ImageDropzone />
 
-        <button className="luma-button round brand solid flex-center mt-4">
-          Create NFT
-        </button>
-      </form>
+            <button
+              type="submit"
+              className="luma-button round brand solid flex-center mt-4"
+            >
+              Create NFT
+            </button>
+          </form>
+        )}
+      </Formik>
 
       <style jsx>{`
         form {
@@ -43,7 +38,41 @@ export const CreateNftSection = () => {
         form > div {
           margin-bottom: 1rem;
         }
+      `}</style>
+    </div>
+  );
+};
 
+const ImageDropzone = () => {
+  const { setFieldValue } = useFormikContext();
+
+  const [imageinDropzone, setImageInDropzone] = useState(false);
+
+  return (
+    <div>
+      <label htmlFor="image" className="luma-input-label medium">
+        NFT Image
+      </label>
+      <div
+        className={classNames("dropzone", { active: imageinDropzone })}
+        onDragEnter={() => setImageInDropzone(true)}
+        onDragOver={() => setImageInDropzone(true)}
+        onDragLeave={() => setImageInDropzone(false)}
+        onDrop={() => setImageInDropzone(false)}
+      >
+        <input
+          type="file"
+          accept="image/*"
+          name="image"
+          id="image"
+          onChange={(event) => {
+            setFieldValue("image", event.target.files?.[0]);
+          }}
+        />
+        <div>Drag and drop an image or click to browse.</div>
+      </div>
+
+      <style jsx>{`
         .dropzone {
           position: relative;
           border: 1px dashed var(--primary-border-color);
