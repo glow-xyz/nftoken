@@ -34,7 +34,7 @@ describe("mintlist_mint_nft", () => {
       .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos })
       .accounts({
         mintlist: mintlistAddress,
-        creator: provider.wallet.publicKey,
+        authority: provider.wallet.publicKey,
       })
       .rpc();
 

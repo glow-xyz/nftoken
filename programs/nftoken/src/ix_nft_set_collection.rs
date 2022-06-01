@@ -9,24 +9,24 @@ use anchor_lang::prelude::*;
 /// This requires the following auth:
 ///
 /// ## NFT
-/// - `creator_can_update` = true
-/// - `creator == nft_authority` - the `nft.creator` has to sign this TX
+/// - `authority_can_update` = true
+/// - `authority == nft_authority` - the `nft.authority` has to sign this TX
 ///
 /// ## Collection
-/// - `creator_can_update` = true
-/// - `creator == collection_authority` - the `collection.creator` has to sign this TX
+/// - `authority_can_update` = true
+/// - `authority == collection_authority` - the `collection.authority` has to sign this TX
 pub fn nft_set_collection_inner(ctx: Context<NftSetCollection>) -> Result<()> {
     let nft = &mut ctx.accounts.nft;
     let nft_authority_key = ctx.accounts.nft_authority.key();
 
-    let has_nft_auth = nft.creator.key() == nft_authority_key && nft.creator_can_update;
+    let has_nft_auth = nft.authority.key() == nft_authority_key && nft.authority_can_update;
     require!(has_nft_auth, NftokenError::Unauthorized);
 
     let collection = &ctx.accounts.collection;
     let collection_authority_key = ctx.accounts.collection_authority.key();
 
     let has_collection_auth =
-        collection.creator.key() == collection_authority_key && collection.creator_can_update;
+        collection.authority.key() == collection_authority_key && collection.authority_can_update;
     require!(has_collection_auth, NftokenError::Unauthorized);
 
     nft.collection = collection.key();

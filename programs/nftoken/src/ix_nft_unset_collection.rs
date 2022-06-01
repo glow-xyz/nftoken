@@ -10,8 +10,8 @@ use anchor_lang::prelude::*;
 /// This requires the following auth:
 ///
 /// ## NFT
-/// - `creator_can_update` = true
-/// - `creator == nft_authority` - the `nft.creator` has to sign this TX
+/// - `authority_can_update` = true
+/// - `authority == nft_authority` - the `nft.authority` has to sign this TX
 ///
 /// This does not require any auth on the collection, because the NFT creator should be
 /// able to remove it from a collection even without consent of the collection authority.
@@ -20,9 +20,9 @@ use anchor_lang::prelude::*;
 /// without auth from the NFT creator.
 pub fn nft_unset_collection_inner(ctx: Context<NftUnsetCollection>) -> Result<()> {
     let nft = &mut ctx.accounts.nft;
-    let nft_authority_key = ctx.accounts.nft_authority.key();
+    let nft_authority_key = ctx.accounts.authority.key();
 
-    let has_nft_auth = nft.creator.key() == nft_authority_key && nft.creator_can_update;
+    let has_nft_auth = nft.authority.key() == nft_authority_key && nft.authority_can_update;
     require!(has_nft_auth, NftokenError::Unauthorized);
 
     nft.collection = NULL_PUBKEY;
@@ -32,8 +32,10 @@ pub fn nft_unset_collection_inner(ctx: Context<NftUnsetCollection>) -> Result<()
 
 #[derive(Accounts)]
 pub struct NftUnsetCollection<'info> {
-    #[account(mut)]
+    #[account(mut, has_one = authority)]
     pub nft: Account<'info, NftAccount>,
+
+    // TODO: does this need to be mutable?
     #[account(mut)] // This is also the fee payer for the TX
-    pub nft_authority: Signer<'info>,
+    pub authority: Signer<'info>,
 }

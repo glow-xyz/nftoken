@@ -40,7 +40,7 @@ describe("mintlist_add_mint_infos", () => {
       .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos: mintInfos1 })
       .accounts({
         mintlist: mintlistAddress,
-        creator: provider.wallet.publicKey,
+        authority: provider.wallet.publicKey,
       })
       .rpc();
 
@@ -69,7 +69,7 @@ describe("mintlist_add_mint_infos", () => {
         .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos: mintInfos2 })
         .accounts({
           mintlist: mintlistAddress,
-          creator: provider.wallet.publicKey,
+          authority: provider.wallet.publicKey,
         })
         .rpc();
     }).rejects.toThrow();
@@ -81,7 +81,7 @@ describe("mintlist_add_mint_infos", () => {
       })
       .accounts({
         mintlist: mintlistAddress,
-        creator: provider.wallet.publicKey,
+        authority: provider.wallet.publicKey,
       })
       .rpc();
 

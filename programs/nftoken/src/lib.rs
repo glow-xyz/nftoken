@@ -33,7 +33,7 @@ pub mod ix_nft_unset_collection;
 pub mod ix_nft_unset_delegate;
 pub mod ix_nft_update;
 
-declare_id!("nf6WUrqMxWm2eQJ9m1H9BPFjKYyBVzue546URy4ULDC");
+declare_id!("nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi");
 
 #[program]
 pub mod nftoken {
@@ -88,8 +88,8 @@ pub mod nftoken {
         return collection_update_inner(ctx, args);
     }
 
-    pub fn transfer_collection_v1(ctx: Context<CollectionTransferCreator>) -> Result<()> {
-        return collection_transfer_creator_inner(ctx);
+    pub fn collection_transfer_v1(ctx: Context<CollectionTransferCreator>) -> Result<()> {
+        return collection_transfer_inner(ctx);
     }
 
     pub fn mintlist_create_v1(

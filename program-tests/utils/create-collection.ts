@@ -11,17 +11,17 @@ import {
 
 export const createCollection = async ({
   metadata_url: _metadata_url,
-  creator_keypair = DEFAULT_KEYPAIR,
+  authority_keypair = DEFAULT_KEYPAIR,
   verbose,
   client = program,
 }: {
   metadata_url?: string;
-  creator_keypair?: Keypair;
+  authority_keypair?: Keypair;
   verbose?: boolean;
   client?: Program<NftokenIdlType>;
 }): Promise<{
   signature: Base58;
-  creator: PublicKey;
+  authority: PublicKey;
   collection_pubkey: PublicKey;
   collection_keypair: Keypair;
 }> => {
@@ -33,10 +33,10 @@ export const createCollection = async ({
     .collectionCreateV1({ metadataUrl })
     .accounts({
       collection: collection_keypair.publicKey,
-      creator: creator_keypair.publicKey,
+      authority: authority_keypair.publicKey,
       systemProgram: SystemProgram.programId,
     })
-    .signers([collection_keypair, creator_keypair])
+    .signers([collection_keypair, authority_keypair])
     .rpc();
 
   const fetched_collection = await program.account.collectionAccount.fetch(
@@ -50,6 +50,6 @@ export const createCollection = async ({
     signature,
     collection_pubkey: collection_keypair.publicKey,
     collection_keypair,
-    creator: creator_keypair.publicKey,
+    authority: authority_keypair.publicKey,
   };
 };

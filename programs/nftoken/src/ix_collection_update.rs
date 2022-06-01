@@ -11,12 +11,12 @@ pub fn collection_update_inner(
 ) -> Result<()> {
     let collection = &mut ctx.accounts.collection;
 
-    let action_allowed = collection.creator.key() == ctx.accounts.creator.key();
+    let action_allowed = collection.authority.key() == ctx.accounts.authority.key();
     require!(action_allowed, NftokenError::Unauthorized);
-    require!(collection.creator_can_update, NftokenError::Unauthorized);
+    require!(collection.authority_can_update, NftokenError::Unauthorized);
 
     collection.metadata_url = args.metadata_url;
-    collection.creator_can_update = args.creator_can_update;
+    collection.authority_can_update = args.authority_can_update;
 
     Ok(())
 }
@@ -24,15 +24,15 @@ pub fn collection_update_inner(
 #[derive(Accounts)]
 #[instruction(args: CollectionUpdateArgs)]
 pub struct CollectionUpdate<'info> {
-    #[account(mut, has_one = creator)]
+    #[account(mut, has_one = authority)]
     pub collection: Account<'info, CollectionAccount>,
 
     #[account(mut)]
-    pub creator: Signer<'info>,
+    pub authority: Signer<'info>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct CollectionUpdateArgs {
     pub metadata_url: String,
-    pub creator_can_update: bool,
+    pub authority_can_update: bool,
 }

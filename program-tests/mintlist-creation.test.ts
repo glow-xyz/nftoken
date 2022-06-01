@@ -23,7 +23,7 @@ describe("mintlist_create", () => {
     });
 
     assert.equal(mintlistData.version, 1);
-    assert.deepEqual(mintlistData.creator, provider.wallet.publicKey);
+    assert.deepEqual(mintlistData.authority, provider.wallet.publicKey);
     assert.deepEqual(mintlistData.treasurySol, treasuryKeypair.publicKey);
     assert.deepEqual(mintlistData.goLiveDate.toNumber(), goLiveDate.toNumber());
     assert.equal(
