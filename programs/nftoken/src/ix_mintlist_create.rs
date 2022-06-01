@@ -7,13 +7,13 @@ use std::convert::TryInto;
 pub fn mintlist_create_inner(ctx: Context<MintlistCreate>, args: MintlistCreateArgs) -> Result<()> {
     let collection = &mut ctx.accounts.collection;
     collection.version = 1;
-    collection.creator = ctx.accounts.creator.key();
+    collection.authority = ctx.accounts.authority.key();
     collection.metadata_url = args.collection_metadata_url;
-    collection.creator_can_update = true;
+    collection.authority_can_update = true;
 
     let mintlist_account = &mut ctx.accounts.mintlist;
     mintlist_account.version = 1;
-    mintlist_account.creator = ctx.accounts.creator.key();
+    mintlist_account.authority = ctx.accounts.authority.key();
     mintlist_account.treasury_sol = ctx.accounts.treasury_sol.key();
     mintlist_account.go_live_date = args.go_live_date;
     mintlist_account.metadata_url = args.metadata_url;
@@ -30,7 +30,7 @@ pub fn mintlist_create_inner(ctx: Context<MintlistCreate>, args: MintlistCreateA
 #[instruction(args: MintlistCreateArgs)]
 pub struct MintlistCreate<'info> {
     #[account(mut)]
-    pub creator: Signer<'info>,
+    pub authority: Signer<'info>,
 
     /// Due to the 10kb limit on the size of accounts that can be initialized via CPI,
     /// the `mintlist` account must be initialized through a separate SystemProgram instruction,
@@ -41,7 +41,7 @@ pub struct MintlistCreate<'info> {
     )]
     pub mintlist: Account<'info, MintlistAccount>,
 
-    #[account(init, payer = creator, space = COLLECTION_DEFAULT_ACCOUNT_SIZE)]
+    #[account(init, payer = authority, space = COLLECTION_DEFAULT_ACCOUNT_SIZE)]
     pub collection: Account<'info, CollectionAccount>,
 
     /// SOL wallet to receive proceedings from SOL payments.

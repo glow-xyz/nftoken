@@ -42,7 +42,7 @@ describe("set / unset NFT collection", () => {
       .nftUnsetCollectionV1()
       .accounts({
         nft: nft_pubkey,
-        nftAuthority: signer,
+        authority: signer,
       })
       .signers([])
       .rpc();

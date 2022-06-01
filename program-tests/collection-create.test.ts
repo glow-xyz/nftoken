@@ -15,7 +15,7 @@ describe("ix_collection_create", () => {
     const metadataUrl = "hi metadata";
     const collection_keypair = Keypair.generate();
     const nft_keypair = Keypair.generate();
-    const creator = DEFAULT_KEYPAIR.publicKey;
+    const authority = DEFAULT_KEYPAIR.publicKey;
 
     const tx = new Transaction();
     tx.add(
@@ -23,7 +23,7 @@ describe("ix_collection_create", () => {
         .collectionCreateV1({ metadataUrl })
         .accounts({
           collection: collection_keypair.publicKey,
-          creator,
+          authority,
           systemProgram: SystemProgram.programId,
         })
         .instruction()
@@ -33,8 +33,8 @@ describe("ix_collection_create", () => {
         .nftCreateV1({ metadataUrl, collectionIncluded: true })
         .accounts({
           nft: nft_keypair.publicKey,
-          creator,
-          holder: creator,
+          authority,
+          holder: authority,
           systemProgram: SystemProgram.programId,
         })
         .remainingAccounts([
@@ -44,7 +44,7 @@ describe("ix_collection_create", () => {
             isWritable: false,
           },
           {
-            pubkey: creator, // collection authority
+            pubkey: authority, // collection authority
             isSigner: false,
             isWritable: false,
           },

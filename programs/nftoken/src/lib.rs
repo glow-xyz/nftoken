@@ -88,8 +88,8 @@ pub mod nftoken {
         return collection_update_inner(ctx, args);
     }
 
-    pub fn transfer_collection_v1(ctx: Context<CollectionTransferCreator>) -> Result<()> {
-        return collection_transfer_creator_inner(ctx);
+    pub fn collection_transfer_v1(ctx: Context<CollectionTransferCreator>) -> Result<()> {
+        return collection_transfer_inner(ctx);
     }
 
     pub fn mintlist_create_v1(

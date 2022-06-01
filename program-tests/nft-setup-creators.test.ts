@@ -41,7 +41,7 @@ describe("nft_setup_creators", () => {
         creators,
       })
       .accounts({
-        creator: primaryCreator,
+        authority: primaryCreator,
         nft: nft_pubkey,
         systemProgram: SystemProgram.programId,
         nftCreators: nft_creators_pubkey,
@@ -114,7 +114,7 @@ describe("nft_setup_creators", () => {
           creators,
         })
         .accounts({
-          creator: primaryCreator,
+          authority: primaryCreator,
           nft: nft_pubkey,
           systemProgram: SystemProgram.programId,
           nftCreators: nft_creators_pubkey,
@@ -169,7 +169,7 @@ describe("nft_setup_creators", () => {
           creators,
         })
         .accounts({
-          creator: primaryCreator,
+          authority: primaryCreator,
           nft: nft_pubkey,
           systemProgram: SystemProgram.programId,
           nftCreators: nft_creators_pubkey,
@@ -216,7 +216,7 @@ describe("nft_setup_creators", () => {
         creators,
       })
       .accounts({
-        creator: primaryCreator,
+        authority: primaryCreator,
         nft: nft_pubkey,
         systemProgram: SystemProgram.programId,
         nftCreators: nft_creators_pubkey,
@@ -237,7 +237,7 @@ describe("nft_setup_creators", () => {
           creators,
         })
         .accounts({
-          creator: primaryCreator,
+          authority: primaryCreator,
           nft: nft_pubkey,
           systemProgram: SystemProgram.programId,
           nftCreators: nft_creators_pubkey,
@@ -278,7 +278,7 @@ describe("nft_setup_creators", () => {
           creators,
         })
         .accounts({
-          creator: creator1,
+          authority: creator1,
           nft: nft_pubkey,
           systemProgram: SystemProgram.programId,
           nftCreators: nft_creators_pubkey,
@@ -310,9 +310,9 @@ describe("nft_setup_creators", () => {
 
     await updateNft({
       nft_pubkey,
-      creator: primaryCreator,
+      authority: primaryCreator,
       metadataUrl: `newww! ${Math.random()}`,
-      creatorCanUpdate: false,
+      authorityCanUpdate: false,
     });
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
@@ -327,7 +327,7 @@ describe("nft_setup_creators", () => {
           creators,
         })
         .accounts({
-          creator: primaryCreator,
+          authority: primaryCreator,
           nft: nft_pubkey,
           systemProgram: SystemProgram.programId,
           nftCreators: nft_creators_pubkey,
@@ -365,7 +365,7 @@ describe("nft_setup_creators", () => {
           creators,
         })
         .accounts({
-          creator: primaryCreator,
+          authority: primaryCreator,
           nft: Keypair.generate().publicKey,
           systemProgram: SystemProgram.programId,
           nftCreators: nft_creators_pubkey,
@@ -387,7 +387,7 @@ describe("nft_setup_creators", () => {
           creators,
         })
         .accounts({
-          creator: primaryCreator,
+          authority: primaryCreator,
           nft: nft_pubkey,
           systemProgram: SystemProgram.programId,
           nftCreators: Keypair.generate().publicKey,
