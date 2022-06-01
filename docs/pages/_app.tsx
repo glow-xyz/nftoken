@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 import "../public/globals.css";
 import "../styles/app.scss";
+import "@glow-app/glow-react/dist/styles.css";
 
 import { GlowProvider } from "@glow-app/glow-react";
 import { TopNav } from "../components/shell/TopNav";

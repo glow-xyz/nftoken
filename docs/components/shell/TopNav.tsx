@@ -1,3 +1,4 @@
+import { GlowSignInButton } from "@glow-app/glow-react";
 import Link from "next/link";
 import { useGlowContext } from "@glow-app/glow-react";
 
@@ -58,17 +59,7 @@ export const TopNav = ({
             <a>GitHub</a>
           </Link>
 
-          {/* {!user && <GlowSignInButton />} */}
-
-          {/* {userContext && !userContext.user && !userContext.hasGlow && (
-            <a
-              href="https://glow.app/dl"
-              target="_blank"
-              className="auth-button"
-            >
-              Download Glow<span className="extra"> to Sign In</span>
-            </a>
-          )} */}
+          <GlowSignInButton />
         </div>
       </header>
 
