@@ -1,6 +1,6 @@
-import { GlowSignInButton } from "@glow-app/glow-react";
+import { useState } from "react";
+import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import Link from "next/link";
-import { useGlowContext } from "@glow-app/glow-react";
 
 export const TopNav = ({
   navOpen,
@@ -9,7 +9,18 @@ export const TopNav = ({
   navOpen: Boolean;
   toggleNav: () => void;
 }) => {
-  const { user } = useGlowContext();
+  const { user, signOut } = useGlowContext();
+
+  const [confirmSignOut, setConfirmSignOut] = useState(false);
+  function handleAuthButtonClick() {
+    if (!confirmSignOut) {
+      setConfirmSignOut(true);
+      return;
+    }
+
+    signOut();
+    setConfirmSignOut(false);
+  }
 
   return (
     <>
@@ -55,11 +66,24 @@ export const TopNav = ({
         </div>
 
         <div className="flex-center">
-          <Link href={"https://github.com/glow-xyz/nftoken"}>
-            <a>GitHub</a>
-          </Link>
+          {user ? (
+            <button className="auth-button" onClick={handleAuthButtonClick}>
+              {confirmSignOut ? (
+                "Sign out?"
+              ) : (
+                <>
+                  {user.address.slice(0, 5)}...
+                  {user.address.slice(user.address.length - 5)}
+                </>
+              )}
+            </button>
+          ) : (
+            <GlowSignInButton size="sm" variant="purple" />
+          )}
 
-          <GlowSignInButton />
+          <Link href={"https://github.com/glow-xyz/nftoken"}>
+            <a className="block ml-3">GitHub</a>
+          </Link>
         </div>
       </header>
 
@@ -93,7 +117,7 @@ export const TopNav = ({
             background-color: var(--brand-color);
             font-size: var(--small-font-size);
             font-weight: var(--medium-font-weight);
-            color: var(--quaternary-color);
+            color: var(--white);
             border-radius: 99px;
             margin-left: 1rem;
             padding: 0.1rem 0.6rem;
@@ -108,12 +132,6 @@ export const TopNav = ({
               display: block;
               color: var(--secondary-color);
               margin-bottom: 3px; /* Visually center */
-            }
-          }
-
-          @media (max-width: 500px) {
-            .auth-button .extra {
-              display: none;
             }
           }
         `}
