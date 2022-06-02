@@ -1,33 +1,31 @@
 import { useState } from "react";
 import classNames from "classnames";
-import { Formik, Field, useFormikContext } from "formik";
+import { Formik, Form, Field, useFormikContext } from "formik";
 
 export const CreateNftSection = () => {
   return (
-    <div>
+    <div className="create-nft-section">
       <Formik
         initialValues={{ name: "", image: null }}
         onSubmit={(values) => console.log(values)}
       >
-        {(props) => (
-          <form onSubmit={props.handleSubmit}>
-            <div>
-              <label htmlFor="name" className="luma-input-label medium">
-                Name
-              </label>
-              <Field name="name" id="name" className="luma-input" />
-            </div>
+        <Form>
+          <div>
+            <label htmlFor="name" className="luma-input-label medium">
+              Name
+            </label>
+            <Field name="name" id="name" className="luma-input" />
+          </div>
 
-            <ImageDropzone />
+          <ImageDropzone />
 
-            <button
-              type="submit"
-              className="luma-button round brand solid flex-center mt-4"
-            >
-              Create NFT
-            </button>
-          </form>
-        )}
+          <button
+            type="submit"
+            className="luma-button round brand solid flex-center mt-4"
+          >
+            Create NFT
+          </button>
+        </Form>
       </Formik>
 
       <style jsx>{`
@@ -35,7 +33,7 @@ export const CreateNftSection = () => {
           max-width: 24rem;
         }
 
-        form > div {
+        .create-nft-section :global(form) > :global(div) {
           margin-bottom: 1rem;
         }
       `}</style>
