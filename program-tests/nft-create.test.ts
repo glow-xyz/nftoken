@@ -17,44 +17,44 @@ describe("ix_nft_create", () => {
   anchor.setProvider(provider);
 
   test("mints an NFT", async () => {
-    const creator = DEFAULT_KEYPAIR.publicKey;
+    const authority = DEFAULT_KEYPAIR.publicKey;
     const { nft_pubkey } = await createNft({});
     const nft = await program.account.nftAccount.fetch(nft_pubkey);
 
-    expect(nft.creator.toBase58()).toEqual(creator.toBase58());
-    expect(nft.holder.toBase58()).toEqual(creator.toBase58());
+    expect(nft.authority.toBase58()).toEqual(authority.toBase58());
+    expect(nft.holder.toBase58()).toEqual(authority.toBase58());
     expect(nft.collection.toBase58()).toEqual(NULL_PUBKEY_STRING);
     expect(nft.version).toEqual(1);
   });
 
   test("mints an NFT to a different holder", async () => {
-    const creator = DEFAULT_KEYPAIR.publicKey;
+    const authority = DEFAULT_KEYPAIR.publicKey;
     const holder = Keypair.generate().publicKey;
     const { nft_pubkey } = await createNft({ holder });
     const nft = await program.account.nftAccount.fetch(nft_pubkey);
 
-    expect(nft.creator.toBase58()).toEqual(creator.toBase58());
+    expect(nft.authority.toBase58()).toEqual(authority.toBase58());
     expect(nft.holder.toBase58()).toEqual(holder.toBase58());
     expect(nft.collection.toBase58()).toEqual(NULL_PUBKEY_STRING);
     expect(nft.version).toEqual(1);
   });
 
   test("mints an NFT into a collection", async () => {
-    const { creator, collection_keypair } = await createCollection({});
+    const { authority, collection_keypair } = await createCollection({});
 
     const nft_metadata_url = "url2";
 
     const nftKeypair = Keypair.generate();
 
     await program.methods
-      .nftCreate({
+      .nftCreateV1({
         metadataUrl: nft_metadata_url,
         collectionIncluded: true, // collection_included
       })
       .accounts({
         nft: nftKeypair.publicKey,
-        creator,
-        holder: creator,
+        authority,
+        holder: authority,
         systemProgram: SystemProgram.programId,
       })
       .remainingAccounts([
@@ -64,7 +64,7 @@ describe("ix_nft_create", () => {
           isWritable: false,
         },
         {
-          pubkey: creator, // collection authority
+          pubkey: authority, // collection authority
           isSigner: false,
           isWritable: false,
         },
@@ -79,7 +79,7 @@ describe("ix_nft_create", () => {
   });
 
   test("mints an NFT into a collection we don't have auth for", async () => {
-    const creator_keypair = Keypair.generate();
+    const authority_keypair = Keypair.generate();
 
     // We create a newClient since Program implicitly signs with the DEFAULT_KEYPAIR and web3.js
     // will error if that signature isn't necessary.
@@ -88,19 +88,19 @@ describe("ix_nft_create", () => {
       PROGRAM_ID,
       new AnchorProvider(
         program.provider.connection,
-        new KeypairWallet(creator_keypair),
+        new KeypairWallet(authority_keypair),
         {}
       )
     );
 
     const airdropSig = await newClient.provider.connection.requestAirdrop(
-      creator_keypair.publicKey,
+      authority_keypair.publicKey,
       anchor.web3.LAMPORTS_PER_SOL
     );
     await newClient.provider.connection.confirmTransaction(airdropSig);
 
-    const { creator, collection_keypair } = await createCollection({
-      creator_keypair,
+    const { authority, collection_keypair } = await createCollection({
+      authority_keypair,
       client: newClient,
     });
 
@@ -110,14 +110,14 @@ describe("ix_nft_create", () => {
 
     await expect(async () => {
       await program.methods
-        .nftCreate({
+        .nftCreateV1({
           metadataUrl: nft_metadata_url,
           collectionIncluded: true, // collection_included
         })
         .accounts({
           nft: nftKeypair.publicKey,
-          creator: DEFAULT_KEYPAIR.publicKey,
-          holder: creator,
+          authority: DEFAULT_KEYPAIR.publicKey,
+          holder: authority,
           systemProgram: SystemProgram.programId,
         })
         .remainingAccounts([
@@ -127,7 +127,7 @@ describe("ix_nft_create", () => {
             isWritable: false,
           },
           {
-            pubkey: creator_keypair.publicKey, // collection authority
+            pubkey: authority_keypair.publicKey, // collection authority
             isSigner: false,
             isWritable: false,
           },
@@ -137,14 +137,14 @@ describe("ix_nft_create", () => {
     }).rejects.toThrow();
 
     await program.methods
-      .nftCreate({
+      .nftCreateV1({
         metadataUrl: nft_metadata_url,
         collectionIncluded: true, // collection_included
       })
       .accounts({
         nft: nftKeypair.publicKey,
-        creator: DEFAULT_KEYPAIR.publicKey,
-        holder: creator,
+        authority: DEFAULT_KEYPAIR.publicKey,
+        holder: authority,
         systemProgram: SystemProgram.programId,
       })
       .remainingAccounts([
@@ -154,12 +154,12 @@ describe("ix_nft_create", () => {
           isWritable: false,
         },
         {
-          pubkey: creator_keypair.publicKey, // collection authority
+          pubkey: authority_keypair.publicKey, // collection authority
           isSigner: true,
           isWritable: false,
         },
       ])
-      .signers([nftKeypair, creator_keypair])
+      .signers([nftKeypair, authority_keypair])
       .rpc();
   });
 });

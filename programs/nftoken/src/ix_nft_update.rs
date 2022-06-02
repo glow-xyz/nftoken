@@ -8,12 +8,12 @@ use anchor_lang::prelude::*;
 pub fn nft_update_inner(ctx: Context<NftUpdate>, args: NftUpdateArgs) -> Result<()> {
     let nft = &mut ctx.accounts.nft;
 
-    let action_allowed = nft.creator.key() == ctx.accounts.creator.key();
+    let action_allowed = nft.authority.key() == ctx.accounts.authority.key();
     require!(action_allowed, NftokenError::Unauthorized);
-    require!(nft.creator_can_update, NftokenError::Unauthorized);
+    require!(nft.authority_can_update, NftokenError::Unauthorized);
 
     nft.metadata_url = args.metadata_url;
-    nft.creator_can_update = args.creator_can_update;
+    nft.authority_can_update = args.authority_can_update;
 
     Ok(())
 }
@@ -21,15 +21,15 @@ pub fn nft_update_inner(ctx: Context<NftUpdate>, args: NftUpdateArgs) -> Result<
 #[derive(Accounts)]
 #[instruction(args: NftUpdateArgs)]
 pub struct NftUpdate<'info> {
-    #[account(mut, has_one = creator)]
+    #[account(mut, has_one = authority)]
     pub nft: Account<'info, NftAccount>,
 
     #[account(mut)]
-    pub creator: Signer<'info>,
+    pub authority: Signer<'info>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
 pub struct NftUpdateArgs {
     pub metadata_url: String,
-    pub creator_can_update: bool,
+    pub authority_can_update: bool,
 }

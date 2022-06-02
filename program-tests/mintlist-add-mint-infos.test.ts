@@ -37,10 +37,10 @@ describe("mintlist_add_mint_infos", () => {
     });
 
     await program.methods
-      .mintlistAddMintInfos({ currentNftCount: 0, mintInfos: mintInfos1 })
+      .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos: mintInfos1 })
       .accounts({
         mintlist: mintlistAddress,
-        creator: provider.wallet.publicKey,
+        authority: provider.wallet.publicKey,
       })
       .rpc();
 
@@ -66,22 +66,22 @@ describe("mintlist_add_mint_infos", () => {
 
     await expect(async () => {
       await program.methods
-        .mintlistAddMintInfos({ currentNftCount: 0, mintInfos: mintInfos2 })
+        .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos: mintInfos2 })
         .accounts({
           mintlist: mintlistAddress,
-          creator: provider.wallet.publicKey,
+          authority: provider.wallet.publicKey,
         })
         .rpc();
     }).rejects.toThrow();
 
     await program.methods
-      .mintlistAddMintInfos({
+      .mintlistAddMintInfosV1({
         currentNftCount: mintInfos1.length,
         mintInfos: mintInfos2,
       })
       .accounts({
         mintlist: mintlistAddress,
-        creator: provider.wallet.publicKey,
+        authority: provider.wallet.publicKey,
       })
       .rpc();
 

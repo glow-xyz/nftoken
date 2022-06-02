@@ -51,11 +51,11 @@ pub fn mintlist_add_mint_infos_inner(
 
 #[derive(Accounts)]
 pub struct MintlistAddMintInfos<'info> {
-    #[account(mut, has_one = creator)]
+    #[account(mut, has_one = authority)]
     pub mintlist: Account<'info, MintlistAccount>,
 
     #[account(mut)]
-    pub creator: Signer<'info>,
+    pub authority: Signer<'info>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]

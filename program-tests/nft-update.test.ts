@@ -13,28 +13,28 @@ describe("update NFT", () => {
     const { nft_pubkey } = await createNft({});
     await updateNft({
       nft_pubkey,
-      creator: signer,
+      authority: signer,
       metadataUrl: `newww! ${Math.random()}`,
-      creatorCanUpdate: true,
+      authorityCanUpdate: true,
     });
   });
 
-  test("doesn't allow update if !creator_can_update", async () => {
+  test("doesn't allow update if !authority_can_update", async () => {
     const { nft_pubkey } = await createNft({});
 
     await updateNft({
       nft_pubkey,
-      creator: signer,
+      authority: signer,
       metadataUrl: `newww! ${Math.random()}`,
-      creatorCanUpdate: false,
+      authorityCanUpdate: false,
     });
 
     await expect(async () => {
       await updateNft({
         nft_pubkey,
-        creator: signer,
+        authority: signer,
         metadataUrl: `newww! ${Math.random()}`,
-        creatorCanUpdate: false,
+        authorityCanUpdate: false,
       });
     }).rejects.toThrow();
   });

@@ -14,7 +14,7 @@ export const program = anchor.workspace.Nftoken as Program<_NftokenIdlType>;
 
 export const NftokenIdl = _NftokenIdl;
 export type NftokenIdlType = _NftokenIdlType;
-export const PROGRAM_ID = "nf6WUrqMxWm2eQJ9m1H9BPFjKYyBVzue546URy4ULDC";
+export const PROGRAM_ID = "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi";
 
 // Anchor uses `nodewallet.ts` when testing to find and use a wallet. It automatically signs
 // transactions with this keypair.
@@ -55,13 +55,13 @@ export const generateAlphaNumericString = (
 export type NftAccount = {
   holder: PublicKey;
   delegate: PublicKey | null;
-  creator: PublicKey | null;
+  authority: PublicKey | null;
   metadataUrl: string | number[];
   collection: PublicKey | null;
 };
 
 export type CollectionAccount = {
-  creator: PublicKey | null;
+  authority: PublicKey | null;
   metadataUrl: string | number[];
 };
 
@@ -82,7 +82,7 @@ export const logNft = (nft: NftAccount | null) => {
       JSON.stringify(
         {
           holder: nft.holder.toString(),
-          creator: nft.creator?.toString() ?? null,
+          authority: nft.authority?.toString() ?? null,
           delegate: nft.delegate?.toString() ?? null,
           metadataUrl: nft.metadataUrl,
           collection: nft.collection?.toString() ?? null,
@@ -100,7 +100,7 @@ export const logCollection = (coll: CollectionAccount | null) => {
       JSON.stringify(
         {
           metadataUrl: coll.metadataUrl,
-          creator: coll.creator?.toString(),
+          authority: coll.authority?.toString(),
         },
         null,
         2

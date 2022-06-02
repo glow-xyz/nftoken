@@ -50,7 +50,7 @@ export async function createEmptyMintlist({
   const collectionKeypair = Keypair.generate();
 
   await program.methods
-    .mintlistCreate({
+    .mintlistCreateV1({
       goLiveDate,
       priceLamports,
       numNftsTotal,
@@ -61,7 +61,7 @@ export async function createEmptyMintlist({
     .accounts({
       collection: collectionKeypair.publicKey,
       mintlist: mintlistKeypair.publicKey,
-      creator: wallet.publicKey,
+      authority: wallet.publicKey,
       clock: web3.SYSVAR_CLOCK_PUBKEY,
       treasurySol: treasury,
       systemProgram: SystemProgram.programId,
@@ -83,7 +83,7 @@ export async function createEmptyMintlist({
 
 type MintlistData = {
   version: number;
-  creator: string;
+  authority: string;
   treasurySol: string;
   goLiveDate: BN;
   priceLamports: BN;
@@ -191,10 +191,10 @@ export async function createMintlistWithInfos({
   const { wallet } = anchor.AnchorProvider.local();
 
   await program.methods
-    .mintlistAddMintInfos({ currentNftCount: 0, mintInfos })
+    .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos })
     .accounts({
       mintlist: mintlistAddress,
-      creator: wallet.publicKey,
+      authority: wallet.publicKey,
     })
     .rpc();
 

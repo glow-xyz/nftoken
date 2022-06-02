@@ -32,13 +32,13 @@ export const createNft = async ({
   const creator = DEFAULT_KEYPAIR.publicKey;
 
   const signature = await client.methods
-    .nftCreate({
+    .nftCreateV1({
       metadataUrl: metadata_url,
       collectionIncluded: false, // collection_included
     })
     .accounts({
       nft: nftKeypair.publicKey,
-      creator,
+      authority: creator,
       holder: holder ?? creator,
       systemProgram: SystemProgram.programId,
     })
@@ -63,23 +63,23 @@ export const createNft = async ({
 
 export const updateNft = async ({
   nft_pubkey,
-  creator,
+  authority,
   metadataUrl: _metadataUrl,
-  creatorCanUpdate,
+  authorityCanUpdate,
   client = program,
 }: {
   nft_pubkey: PublicKey;
-  creator: PublicKey;
+  authority: PublicKey;
   metadataUrl: string;
-  creatorCanUpdate: boolean;
+  authorityCanUpdate: boolean;
   client?: Program<NftokenTypes>;
 }) => {
   const metadataUrl = "new-meta";
   await client.methods
-    .nftUpdate({ metadataUrl, creatorCanUpdate })
+    .nftUpdateV1({ metadataUrl, authorityCanUpdate })
     .accounts({
       nft: nft_pubkey,
-      creator,
+      authority,
     })
     .signers([])
     .rpc();
@@ -87,5 +87,5 @@ export const updateNft = async ({
   const updated = await client.account.nftAccount.fetch(nft_pubkey);
 
   expect(updated.metadataUrl).toEqual(metadataUrl);
-  expect(updated.creatorCanUpdate).toEqual(creatorCanUpdate);
+  expect(updated.authorityCanUpdate).toEqual(authorityCanUpdate);
 };

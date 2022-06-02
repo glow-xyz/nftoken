@@ -33,77 +33,80 @@ pub mod ix_nft_unset_collection;
 pub mod ix_nft_unset_delegate;
 pub mod ix_nft_update;
 
-declare_id!("nf6WUrqMxWm2eQJ9m1H9BPFjKYyBVzue546URy4ULDC");
+declare_id!("nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi");
 
 #[program]
 pub mod nftoken {
     use super::*;
 
-    pub fn nft_create(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<()> {
+    pub fn nft_create_v1(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<()> {
         return nft_create_inner(ctx, args);
     }
 
-    pub fn nft_update(ctx: Context<NftUpdate>, args: NftUpdateArgs) -> Result<()> {
+    pub fn nft_update_v1(ctx: Context<NftUpdate>, args: NftUpdateArgs) -> Result<()> {
         return nft_update_inner(ctx, args);
     }
 
-    pub fn nft_transfer(ctx: Context<TransferNft>) -> Result<()> {
+    pub fn nft_transfer_v1(ctx: Context<TransferNft>) -> Result<()> {
         return transfer_nft_inner(ctx);
     }
 
-    pub fn nft_set_delegate(ctx: Context<NftSetDelegate>) -> Result<()> {
+    pub fn nft_set_delegate_v1(ctx: Context<NftSetDelegate>) -> Result<()> {
         return nft_set_delegate_inner(ctx);
     }
 
-    pub fn nft_unset_delegate(ctx: Context<NftUnsetDelegate>) -> Result<()> {
+    pub fn nft_unset_delegate_v1(ctx: Context<NftUnsetDelegate>) -> Result<()> {
         return nft_unset_delegate_inner(ctx);
     }
 
-    pub fn nft_set_collection(ctx: Context<NftSetCollection>) -> Result<()> {
+    pub fn nft_set_collection_v1(ctx: Context<NftSetCollection>) -> Result<()> {
         return nft_set_collection_inner(ctx);
     }
 
-    pub fn nft_unset_collection(ctx: Context<NftUnsetCollection>) -> Result<()> {
+    pub fn nft_unset_collection_v1(ctx: Context<NftUnsetCollection>) -> Result<()> {
         return nft_unset_collection_inner(ctx);
     }
 
-    pub fn nft_setup_creators(
+    pub fn nft_setup_creators_v1(
         ctx: Context<NftSetupCreators>,
         args: NftSetupCreatorsArgs,
     ) -> Result<()> {
         return nft_setup_creators_inner(ctx, args);
     }
 
-    pub fn collection_create(
+    pub fn collection_create_v1(
         ctx: Context<CollectionCreate>,
         args: CollectionCreateArgs,
     ) -> Result<()> {
         return collection_create_inner(ctx, args);
     }
 
-    pub fn collection_update(
+    pub fn collection_update_v1(
         ctx: Context<CollectionUpdate>,
         args: CollectionUpdateArgs,
     ) -> Result<()> {
         return collection_update_inner(ctx, args);
     }
 
-    pub fn transfer_collection(ctx: Context<CollectionTransferCreator>) -> Result<()> {
-        return collection_transfer_creator_inner(ctx);
+    pub fn collection_transfer_v1(ctx: Context<CollectionTransferCreator>) -> Result<()> {
+        return collection_transfer_inner(ctx);
     }
 
-    pub fn mintlist_create(ctx: Context<MintlistCreate>, args: MintlistCreateArgs) -> Result<()> {
+    pub fn mintlist_create_v1(
+        ctx: Context<MintlistCreate>,
+        args: MintlistCreateArgs,
+    ) -> Result<()> {
         return mintlist_create_inner(ctx, args);
     }
 
-    pub fn mintlist_add_mint_infos(
+    pub fn mintlist_add_mint_infos_v1(
         ctx: Context<MintlistAddMintInfos>,
         args: MintlistAddMintInfosArgs,
     ) -> Result<()> {
         return mintlist_add_mint_infos_inner(ctx, args);
     }
 
-    pub fn mintlist_mint_nft(ctx: Context<MintlistMintNft>) -> Result<()> {
+    pub fn mintlist_mint_nft_v1(ctx: Context<MintlistMintNft>) -> Result<()> {
         return mintlist_mint_nft_inner(ctx);
     }
 }

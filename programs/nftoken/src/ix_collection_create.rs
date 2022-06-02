@@ -12,9 +12,9 @@ pub fn collection_create_inner(
     let collection = &mut ctx.accounts.collection;
 
     collection.version = 1;
-    collection.creator = ctx.accounts.creator.key();
+    collection.authority = ctx.accounts.authority.key();
     collection.metadata_url = args.metadata_url;
-    collection.creator_can_update = true;
+    collection.authority_can_update = true;
 
     Ok(())
 }
@@ -23,9 +23,9 @@ pub fn collection_create_inner(
 #[instruction(args: CollectionCreateArgs)]
 pub struct CollectionCreate<'info> {
     #[account(mut)]
-    pub creator: Signer<'info>,
+    pub authority: Signer<'info>,
 
-    #[account(init, payer = creator, space = COLLECTION_BASE_ACCOUNT_SIZE + args.metadata_url.len())]
+    #[account(init, payer = authority, space = COLLECTION_BASE_ACCOUNT_SIZE + args.metadata_url.len())]
     pub collection: Account<'info, CollectionAccount>,
 
     pub system_program: Program<'info, System>,

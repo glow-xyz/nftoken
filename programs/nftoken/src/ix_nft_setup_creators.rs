@@ -12,7 +12,7 @@ pub fn nft_setup_creators_inner(
     args: NftSetupCreatorsArgs,
 ) -> Result<()> {
     let nft = &mut ctx.accounts.nft;
-    require!(nft.creator_can_update, NftokenError::Unauthorized);
+    require!(nft.authority_can_update, NftokenError::Unauthorized);
 
     // Ensure that the basis points are set up properly
     if args.royalty_basis_points != 0 {
@@ -67,12 +67,12 @@ pub fn nft_setup_creators_inner(
 pub struct NftSetupCreators<'info> {
     /// This is the primary creator, the creator of the NFT.
     #[account(mut)]
-    pub creator: Signer<'info>,
+    pub authority: Signer<'info>,
 
-    #[account(mut, has_one = creator)]
+    #[account(mut, has_one = authority)]
     pub nft: Account<'info, NftAccount>,
 
-    #[account(init, seeds = ["creators".as_bytes(), &nft.key().as_ref()], bump, payer = creator, space = NFT_CREATORS_ACCOUNT_SIZE)]
+    #[account(init, seeds = ["creators".as_bytes(), &nft.key().as_ref()], bump, payer = authority, space = NFT_CREATORS_ACCOUNT_SIZE)]
     pub nft_creators: Account<'info, NftCreatorsAccount>,
 
     pub system_program: Program<'info, System>,

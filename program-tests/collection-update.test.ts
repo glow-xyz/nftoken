@@ -13,16 +13,16 @@ describe("update collection", () => {
     const { collection_pubkey } = await createCollection({});
 
     const metadata_url = "new-meta";
-    const creator_can_update = true;
+    const authority_can_update = true;
 
     const signature = await program.methods
-      .collectionUpdate({
+      .collectionUpdateV1({
         metadataUrl: metadata_url,
-        creatorCanUpdate: creator_can_update,
+        authorityCanUpdate: authority_can_update,
       })
       .accounts({
         collection: collection_pubkey,
-        creator: signer,
+        authority: signer,
       })
       .signers([])
       .rpc();
@@ -33,23 +33,23 @@ describe("update collection", () => {
     );
 
     expect(updated.metadataUrl).toEqual(metadata_url);
-    expect(updated.creatorCanUpdate).toEqual(creator_can_update);
+    expect(updated.authorityCanUpdate).toEqual(authority_can_update);
   });
 
-  test("doesn't allow update if !creator_can_update", async () => {
+  test("doesn't allow update if !authority_can_update", async () => {
     const { collection_pubkey } = await createCollection({});
 
     const metadata_url = "new-meta";
-    const creator_can_update = false;
+    const authority_can_update = false;
 
     const signature = await program.methods
-      .collectionUpdate({
+      .collectionUpdateV1({
         metadataUrl: metadata_url,
-        creatorCanUpdate: creator_can_update,
+        authorityCanUpdate: authority_can_update,
       })
       .accounts({
         collection: collection_pubkey,
-        creator: signer,
+        authority: signer,
       })
       .signers([])
       .rpc();
@@ -60,17 +60,17 @@ describe("update collection", () => {
     );
 
     expect(updated.metadataUrl).toEqual(metadata_url);
-    expect(updated.creatorCanUpdate).toEqual(creator_can_update);
+    expect(updated.authorityCanUpdate).toEqual(authority_can_update);
 
     // This should error since the collection can't be updated
     const promise = program.methods
-      .collectionUpdate({
+      .collectionUpdateV1({
         metadataUrl: metadata_url,
-        creatorCanUpdate: creator_can_update,
+        authorityCanUpdate: authority_can_update,
       })
       .accounts({
         collection: collection_pubkey,
-        creator: signer,
+        authority: signer,
       })
       .signers([])
       .rpc();

@@ -54,14 +54,15 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
     mintlist_data[mint_info_pos] = 1;
 
     let mint_info_size = MintInfo::size();
-    let mint_info_data = &mut &mintlist_data[mint_info_pos..(mint_info_pos + mint_info_size)];
+    let mint_info_pos_end = mint_info_pos + mint_info_size;
+    let mint_info_data = &mut &mintlist_data[mint_info_pos..mint_info_pos_end];
     let mint_info: MintInfo = AnchorDeserialize::deserialize(mint_info_data)?;
 
     // Configure the minted NFT
     let nft = &mut ctx.accounts.nft;
     nft.version = 1;
     nft.collection = mintlist.collection;
-    nft.creator = mintlist.creator;
+    nft.authority = mintlist.authority;
     nft.holder = ctx.accounts.signer.key();
 
     let metadata_url_vec: Vec<u8> = mint_info
@@ -72,9 +73,9 @@ pub fn mintlist_mint_nft_inner(ctx: Context<MintlistMintNft>) -> Result<()> {
         .collect();
     nft.metadata_url = String::from_utf8(metadata_url_vec).unwrap();
 
-    nft.creator_can_update = true;
+    nft.authority_can_update = true;
 
-    mintlist.num_nfts_redeemed = mintlist.num_nfts_redeemed.checked_add(1).unwrap();
+    mintlist.num_nfts_redeemed = mintlist.num_nfts_redeemed + 1;
 
     Ok(())
 }
@@ -132,11 +133,11 @@ fn get_mint_info_index(
                     }
 
                     // This mint_info has not been minted and so it is available
-                    available_nfts_seen = available_nfts_seen.checked_add(1).unwrap();
+                    available_nfts_seen = available_nfts_seen + 1;
                 }
 
-                nft_index = nft_index.checked_add(1).unwrap();
-                mint_info_pos = mint_info_pos.checked_add(MintInfo::size()).unwrap();
+                nft_index = nft_index + 1;
+                mint_info_pos = mint_info_pos + MintInfo::size();
             }
 
             nft_index

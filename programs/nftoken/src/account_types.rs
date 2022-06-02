@@ -10,13 +10,13 @@ pub struct CollectionAccount {
     /// This versions the account so that we can store different data formats in the future.
     /// The first version is 1.
     pub version: u8, // 1 = 9
-    pub creator: Pubkey,          // 32 = 41
-    pub creator_can_update: bool, // 1 = 42
-    pub unused_1: u8,             // 1 = 43
-    pub unused_2: u8,             // 1 = 44
-    pub unused_3: u8,             // 1 = 45
-    pub unused_4: u8,             // 1 = 46
-    pub metadata_url: String,     // 4 +  bytes
+    pub authority: Pubkey,          // 32 = 41
+    pub authority_can_update: bool, // 1 = 42
+    pub unused_1: u8,               // 1 = 43
+    pub unused_2: u8,               // 1 = 44
+    pub unused_3: u8,               // 1 = 45
+    pub unused_4: u8,               // 1 = 46
+    pub metadata_url: String,       // 4 +  bytes
 }
 
 pub const COLLECTION_BASE_ACCOUNT_SIZE: usize = 46 + 4;
@@ -25,26 +25,26 @@ pub const COLLECTION_DEFAULT_ACCOUNT_SIZE: usize = COLLECTION_BASE_ACCOUNT_SIZE 
 #[account]
 pub struct NftAccount {
     // discriminator = 8
-    pub version: u8,              // 1 = 9
-    pub holder: Pubkey,           // 32 = 41
-    pub creator: Pubkey,          // 32 = 73
-    pub creator_can_update: bool, // 1  = 74
-    pub collection: Pubkey,       // 32 = 106
+    pub version: u8,                // 1 = 9
+    pub holder: Pubkey,             // 32 = 41
+    pub authority: Pubkey,          // 32 = 73
+    pub authority_can_update: bool, // 1  = 74
+    pub collection: Pubkey,         // 32 = 106
     /// If this is zero'd out (set to 11111...1111 in base58) then the NFT is not delegated.
     pub delegate: Pubkey, // 32 = 138
     /// If the NFT has a linked `nft_creators` account which stores royalty information.
     pub has_creators: bool, // 1 = 139
-    pub unused_1: u8,             // 1 = 140
-    pub unused_2: u8,             // 1 = 141
-    pub unused_3: u8,             // 1 = 142
-    pub unused_4: u8,             // 1 = 143
+    pub unused_1: u8,               // 1 = 140
+    pub unused_2: u8,               // 1 = 141
+    pub unused_3: u8,               // 1 = 142
+    pub unused_4: u8,               // 1 = 143
     /// Fields beyond this point are variable length and we can't use `getProgramAccounts` with them
     /// anymore.
     pub metadata_url: String, // 4 + bytes for characters
 
-                                  // Possible things to add later (consider adding now):
-                                  // - transfer counter - u8 - could be useful for marketplace bid accounts
-                                  // - is frozen
+                                    // Possible things to add later (consider adding now):
+                                    // - transfer counter - u8 - could be useful for marketplace bid accounts
+                                    // - is frozen
 }
 
 pub const NFT_BASE_ACCOUNT_SIZE: usize = 143 + 4;
@@ -78,7 +78,7 @@ pub struct MintlistAccount {
     pub version: u8,
 
     /// The pubkey that will be set as the creator of the NTFs minted from the mintlist.
-    pub creator: Pubkey,
+    pub authority: Pubkey,
 
     /// SOL wallet to receive proceedings from SOL payments.
     pub treasury_sol: Pubkey,
