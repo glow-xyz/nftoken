@@ -34,10 +34,10 @@ pub struct NftAccount {
     pub delegate: Pubkey, // 32 = 138
     /// If the NFT has a linked `nft_creators` account which stores royalty information.
     pub has_creators: bool, // 1 = 139
-    pub unused_1: u8,               // 1 = 140
-    pub unused_2: u8,               // 1 = 141
-    pub unused_3: u8,               // 1 = 142
-    pub unused_4: u8,               // 1 = 143
+    pub is_frozen: bool,            // 1 = 140
+    pub unused_1: u8,               // 1 = 141
+    pub unused_2: u8,               // 1 = 142
+    pub unused_3: u8,               // 1 = 143
     /// Fields beyond this point are variable length and we can't use `getProgramAccounts` with them
     /// anymore.
     pub metadata_url: String, // 4 + bytes for characters

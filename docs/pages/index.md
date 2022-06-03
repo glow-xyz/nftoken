@@ -11,6 +11,13 @@ NFToken is a new, simple standard for Solana NFTs. NFToken makes it easy for dev
 
 NFToken is designed to be simple, cheap, and flexible.
 
+---
+
+Who is the doc written for?
+
+- People new to the Solana ecosystem
+- Developers
+
 ## Get Started
 
 ## NFTs

@@ -65,18 +65,24 @@ export const updateNft = async ({
   nft_pubkey,
   authority,
   metadataUrl: _metadataUrl,
+  isFrozen,
   authorityCanUpdate,
   client = program,
 }: {
   nft_pubkey: PublicKey;
   authority: PublicKey;
+  isFrozen?: boolean;
   metadataUrl: string;
   authorityCanUpdate: boolean;
   client?: Program<NftokenTypes>;
 }) => {
   const metadataUrl = "new-meta";
   await client.methods
-    .nftUpdateV1({ metadataUrl, authorityCanUpdate })
+    .nftUpdateV1({
+      metadataUrl,
+      authorityCanUpdate,
+      isFrozen: isFrozen ?? false,
+    })
     .accounts({
       nft: nft_pubkey,
       authority,
