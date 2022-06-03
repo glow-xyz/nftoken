@@ -94,6 +94,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             top: var(--top-nav-height);
             background: var(--primary-bg-color);
             display: ${navOpen ? "block" : "none"};
+            z-index: 100;
           }
 
           main {
