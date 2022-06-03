@@ -6,7 +6,7 @@ export const TopNav = ({
   navOpen,
   toggleNav,
 }: {
-  navOpen: Boolean;
+  navOpen: boolean;
   toggleNav: () => void;
 }) => {
   const { user, signOut } = useGlowContext();

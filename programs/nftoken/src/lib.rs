@@ -48,7 +48,7 @@ pub mod nftoken {
     }
 
     pub fn nft_transfer_v1(ctx: Context<TransferNft>) -> Result<()> {
-        return transfer_nft_inner(ctx);
+        return nft_transfer_inner(ctx);
     }
 
     pub fn nft_set_delegate_v1(ctx: Context<NftSetDelegate>) -> Result<()> {
