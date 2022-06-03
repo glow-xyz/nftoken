@@ -8,9 +8,11 @@ use anchor_lang::prelude::*;
 /// Transfer an NFT to a different owner
 ///
 /// Either the *owner* or the *delegate* can take this action.
-pub fn transfer_nft_inner(ctx: Context<TransferNft>) -> Result<()> {
+pub fn nft_transfer_inner(ctx: Context<TransferNft>) -> Result<()> {
     let signer = &ctx.accounts.signer;
     let nft = &mut ctx.accounts.nft;
+
+    require!(!nft.is_frozen, NftokenError::Unauthorized);
 
     let delegate = nft.delegate;
 

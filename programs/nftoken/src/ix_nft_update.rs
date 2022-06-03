@@ -12,8 +12,9 @@ pub fn nft_update_inner(ctx: Context<NftUpdate>, args: NftUpdateArgs) -> Result<
     require!(action_allowed, NftokenError::Unauthorized);
     require!(nft.authority_can_update, NftokenError::Unauthorized);
 
-    nft.metadata_url = args.metadata_url;
     nft.authority_can_update = args.authority_can_update;
+    nft.is_frozen = args.is_frozen;
+    nft.metadata_url = args.metadata_url;
 
     Ok(())
 }
@@ -32,4 +33,5 @@ pub struct NftUpdate<'info> {
 pub struct NftUpdateArgs {
     pub metadata_url: String,
     pub authority_can_update: bool,
+    pub is_frozen: bool,
 }
