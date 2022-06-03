@@ -93,8 +93,20 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             inset: 0;
             top: var(--top-nav-height);
             background: var(--primary-bg-color);
-            display: ${navOpen ? "block" : "none"};
             z-index: 100;
+
+            transition: opacity 0.2s, transform 0.2s;
+            ${navOpen
+              ? `
+              opacity: 1;
+              transform: translateY(0);
+              pointer-events: all;
+            `
+              : `
+              opacity: 0;
+              transform: translateY(1rem);
+              pointer-events: none;
+            `}
           }
 
           main {
