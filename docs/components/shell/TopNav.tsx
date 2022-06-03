@@ -11,7 +11,7 @@ export const TopNav = ({
     <>
       <header className="flex-center spread">
         <div className="flex-center">
-          <button className="menu-button mr-1" onClick={toggleNav}>
+          <button className="menu-button mr-3 p-0" onClick={toggleNav}>
             {navOpen ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
