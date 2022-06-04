@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import Link from "next/link";
 
 export const TopNav = ({
@@ -7,6 +9,19 @@ export const TopNav = ({
   navOpen: boolean;
   toggleNav: () => void;
 }) => {
+  const { user, signOut } = useGlowContext();
+
+  const [confirmSignOut, setConfirmSignOut] = useState(false);
+  function handleAuthButtonClick() {
+    if (!confirmSignOut) {
+      setConfirmSignOut(true);
+      return;
+    }
+
+    signOut();
+    setConfirmSignOut(false);
+  }
+
   return (
     <>
       <header className="flex-center spread">
@@ -50,9 +65,26 @@ export const TopNav = ({
           </Link>
         </div>
 
-        <Link href={"https://github.com/glow-xyz/nftoken"}>
-          <a>GitHub</a>
-        </Link>
+        <div className="flex-center">
+          {user ? (
+            <button className="auth-button" onClick={handleAuthButtonClick}>
+              {confirmSignOut ? (
+                "Sign out?"
+              ) : (
+                <>
+                  {user.address.slice(0, 5)}...
+                  {user.address.slice(user.address.length - 5)}
+                </>
+              )}
+            </button>
+          ) : (
+            <GlowSignInButton size="sm" variant="purple" />
+          )}
+
+          <Link href={"https://github.com/glow-xyz/nftoken"}>
+            <a className="block ml-3">GitHub</a>
+          </Link>
+        </div>
       </header>
 
       <style jsx>
@@ -78,6 +110,17 @@ export const TopNav = ({
 
           .menu-button {
             display: none;
+          }
+
+          .auth-button {
+            display: block;
+            background-color: var(--brand-color);
+            font-size: var(--small-font-size);
+            font-weight: var(--medium-font-weight);
+            color: var(--white);
+            border-radius: 99px;
+            margin-left: 1rem;
+            padding: 0.1rem 0.6rem;
           }
 
           @media (max-width: 800px) {
