@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { Field, Form, Formik, useFormikContext } from "formik";
 import { useState } from "react";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
-import { uploadFileToS3, uploadJsonToS3 } from "../utils/upload-file";
+import { uploadJsonToS3 } from "../utils/upload-file";
 
 export const CreateNftSection = () => {
   return (
