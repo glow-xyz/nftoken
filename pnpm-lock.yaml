@@ -14,7 +14,7 @@ importers:
     specifiers:
       '@glow-app/glow-client': 0.1.0
       '@glow-app/glow-react': 0.1.1
-      '@glow-app/solana-client': 0.0.3
+      '@glow-app/solana-client': 0.1.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1
@@ -37,7 +37,7 @@ importers:
     dependencies:
       '@glow-app/glow-client': 0.1.0
       '@glow-app/glow-react': 0.1.1_ef5jwxihqo6n7gxfmzogljlgcm
-      '@glow-app/solana-client': 0.0.3
+      '@glow-app/solana-client': 0.1.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1_6y6g4ccircr7cmrd64mitxyk3u
@@ -506,8 +506,8 @@ packages:
       react-dom: 18.1.0_react@18.1.0
     dev: false
 
-  /@glow-app/solana-client/0.0.3:
-    resolution: {integrity: sha512-33rZVXNQLdVWT1jdcLwiSI9qhMejAFh5KYatFqppNWlA9tOkOqPlPqR8DuTX/hsdR3X77vjQJZh6Lt3+Ktz0zg==}
+  /@glow-app/solana-client/0.1.0:
+    resolution: {integrity: sha512-ukQ90lsOOC6bZ7/B69R8sJO8V7fzB2ebaaa7drdn6Ae0eG1q3eUe6ODz3KuLMcHqH35yU3Jj+kM039p/jZN/MA==}
     dependencies:
       '@metaplex-foundation/beet': 0.2.0
       axios: 0.27.2
