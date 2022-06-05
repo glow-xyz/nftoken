@@ -1,6 +1,9 @@
 name: Test Docs
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
 
 jobs:
   run_js_tests:
