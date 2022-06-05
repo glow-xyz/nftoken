@@ -1,7 +1,6 @@
 import withMarkdoc from "@markdoc/next.js";
 
-export default withMarkdoc(/* config: https://markdoc.io/docs/nextjs#options */)(
-  {
-    pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdoc"],
-  }
-);
+/* config: https://markdoc.io/docs/nextjs#options */
+export default withMarkdoc()({
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdoc"],
+});

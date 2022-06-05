@@ -1,7 +1,4 @@
-import {
-  FixableGlowBorsh,
-  GlowBorsh,
-} from "@glow-app/solana-client/dist/borsh/base";
+import { FixableGlowBorsh, GlowBorsh } from "@glow-app/solana-client";
 import * as beet from "@metaplex-foundation/beet";
 
 export const NFTOKEN_NFT_CREATE_IX = new FixableGlowBorsh<{
