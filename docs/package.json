@@ -8,7 +8,6 @@
     "lint": "eslint . --ext ts --ext tsx --quiet",
     "tsc": "tsc --noEmit"
   },
-  "type": "module",
   "dependencies": {
     "@glow-app/glow-client": "0.1.0",
     "@glow-app/glow-react": "0.1.1",
