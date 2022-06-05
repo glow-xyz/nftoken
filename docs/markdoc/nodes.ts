@@ -10,7 +10,10 @@ export const heading = {
     id: { type: String, required: true },
   },
   transform(
-    node: { transformAttributes: Function; transformChildren: Function },
+    node: {
+      transformAttributes: (config: any) => any;
+      transformChildren: (config: any) => any;
+    },
     config: object
   ) {
     const attributes = node.transformAttributes(config);

@@ -15,7 +15,7 @@ export type MarkdocContent = {
         $$mdtype: string;
         children: string[];
         name: "p";
-        attributes: {};
+        attributes: Record<string, never>;
       }
   )[];
   name: string;

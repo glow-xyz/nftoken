@@ -1,0 +1,16 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["lodash"],
+  "rules": {
+    "curly": "error",
+    "lodash/import-scope": [2, "method"],
+    "no-restricted-globals": ["error", "name", "event", "origin", "status"],
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all"
+      }
+    ],
+    "no-console": 0
+  }
+}

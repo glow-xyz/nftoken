@@ -3,22 +3,22 @@
   "scripts": {
     "dev": "next dev -p 4567",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint . --ext ts --ext tsx --quiet",
+    "tsc": "tsc --noEmit"
   },
   "type": "module",
   "dependencies": {
     "@glow-app/glow-client": "0.1.0",
     "@glow-app/glow-react": "0.1.1",
-    "@glow-app/solana-client": "^0.0.3",
+    "@glow-app/solana-client": "0.0.3",
     "@lux-org/sass": "0.46.0",
     "@markdoc/markdoc": "0.1.2",
     "@markdoc/next.js": "0.1.4-1",
     "@metaplex-foundation/beet": "0.2.0",
-    "@solana/web3.js": "^1.43.5",
-    "@types/node": "17.0.40",
-    "@types/react": "18.0.11",
+    "@solana/web3.js": "1.43.5",
     "@types/react-dom": "18.0.5",
-    "axios": "^0.27.2",
+    "axios": "0.27.2",
     "classnames": "2.3.1",
     "formik": "2.2.9",
     "next": "12.1.6",
@@ -26,5 +26,12 @@
     "react-dom": "18.1.0",
     "sass": "1.52.2",
     "typescript": "4.7.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "5.27.0",
+    "@types/node": "17.0.40",
+    "@types/react": "18.0.11",
+    "eslint": "8.17.0",
+    "eslint-plugin-lodash": "7.4.0"
   }
 }
