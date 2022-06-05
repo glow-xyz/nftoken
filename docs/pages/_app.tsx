@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import { GlowProvider } from "@glow-app/glow-react";
+import "@glow-app/glow-react/dist/styles.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { SideNav } from "../components/shell/SideNav";
+import { TopNav } from "../components/shell/TopNav";
 
 import "../public/globals.css";
 import "../styles/app.scss";
-import "@glow-app/glow-react/dist/styles.css";
-
-import { GlowProvider } from "@glow-app/glow-react";
-import { TopNav } from "../components/shell/TopNav";
-import { SideNav } from "../components/shell/SideNav";
-import { TableOfContents } from "../components/shell/TableOfContents";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [navOpen, setNavOpen] = useState(false);
@@ -46,7 +44,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <main>
         <SideNav />
         <Component {...pageProps} />
-        <TableOfContents content={pageProps.markdoc?.content} />
       </main>
 
       <style jsx>{`

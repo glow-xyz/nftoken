@@ -25,7 +25,6 @@ article h2 {
 
 article p {
   line-height: 1.5em;
-  color: var(--secondary-color);
 }
 
 article p a {
