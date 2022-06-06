@@ -1,0 +1,20 @@
+name: Test Docs
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+
+jobs:
+  run_js_tests:
+    name: Anchor Tests
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install yarn dependencies
+        run: npm install pnpm -g && pnpm install -r docs
+      - name: Lint
+        run: pnpm --filter docs run lint
+      - name: Typescript Compile (tsc)
+        run: pnpm --filter docs run tsc

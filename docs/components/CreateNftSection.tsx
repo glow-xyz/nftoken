@@ -1,13 +1,70 @@
-import { useState } from "react";
+import { Network } from "@glow-app/glow-client";
+import { SolanaClient } from "@glow-app/solana-client";
+import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import classNames from "classnames";
-import { Formik, Form, Field, useFormikContext } from "formik";
+import { Field, Form, Formik, useFormikContext } from "formik";
+import { useState } from "react";
+import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
+import { uploadJsonToS3 } from "../utils/upload-file";
 
 export const CreateNftSection = () => {
   return (
     <div className="create-nft-section">
       <Formik
         initialValues={{ name: "", image: null }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={async ({ name }, { resetForm }) => {
+          const { publicKey } = await window.glow!.connect();
+
+          const nft_keypair = Keypair.generate();
+          const { file_url: metadata_url } = await uploadJsonToS3({
+            json: { name },
+          });
+          const recentBlockhash = await SolanaClient.getRecentBlockhash({
+            rpcUrl: "https://api.mainnet-beta.solana.com",
+          });
+
+          // TODO: replace this with not Solana web3.js
+          const transaction = new Transaction({
+            feePayer: publicKey,
+            recentBlockhash,
+          });
+          transaction.add({
+            keys: [
+              // NFT Creator
+              {
+                pubkey: publicKey,
+                isSigner: true,
+                isWritable: true,
+              },
+              // Holder
+              { pubkey: publicKey, isWritable: false, isSigner: false },
+              {
+                pubkey: nft_keypair.publicKey,
+                isSigner: true,
+                isWritable: true,
+              },
+              { pubkey: PublicKey.default, isWritable: false, isSigner: false },
+            ],
+            programId: new PublicKey(
+              "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi"
+            ),
+            data: NFTOKEN_NFT_CREATE_IX.toBuffer({
+              ix: null,
+              metadata_url,
+              collection_included: false,
+            }),
+          });
+          transaction.partialSign(nft_keypair);
+
+          await window.glow!.signAndSendTransaction({
+            transactionBase64: transaction
+              .serialize({ verifySignatures: false })
+              .toString("base64"),
+            network: Network.Mainnet,
+          });
+
+          resetForm({ values: { name: "", image: null } });
+        }}
       >
         <Form>
           <div>

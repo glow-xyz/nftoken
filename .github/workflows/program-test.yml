@@ -1,6 +1,10 @@
 name: Test Anchor Program
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - 'programs/**'
+      - 'program-tests/**'
 
 env:
   CARGO_TERM_COLOR: always
