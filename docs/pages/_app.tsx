@@ -94,7 +94,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             background: var(--primary-bg-color);
             z-index: 100;
 
-            transition: opacity 0.2s, transform 0.2s;
+            transition: var(--transition);
             ${navOpen
               ? `
               opacity: 1;
