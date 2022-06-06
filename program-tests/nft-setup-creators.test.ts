@@ -278,7 +278,7 @@ describe("nft_setup_creators", () => {
           creators,
         })
         .accounts({
-          authority: creator1,
+          authority: creator1.publicKey,
           nft: nft_pubkey,
           systemProgram: SystemProgram.programId,
           nftCreators: nft_creators_pubkey,
