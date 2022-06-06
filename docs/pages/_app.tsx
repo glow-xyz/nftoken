@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { GlowProvider } from "@glow-app/glow-react";
 import "@glow-app/glow-react/dist/styles.css";
 import type { AppProps } from "next/app";
@@ -41,7 +42,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
 
-      <main>
+      <main className={classNames({ "nav-open": navOpen })}>
         <SideNav />
         <Component {...pageProps} />
       </main>
@@ -86,6 +87,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         }
 
         @media (max-width: 800px) {
+          main {
+            display: block;
+          }
+
           main > :global(*):nth-child(1) {
             padding: 1rem;
             position: fixed;
@@ -95,21 +100,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             z-index: 100;
 
             transition: var(--transition);
-            ${navOpen
-              ? `
-              opacity: 1;
-              transform: translateY(0);
-              pointer-events: all;
-            `
-              : `
-              opacity: 0;
-              transform: translateY(1rem);
-              pointer-events: none;
-            `}
+            opacity: 0;
+            transform: translateY(1rem);
+            pointer-events: none;
           }
 
-          main {
-            display: block;
+          main.nav-open > :global(*):nth-child(1) {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
           }
 
           main > :global(*):nth-child(2) {
