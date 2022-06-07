@@ -81,8 +81,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <style jsx>{`
         .wrapper {
           min-height: 100vh;
-          display: grid;
-          grid-template-rows: max-content 1fr;
         }
 
         header {
@@ -172,8 +170,8 @@ export default function App({ Component, pageProps }: AppProps) {
             margin-right: 0.75rem;
             background-color: var(--brand-color);
             color: var(--white);
-            border-radius: 0.25rem;
-            padding: 0.1rem 0.3rem 0.15rem 0.3rem;
+            border-radius: 0.5rem;
+            padding: 0.1rem 0.3rem 0.2rem 0.3rem;
           }
 
           main {
