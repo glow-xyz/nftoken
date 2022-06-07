@@ -7,10 +7,17 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import classNames from "classnames";
 
+import { ResponsiveBreakpoint } from "../utils/style-constants";
 import "../public/globals.css";
 import "../styles/app.scss";
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+const nav = [
+  { title: "Overview", href: "/" },
+  { title: "Installation", href: "/installation" },
+  { title: "Usage", href: "/usage" },
+];
+
+export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   return (
@@ -144,13 +151,32 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           padding: 3rem 4rem;
           max-width: 50rem;
         }
+
+        @media (max-width: ${ResponsiveBreakpoint.large}) {
+          .content {
+            grid-template-columns: 250px 1fr;
+          }
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          .content {
+            display: block;
+          }
+
+          nav {
+            display: none;
+          }
+
+          header {
+            padding: 1rem 1.5rem;
+          }
+
+          main {
+            padding: 1.5rem;
+            padding-bottom: 6rem;
+          }
+        }
       `}</style>
     </GlowProvider>
   );
 }
-
-const nav = [
-  { title: "Overview", href: "/" },
-  { title: "Installation", href: "/installation" },
-  { title: "Usage", href: "/usage" },
-];
