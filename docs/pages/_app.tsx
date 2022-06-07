@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import { GlowProvider } from "@glow-app/glow-react";
 import "@glow-app/glow-react/dist/styles.css";
 
@@ -6,6 +8,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import classNames from "classnames";
+import { animate, stagger } from "motion";
 
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import "../public/globals.css";
@@ -18,6 +21,32 @@ const nav = [
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [navOpen, setNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (navOpen) {
+      animate("nav.mobile", {
+        pointerEvents: "auto",
+        height: "100%",
+        paddingTop: "1.5rem",
+        paddingBottom: "1.5rem",
+      });
+      animate(
+        "nav a",
+        { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
+        { delay: stagger(0.1, { start: 0.1 }) }
+      );
+    } else {
+      animate("nav.mobile", {
+        pointerEvents: "none",
+        height: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+      });
+      animate("nav a", { opacity: 0 });
+    }
+  }, [navOpen]);
+
   return (
     <GlowProvider>
       <Head>
@@ -28,7 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <div className="wrapper">
         <header className="spread">
           <div className="flex-center">
-            <button className="mobile-nav">
+            <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -66,10 +95,14 @@ export default function App({ Component, pageProps }: AppProps) {
         </header>
 
         <div className="content">
-          <nav>
+          <nav className="desktop">
             <div className="nav-inner">
               <NavContent />
             </div>
+          </nav>
+
+          <nav className="mobile">
+            <NavContent />
           </nav>
 
           <main>
@@ -97,6 +130,12 @@ export default function App({ Component, pageProps }: AppProps) {
 
         button.mobile-nav {
           display: none;
+          line-height: 1;
+          margin-right: 0.75rem;
+          background-color: var(--brand-color);
+          color: var(--white);
+          border-radius: 0.5rem;
+          padding: 0.1rem 0.3rem 0.2rem 0.3rem;
         }
 
         .logo {
@@ -131,15 +170,25 @@ export default function App({ Component, pageProps }: AppProps) {
           height: 100%;
         }
 
-        nav {
+        nav.desktop {
           border-right: 1px solid var(--secondary-border-color);
           height: 100%;
         }
 
-        .nav-inner {
+        nav.desktop .nav-inner {
           padding-left: 3rem;
           position: sticky;
           top: 6rem;
+        }
+
+        nav.mobile {
+          position: fixed;
+          background-color: var(--white);
+          left: 0;
+          right: 0;
+          z-index: 100;
+          padding: 1.5rem;
+          overflow: hidden;
         }
 
         main {
@@ -162,7 +211,7 @@ export default function App({ Component, pageProps }: AppProps) {
             display: block;
           }
 
-          nav {
+          nav.desktop {
             display: none;
           }
 
@@ -172,12 +221,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
           button.mobile-nav {
             display: block;
-            line-height: 1;
-            margin-right: 0.75rem;
-            background-color: var(--brand-color);
-            color: var(--white);
-            border-radius: 0.5rem;
-            padding: 0.1rem 0.3rem 0.2rem 0.3rem;
           }
 
           main {

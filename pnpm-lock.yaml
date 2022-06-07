@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 importers:
 
@@ -29,6 +29,7 @@ importers:
       eslint: 8.17.0
       eslint-plugin-lodash: 7.4.0
       formik: 2.2.9
+      motion: ^10.10.0
       next: 12.1.7-canary.29
       react: 18.1.0
       react-dom: 18.1.0
@@ -36,18 +37,19 @@ importers:
       typescript: 4.7.3
     dependencies:
       '@glow-app/glow-client': 0.1.0
-      '@glow-app/glow-react': 0.1.1_ef5jwxihqo6n7gxfmzogljlgcm
+      '@glow-app/glow-react': 0.1.1_react-dom@18.1.0+react@18.1.0
       '@glow-app/solana-client': 0.3.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
-      '@markdoc/next.js': 0.1.4-1_hgc2kdhqyv4mqpe7jxo5trtgfe
+      '@markdoc/next.js': 0.1.4-1_3985a50cf0c578c83c9f4dddd9c66629
       '@metaplex-foundation/beet': 0.2.0
       '@solana/web3.js': 1.43.5
       '@types/react-dom': 18.0.5
       axios: 0.27.2
       classnames: 2.3.1
       formik: 2.2.9_react@18.1.0
-      next: 12.1.7-canary.29_4cbhpxftn776lqv6vk34lzjmlm
+      motion: 10.10.0_react-dom@18.1.0+react@18.1.0
+      next: 12.1.7-canary.29_e08277dcb36fffe5c2beaab7c5e52c5b
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
       sass: 1.52.2
@@ -55,7 +57,7 @@ importers:
     devDependencies:
       '@types/node': 17.0.40
       '@types/react': 18.0.11
-      '@typescript-eslint/parser': 5.27.0_ud6rd4xtew5bv4yhvkvu24pzm4
+      '@typescript-eslint/parser': 5.27.0_eslint@8.17.0+typescript@4.7.3
       eslint: 8.17.0
       eslint-plugin-lodash: 7.4.0_eslint@8.17.0
 
@@ -494,7 +496,7 @@ packages:
       zod: 3.14.3
     dev: false
 
-  /@glow-app/glow-react/0.1.1_ef5jwxihqo6n7gxfmzogljlgcm:
+  /@glow-app/glow-react/0.1.1_react-dom@18.1.0+react@18.1.0:
     resolution: {integrity: sha512-eKv8ZNAYS1aC+JAAIwWsoxbCfAVmN/n/vtIdobKSxwyHPnPu926mypxSaG+bLvpFHQT7MdN7BG1axXWPJpbCFw==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0
@@ -815,7 +817,7 @@ packages:
     engines: {node: '>=14.7.0'}
     dev: false
 
-  /@markdoc/next.js/0.1.4-1_hgc2kdhqyv4mqpe7jxo5trtgfe:
+  /@markdoc/next.js/0.1.4-1_3985a50cf0c578c83c9f4dddd9c66629:
     resolution: {integrity: sha512-16pIWYgdYXboyCdr0+NDPNDu4eHvtuPAtjyzP1T/VW5b7Ls0aCARoiOIfbwruTyQDfsgN/QXNxEj/TAmeY66kw==}
     peerDependencies:
       '@markdoc/markdoc': ^0.1.1
@@ -824,7 +826,7 @@ packages:
     dependencies:
       '@markdoc/markdoc': 0.1.2
       js-yaml: 4.1.0
-      next: 12.1.7-canary.29_4cbhpxftn776lqv6vk34lzjmlm
+      next: 12.1.7-canary.29_e08277dcb36fffe5c2beaab7c5e52c5b
       react: 18.1.0
     dev: false
 
@@ -836,6 +838,85 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@motionone/animation/10.9.0:
+    resolution: {integrity: sha512-RsT6Y/JbTldNgwSy2IQGghqVVd6CH8yeexNs71+Gziz802rNiksVdMdgYuvXeTU8TJTG30f18V/rnm7mAUyO+A==}
+    dependencies:
+      '@motionone/easing': 10.9.0
+      '@motionone/types': 10.9.0
+      '@motionone/utils': 10.9.0
+      tslib: 2.4.0
+    dev: false
+
+  /@motionone/dom/10.10.0:
+    resolution: {integrity: sha512-7IsOcEUYJthabt101ckQUsaM8mM3f2PxgXlRR0Xye6+C2ltuyKLXyiJwDv7LaqoblXl+xmf9mzBvcrZ6bVqJNQ==}
+    dependencies:
+      '@motionone/animation': 10.9.0
+      '@motionone/generators': 10.9.0
+      '@motionone/types': 10.9.0
+      '@motionone/utils': 10.9.0
+      hey-listen: 1.0.8
+      tslib: 2.4.0
+    dev: false
+
+  /@motionone/easing/10.9.0:
+    resolution: {integrity: sha512-FYIr3HlQEb7aE5LOpY6BPQUaPyKeJt6VfGA+npy73+JIGqoVOjbrdZ1ZQxzTXqO76mG3UZvv1+twrDamRQsxFw==}
+    dependencies:
+      '@motionone/utils': 10.9.0
+      tslib: 2.4.0
+    dev: false
+
+  /@motionone/generators/10.9.0:
+    resolution: {integrity: sha512-BOkHx4qQswJV+z/6k05qdvRENE4hG606NI5cIPTsLtSuksnRn83utuj/15VTNoFeYHuTdhwzxvIPvlPVayIGTg==}
+    dependencies:
+      '@motionone/types': 10.9.0
+      '@motionone/utils': 10.9.0
+      tslib: 2.4.0
+    dev: false
+
+  /@motionone/react/10.10.0_react-dom@18.1.0+react@18.1.0:
+    resolution: {integrity: sha512-6NJKT3O4Gz+JqH5QD1S6F3AOB2/wLg+270y+9GrNzf6uqF+PbHlreq3+/EUA/ijgqQ2AFfnabBLQAyXy6tz3gg==}
+    peerDependencies:
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@motionone/dom': 10.10.0
+      hey-listen: 1.0.8
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+      tslib: 2.4.0
+    dev: false
+
+  /@motionone/svelte/10.10.0:
+    resolution: {integrity: sha512-YUB1ChNPrqCrRGU3YusrydkAoCfZC/DvEZzIEf1wvowbCH1oNUOdSZToAFstgdoTChnQpriCsCKPG4oKFVpTjw==}
+    dependencies:
+      '@motionone/dom': 10.10.0
+      tslib: 2.4.0
+    dev: false
+
+  /@motionone/types/10.9.0:
+    resolution: {integrity: sha512-ZcEDfsrS2ym9+vExV7+59avkzEO/PLkNj16uaDvbWhi0Q/vOZ72j2LQTrtDLWVyZRIeUaB/i8DJP017Gj6UYQw==}
+    dev: false
+
+  /@motionone/utils/10.9.0:
+    resolution: {integrity: sha512-5IgmwQ8TdH1HsQ9d2QZeBCu9+HkqjoYRYItRpmusoyiedPMZaKdU3pr3qFP5nbAj68Ww2sTUxgEZEOF20qJA6w==}
+    dependencies:
+      '@motionone/types': 10.9.0
+      hey-listen: 1.0.8
+      tslib: 2.4.0
+    dev: false
+
+  /@motionone/vue/10.10.0:
+    resolution: {integrity: sha512-4g/rnShYMIRhU6GJxebEEeUxkR5bucJFjJMS6pOxWvtd0fPDRyl+ckaA9ONWk+CzrsDCTOBy4NDToeuWsuoWeg==}
+    dependencies:
+      '@motionone/dom': 10.10.0
+      tslib: 2.4.0
     dev: false
 
   /@next/env/12.1.7-canary.29:
@@ -1312,6 +1393,26 @@ packages:
       - supports-color
     dev: false
 
+  /@typescript-eslint/parser/5.27.0_eslint@8.17.0+typescript@4.7.3:
+    resolution: {integrity: sha512-8oGjQF46c52l7fMiPPvX4It3u3V3JipssqDfHQ2hcR0AeR8Zge+OYyKUCm5b70X72N1qXt0qgHenwN6Gc2SXZA==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/scope-manager': 5.27.0
+      '@typescript-eslint/types': 5.27.0
+      '@typescript-eslint/typescript-estree': 5.27.0_typescript@4.7.3
+      debug: 4.3.4
+      eslint: 8.17.0
+      typescript: 4.7.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@typescript-eslint/parser/5.27.0_ud6rd4xtew5bv4yhvkvu24pzm4:
     resolution: {integrity: sha512-8oGjQF46c52l7fMiPPvX4It3u3V3JipssqDfHQ2hcR0AeR8Zge+OYyKUCm5b70X72N1qXt0qgHenwN6Gc2SXZA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -1330,6 +1431,7 @@ packages:
       typescript: 4.7.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@typescript-eslint/scope-manager/5.27.0:
     resolution: {integrity: sha512-VnykheBQ/sHd1Vt0LJ1JLrMH1GzHO+SzX6VTXuStISIsvRiurue/eRkTqSrG0CexHQgKG8shyJfR4o5VYioB9g==}
@@ -1730,6 +1832,7 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
+    optional: true
 
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
@@ -2509,6 +2612,10 @@ packages:
     dependencies:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
+    dev: false
+
+  /hey-listen/1.0.8:
+    resolution: {integrity: sha512-COpmrF2NOg4TBWUJ5UVyaCU2A88wEMkUPK4hNqyCkqHbxT92BbvfjoSozkAIIm6XhicGlJHhFdullInrdhwU8Q==}
     dev: false
 
   /hmac-drbg/1.0.1:
@@ -3471,6 +3578,20 @@ packages:
     dependencies:
       brace-expansion: 1.1.11
 
+  /motion/10.10.0_react-dom@18.1.0+react@18.1.0:
+    resolution: {integrity: sha512-dHr4pfvLn48cDTj0GMCY6+R/Ny1s6vQa8ktAAEc2uoiun5XiNpfAuhJ0Gz6tnfffHMfJrsR9qWELlPdZKC11hQ==}
+    dependencies:
+      '@motionone/animation': 10.9.0
+      '@motionone/dom': 10.10.0
+      '@motionone/react': 10.10.0_react-dom@18.1.0+react@18.1.0
+      '@motionone/svelte': 10.10.0
+      '@motionone/types': 10.9.0
+      '@motionone/vue': 10.10.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
@@ -3483,7 +3604,7 @@ packages:
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  /next/12.1.7-canary.29_4cbhpxftn776lqv6vk34lzjmlm:
+  /next/12.1.7-canary.29_e08277dcb36fffe5c2beaab7c5e52c5b:
     resolution: {integrity: sha512-tFghClc38QtGFVzAQXcuhTc728FFGRaKYN2QFXsrownIioZk7ZqsT9DCTqXkaVO9+GfkKgcuvsFRNvE4lfgBOw==}
     engines: {node: '>=12.22.0'}
     hasBin: true
@@ -3871,7 +3992,7 @@ packages:
       '@babel/runtime': 7.18.3
       eventemitter3: 4.0.7
       uuid: 8.3.2
-      ws: 8.7.0_22kvxa7zeyivx4jp72v2w3pkvy
+      ws: 8.7.0_d6955b83f926115bf12ffeabab6deaae
     optionalDependencies:
       bufferutil: 4.0.6
       utf-8-validate: 5.0.9
@@ -4264,6 +4385,7 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
+    optional: true
 
   /util/0.12.4:
     resolution: {integrity: sha512-bxZ9qtSlGUWSOy9Qa9Xgk11kSslpuZwaxCg4sNIDj6FLucDab2JxnHwyNTCpHMtK1MjoQiWQ6DiUMZYbSrO+Sw==}
@@ -4376,7 +4498,7 @@ packages:
         optional: true
     dev: false
 
-  /ws/8.7.0_22kvxa7zeyivx4jp72v2w3pkvy:
+  /ws/8.7.0_d6955b83f926115bf12ffeabab6deaae:
     resolution: {integrity: sha512-c2gsP0PRwcLFzUiA8Mkr37/MI7ilIlHQxaEAtd0uNMbVMoy8puJyafRlm0bV9MbGSabUPeLrRRaqIBcFcA2Pqg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
