@@ -18,8 +18,6 @@ const nav = [
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-
   return (
     <GlowProvider>
       <Head>
@@ -29,9 +27,26 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <div className="wrapper">
         <header className="spread">
-          <Link href="/">
-            <a className="logo">NFToken</a>
-          </Link>
+          <div className="flex-center">
+            <button className="mobile-nav">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+
+            <Link href="/">
+              <a className="logo">NFToken</a>
+            </Link>
+          </div>
+
           <a
             href="https://github.com/glow-xyz/nftoken"
             target="_blank"
@@ -53,17 +68,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <div className="content">
           <nav>
             <div className="nav-inner">
-              {nav.map((item) => (
-                <Link href={item.href} key={item.title}>
-                  <a
-                    className={classNames({
-                      current: router.pathname === item.href,
-                    })}
-                  >
-                    {item.title}
-                  </a>
-                </Link>
-              ))}
+              <NavContent />
             </div>
           </nav>
 
@@ -88,6 +93,10 @@ export default function App({ Component, pageProps }: AppProps) {
           top: 0;
           background-color: var(--primary-bg-color);
           z-index: 100;
+        }
+
+        button.mobile-nav {
+          display: none;
         }
 
         .logo {
@@ -133,20 +142,6 @@ export default function App({ Component, pageProps }: AppProps) {
           top: 6rem;
         }
 
-        nav a {
-          color: var(--secondary-color);
-          display: block;
-          margin-bottom: 0.3rem;
-          transition: none;
-          max-width: max-content;
-        }
-
-        nav a.current {
-          color: var(--brand-color);
-          font-weight: 600;
-          text-decoration: underline;
-        }
-
         main {
           padding: 3rem 4rem;
           max-width: 50rem;
@@ -171,6 +166,16 @@ export default function App({ Component, pageProps }: AppProps) {
             padding: 1rem 1.5rem;
           }
 
+          button.mobile-nav {
+            display: block;
+            line-height: 1;
+            margin-right: 0.75rem;
+            background-color: var(--brand-color);
+            color: var(--white);
+            border-radius: 0.25rem;
+            padding: 0.1rem 0.3rem 0.15rem 0.3rem;
+          }
+
           main {
             padding: 1.5rem;
             padding-bottom: 6rem;
@@ -178,5 +183,41 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}</style>
     </GlowProvider>
+  );
+}
+
+function NavContent() {
+  const router = useRouter();
+
+  return (
+    <>
+      {nav.map((item) => (
+        <Link href={item.href} key={item.title}>
+          <a
+            className={classNames({
+              current: router.pathname === item.href,
+            })}
+          >
+            {item.title}
+          </a>
+        </Link>
+      ))}
+
+      <style jsx>{`
+        a {
+          color: var(--secondary-color);
+          display: block;
+          margin-bottom: 0.3rem;
+          transition: none;
+          max-width: max-content;
+        }
+
+        a.current {
+          color: var(--brand-color);
+          font-weight: 600;
+          text-decoration: underline;
+        }
+      `}</style>
+    </>
   );
 }
