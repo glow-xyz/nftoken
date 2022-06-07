@@ -32,9 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingBottom: "1.5rem",
       });
       animate(
-        "nav a",
+        "nav.mobile a",
         { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
-        { delay: stagger(0.1) }
+        { delay: stagger(0.05, { start: 0.05 }) }
       );
     } else {
       animate("nav.mobile", {
@@ -43,9 +43,15 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: 0,
         paddingBottom: 0,
       });
-      animate("nav a", { opacity: 0 });
+      animate("nav.mobile a", { opacity: 0 });
     }
   }, [navOpen]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setNavOpen(false);
+  }, [router.pathname]);
 
   return (
     <GlowProvider>
@@ -58,17 +64,34 @@ export default function App({ Component, pageProps }: AppProps) {
         <header className="spread">
           <div className="flex-center">
             <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              {navOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
             </button>
 
             <Link href="/">
@@ -102,7 +125,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </nav>
 
           <nav className="mobile">
-            <NavContent onClick={() => setNavOpen(false)} />
+            <NavContent />
           </nav>
 
           <main>
@@ -233,7 +256,7 @@ export default function App({ Component, pageProps }: AppProps) {
   );
 }
 
-function NavContent({ onClick }: { onClick?: () => void }) {
+function NavContent() {
   const router = useRouter();
 
   return (
@@ -244,7 +267,6 @@ function NavContent({ onClick }: { onClick?: () => void }) {
             className={classNames({
               current: router.pathname === item.href,
             })}
-            onClick={onClick}
           >
             {item.title}
           </a>
