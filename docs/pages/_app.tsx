@@ -34,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
       animate(
         "nav a",
         { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
-        { delay: stagger(0.1, { start: 0.1 }) }
+        { delay: stagger(0.1) }
       );
     } else {
       animate("nav.mobile", {
@@ -102,7 +102,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </nav>
 
           <nav className="mobile">
-            <NavContent />
+            <NavContent onClick={() => setNavOpen(false)} />
           </nav>
 
           <main>
@@ -233,7 +233,7 @@ export default function App({ Component, pageProps }: AppProps) {
   );
 }
 
-function NavContent() {
+function NavContent({ onClick }: { onClick?: () => void }) {
   const router = useRouter();
 
   return (
@@ -244,6 +244,7 @@ function NavContent() {
             className={classNames({
               current: router.pathname === item.href,
             })}
+            onClick={onClick}
           >
             {item.title}
           </a>
