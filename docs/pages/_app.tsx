@@ -81,6 +81,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <style jsx>{`
         .wrapper {
           min-height: 100vh;
+          display: grid;
+          grid-template-rows: max-content 1fr;
         }
 
         header {
@@ -152,6 +154,10 @@ export default function App({ Component, pageProps }: AppProps) {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          .wrapper {
+            display: block;
+          }
+
           .content {
             display: block;
           }
