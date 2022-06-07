@@ -160,10 +160,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
         .logo {
           display: block;
-          font-weight: 900;
+          font-weight: var(--black-font-weight);
           color: var(--primary-color);
           margin: 0;
-          font-size: 1.1rem;
         }
 
         .github {
@@ -171,7 +170,7 @@ export default function App({ Component, pageProps }: AppProps) {
           background-color: var(--brand-color);
           color: var(--white);
           font-size: var(--small-font-size);
-          font-weight: 600;
+          font-weight: var(--medium-font-weight);
           height: max-content;
           padding: 0.2rem 0.8rem;
           border-radius: 99px;
