@@ -25,6 +25,7 @@ export const Heading = ({
       <style jsx>{`
         a {
           color: inherit;
+          text-decoration: none;
         }
 
         .anchor {

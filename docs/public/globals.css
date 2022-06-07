@@ -22,7 +22,7 @@ article h2 {
   font-weight: 600;
 }
 
-article p a {
+article a {
   color: var(--brand-color);
   font-weight: 500;
   text-decoration: underline;
