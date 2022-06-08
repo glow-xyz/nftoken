@@ -16,8 +16,12 @@ import "../styles/app.scss";
 
 const nav = [
   { title: "Overview", href: "/" },
-  { title: "Installation", href: "/installation" },
-  { title: "Usage", href: "/usage" },
+  { title: "Getting Started", href: "/getting-started" },
+  { title: "Technical Details", href: "/technical-details" },
+  { title: "Security", href: "/security" },
+  { title: "FAQ", href: "/faq" },
+  { title: "Roadmap", href: "/roadmap" },
+  { title: "Changelog", href: "/changelog" },
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
