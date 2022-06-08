@@ -31,7 +31,7 @@
     "bignumber.js": "^9.0.2",
     "buffer": "^6.0.3",
     "buffer-layout": "^1.2.2",
-    "camelcase": "^6.3.0",
+    "camelcase": "7.0.0",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "jest": "^28.1.0",
