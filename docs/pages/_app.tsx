@@ -211,7 +211,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }
 
         main {
-          padding: 3rem 4rem;
+          padding: 3rem 4rem 5rem 4rem;
           max-width: 50rem;
         }
 
