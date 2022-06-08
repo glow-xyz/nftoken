@@ -84,7 +84,7 @@ export const CodeBlock = ({
         }
 
         button {
-          background-color: hsla(0, 0%, 100%, 0.2);
+          background-color: var(--secondary-color);
           padding: 0.3rem;
           line-height: 0;
           border-radius: var(--border-radius);
