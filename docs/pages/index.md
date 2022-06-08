@@ -34,4 +34,4 @@ Solana is an alternative blockchain designed to fix the problems with Bitcoin an
 
 - **Fast** — Transactions resolve in a couple seconds. This feels like a credit card transactions in contrast to Bitcoin and Ethereum where transactions take more than 5 minutes.
 - **Cheap** — A Solana transaction typically costs less than $0.01. With NFToken, creating an NFT costs ~ $0.10. Bitcoin and Ethereum have transaction fees of more than $10.
-- **Energy Efficient** — Bitcoin consumes more energy than the country of Argentina and Ethereum is close behind. Solana is exteremely efficient and uses the amount of energy equivalent to ~ 1,000 American homes.
+- **Energy Efficient** — Bitcoin consumes more energy than the country of Argentina and Ethereum is close behind. Solana is extremely efficient and uses the amount of energy equivalent to ~ 1,000 American homes.

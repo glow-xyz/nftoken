@@ -4,7 +4,7 @@ title: Technical Details
 
 # {% $markdoc.frontmatter.title %}
 
-The NFToken spec is designed to be easy for non-technical people to use. If you are a creator, aritst, or collector, you can create, sell, manage, and collect NFTs without needing to code.
+The NFToken spec is designed to be easy for non-technical people to use. If you are a creator, artist, or collector, you can create, sell, manage, and collect NFTs without needing to code.
 
 If you are developer, it's easy to build on top of the NFToken standard to integrate NFTs into your dApp, crypto wallet, or other project. You can also extend the standard in interesting ways to add functionality to your NFT project.
 
@@ -39,7 +39,7 @@ NFT Accounts store the data for the NFT.
 - `address` — The address of the account is the ID of the NFT. This is a unique identifier.
 - `data`
   - `authority: Pubkey` — When the NFT is created, the `authority` is set to the creator. The creator can transfer the `authority` to another account.
-  - `authority_can_update: bool` — The `authority` can update metadata about the NFT if `authority_can_update` is true. If `authority_can_udpate` is false, then the NFT is immutable and no one can update the metadata.
+  - `authority_can_update: bool` — The `authority` can update metadata about the NFT if `authority_can_update` is true. If `authority_can_update` is false, then the NFT is immutable and no one can update the metadata.
   - `holder: Pubkey` — This is who currently owns the NFT.
   - `delegate: Pubkey` — The `delegate` has permission to transfer the NFT once. This is useful for selling an NFT on the marketplace. When you list your NFT on a marketplace, the marketplace program will update the delegate to an account owned by the marketplace. When the NFT is sold, the marketplace uses the `delegate` to fulfill the sale and transfer the NFT to the new `holder`.
   - `metadata_url: String` — This is a string that points to a URL where the NFT metadata is stored.
