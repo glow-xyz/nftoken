@@ -19,7 +19,7 @@ importers:
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1
       '@metaplex-foundation/beet': 0.2.0
-      '@solana/web3.js': 1.43.5
+      '@solana/web3.js': 1.43.6
       '@types/node': 17.0.40
       '@types/react': 18.0.11
       '@types/react-dom': 18.0.5
@@ -42,7 +42,7 @@ importers:
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1_hgc2kdhqyv4mqpe7jxo5trtgfe
       '@metaplex-foundation/beet': 0.2.0
-      '@solana/web3.js': 1.43.5
+      '@solana/web3.js': 1.43.6
       '@types/react-dom': 18.0.5
       axios: 0.27.2
       classnames: 2.3.1
@@ -1117,8 +1117,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@solana/web3.js/1.43.5:
-    resolution: {integrity: sha512-/PF4Fp+2jvCt9R3hYrf+tVUZXpPXZaHcwpaY/ytgdcswy8YiYf2snug52BJTCTlxwiXJipS4JpIo7rJJO0nN6w==}
+  /@solana/web3.js/1.43.6:
+    resolution: {integrity: sha512-F1Q7EOnLi5X+Ap5bAEi5PTwwXPZR+GTfIyOuWpWJfgm3GoawdP/x5lxJolDzzV5S99bNEU/rSTdxcW9EFzIiEw==}
     engines: {node: '>=12.20.0'}
     dependencies:
       '@babel/runtime': 7.18.3
