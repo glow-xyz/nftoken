@@ -17,7 +17,7 @@ importers:
       '@glow-app/solana-client': 0.3.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
-      '@markdoc/next.js': 0.1.4-1
+      '@markdoc/next.js': 0.1.4
       '@metaplex-foundation/beet': 0.2.0
       '@solana/web3.js': 1.43.5
       '@types/node': 17.0.40
@@ -40,7 +40,7 @@ importers:
       '@glow-app/solana-client': 0.3.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
-      '@markdoc/next.js': 0.1.4-1_hgc2kdhqyv4mqpe7jxo5trtgfe
+      '@markdoc/next.js': 0.1.4_hgc2kdhqyv4mqpe7jxo5trtgfe
       '@metaplex-foundation/beet': 0.2.0
       '@solana/web3.js': 1.43.5
       '@types/react-dom': 18.0.5
@@ -815,8 +815,8 @@ packages:
     engines: {node: '>=14.7.0'}
     dev: false
 
-  /@markdoc/next.js/0.1.4-1_hgc2kdhqyv4mqpe7jxo5trtgfe:
-    resolution: {integrity: sha512-16pIWYgdYXboyCdr0+NDPNDu4eHvtuPAtjyzP1T/VW5b7Ls0aCARoiOIfbwruTyQDfsgN/QXNxEj/TAmeY66kw==}
+  /@markdoc/next.js/0.1.4_hgc2kdhqyv4mqpe7jxo5trtgfe:
+    resolution: {integrity: sha512-1da7H1c8/RZ1s02Cybh/8wHAwkyHu4ZP8ygK0nL+IK8jFO66J5UrYFIL2DCBDQy1uJSUgJdVErmLjeuK8wXHBg==}
     peerDependencies:
       '@markdoc/markdoc': ^0.1.1
       next: '*'
