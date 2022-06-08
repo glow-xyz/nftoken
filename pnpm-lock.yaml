@@ -27,6 +27,7 @@ importers:
       '@typescript-eslint/parser': 5.27.1
       axios: 0.27.2
       classnames: 2.3.1
+      copy-to-clipboard: 3.3.1
       eslint: 8.17.0
       eslint-plugin-lodash: 7.4.0
       formik: 2.2.9
@@ -50,6 +51,7 @@ importers:
       '@types/react-dom': 18.0.5
       axios: 0.27.2
       classnames: 2.3.1
+      copy-to-clipboard: 3.3.1
       formik: 2.2.9_react@18.1.0
       motion: 10.10.0_react-dom@18.1.0+react@18.1.0
       next: 12.1.7-canary.31_e08277dcb36fffe5c2beaab7c5e52c5b
@@ -1909,6 +1911,12 @@ packages:
     resolution: {integrity: sha512-+OQdjP49zViI/6i7nIJpA8rAl4sV/JdPfU9nZs3VqOwGIgizICvuN2ru6fMd+4llL0tar18UYJXfZ/TWtmhUjA==}
     dependencies:
       safe-buffer: 5.1.2
+    dev: false
+
+  /copy-to-clipboard/3.3.1:
+    resolution: {integrity: sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==}
+    dependencies:
+      toggle-selection: 1.0.6
     dev: false
 
   /cross-fetch/3.1.5:
@@ -4227,6 +4235,10 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
+
+  /toggle-selection/1.0.6:
+    resolution: {integrity: sha1-bkWxJj8gF/oKzH2J14sVuL932jI=}
+    dev: false
 
   /toml/3.0.0:
     resolution: {integrity: sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==}
