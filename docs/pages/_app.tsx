@@ -1,23 +1,53 @@
+import { useState, useEffect } from "react";
+
 import { GlowProvider } from "@glow-app/glow-react";
 import "@glow-app/glow-react/dist/styles.css";
+
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { SideNav } from "../components/shell/SideNav";
-import { TopNav } from "../components/shell/TopNav";
+import Link from "next/link";
+import classNames from "classnames";
+import { animate, stagger } from "motion";
 
+import { ResponsiveBreakpoint } from "../utils/style-constants";
 import "../public/globals.css";
 import "../styles/app.scss";
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+const nav = [
+  { title: "Overview", href: "/" },
+  { title: "Getting Started", href: "/getting-started" },
+  { title: "Technical Details", href: "/technical-details" },
+  { title: "Security", href: "/security" },
+  { title: "FAQ", href: "/faq" },
+  { title: "Roadmap", href: "/roadmap" },
+  { title: "Changelog", href: "/changelog" },
+];
+
+export default function App({ Component, pageProps }: AppProps) {
   const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
     if (navOpen) {
-      document.body.classList.add("no-scroll");
+      animate("nav.mobile", {
+        pointerEvents: "auto",
+        height: "100%",
+        paddingTop: "1.5rem",
+        paddingBottom: "1.5rem",
+      });
+      animate(
+        "nav.mobile a",
+        { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
+        { delay: stagger(0.05, { start: 0.05 }) }
+      );
     } else {
-      document.body.classList.remove("no-scroll");
+      animate("nav.mobile", {
+        pointerEvents: "none",
+        height: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+      });
+      animate("nav.mobile a", { opacity: 0 });
     }
   }, [navOpen]);
 
@@ -34,78 +64,233 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      <TopNav
-        navOpen={navOpen}
-        toggleNav={() => {
-          setNavOpen((open) => !open);
-        }}
-      />
+      <div className="wrapper">
+        <header className="spread">
+          <div className="flex-center">
+            <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
+              {navOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+            </button>
 
-      <main>
-        <SideNav />
-        <Component {...pageProps} />
-      </main>
+            <Link href="/">
+              <a className="logo">NFToken</a>
+            </Link>
+          </div>
+
+          <a
+            href="https://github.com/glow-xyz/nftoken"
+            target="_blank"
+            className="github"
+          >
+            <span>GitHub</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+          </a>
+        </header>
+
+        <div className="content">
+          <nav className="desktop">
+            <div className="nav-inner">
+              <NavContent />
+            </div>
+          </nav>
+
+          <nav className="mobile">
+            <NavContent />
+          </nav>
+
+          <main>
+            <Component {...pageProps} />
+          </main>
+        </div>
+      </div>
 
       <style jsx>{`
-        main {
+        .wrapper {
+          min-height: 100vh;
           display: grid;
-          grid-template-columns: 16rem 65ch 1fr;
-          grid-column-gap: 4rem;
+          grid-template-rows: max-content 1fr;
         }
 
-        main > :global(*):not(article) {
+        header {
+          padding: 1.2rem 3rem;
+          border-top: 4px solid var(--brand-color);
+          border-bottom: 1px solid var(--secondary-border-color);
           position: sticky;
-          top: var(--top-nav-height);
-          height: calc(100vh - var(--top-nav-height));
+          top: 0;
+          background-color: var(--primary-bg-color);
+          z-index: 100;
         }
 
-        main > :global(*):nth-child(1) {
-          padding: 2rem 0 2rem 2rem;
+        button.mobile-nav {
+          display: none;
+          line-height: 1;
+          margin-right: 0.75rem;
+          background-color: var(--brand-color);
+          color: var(--white);
+          border-radius: 0.5rem;
+          padding: 0.1rem 0.3rem 0.2rem 0.3rem;
         }
 
-        main > :global(*):nth-child(2) {
-          padding-top: 2rem;
-          padding-bottom: 5rem;
+        .logo {
+          display: block;
+          font-weight: var(--black-font-weight);
+          color: var(--primary-color);
+          margin: 0;
         }
 
-        main > :global(*):nth-child(3) {
-          padding: 2rem 2rem 2rem 0;
+        .github {
+          display: block;
+          background-color: var(--brand-color);
+          color: var(--white);
+          font-size: var(--small-font-size);
+          font-weight: var(--medium-font-weight);
+          height: max-content;
+          padding: 0.2rem 0.8rem;
+          border-radius: 99px;
         }
 
-        @media (max-width: 1300px) {
-          main {
-            grid-template-columns: 12rem 55ch 1fr;
-            grid-column-gap: 2rem;
+        .github svg {
+          height: 1rem;
+          width: 1rem;
+          margin-left: 0.3rem;
+          transform: translateY(-0.1rem);
+        }
+
+        .content {
+          display: grid;
+          grid-template-columns: 320px 1fr;
+          height: 100%;
+        }
+
+        nav.desktop {
+          border-right: 1px solid var(--secondary-border-color);
+          height: 100%;
+        }
+
+        nav.desktop .nav-inner {
+          padding-left: 3rem;
+          position: sticky;
+          top: 6rem;
+        }
+
+        nav.mobile {
+          /* Hide nav by default, so there's no flash on page load. */
+          height: 0;
+          padding: 0 1.5rem;
+
+          position: fixed;
+          background-color: var(--white);
+          left: 0;
+          right: 0;
+          z-index: 100;
+          overflow: hidden;
+        }
+
+        main {
+          padding: 3rem 4rem 5rem 4rem;
+          max-width: 50rem;
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.large}) {
+          .content {
+            grid-template-columns: 250px 1fr;
           }
         }
 
-        @media (max-width: 1000px) {
-          main > :global(*):nth-child(3) {
-            display: none;
-          }
-        }
-
-        @media (max-width: 800px) {
-          main > :global(*):nth-child(1) {
-            padding: 1rem;
-            position: fixed;
-            inset: 0;
-            top: var(--top-nav-height);
-            background: var(--primary-bg-color);
-            display: ${navOpen ? "block" : "none"};
-          }
-
-          main {
+        @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          .wrapper {
             display: block;
           }
 
-          main > :global(*):nth-child(2) {
-            padding-top: 1rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
+          .content {
+            display: block;
+          }
+
+          nav.desktop {
+            display: none;
+          }
+
+          header {
+            padding: 1rem 1.5rem;
+          }
+
+          button.mobile-nav {
+            display: block;
+          }
+
+          main {
+            padding: 1.5rem;
+            padding-bottom: 6rem;
           }
         }
       `}</style>
     </GlowProvider>
+  );
+}
+
+function NavContent() {
+  const router = useRouter();
+
+  return (
+    <>
+      {nav.map((item) => (
+        <Link href={item.href} key={item.title}>
+          <a
+            className={classNames({
+              current: router.pathname === item.href,
+            })}
+          >
+            {item.title}
+          </a>
+        </Link>
+      ))}
+
+      <style jsx>{`
+        a {
+          color: var(--secondary-color);
+          display: block;
+          margin-bottom: 0.3rem;
+          transition: none;
+          max-width: max-content;
+        }
+
+        a.current {
+          color: var(--brand-color);
+          font-weight: 600;
+          text-decoration: underline;
+        }
+      `}</style>
+    </>
   );
 }

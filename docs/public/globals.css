@@ -12,26 +12,32 @@ body.no-scroll {
 }
 
 article h1 {
-  font-size: 2.2rem;
-}
-
-article a {
-  color: rgba(75, 85, 99, 1);
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 article h2 {
-  margin-top: 2.5rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
-article p {
-  line-height: 1.5em;
-}
-
-article p a {
+article a {
   color: var(--brand-color);
+  font-weight: 500;
   text-decoration: underline;
 }
 
-article p a:hover {
-  text-decoration: underline;
+article p,
+article li {
+  line-height: 1.6;
+  /* TODO: don't hardcode this. */
+  color: var(--gray-80);
+}
+
+article code {
+  background-color: hsl(0, 20%, 96%);
+  color: hsl(0, 84%, 60%);
+  padding: 0 0.3rem;
+  border-radius: var(--border-radius);
 }
