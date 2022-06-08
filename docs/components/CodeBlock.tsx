@@ -24,6 +24,9 @@ export const CodeBlock = ({
   const handleCopy = () => {
     setCopied(true);
     copy(content);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000);
   };
 
   return (
