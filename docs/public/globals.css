@@ -34,3 +34,10 @@ article li {
   /* TODO: don't hardcode this. */
   color: var(--gray-80);
 }
+
+article code {
+  background-color: hsl(0, 20%, 96%);
+  color: hsl(0, 84%, 60%);
+  padding: 0 0.3rem;
+  border-radius: var(--border-radius);
+}
