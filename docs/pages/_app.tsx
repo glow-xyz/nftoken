@@ -205,12 +205,15 @@ export default function App({ Component, pageProps }: AppProps) {
         }
 
         nav.mobile {
+          /* Hide nav by default, so there's no flash on page load. */
+          height: 0;
+          padding: 0 1.5rem;
+
           position: fixed;
           background-color: var(--white);
           left: 0;
           right: 0;
           z-index: 100;
-          padding: 1.5rem;
           overflow: hidden;
         }
 
