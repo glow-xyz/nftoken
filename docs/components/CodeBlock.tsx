@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import copy from "copy-to-clipboard";
+import { animate } from "motion";
 
 import prism from "prismjs";
 import "prismjs/components/prism-typescript";
@@ -19,6 +20,9 @@ export const CodeBlock = ({
     ? prism.highlight(content, prism.languages[language], language)
     : content;
 
+  const copyIcon = useRef<SVGSVGElement | null>(null);
+  const successIcon = useRef<SVGSVGElement | null>(null);
+
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -28,6 +32,18 @@ export const CodeBlock = ({
       setCopied(false);
     }, 3000);
   };
+
+  useEffect(() => {
+    if (!copyIcon.current || !successIcon.current) {
+      return;
+    }
+
+    const leave = copied ? copyIcon.current : successIcon.current;
+    const enter = copied ? successIcon.current : copyIcon.current;
+
+    animate(leave, { opacity: 0, transform: "scale(0)" }, { duration: 0.15 });
+    animate(enter, { opacity: 1, transform: "scale(1)" }, { duration: 0.15 });
+  }, [copied]);
 
   return (
     <>
@@ -39,35 +55,34 @@ export const CodeBlock = ({
         />
 
         <button onClick={handleCopy}>
-          {copied ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-              />
-            </svg>
-          )}
+          <svg
+            ref={copyIcon}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
+            />
+          </svg>
+          <svg
+            ref={successIcon}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
         </button>
       </div>
 
@@ -93,6 +108,9 @@ export const CodeBlock = ({
           right: 0.5rem;
           opacity: 0;
           transition: var(--transition);
+
+          /* For positioning the two icons on top of one another. */
+          display: grid;
         }
 
         div:hover button {
@@ -101,6 +119,8 @@ export const CodeBlock = ({
 
         button svg {
           color: var(--white);
+          grid-column: 1;
+          grid-row: 1;
         }
       `}</style>
     </>
