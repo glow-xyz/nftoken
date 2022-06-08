@@ -23,6 +23,8 @@
     "formik": "2.2.9",
     "motion": "10.10.0",
     "next": "12.1.7-canary.31",
+    "prism-themes": "1.9.0",
+    "prismjs": "1.28.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "sass": "1.52.2",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "17.0.40",
+    "@types/prismjs": "1.26.0",
     "@types/react": "18.0.11",
     "@typescript-eslint/parser": "5.27.1",
     "eslint": "8.17.0",
