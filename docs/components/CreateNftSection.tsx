@@ -6,10 +6,33 @@ import { Field, Form, Formik, useFormikContext } from "formik";
 import { useState } from "react";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
+import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
 
 export const CreateNftSection = () => {
+  const { user, canSignIn, signIn } = useGlowContext();
+
+  if (!canSignIn) {
+    return (
+      <Container>
+        You’ll need to install{" "}
+        <a href="https://glow.app/download" target="_blank">
+          Glow
+        </a>{" "}
+        in order to mint an NFT.
+      </Container>
+    );
+  }
+
+  if (!user) {
+    return (
+      <Container>
+        <GlowSignInButton variant="purple" />
+      </Container>
+    );
+  }
+
   return (
-    <div className="create-nft-section">
+    <Container>
       <Formik
         initialValues={{ name: "", image: null }}
         onSubmit={async ({ name }, { resetForm }) => {
@@ -67,7 +90,7 @@ export const CreateNftSection = () => {
         }}
       >
         <Form>
-          <div>
+          <div className="mb-4">
             <label htmlFor="name" className="luma-input-label medium">
               Name
             </label>
@@ -87,14 +110,10 @@ export const CreateNftSection = () => {
 
       <style jsx>{`
         form {
-          max-width: 24rem;
-        }
-
-        .create-nft-section :global(form) > :global(div) {
-          margin-bottom: 1rem;
+          max-width: 32rem;
         }
       `}</style>
-    </div>
+    </Container>
   );
 };
 
@@ -133,11 +152,11 @@ const ImageDropzone = () => {
           border: 1px dashed var(--primary-border-color);
           width: max-content;
           color: var(--secondary-color);
-          background-color: var(--secondary-bg-color);
+          background-color: var(--primary-bg-color);
           padding: 1rem;
           border-radius: var(--border-radius);
           transition: var(--transition);
-          width: 24rem;
+          width: 32rem;
           max-width: 100%;
           text-align: center;
         }
@@ -162,5 +181,36 @@ const ImageDropzone = () => {
         }
       `}</style>
     </div>
+  );
+};
+
+const Container = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <section className="px-3 pb-3 rounded">
+      <div className="badge text-xs font-weight-bold">Live Minting Demo</div>
+      <div>{children}</div>
+
+      <style jsx>{`
+        section {
+          border: 1px solid var(--primary-border-color);
+          background-color: var(--secondary-bg-color);
+          position: relative;
+          padding-top: 2.25rem;
+          overflow: hidden;
+          max-width: max-content;
+        }
+
+        .badge {
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: var(--gray-90);
+          color: var(--white);
+          line-height: 1;
+          padding: 0.3rem 0.6rem 0.35rem 0.6rem;
+          border-bottom-right-radius: calc(var(--border-radius) / 2);
+        }
+      `}</style>
+    </section>
   );
 };
