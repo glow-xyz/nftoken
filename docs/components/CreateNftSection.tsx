@@ -213,16 +213,18 @@ const ImageDropZone = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: ACCEPT_IMAGE_PROP,
     multiple: false,
-    onDrop: async (files) => {
-      // We join both accepted and rejected because the error handling case is
-      // in upload hook as well.
-      // const [file] = files;
-      // const { file_url } = await uploadFileToS3({
-      //   file,
-      //   destination: { bucket: "cdn.lu.ma", folder: "misc" },
-      //   ZmClient,
-      // });
-      // setUploadedFile(file_url);
+    // onDrop: async (files) => {
+    // We join both accepted and rejected because the error handling case is
+    // in upload hook as well.
+    // const [file] = files;
+    // const { file_url } = await uploadFileToS3({
+    //   file,
+    //   destination: { bucket: "cdn.lu.ma", folder: "misc" },
+    //   ZmClient,
+    // });
+    // setUploadedFile(file_url);
+    // },
+    onDrop: () => {
       setFieldValue("image", "https://source.unsplash.com/random");
     },
     noKeyboard: true,
