@@ -11,7 +11,7 @@ title: Getting Started
   - Download Glow
 - Step 2 — Create an NFT
   - Upload Image
-  - Choose Name'
+  - Choose Name
 
 {% create-nft-section /%}
 
