@@ -147,7 +147,7 @@ export const CreateNftSection = () => {
         }
 
         .form-section.blurred {
-          filter: blur(5px) brightness(120%) grayscale(20%);
+          filter: blur(6px) brightness(120%) grayscale(20%);
         }
       `}</style>
     </Container>
