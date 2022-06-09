@@ -1,6 +1,7 @@
 /* Use this file to export your Markdoc nodes */
 
 import { Heading } from "../components/Heading";
+import { CodeBlock } from "../components/CodeBlock";
 import { Tag } from "@markdoc/markdoc";
 
 export const heading = {
@@ -27,5 +28,13 @@ export const heading = {
       .replace(/^-|-$/, "");
 
     return new Tag("Heading", { ...attributes, id }, children);
+  },
+};
+
+export const fence = {
+  render: CodeBlock,
+  attributes: {
+    content: { type: String, required: true },
+    language: { type: String, required: true },
   },
 };

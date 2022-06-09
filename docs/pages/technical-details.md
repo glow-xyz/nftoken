@@ -8,6 +8,13 @@ The NFToken spec is designed to be easy for non-technical people to use. If you 
 
 If you are developer, it's easy to build on top of the NFToken standard to integrate NFTs into your dApp, crypto wallet, or other project. You can also extend the standard in interesting ways to add functionality to your NFT project.
 
+```js
+const string = "This is a very long string that will test whether things overlap.";
+function demo() {
+  console.log("cool!");
+}
+```
+
 ## Solana Overview
 
 You can think of Solana as a large key-value database. The Solana validator nodes store the entire state of the system in memory.
