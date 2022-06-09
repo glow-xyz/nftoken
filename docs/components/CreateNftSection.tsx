@@ -1,13 +1,14 @@
+import { useState } from "react";
+import classNames from "classnames";
 import { Network } from "@glow-app/glow-client";
 import { SolanaClient } from "@glow-app/solana-client";
 import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
-import classNames from "classnames";
+import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
 import { Field, Form, Formik, useFormikContext } from "formik";
+import { useDropzone } from "react-dropzone";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
-import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
 import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
-import { useDropzone } from "react-dropzone";
 
 type FormData = {
   name: string;
@@ -16,6 +17,7 @@ type FormData = {
 
 export const CreateNftSection = () => {
   const { user, canSignIn, signOut } = useGlowContext();
+  const [success, setSuccess] = useState(false);
 
   const initialValues: FormData = { name: "", image: null };
 
@@ -27,104 +29,129 @@ export const CreateNftSection = () => {
             blurred: !canSignIn || !user,
           })}
         >
-          <Formik
-            initialValues={initialValues}
-            onSubmit={async ({ name }, { resetForm }) => {
-              const { publicKey } = await window.glow!.connect();
-
-              const nft_keypair = Keypair.generate();
-              const { file_url: metadata_url } = await uploadJsonToS3({
-                json: { name },
-              });
-              const recentBlockhash = await SolanaClient.getRecentBlockhash({
-                rpcUrl: "https://api.mainnet-beta.solana.com",
-              });
-
-              // TODO: replace this with not Solana web3.js
-              const transaction = new Transaction({
-                feePayer: publicKey,
-                recentBlockhash,
-              });
-              transaction.add({
-                keys: [
-                  // NFT Creator
-                  {
-                    pubkey: publicKey,
-                    isSigner: true,
-                    isWritable: true,
-                  },
-                  // Holder
-                  { pubkey: publicKey, isWritable: false, isSigner: false },
-                  {
-                    pubkey: nft_keypair.publicKey,
-                    isSigner: true,
-                    isWritable: true,
-                  },
-                  {
-                    pubkey: PublicKey.default,
-                    isWritable: false,
-                    isSigner: false,
-                  },
-                ],
-                programId: new PublicKey(
-                  "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi"
-                ),
-                data: NFTOKEN_NFT_CREATE_IX.toBuffer({
-                  ix: null,
-                  metadata_url,
-                  collection_included: false,
-                }),
-              });
-              transaction.partialSign(nft_keypair);
-
-              await window.glow!.signAndSendTransaction({
-                transactionBase64: transaction
-                  .serialize({ verifySignatures: false })
-                  .toString("base64"),
-                network: Network.Mainnet,
-              });
-
-              resetForm({ values: { name: "", image: null } });
-            }}
-          >
-            <Form>
-              <div className="mb-4">
-                <label htmlFor="name" className="luma-input-label medium">
-                  Name
-                </label>
-                <Field name="name" id="name" className="luma-input" />
-              </div>
-
-              <ImageDropZone />
-
-              <div className="mt-4 flex-end spread">
-                <button
-                  type="submit"
-                  className="luma-button round brand solid flex-center "
+          {success ? (
+            <div className="success">
+              <div className="success-icon text-success">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
                 >
-                  Create NFT
-                </button>
-                <button
-                  type="button"
-                  onClick={signOut}
-                  className="ml-2 luma-button round text-secondary flex-center small"
-                >
-                  Disconnect Wallet
-                </button>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                  />
+                </svg>
               </div>
-            </Form>
-          </Formik>
+              <p className="font-weight-medium text-success mb-0 text-center">
+                <span>Your NFT has been minted!</span>
+              </p>
+            </div>
+          ) : (
+            <Formik
+              initialValues={initialValues}
+              onSubmit={async ({ name }, { resetForm }) => {
+                const { publicKey } = await window.glow!.connect();
+
+                const nft_keypair = Keypair.generate();
+                const { file_url: metadata_url } = await uploadJsonToS3({
+                  json: { name },
+                });
+                const recentBlockhash = await SolanaClient.getRecentBlockhash({
+                  rpcUrl: "https://api.mainnet-beta.solana.com",
+                });
+
+                // TODO: replace this with not Solana web3.js
+                const transaction = new Transaction({
+                  feePayer: publicKey,
+                  recentBlockhash,
+                });
+                transaction.add({
+                  keys: [
+                    // NFT Creator
+                    {
+                      pubkey: publicKey,
+                      isSigner: true,
+                      isWritable: true,
+                    },
+                    // Holder
+                    { pubkey: publicKey, isWritable: false, isSigner: false },
+                    {
+                      pubkey: nft_keypair.publicKey,
+                      isSigner: true,
+                      isWritable: true,
+                    },
+                    {
+                      pubkey: PublicKey.default,
+                      isWritable: false,
+                      isSigner: false,
+                    },
+                  ],
+                  programId: new PublicKey(
+                    "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi"
+                  ),
+                  data: NFTOKEN_NFT_CREATE_IX.toBuffer({
+                    ix: null,
+                    metadata_url,
+                    collection_included: false,
+                  }),
+                });
+                transaction.partialSign(nft_keypair);
+
+                await window.glow!.signAndSendTransaction({
+                  transactionBase64: transaction
+                    .serialize({ verifySignatures: false })
+                    .toString("base64"),
+                  network: Network.Mainnet,
+                });
+
+                resetForm({ values: { name: "", image: null } });
+                setSuccess(true);
+              }}
+            >
+              <Form>
+                <div className="mb-4">
+                  <label htmlFor="name" className="luma-input-label medium">
+                    Name
+                  </label>
+                  <Field name="name" id="name" className="luma-input" />
+                </div>
+
+                <ImageDropZone />
+
+                <div className="mt-4 flex-end spread">
+                  <button
+                    type="submit"
+                    className="luma-button round brand solid flex-center "
+                  >
+                    Create NFT
+                  </button>
+                  <button
+                    type="button"
+                    onClick={signOut}
+                    className="ml-2 luma-button round text-secondary flex-center small"
+                  >
+                    Disconnect Wallet
+                  </button>
+                </div>
+              </Form>
+            </Formik>
+          )}
         </div>
 
         {!canSignIn && (
           <div className="overlay">
-            <div>
+            <p>
               You’ll need to install{" "}
               <a href="https://glow.app/download" target="_blank">
                 Glow
               </a>{" "}
               in order to mint an NFT.
-            </div>
+            </p>
           </div>
         )}
 
@@ -150,12 +177,29 @@ export const CreateNftSection = () => {
           align-items: center;
         }
 
+        .overlay p {
+          background-color: hsla(0, 0%, 100%, 0.8);
+          padding: 0.3rem 1rem;
+          border-radius: var(--border-radius);
+          color: var(--primary-color);
+        }
+
         .form-section {
           transition: var(--transition); /* So blur transitions smoothly. */
         }
 
         .form-section.blurred {
           filter: blur(6px) brightness(120%) grayscale(20%);
+        }
+
+        .success-icon {
+          margin: 0 auto;
+          max-width: max-content;
+        }
+
+        .success-icon svg {
+          height: 1.25rem;
+          width: 1.25rem;
         }
       `}</style>
     </Container>
