@@ -75,8 +75,15 @@ While an NFT can only have one authority, you may want to list multiple creators
 
 When you create the NFT Creators account, the `nft.has_creators` field is automatically marked `true`.
 
-**Royalties**
-The NFToken program lets you store how much should be paid in royalties to the different creators. Note that the NFToken program does not ensure that royalties will be paid out — that is up to the marketplace programs.
+### Royalties
+
+The NFToken program lets you store how much should be paid in royalties to the different creators.
+
+{% callout %}
+
+Note that the NFToken program does not ensure that royalties will be paid out — that is up to the marketplace programs.
+
+{% /callout %}
 
 ### NFT Metadata
 
