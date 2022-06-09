@@ -3,13 +3,21 @@ import { SolanaClient } from "@glow-app/solana-client";
 import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import classNames from "classnames";
 import { Field, Form, Formik, useFormikContext } from "formik";
-import { useState } from "react";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
+import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
+import { useDropzone } from "react-dropzone";
+
+type FormData = {
+  name: string;
+  image: string | null;
+};
 
 export const CreateNftSection = () => {
   const { user, canSignIn, signOut } = useGlowContext();
+
+  const initialValues: FormData = { name: "", image: null };
 
   return (
     <Container>
@@ -20,7 +28,7 @@ export const CreateNftSection = () => {
           })}
         >
           <Formik
-            initialValues={{ name: "", image: null }}
+            initialValues={initialValues}
             onSubmit={async ({ name }, { resetForm }) => {
               const { publicKey } = await window.glow!.connect();
 
@@ -87,7 +95,7 @@ export const CreateNftSection = () => {
                 <Field name="name" id="name" className="luma-input" />
               </div>
 
-              <ImageDropzone />
+              <ImageDropZone />
 
               <div className="mt-4 flex-end spread">
                 <button
@@ -154,62 +162,49 @@ export const CreateNftSection = () => {
   );
 };
 
-const ImageDropzone = () => {
-  const { setFieldValue } = useFormikContext();
+const ImageDropZone = () => {
+  const { values, setFieldValue } = useFormikContext();
+  const data = values as FormData;
 
-  const [imageinDropzone, setImageInDropzone] = useState(false);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: ACCEPT_IMAGE_PROP,
+    multiple: false,
+    onDrop: async (files) => {
+      // We join both accepted and rejected because the error handling case is
+      // in upload hook as well.
+      const [file] = files;
+      // const { file_url } = await uploadFileToS3({
+      //   file,
+      //   destination: { bucket: "cdn.lu.ma", folder: "misc" },
+      //   ZmClient,
+      // });
+      // setUploadedFile(file_url);
+      setFieldValue("image", "https://source.unsplash.com/random");
+    },
+    noKeyboard: true,
+  });
 
   return (
-    <div>
-      <label htmlFor="image" className="luma-input-label medium">
-        NFT Image
-      </label>
-      <div
-        className={classNames("dropzone", { active: imageinDropzone })}
-        onDragEnter={() => setImageInDropzone(true)}
-        onDragOver={() => setImageInDropzone(true)}
-        onDragLeave={() => setImageInDropzone(false)}
-        onDrop={() => setImageInDropzone(false)}
-      >
-        <input
-          type="file"
-          accept="image/*"
-          name="image"
-          id="image"
-          onChange={(event) => {
-            setFieldValue("image", event.target.files?.[0]);
-          }}
-        />
-        <div>Drag and drop an image or click to browse.</div>
-      </div>
+    <div className={classNames("container", { "with-image": data.image })}>
+      <DropZone
+        label="NFT Image"
+        isDragActive={isDragActive}
+        rootProps={getRootProps()}
+        inputProps={getInputProps()}
+      />
+
+      {data.image && <img src={data.image} />}
 
       <style jsx>{`
-        .dropzone {
-          position: relative;
-          border: 1px dashed var(--primary-border-color);
-          width: max-content;
-          color: var(--secondary-color);
-          background-color: var(--primary-bg-color);
-          padding: 1rem;
+        .container.with-image {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          grid-column-gap: 1rem;
+        }
+
+        img {
+          width: 100%;
           border-radius: var(--border-radius);
-          transition: var(--transition);
-          text-align: center;
-          width: 100%;
-        }
-
-        .dropzone.active {
-          color: var(--success-color);
-          border-color: var(--success-color);
-          background-color: var(--success-pale-bg-color);
-        }
-
-        input[type="file"] {
-          opacity: 0;
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          cursor: pointer;
         }
       `}</style>
     </div>
