@@ -37,7 +37,7 @@ importers:
       prismjs: 1.28.0
       react: 18.1.0
       react-dom: 18.1.0
-      sass: 1.52.2
+      sass: 1.52.3
       typescript: 4.7.3
     dependencies:
       '@glow-app/glow-client': 0.1.0
@@ -54,12 +54,12 @@ importers:
       copy-to-clipboard: 3.3.1
       formik: 2.2.9_react@18.1.0
       motion: 10.10.0_react-dom@18.1.0+react@18.1.0
-      next: 12.1.7-canary.31_e08277dcb36fffe5c2beaab7c5e52c5b
+      next: 12.1.7-canary.31_b803a54b102d8cda6f0ac602082a9eab
       prism-themes: 1.9.0
       prismjs: 1.28.0
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
-      sass: 1.52.2
+      sass: 1.52.3
       typescript: 4.7.3
     devDependencies:
       '@types/node': 17.0.40
@@ -828,7 +828,7 @@ packages:
     dependencies:
       '@markdoc/markdoc': 0.1.2
       js-yaml: 4.1.0
-      next: 12.1.7-canary.31_e08277dcb36fffe5c2beaab7c5e52c5b
+      next: 12.1.7-canary.31_b803a54b102d8cda6f0ac602082a9eab
       react: 18.1.0
     dev: false
 
@@ -1782,7 +1782,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
@@ -3562,7 +3561,7 @@ packages:
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  /next/12.1.7-canary.31_e08277dcb36fffe5c2beaab7c5e52c5b:
+  /next/12.1.7-canary.31_b803a54b102d8cda6f0ac602082a9eab:
     resolution: {integrity: sha512-3R02/hwxkr5477nC4FqL6+oxdifRyh2kBNg3WNStpaSRIaGMhymg3fdECPTzIFeUspZ+/E1vPWQ9xjYqUQexfQ==}
     engines: {node: '>=12.22.0'}
     hasBin: true
@@ -3585,7 +3584,7 @@ packages:
       postcss: 8.4.5
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
-      sass: 1.52.2
+      sass: 1.52.3
       styled-jsx: 5.0.2_react@18.1.0
       use-sync-external-store: 1.1.0_react@18.1.0
     optionalDependencies:
@@ -3978,8 +3977,8 @@ packages:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
     dev: false
 
-  /sass/1.52.2:
-    resolution: {integrity: sha512-mfHB2VSeFS7sZlPv9YohB9GB7yWIgQNTGniQwfQ04EoQN0wsQEv7SwpCwy/x48Af+Z3vDeFXz+iuXM3HK/phZQ==}
+  /sass/1.52.3:
+    resolution: {integrity: sha512-LNNPJ9lafx+j1ArtA7GyEJm9eawXN8KlA1+5dF6IZyoONg1Tyo/g+muOsENWJH/2Q1FHbbV4UwliU0cXMa/VIA==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
@@ -4356,7 +4355,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /util/0.12.4:
     resolution: {integrity: sha512-bxZ9qtSlGUWSOy9Qa9Xgk11kSslpuZwaxCg4sNIDj6FLucDab2JxnHwyNTCpHMtK1MjoQiWQ6DiUMZYbSrO+Sw==}
