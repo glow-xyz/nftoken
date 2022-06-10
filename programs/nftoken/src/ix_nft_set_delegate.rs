@@ -32,7 +32,6 @@ pub struct NftSetDelegate<'info> {
     #[account(mut)]
     pub holder: Signer<'info>,
 
-    // TODO: do we need to check that that the delegate
     /// CHECK: the delegate can be any account type
     pub delegate: AccountInfo<'info>,
 }

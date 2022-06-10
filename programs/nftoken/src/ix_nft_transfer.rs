@@ -8,7 +8,7 @@ use anchor_lang::prelude::*;
 /// Transfer an NFT to a different owner
 ///
 /// Either the *owner* or the *delegate* can take this action.
-pub fn nft_transfer_inner(ctx: Context<TransferNft>) -> Result<()> {
+pub fn nft_transfer_inner(ctx: Context<NftTransfer>) -> Result<()> {
     let signer = &ctx.accounts.signer;
     let nft = &mut ctx.accounts.nft;
 
@@ -16,11 +16,9 @@ pub fn nft_transfer_inner(ctx: Context<TransferNft>) -> Result<()> {
 
     let delegate = nft.delegate;
 
-    let transfer_allowed =
-        // The NFT holder can make a transfer
-        nft.holder.key() == signer.key()
-            // So can the delegate, if the delegate is set.
-            || (delegate.key() != NULL_PUBKEY && delegate.key() == signer.key());
+    let is_holder = nft.holder.key() == signer.key();
+    let is_delegate = delegate.key() != NULL_PUBKEY && delegate.key() == signer.key();
+    let transfer_allowed = is_holder || is_delegate;
 
     let recipient = ctx.accounts.recipient.key();
 
@@ -35,7 +33,7 @@ pub fn nft_transfer_inner(ctx: Context<TransferNft>) -> Result<()> {
 
 #[derive(Accounts)]
 #[instruction()]
-pub struct TransferNft<'info> {
+pub struct NftTransfer<'info> {
     #[account(mut)]
     pub nft: Account<'info, NftAccount>,
 
