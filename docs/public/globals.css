@@ -14,15 +14,27 @@ body.no-scroll {
 article h1 {
   font-size: 2rem;
   font-weight: 600;
+  margin-bottom: 1.5rem;
 }
 
 article h2 {
-  margin-top: 3rem;
-  margin-bottom: 1rem;
   font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
-article a {
+article h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+article h1 + *,
+article h2 + *,
+article h3 + * {
+  margin-top: 0;
+}
+
+article a:not(h1 a):not(h2 a):not(h3 a) {
   color: var(--brand-color);
   font-weight: 500;
   text-decoration: underline;
@@ -39,4 +51,8 @@ article code:not(pre code) {
   color: hsl(0, 84%, 60%);
   padding: 0 0.3rem;
   border-radius: var(--border-radius);
+}
+
+article strong {
+  color: var(--primary-color);
 }

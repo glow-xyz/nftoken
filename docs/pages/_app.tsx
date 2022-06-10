@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import classNames from "classnames";
 import { animate, stagger } from "motion";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon, ExternalLinkIcon } from "@heroicons/react/solid";
 
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import "../public/globals.css";
@@ -66,57 +68,30 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <div className="wrapper">
-        <header className="spread">
-          <div className="flex-center">
-            <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
-              {navOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              )}
-            </button>
+        <header>
+          <div className="header-inner spread">
+            <div className="flex-center">
+              <button
+                className="mobile-nav"
+                onClick={() => setNavOpen(!navOpen)}
+              >
+                {navOpen ? <XIcon /> : <MenuIcon />}
+              </button>
 
-            <Link href="/">
-              <a className="logo">NFToken</a>
-            </Link>
-          </div>
+              <Link href="/">
+                <a className="logo">NFToken</a>
+              </Link>
+            </div>
 
-          <a
-            href="https://github.com/glow-xyz/nftoken"
-            target="_blank"
-            className="github"
-          >
-            <span>GitHub</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+            <a
+              href="https://github.com/glow-xyz/nftoken"
+              target="_blank"
+              className="github"
             >
-              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-            </svg>
-          </a>
+              <span>GitHub</span>
+              <ExternalLinkIcon />
+            </a>
+          </div>
         </header>
 
         <div className="content">
@@ -132,6 +107,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
           <main>
             <Component {...pageProps} />
+
+            <NextPrev />
           </main>
         </div>
       </div>
@@ -151,6 +128,12 @@ export default function App({ Component, pageProps }: AppProps) {
           top: 0;
           background-color: var(--primary-bg-color);
           z-index: 100;
+        }
+
+        .header-inner {
+          width: 100%;
+          max-width: 53rem;
+          margin: 0 auto;
         }
 
         button.mobile-nav {
@@ -181,28 +164,30 @@ export default function App({ Component, pageProps }: AppProps) {
           border-radius: 99px;
         }
 
-        .github svg {
-          height: 1rem;
-          width: 1rem;
+        .github :global(svg) {
           margin-left: 0.3rem;
           transform: translateY(-0.1rem);
         }
 
         .content {
           display: grid;
-          grid-template-columns: 320px 1fr;
+          grid-template-columns: max-content 1fr;
+          grid-column-gap: 2rem;
           height: 100%;
+
+          width: 100%;
+          max-width: 60rem;
+          margin: 0 auto;
         }
 
         nav.desktop {
-          border-right: 1px solid var(--secondary-border-color);
           height: 100%;
         }
 
         nav.desktop .nav-inner {
           padding-left: 3rem;
           position: sticky;
-          top: 6rem;
+          top: 8rem;
         }
 
         nav.mobile {
@@ -220,13 +205,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
         main {
           padding: 3rem 4rem 5rem 4rem;
-          max-width: 50rem;
-        }
-
-        @media (max-width: ${ResponsiveBreakpoint.large}) {
-          .content {
-            grid-template-columns: 250px 1fr;
-          }
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
@@ -265,33 +243,123 @@ function NavContent() {
 
   return (
     <>
-      {nav.map((item) => (
-        <Link href={item.href} key={item.title}>
-          <a
-            className={classNames({
-              current: router.pathname === item.href,
-            })}
-          >
-            {item.title}
-          </a>
-        </Link>
-      ))}
+      <div className="container">
+        <div
+          className="active-highlight"
+          style={{
+            top:
+              nav.indexOf(nav.find((item) => item.href === router.pathname)!) *
+                2.25 +
+              "rem",
+          }}
+        ></div>
+
+        {nav.map((item) => (
+          <Link href={item.href} key={item.title}>
+            <a
+              className={classNames({
+                current: router.pathname === item.href,
+              })}
+            >
+              {item.title}
+            </a>
+          </Link>
+        ))}
+      </div>
 
       <style jsx>{`
+        .container {
+          position: relative;
+        }
+
         a {
-          color: var(--secondary-color);
           display: block;
-          margin-bottom: 0.3rem;
-          transition: none;
-          max-width: max-content;
+          margin-bottom: 0.25rem;
+          padding: 0.25rem 0.75rem;
+          color: var(--secondary-color);
+          font-weight: var(--medium-font-weight);
+          border-radius: var(--border-radius);
+          transition: var(--transition);
+        }
+
+        a:not(.current):hover {
+          color: var(--primary-color);
+          background-color: var(--tertiary-bg-color);
         }
 
         a.current {
-          color: var(--brand-color);
-          font-weight: 600;
-          text-decoration: underline;
+          color: var(--white);
+        }
+
+        .active-highlight {
+          position: absolute;
+          left: 0;
+          height: 2rem;
+          width: 100%;
+          background-color: var(--brand-color);
+          border-radius: var(--border-radius);
+          z-index: -1;
+          transition: var(--transition);
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          .active-highlight {
+            display: none;
+          }
+
+          a.current {
+            background-color: var(--brand-color);
+          }
         }
       `}</style>
     </>
   );
 }
+
+const NextPrev = () => {
+  const router = useRouter();
+
+  const current = nav.find((item) => item.href === router.pathname);
+
+  if (!current) {
+    return null;
+  }
+
+  const index = nav.indexOf(current);
+
+  return (
+    <div className="spread">
+      {nav[index - 1] ? (
+        <Link href={nav[index - 1].href}>
+          <a className="luma-button round icon-left flex-center p-0">
+            <ChevronLeftIcon />
+            {nav[index - 1].title}
+          </a>
+        </Link>
+      ) : (
+        // Spacer so the other link goes on the right.
+        <div />
+      )}
+
+      {nav[index + 1] && (
+        <Link href={nav[index + 1].href}>
+          <a className="luma-button round icon-right flex-center p-0">
+            {nav[index + 1].title}
+            <ChevronRightIcon />
+          </a>
+        </Link>
+      )}
+
+      <style jsx>{`
+        div {
+          margin-top: 3rem;
+        }
+
+        div :global(svg) {
+          display: inline-block;
+          margin-bottom: -0.05rem;
+        }
+      `}</style>
+    </div>
+  );
+};

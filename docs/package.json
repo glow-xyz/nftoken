@@ -12,6 +12,7 @@
     "@glow-app/glow-client": "0.1.0",
     "@glow-app/glow-react": "0.1.1",
     "@glow-app/solana-client": "0.3.0",
+    "@heroicons/react": "1.0.6",
     "@lux-org/sass": "0.46.0",
     "@markdoc/markdoc": "0.1.2",
     "@markdoc/next.js": "0.1.4-1",
