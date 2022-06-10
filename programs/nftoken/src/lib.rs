@@ -6,6 +6,7 @@ use crate::ix_collection_update::*;
 use crate::ix_mintlist_add_mint_infos::*;
 use crate::ix_mintlist_create::*;
 use crate::ix_mintlist_mint_nft::*;
+use crate::ix_nft_burn::*;
 use crate::ix_nft_create::*;
 use crate::ix_nft_set_collection::*;
 use crate::ix_nft_set_delegate::*;
@@ -24,6 +25,7 @@ pub mod ix_collection_update;
 pub mod ix_mintlist_add_mint_infos;
 pub mod ix_mintlist_create;
 pub mod ix_mintlist_mint_nft;
+pub mod ix_nft_burn;
 pub mod ix_nft_create;
 pub mod ix_nft_set_collection;
 pub mod ix_nft_set_delegate;
@@ -47,7 +49,7 @@ pub mod nftoken {
         return nft_update_inner(ctx, args);
     }
 
-    pub fn nft_transfer_v1(ctx: Context<TransferNft>) -> Result<()> {
+    pub fn nft_transfer_v1(ctx: Context<NftTransfer>) -> Result<()> {
         return nft_transfer_inner(ctx);
     }
 
@@ -65,6 +67,10 @@ pub mod nftoken {
 
     pub fn nft_unset_collection_v1(ctx: Context<NftUnsetCollection>) -> Result<()> {
         return nft_unset_collection_inner(ctx);
+    }
+
+    pub fn nft_burn_v1(ctx: Context<NftBurn>) -> Result<()> {
+        return nft_burn_inner(ctx);
     }
 
     pub fn nft_setup_creators_v1(

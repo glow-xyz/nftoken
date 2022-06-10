@@ -38,7 +38,6 @@ pub fn nft_set_collection_inner(ctx: Context<NftSetCollection>) -> Result<()> {
 pub struct NftSetCollection<'info> {
     #[account(mut)]
     pub nft: Account<'info, NftAccount>,
-    #[account(mut)] // This is also the fee payer for the TX
     pub nft_authority: Signer<'info>,
 
     pub collection: Account<'info, CollectionAccount>,
