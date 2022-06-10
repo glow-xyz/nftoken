@@ -314,6 +314,11 @@ function NavContent() {
           transition: var(--transition);
         }
 
+        a:not(.current):hover {
+          color: var(--primary-color);
+          background-color: var(--tertiary-bg-color);
+        }
+
         a.current {
           color: var(--white);
         }
