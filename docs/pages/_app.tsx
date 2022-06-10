@@ -215,7 +215,7 @@ export default function App({ Component, pageProps }: AppProps) {
           padding: 0 1.5rem;
 
           position: fixed;
-          background-color: var(--white);
+          background-color: var(--primary-bg-color);
           left: 0;
           right: 0;
           z-index: 100;
