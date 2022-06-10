@@ -15,6 +15,7 @@ importers:
       '@glow-app/glow-client': 0.1.0
       '@glow-app/glow-react': 0.1.1
       '@glow-app/solana-client': 0.3.0
+      '@heroicons/react': 1.0.6
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1
@@ -44,6 +45,7 @@ importers:
       '@glow-app/glow-client': 0.1.0
       '@glow-app/glow-react': 0.1.1_react-dom@18.1.0+react@18.1.0
       '@glow-app/solana-client': 0.3.0
+      '@heroicons/react': 1.0.6_react@18.1.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1_f63c6e084888a3f13223f71889df0add
@@ -529,6 +531,14 @@ packages:
     transitivePeerDependencies:
       - debug
       - supports-color
+    dev: false
+
+  /@heroicons/react/1.0.6_react@18.1.0:
+    resolution: {integrity: sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.1.0
     dev: false
 
   /@humanwhocodes/config-array/0.9.5:

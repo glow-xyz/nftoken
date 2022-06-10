@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import classNames from "classnames";
 import { animate, stagger } from "motion";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon, ExternalLinkIcon } from "@heroicons/react/solid";
 
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import "../public/globals.css";
@@ -73,31 +75,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 className="mobile-nav"
                 onClick={() => setNavOpen(!navOpen)}
               >
-                {navOpen ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )}
+                {navOpen ? <XIcon /> : <MenuIcon />}
               </button>
 
               <Link href="/">
@@ -111,15 +89,7 @@ export default function App({ Component, pageProps }: AppProps) {
               className="github"
             >
               <span>GitHub</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-              </svg>
+              <ExternalLinkIcon />
             </a>
           </div>
         </header>
@@ -194,9 +164,7 @@ export default function App({ Component, pageProps }: AppProps) {
           border-radius: 99px;
         }
 
-        .github svg {
-          height: 1rem;
-          width: 1rem;
+        .github :global(svg) {
           margin-left: 0.3rem;
           transform: translateY(-0.1rem);
         }
@@ -364,19 +332,7 @@ const NextPrev = () => {
       {nav[index - 1] ? (
         <Link href={nav[index - 1].href}>
           <a className="luma-button round icon-left flex-center p-0">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
+            <ChevronLeftIcon />
             {nav[index - 1].title}
           </a>
         </Link>
@@ -389,19 +345,7 @@ const NextPrev = () => {
         <Link href={nav[index + 1].href}>
           <a className="luma-button round icon-right flex-center p-0">
             {nav[index + 1].title}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            <ChevronRightIcon />
           </a>
         </Link>
       )}
@@ -411,7 +355,7 @@ const NextPrev = () => {
           margin-top: 3rem;
         }
 
-        svg {
+        div :global(svg) {
           display: inline-block;
           margin-bottom: -0.05rem;
         }
