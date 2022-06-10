@@ -162,7 +162,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
         .header-inner {
           width: 100%;
-          max-width: 80rem;
+          max-width: 53rem;
           margin: 0 auto;
         }
 
