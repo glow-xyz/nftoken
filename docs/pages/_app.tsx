@@ -287,17 +287,18 @@ function NavContent() {
 
       <style jsx>{`
         a {
-          color: var(--secondary-color);
           display: block;
-          margin-bottom: 0.3rem;
-          transition: none;
-          max-width: max-content;
+          margin-bottom: 0.25rem;
+          padding: 0.25rem 0.75rem;
+          color: var(--secondary-color);
+          font-weight: var(--medium-font-weight);
+          border-radius: var(--border-radius);
+          transition: var(--transition);
         }
 
         a.current {
-          color: var(--brand-color);
-          font-weight: 600;
-          text-decoration: underline;
+          color: var(--white);
+          background-color: var(--brand-color);
         }
       `}</style>
     </>
