@@ -1,7 +1,7 @@
-use anchor_lang::prelude::*;
 use crate::account_types::*;
 use crate::constants::*;
 use crate::errors::*;
+use anchor_lang::prelude::*;
 
 /// # Undelegate an NFT
 ///
@@ -15,11 +15,11 @@ pub fn nft_unset_delegate_inner(ctx: Context<NftUnsetDelegate>) -> Result<()> {
     let nft = &mut ctx.accounts.nft;
 
     let current_delegate = &nft.delegate;
-    let action_allowed =
-        // The NFT holder can remove the delegate
-        nft.holder.key() == signer.key()
-            // The delegate can also remove the delegate
-            || current_delegate.key() == signer.key();
+
+    let is_holder = nft.holder.key() == signer.key();
+    let is_delegate =
+        current_delegate.key() != NULL_PUBKEY && current_delegate.key() == signer.key();
+    let action_allowed = is_holder || is_delegate;
 
     require!(action_allowed, NftokenError::DelegateUnauthorized);
 
@@ -37,5 +37,3 @@ pub struct NftUnsetDelegate<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
 }
-
-

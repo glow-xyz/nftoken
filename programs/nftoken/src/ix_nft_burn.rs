@@ -6,7 +6,7 @@ use anchor_lang::prelude::*;
 /// # Burn NFT
 ///
 /// Burning an NFT closes the account and returns the SOL to the current holder.
-pub fn nft_burn_inner(ctx: Context<NftBurn>) -> Result<()> {
+pub fn nft_burn_inner(_ctx: Context<NftBurn>) -> Result<()> {
     Ok(())
 }
 
