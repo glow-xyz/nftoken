@@ -46,7 +46,7 @@ export const CreateNftSection = () => {
               { pubkey: PublicKey.default, isWritable: false, isSigner: false },
             ],
             programId: new PublicKey(
-              "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi"
+              "nf8HTAnNYh2nSBh8a3Sfa7XsCZYitMcHRx3PgEtea5E"
             ),
             data: NFTOKEN_NFT_CREATE_IX.toBuffer({
               ix: null,
