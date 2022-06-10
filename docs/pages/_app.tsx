@@ -273,19 +273,35 @@ function NavContent() {
 
   return (
     <>
-      {nav.map((item) => (
-        <Link href={item.href} key={item.title}>
-          <a
-            className={classNames({
-              current: router.pathname === item.href,
-            })}
-          >
-            {item.title}
-          </a>
-        </Link>
-      ))}
+      <div className="container">
+        <div
+          className="active-highlight"
+          style={{
+            top:
+              nav.indexOf(nav.find((item) => item.href === router.pathname)!) *
+                2.25 +
+              "rem",
+          }}
+        ></div>
+
+        {nav.map((item) => (
+          <Link href={item.href} key={item.title}>
+            <a
+              className={classNames({
+                current: router.pathname === item.href,
+              })}
+            >
+              {item.title}
+            </a>
+          </Link>
+        ))}
+      </div>
 
       <style jsx>{`
+        .container {
+          position: relative;
+        }
+
         a {
           display: block;
           margin-bottom: 0.25rem;
@@ -298,7 +314,27 @@ function NavContent() {
 
         a.current {
           color: var(--white);
+        }
+
+        .active-highlight {
+          position: absolute;
+          left: 0;
+          height: 2rem;
+          width: 100%;
           background-color: var(--brand-color);
+          border-radius: var(--border-radius);
+          z-index: -1;
+          transition: var(--transition);
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          .active-highlight {
+            display: none;
+          }
+
+          a.current {
+            background-color: var(--brand-color);
+          }
         }
       `}</style>
     </>
