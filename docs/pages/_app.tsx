@@ -111,13 +111,22 @@ export default function App({ Component, pageProps }: AppProps) {
             <NextPrev />
           </main>
         </div>
+
+        <footer>
+          <div className="footer-inner">
+            <a href="https://glow.app">
+              <img className="dark" src="/glow-logo-dark.svg" />
+              <img className="light" src="/glow-logo-light.svg" />
+            </a>
+          </div>
+        </footer>
       </div>
 
       <style jsx>{`
         .wrapper {
           min-height: 100vh;
           display: grid;
-          grid-template-rows: max-content 1fr;
+          grid-template-rows: max-content 1fr max-content;
         }
 
         header {
@@ -205,6 +214,36 @@ export default function App({ Component, pageProps }: AppProps) {
 
         main {
           padding: 3rem 4rem 5rem 4rem;
+        }
+
+        footer {
+          padding: 2rem 1.5rem;
+          background-color: var(--tertiary-bg-color);
+        }
+
+        .footer-inner {
+          width: 100%;
+          max-width: 52rem;
+          margin: 0 auto;
+        }
+
+        footer img {
+          display: block;
+          height: 1.5rem;
+        }
+
+        footer img.light {
+          display: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          footer img.light {
+            display: block;
+          }
+
+          footer img.dark {
+            display: none;
+          }
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
