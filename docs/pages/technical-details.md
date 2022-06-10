@@ -90,7 +90,7 @@ It's advantageous for most projects to store metadata offchain because:
 
 That being said, we are working on a version of the NFT Metadata spec that will allow NFT creators to store their Metadata on chain. This will be useful for higher value projects that want to pay more to have more data verifiable on chain.
 
-**Metadata Format**
+### Metadata Format
 
 We recommend the [OpenSea NFT Metadata Standard](https://docs.opensea.io/docs/metadata-standards#metadata-structure). Most wallets and NFT marketplaces will respect Metadata in that standard, so it's the most portable way to store Metadata..
 
