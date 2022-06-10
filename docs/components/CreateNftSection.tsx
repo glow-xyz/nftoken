@@ -9,6 +9,7 @@ import { useDropzone } from "react-dropzone";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
+import { BadgeCheckIcon } from "@heroicons/react/outline";
 
 type FormData = {
   name: string;
@@ -32,20 +33,7 @@ export const CreateNftSection = () => {
           {success ? (
             <div className="success">
               <div className="success-icon text-success">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                  />
-                </svg>
+                <BadgeCheckIcon />
               </div>
               <p className="font-weight-medium text-success mb-0 text-center">
                 <span>Your NFT has been minted!</span>
@@ -197,7 +185,7 @@ export const CreateNftSection = () => {
           max-width: max-content;
         }
 
-        .success-icon svg {
+        .success-icon :global(svg) {
           height: 1.25rem;
           width: 1.25rem;
         }

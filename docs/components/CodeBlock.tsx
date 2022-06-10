@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import copy from "copy-to-clipboard";
 import { animate } from "motion";
+import { ClipboardIcon, CheckIcon } from "@heroicons/react/outline";
 
 import prism from "prismjs";
 import "prismjs/components/prism-typescript";
@@ -55,34 +56,8 @@ export const CodeBlock = ({
         />
 
         <button onClick={handleCopy}>
-          <svg
-            ref={copyIcon}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
-            />
-          </svg>
-          <svg
-            ref={successIcon}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+          <ClipboardIcon ref={copyIcon} />
+          <CheckIcon ref={successIcon} />
         </button>
       </div>
 
@@ -117,7 +92,7 @@ export const CodeBlock = ({
           opacity: 1;
         }
 
-        button svg {
+        button :global(svg) {
           color: var(--white);
           grid-column: 1;
           grid-row: 1;
