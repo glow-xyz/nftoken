@@ -8,13 +8,6 @@ The NFToken spec is designed to be easy for non-technical people to use. If you 
 
 If you are developer, it's easy to build on top of the NFToken standard to integrate NFTs into your dApp, crypto wallet, or other project. You can also extend the standard in interesting ways to add functionality to your NFT project.
 
-```js
-const string = "This is a very long string that will test whether things overlap.";
-function demo() {
-  console.log("cool!");
-}
-```
-
 ## Solana Overview
 
 You can think of Solana as a large key-value database. The Solana validator nodes store the entire state of the system in memory.
@@ -87,8 +80,20 @@ Note that the NFToken program does not ensure that royalties will be paid out â€
 
 ### NFT Metadata
 
-We adhere to the OpenSea standard...
+The current version of the spec gives each NFT and Collection a `metadata_url` which points to a JSON file offchain where the item's Metadata like `name`, `image,` and `attributes` are stored.
+
+It's advantageous for most projects to store metadata offchain because:
+
+1. It's cheaper. On Solana, storing data on chain costs money. If you only store the essential pieces on chain, creating and minting NFTs will be cheaper.
+2. It's easier to update. If you decide that you want to update the Metadata, you can update your offchain data rather than updating all NFTs. This can be useful for some projects.
+3. It's more flexible. Most NFToken clients will expect that your Metadata adheres to OpenSea's NFT standard (more info below), but there is no reason you can't add more data in NFTs that you create.
+
+That being said, we are working on a version of the NFT Metadata spec that will allow NFT creators to store their Metadata on chain. This will be useful for higher value projects that want to pay more to have more data verifiable on chain.
+
+**Metadata Format**
+
+We recommend the [OpenSea NFT Metadata Standard](https://docs.opensea.io/docs/metadata-standards#metadata-structure). Most wallets and NFT marketplaces will respect Metadata in that standard, so it's the most portable way to store Metadata..
 
 ## Docs
 
-You can find the Rust docs here: https://docs.rs/nftoken/latest/nftoken/
+You can find the Rust docs here: [docs.rs/nftoken/latest/nftoken](https://docs.rs/nftoken/latest/nftoken/)

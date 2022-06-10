@@ -20,7 +20,6 @@ const nav = [
   { title: "Technical Details", href: "/technical-details" },
   { title: "Security", href: "/security" },
   { title: "FAQ", href: "/faq" },
-  { title: "Roadmap", href: "/roadmap" },
   { title: "Changelog", href: "/changelog" },
 ];
 
