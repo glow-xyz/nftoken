@@ -66,57 +66,62 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <div className="wrapper">
-        <header className="spread">
-          <div className="flex-center">
-            <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
-              {navOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              )}
-            </button>
+        <header>
+          <div className="header-inner spread">
+            <div className="flex-center">
+              <button
+                className="mobile-nav"
+                onClick={() => setNavOpen(!navOpen)}
+              >
+                {navOpen ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                )}
+              </button>
 
-            <Link href="/">
-              <a className="logo">NFToken</a>
-            </Link>
-          </div>
+              <Link href="/">
+                <a className="logo">NFToken</a>
+              </Link>
+            </div>
 
-          <a
-            href="https://github.com/glow-xyz/nftoken"
-            target="_blank"
-            className="github"
-          >
-            <span>GitHub</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+            <a
+              href="https://github.com/glow-xyz/nftoken"
+              target="_blank"
+              className="github"
             >
-              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-            </svg>
-          </a>
+              <span>GitHub</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+              </svg>
+            </a>
+          </div>
         </header>
 
         <div className="content">
@@ -151,6 +156,12 @@ export default function App({ Component, pageProps }: AppProps) {
           top: 0;
           background-color: var(--primary-bg-color);
           z-index: 100;
+        }
+
+        .header-inner {
+          width: 100%;
+          max-width: 80rem;
+          margin: 0 auto;
         }
 
         button.mobile-nav {
@@ -190,19 +201,23 @@ export default function App({ Component, pageProps }: AppProps) {
 
         .content {
           display: grid;
-          grid-template-columns: 320px 1fr;
+          grid-template-columns: max-content 1fr;
+          grid-column-gap: 2rem;
           height: 100%;
+
+          width: 100%;
+          max-width: 60rem;
+          margin: 0 auto;
         }
 
         nav.desktop {
-          border-right: 1px solid var(--secondary-border-color);
           height: 100%;
         }
 
         nav.desktop .nav-inner {
           padding-left: 3rem;
           position: sticky;
-          top: 6rem;
+          top: 8rem;
         }
 
         nav.mobile {
@@ -220,13 +235,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
         main {
           padding: 3rem 4rem 5rem 4rem;
-          max-width: 50rem;
-        }
-
-        @media (max-width: ${ResponsiveBreakpoint.large}) {
-          .content {
-            grid-template-columns: 250px 1fr;
-          }
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
