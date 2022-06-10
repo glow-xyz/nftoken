@@ -356,7 +356,7 @@ const NextPrev = () => {
 
   return (
     <div className="spread">
-      {nav[index - 1] && (
+      {nav[index - 1] ? (
         <Link href={nav[index - 1].href}>
           <a className="luma-button round icon-left flex-center p-0">
             <svg
@@ -375,6 +375,9 @@ const NextPrev = () => {
             {nav[index - 1].title}
           </a>
         </Link>
+      ) : (
+        // Spacer so the other link goes on the right.
+        <div />
       )}
 
       {nav[index + 1] && (
