@@ -52,3 +52,7 @@ article code:not(pre code) {
   padding: 0 0.3rem;
   border-radius: var(--border-radius);
 }
+
+article strong {
+  color: var(--primary-color);
+}

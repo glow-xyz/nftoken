@@ -14,7 +14,7 @@ You can think of Solana as a large key-value database. The Solana validator node
 
 Solana has a slightly different terminology than a typical key-value database. Keys are referred to as addresses and each address point at two things — a SOL balance and a data field.
 
-**Accounts on Solana**
+### Accounts on Solana
 
 Here are three common types of accounts on Solana:
 
@@ -22,7 +22,7 @@ Here are three common types of accounts on Solana:
 - **Programs** — Solana Programs are compiled into bytecode and stored on the blockchain. Validators run the code of a program by loading it from the account on chain. The NFToken program is a single program deployed at address `TODO`.
 - **Data Accounts** — Programs store data in different accounts on chain. An NFT is an example of a data account that is owned by the NFToken program and has data about the NFT, including who owns the NFT.
 
-**How Transactions Work**
+### How Transactions Work
 
 Solana uses a Proof of Stake voting system where the validator nodes add a block to the blockchain every ~ 400 ms. Each block consists of around 100 to 1,000 transactions.
 

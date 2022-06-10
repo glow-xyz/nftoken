@@ -137,6 +137,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
           <main>
             <Component {...pageProps} />
+
+            <NextPrev />
           </main>
         </div>
       </div>
@@ -340,3 +342,72 @@ function NavContent() {
     </>
   );
 }
+
+const NextPrev = () => {
+  const router = useRouter();
+
+  const current = nav.find((item) => item.href === router.pathname);
+
+  if (!current) {
+    return null;
+  }
+
+  const index = nav.indexOf(current);
+
+  return (
+    <div className="spread">
+      {nav[index - 1] && (
+        <Link href={nav[index - 1].href}>
+          <a className="luma-button round icon-left flex-center p-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            {nav[index - 1].title}
+          </a>
+        </Link>
+      )}
+
+      {nav[index + 1] && (
+        <Link href={nav[index + 1].href}>
+          <a className="luma-button round icon-right flex-center p-0">
+            {nav[index + 1].title}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </a>
+        </Link>
+      )}
+
+      <style jsx>{`
+        div {
+          margin-top: 3rem;
+        }
+
+        svg {
+          display: inline-block;
+          margin-bottom: -0.05rem;
+        }
+      `}</style>
+    </div>
+  );
+};
