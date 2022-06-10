@@ -1,166 +1,289 @@
+import { useState } from "react";
+import classNames from "classnames";
 import { Network } from "@glow-app/glow-client";
 import { SolanaClient } from "@glow-app/solana-client";
 import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
-import classNames from "classnames";
+import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
 import { Field, Form, Formik, useFormikContext } from "formik";
-import { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
+import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
+
+type FormData = {
+  name: string;
+  image: string | null;
+};
 
 export const CreateNftSection = () => {
+  const { user, canSignIn, signOut } = useGlowContext();
+  const [success, setSuccess] = useState(false);
+
+  const initialValues: FormData = { name: "", image: null };
+
   return (
-    <div className="create-nft-section">
-      <Formik
-        initialValues={{ name: "", image: null }}
-        onSubmit={async ({ name }, { resetForm }) => {
-          const { publicKey } = await window.glow!.connect();
+    <Container>
+      <div className="create-nft-section">
+        <div
+          className={classNames("form-section", {
+            blurred: !canSignIn || !user,
+          })}
+        >
+          {success ? (
+            <div className="success">
+              <div className="success-icon text-success">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                  />
+                </svg>
+              </div>
+              <p className="font-weight-medium text-success mb-0 text-center">
+                <span>Your NFT has been minted!</span>
+              </p>
+            </div>
+          ) : (
+            <Formik
+              initialValues={initialValues}
+              onSubmit={async ({ name }, { resetForm }) => {
+                const { publicKey } = await window.glow!.connect();
 
-          const nft_keypair = Keypair.generate();
-          const { file_url: metadata_url } = await uploadJsonToS3({
-            json: { name },
-          });
-          const recentBlockhash = await SolanaClient.getRecentBlockhash({
-            rpcUrl: "https://api.mainnet-beta.solana.com",
-          });
+                const nft_keypair = Keypair.generate();
+                const { file_url: metadata_url } = await uploadJsonToS3({
+                  json: { name },
+                });
+                const recentBlockhash = await SolanaClient.getRecentBlockhash({
+                  rpcUrl: "https://api.mainnet-beta.solana.com",
+                });
 
-          // TODO: replace this with not Solana web3.js
-          const transaction = new Transaction({
-            feePayer: publicKey,
-            recentBlockhash,
-          });
-          transaction.add({
-            keys: [
-              // NFT Creator
-              {
-                pubkey: publicKey,
-                isSigner: true,
-                isWritable: true,
-              },
-              // Holder
-              { pubkey: publicKey, isWritable: false, isSigner: false },
-              {
-                pubkey: nft_keypair.publicKey,
-                isSigner: true,
-                isWritable: true,
-              },
-              { pubkey: PublicKey.default, isWritable: false, isSigner: false },
-            ],
-            programId: new PublicKey(
-              "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi"
-            ),
-            data: NFTOKEN_NFT_CREATE_IX.toBuffer({
-              ix: null,
-              metadata_url,
-              collection_included: false,
-            }),
-          });
-          transaction.partialSign(nft_keypair);
+                // TODO: replace this with not Solana web3.js
+                const transaction = new Transaction({
+                  feePayer: publicKey,
+                  recentBlockhash,
+                });
+                transaction.add({
+                  keys: [
+                    // NFT Creator
+                    {
+                      pubkey: publicKey,
+                      isSigner: true,
+                      isWritable: true,
+                    },
+                    // Holder
+                    { pubkey: publicKey, isWritable: false, isSigner: false },
+                    {
+                      pubkey: nft_keypair.publicKey,
+                      isSigner: true,
+                      isWritable: true,
+                    },
+                    {
+                      pubkey: PublicKey.default,
+                      isWritable: false,
+                      isSigner: false,
+                    },
+                  ],
+                  programId: new PublicKey(
+                    "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi"
+                  ),
+                  data: NFTOKEN_NFT_CREATE_IX.toBuffer({
+                    ix: null,
+                    metadata_url,
+                    collection_included: false,
+                  }),
+                });
+                transaction.partialSign(nft_keypair);
 
-          await window.glow!.signAndSendTransaction({
-            transactionBase64: transaction
-              .serialize({ verifySignatures: false })
-              .toString("base64"),
-            network: Network.Mainnet,
-          });
+                await window.glow!.signAndSendTransaction({
+                  transactionBase64: transaction
+                    .serialize({ verifySignatures: false })
+                    .toString("base64"),
+                  network: Network.Mainnet,
+                });
 
-          resetForm({ values: { name: "", image: null } });
-        }}
-      >
-        <Form>
-          <div>
-            <label htmlFor="name" className="luma-input-label medium">
-              Name
-            </label>
-            <Field name="name" id="name" className="luma-input" />
+                resetForm({ values: { name: "", image: null } });
+                setSuccess(true);
+              }}
+            >
+              <Form>
+                <div className="mb-4">
+                  <label htmlFor="name" className="luma-input-label medium">
+                    Name
+                  </label>
+                  <Field name="name" id="name" className="luma-input" />
+                </div>
+
+                <ImageDropZone />
+
+                <div className="mt-4 flex-end spread">
+                  <button
+                    type="submit"
+                    className="luma-button round brand solid flex-center "
+                  >
+                    Create NFT
+                  </button>
+                  <button
+                    type="button"
+                    onClick={signOut}
+                    className="ml-2 luma-button round text-secondary flex-center small"
+                  >
+                    Disconnect Wallet
+                  </button>
+                </div>
+              </Form>
+            </Formik>
+          )}
+        </div>
+
+        {!canSignIn && (
+          <div className="overlay">
+            <p>
+              You’ll need to install{" "}
+              <a href="https://glow.app/download" target="_blank">
+                Glow
+              </a>{" "}
+              in order to mint an NFT.
+            </p>
           </div>
+        )}
 
-          <ImageDropzone />
-
-          <button
-            type="submit"
-            className="luma-button round brand solid flex-center mt-4"
-          >
-            Create NFT
-          </button>
-        </Form>
-      </Formik>
+        {canSignIn && !user && (
+          <div className="overlay">
+            <GlowSignInButton variant="purple" />
+          </div>
+        )}
+      </div>
 
       <style jsx>{`
-        form {
-          max-width: 24rem;
+        .create-nft-section {
+          width: 36rem;
+          max-width: 100%;
+          position: relative;
         }
 
-        .create-nft-section :global(form) > :global(div) {
-          margin-bottom: 1rem;
+        .overlay {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .overlay p {
+          background-color: hsla(0, 0%, 100%, 0.8);
+          padding: 0.3rem 1rem;
+          border-radius: var(--border-radius);
+          color: var(--primary-color);
+        }
+
+        .form-section {
+          transition: var(--transition); /* So blur transitions smoothly. */
+        }
+
+        .form-section.blurred {
+          filter: blur(6px) brightness(120%) grayscale(20%);
+        }
+
+        .success-icon {
+          margin: 0 auto;
+          max-width: max-content;
+        }
+
+        .success-icon svg {
+          height: 1.25rem;
+          width: 1.25rem;
+        }
+      `}</style>
+    </Container>
+  );
+};
+
+const ImageDropZone = () => {
+  const { values, setFieldValue } = useFormikContext();
+  const data = values as FormData;
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: ACCEPT_IMAGE_PROP,
+    multiple: false,
+    // onDrop: async (files) => {
+    // We join both accepted and rejected because the error handling case is
+    // in upload hook as well.
+    // const [file] = files;
+    // const { file_url } = await uploadFileToS3({
+    //   file,
+    //   destination: { bucket: "cdn.lu.ma", folder: "misc" },
+    //   ZmClient,
+    // });
+    // setUploadedFile(file_url);
+    // },
+    onDrop: () => {
+      setFieldValue("image", "https://source.unsplash.com/random");
+    },
+    noKeyboard: true,
+  });
+
+  return (
+    <div className={classNames("container", { "with-image": data.image })}>
+      <DropZone
+        label="NFT Image"
+        isDragActive={isDragActive}
+        rootProps={getRootProps()}
+        inputProps={getInputProps()}
+      />
+
+      {data.image && <img src={data.image} />}
+
+      <style jsx>{`
+        .container.with-image {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          grid-column-gap: 1rem;
+        }
+
+        img {
+          width: 100%;
+          border-radius: var(--border-radius);
         }
       `}</style>
     </div>
   );
 };
 
-const ImageDropzone = () => {
-  const { setFieldValue } = useFormikContext();
-
-  const [imageinDropzone, setImageInDropzone] = useState(false);
-
+const Container = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      <label htmlFor="image" className="luma-input-label medium">
-        NFT Image
-      </label>
-      <div
-        className={classNames("dropzone", { active: imageinDropzone })}
-        onDragEnter={() => setImageInDropzone(true)}
-        onDragOver={() => setImageInDropzone(true)}
-        onDragLeave={() => setImageInDropzone(false)}
-        onDrop={() => setImageInDropzone(false)}
-      >
-        <input
-          type="file"
-          accept="image/*"
-          name="image"
-          id="image"
-          onChange={(event) => {
-            setFieldValue("image", event.target.files?.[0]);
-          }}
-        />
-        <div>Drag and drop an image or click to browse.</div>
-      </div>
+    <section className="px-3 pb-3 rounded">
+      <div className="badge text-xs font-weight-bold">Live Minting Demo</div>
+      <div>{children}</div>
 
       <style jsx>{`
-        .dropzone {
-          position: relative;
-          border: 1px dashed var(--primary-border-color);
-          width: max-content;
-          color: var(--secondary-color);
+        section {
+          border: 1px solid var(--primary-border-color);
           background-color: var(--secondary-bg-color);
-          padding: 1rem;
-          border-radius: var(--border-radius);
-          transition: var(--transition);
-          width: 24rem;
-          max-width: 100%;
-          text-align: center;
+          position: relative;
+          padding-top: 2.25rem;
+          overflow: hidden;
+          max-width: max-content;
         }
 
-        .dropzone.active {
-          color: var(--success-color);
-          border-color: var(--success-color);
-          background-color: var(--success-pale-bg-color);
-        }
-
-        .dropzone:hover {
-          background-color: var(--tertiary-bg-color);
-        }
-
-        input[type="file"] {
-          opacity: 0;
+        .badge {
           position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          cursor: pointer;
+          top: 0;
+          left: 0;
+          background-color: var(--gray-90);
+          color: var(--white);
+          line-height: 1;
+          padding: 0.3rem 0.6rem 0.35rem 0.6rem;
+          border-bottom-right-radius: calc(var(--border-radius) / 2);
         }
       `}</style>
-    </div>
+    </section>
   );
 };
