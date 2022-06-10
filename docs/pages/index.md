@@ -1,5 +1,5 @@
 ---
-title: NFToken Overview
+title: Overview
 ---
 
 # {% $markdoc.frontmatter.title %}
@@ -22,9 +22,6 @@ While digital art is the most common usecase today, NFTs can represent any type 
 - A physical art gallery has created NFTs for the art gallery members. With one of their NFTs, you receive free admission to the art gallery events and Discord server.
 - Musicians create NFTs that fractionalize their song royalties. As they get paid royalties for their song, a portion of the proceeds go to their NFT holders.
 - Video games are creating NFTs to represent in-game items. This allows players to bring their in-game items between different games and to easily transfer / sell what they've earned in-game.
-- API Keys
-- POAP
-- ...
 
 ## What is Solana?
 
