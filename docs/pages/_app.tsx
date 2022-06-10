@@ -14,6 +14,8 @@ import { ResponsiveBreakpoint } from "../utils/style-constants";
 import "../public/globals.css";
 import "../styles/app.scss";
 
+import { setColorScheme } from "../utils/set-color-scheme";
+
 const nav = [
   { title: "Overview", href: "/" },
   { title: "Getting Started", href: "/getting-started" },
@@ -24,6 +26,8 @@ const nav = [
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(setColorScheme, []);
+
   const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
