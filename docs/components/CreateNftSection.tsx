@@ -6,6 +6,7 @@ import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
 import { Field, Form, Formik, useFormikContext } from "formik";
 import { useDropzone } from "react-dropzone";
+import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
@@ -79,9 +80,7 @@ export const CreateNftSection = () => {
                       isSigner: false,
                     },
                   ],
-                  programId: new PublicKey(
-                    "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi"
-                  ),
+                  programId: new PublicKey(NFTOKEN_ADDRESS),
                   data: NFTOKEN_NFT_CREATE_IX.toBuffer({
                     ix: null,
                     metadata_url,
