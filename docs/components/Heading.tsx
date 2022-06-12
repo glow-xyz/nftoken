@@ -17,10 +17,10 @@ export const Heading = ({
 
   return (
     <>
-      <a href={`#${id}`}>
+      <Element>
         <div className="anchor" id={id} />
-        <Element>{children}</Element>
-      </a>
+        <a href={`#${id}`}>{children}</a>
+      </Element>
 
       <style jsx>{`
         a {

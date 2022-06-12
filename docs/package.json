@@ -12,6 +12,7 @@
     "@glow-app/glow-client": "0.1.0",
     "@glow-app/glow-react": "0.1.1",
     "@glow-app/solana-client": "0.3.0",
+    "@heroicons/react": "1.0.6",
     "@lux-org/sass": "0.46.0",
     "@markdoc/markdoc": "0.1.2",
     "@markdoc/next.js": "0.1.4-1",
@@ -28,6 +29,7 @@
     "prismjs": "1.28.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-dropzone": "14.2.1",
     "sass": "1.52.3",
     "typescript": "4.7.3"
   },
