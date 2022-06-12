@@ -1,1 +1,1 @@
-export const NFTOKEN_ADDRESS = "nf8HTAnNYh2nSBh8a3Sfa7XsCZYitMcHRx3PgEtea5E";
+export const NFTOKEN_ADDRESS = "nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL";

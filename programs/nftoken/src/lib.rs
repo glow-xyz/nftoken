@@ -35,7 +35,7 @@ pub mod ix_nft_unset_collection;
 pub mod ix_nft_unset_delegate;
 pub mod ix_nft_update;
 
-declare_id!("nf8HTAnNYh2nSBh8a3Sfa7XsCZYitMcHRx3PgEtea5E");
+declare_id!("nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL");
 
 #[program]
 pub mod nftoken {
