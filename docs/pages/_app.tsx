@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Footer } from "../components/Footer";
 
 import { GlowProvider } from "@glow-app/glow-react";
 import "@glow-app/glow-react/dist/styles.css";
@@ -111,13 +112,15 @@ export default function App({ Component, pageProps }: AppProps) {
             <NextPrev />
           </main>
         </div>
+
+        <Footer />
       </div>
 
       <style jsx>{`
         .wrapper {
           min-height: 100vh;
           display: grid;
-          grid-template-rows: max-content 1fr;
+          grid-template-rows: max-content 1fr max-content;
         }
 
         header {
