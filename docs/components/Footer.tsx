@@ -1,4 +1,4 @@
-import { TwitterIcon } from "../icons/TwitterIcon";
+import TwitterIcon from "../icons/Twitter.svg";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 
 export const Footer = () => {
