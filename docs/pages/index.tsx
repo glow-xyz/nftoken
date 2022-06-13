@@ -8,7 +8,7 @@ export default function Index() {
         <div className="inner">
           <h1>Solana NFT Standard</h1>
           <Link href="/overview">
-            <a>
+            <a className="luma-button flex-center icon-right round outline large light">
               <span>Read the docs</span>
               <ChevronRightIcon />
             </a>
@@ -53,7 +53,7 @@ export default function Index() {
 
         .inner {
           display: flex;
-          align-items: center;
+          align-items: end;
         }
 
         h1 {
@@ -61,36 +61,21 @@ export default function Index() {
           font-size: 5rem;
           font-weight: 500;
           letter-spacing: -0.02em;
+          line-height: 1;
+          margin: 0;
           margin-right: 3rem;
         }
 
         a {
-          display: block;
-          font-size: 1.25rem;
-          font-weight: 600;
-          padding: 0.5rem 1.5rem;
-          border: 0.15rem solid var(--white);
-          border-radius: 99px;
-          color: var(--white);
-
-          display: flex;
-          align-items: center;
+          color: var(--white) !important;
+          border-width: 0.15rem !important;
+          border-color: var(--white) !important;
+          margin-bottom: 0.65rem;
         }
 
         a:hover {
-          color: hsl(209deg 90% 53%);
-          background-color: var(--white);
-        }
-
-        a span {
-          margin-right: 0.5rem;
-          white-space: nowrap;
-        }
-
-        a :global(svg) {
-          transform: translateY(0.05rem);
-          height: 1.5rem;
-          width: 1.5rem;
+          background-color: var(--white) !important;
+          color: hsl(209deg 90% 53%) !important;
         }
       `}</style>
     </div>
