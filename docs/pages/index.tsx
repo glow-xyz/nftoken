@@ -36,7 +36,6 @@ export default function Index() {
           height: 100vh;
           display: grid;
           align-items: end;
-          padding: 4rem;
         }
 
         .container::after {
@@ -58,6 +57,7 @@ export default function Index() {
         }
 
         .inner {
+          padding: 4rem;
           display: flex;
           align-items: end;
         }
@@ -89,7 +89,7 @@ export default function Index() {
             display: block;
           }
 
-          .container {
+          .inner {
             padding: 1.5rem;
             padding-bottom: 2rem;
           }
