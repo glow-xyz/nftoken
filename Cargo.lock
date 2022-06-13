@@ -750,7 +750,7 @@ dependencies = [
 
 [[package]]
 name = "nftoken"
-version = "0.1.4"
+version = "1.0.0"
 dependencies = [
  "anchor-lang",
  "anchor-spl",

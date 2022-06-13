@@ -4,7 +4,7 @@ use anchor_lang::prelude::*;
 
 /// This allows transferring the `authority` on a collection. When you transfer
 /// the `authority` you lose all privileges and the `new_authority` gets all of your permissions.
-pub fn collection_transfer_inner(ctx: Context<CollectionTransferCreator>) -> Result<()> {
+pub fn collection_update_authority_inner(ctx: Context<CollectionUpdateAuthority>) -> Result<()> {
     let collection = &mut ctx.accounts.collection;
 
     let action_allowed = collection.authority.key() == ctx.accounts.authority.key();
@@ -18,8 +18,8 @@ pub fn collection_transfer_inner(ctx: Context<CollectionTransferCreator>) -> Res
 
 #[derive(Accounts)]
 #[instruction()]
-pub struct CollectionTransferCreator<'info> {
-    #[account(mut)]
+pub struct CollectionUpdateAuthority<'info> {
+    #[account(mut, has_one = authority)]
     pub collection: Account<'info, CollectionAccount>,
 
     #[account(mut)]
