@@ -18,6 +18,7 @@
     "@markdoc/next.js": "0.1.4-1",
     "@metaplex-foundation/beet": "0.2.0",
     "@solana/web3.js": "1.43.6",
+    "@svgr/webpack": "6.2.1",
     "@types/react-dom": "18.0.5",
     "axios": "0.27.2",
     "classnames": "2.3.1",
