@@ -52,6 +52,13 @@ export default function Index() {
           padding: 4rem;
         }
 
+        /* From https://github.com/postcss/postcss-100vh-fix */
+        @supports (-webkit-touch-callout: none) {
+          .container {
+            height: -webkit-fill-available;
+          }
+        }
+
         .inner {
           display: flex;
           align-items: end;
