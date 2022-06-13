@@ -1,5 +1,6 @@
-import { ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import { ChevronRightIcon } from "@heroicons/react/outline";
+import { ResponsiveBreakpoint } from "../utils/style-constants";
 
 export default function Index() {
   return (
@@ -51,6 +52,13 @@ export default function Index() {
           padding: 4rem;
         }
 
+        /* From https://github.com/postcss/postcss-100vh-fix */
+        @supports (-webkit-touch-callout: none) {
+          .container {
+            height: -webkit-fill-available;
+          }
+        }
+
         .inner {
           display: flex;
           align-items: end;
@@ -76,6 +84,25 @@ export default function Index() {
         a:hover {
           background-color: var(--white) !important;
           color: hsl(209deg 90% 53%) !important;
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          .inner {
+            display: block;
+          }
+
+          .container {
+            padding: 1.5rem;
+          }
+
+          h1 {
+            font-size: 3rem;
+            line-height: 1.1;
+          }
+
+          a {
+            margin-top: 1rem;
+          }
         }
       `}</style>
     </div>
