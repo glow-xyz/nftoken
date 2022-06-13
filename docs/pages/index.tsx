@@ -78,7 +78,7 @@ export default function Index() {
           color: var(--white) !important;
           border-width: 0.15rem !important;
           border-color: var(--white) !important;
-          margin-bottom: 0.65rem;
+          margin-bottom: 0.7rem;
         }
 
         a:hover {
@@ -93,6 +93,7 @@ export default function Index() {
 
           .container {
             padding: 1.5rem;
+            padding-bottom: 2rem;
           }
 
           h1 {
@@ -102,6 +103,7 @@ export default function Index() {
 
           a {
             margin-top: 1rem;
+            margin-bottom: 0;
           }
         }
       `}</style>
