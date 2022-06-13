@@ -32,6 +32,15 @@ export default function Index() {
             hsl(209deg 90% 53%) 97%,
             hsl(209deg 90% 53%) 100%
           );
+
+          height: 100vh;
+        }
+
+        /* From https://github.com/postcss/postcss-100vh-fix */
+        @supports (-webkit-touch-callout: none) {
+          .wrapper {
+            height: -webkit-fill-available;
+          }
         }
 
         .wrapper::after {
@@ -46,17 +55,10 @@ export default function Index() {
         }
 
         .container {
-          height: 100vh;
+          height: 100%;
           display: grid;
           align-items: end;
           padding: 4rem;
-        }
-
-        /* From https://github.com/postcss/postcss-100vh-fix */
-        @supports (-webkit-touch-callout: none) {
-          .container {
-            height: -webkit-fill-available;
-          }
         }
 
         .inner {
