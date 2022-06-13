@@ -4,7 +4,7 @@ import { ResponsiveBreakpoint } from "../utils/style-constants";
 
 export default function Index() {
   return (
-    <div className="wrapper">
+    <>
       <div className="container">
         <div className="inner">
           <h1>Solana NFT Standard</h1>
@@ -18,7 +18,7 @@ export default function Index() {
       </div>
 
       <style jsx>{`
-        .wrapper {
+        .container {
           /* https://www.joshwcomeau.com/gradient-generator?colors=ffb071|1c8cf3|1c8cf3|1c8cf3&angle=155&colorMode=lrgb&precision=5&easingCurve=0.40086206896551724|0.7113752693965517|0.8663793103448276|0.6467200969827587 */
           background-image: linear-gradient(
             155deg,
@@ -34,16 +34,12 @@ export default function Index() {
           );
 
           height: 100vh;
+          display: grid;
+          align-items: end;
+          padding: 4rem;
         }
 
-        /* From https://github.com/postcss/postcss-100vh-fix */
-        @supports (-webkit-touch-callout: none) {
-          .wrapper {
-            height: -webkit-fill-available;
-          }
-        }
-
-        .wrapper::after {
+        .container::after {
           content: "";
           display: block;
           height: 100%;
@@ -54,11 +50,11 @@ export default function Index() {
           pointer-events: none;
         }
 
-        .container {
-          height: 100%;
-          display: grid;
-          align-items: end;
-          padding: 4rem;
+        /* From https://github.com/postcss/postcss-100vh-fix */
+        @supports (-webkit-touch-callout: none) {
+          .container {
+            height: -webkit-fill-available;
+          }
         }
 
         .inner {
@@ -109,6 +105,6 @@ export default function Index() {
           }
         }
       `}</style>
-    </div>
+    </>
   );
 }
