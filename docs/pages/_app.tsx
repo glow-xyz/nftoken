@@ -289,6 +289,10 @@ export default function App({ Component, pageProps }: AppProps) {
             padding: 1.5rem;
             padding-bottom: 6rem;
           }
+
+          footer {
+            padding: 1.25rem 1.5rem;
+          }
         }
       `}</style>
     </GlowProvider>
