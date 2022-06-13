@@ -11,6 +11,7 @@ import classNames from "classnames";
 import { animate, stagger } from "motion";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { MenuIcon, XIcon, ExternalLinkIcon } from "@heroicons/react/solid";
+import { TwitterIcon } from "../icons/TwitterIcon";
 
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import "../public/globals.css";
@@ -113,10 +114,18 @@ export default function App({ Component, pageProps }: AppProps) {
         </div>
 
         <footer>
-          <div className="footer-inner">
+          <div className="footer-inner spread">
             <a href="https://glow.app">
               <img className="dark" src="/glow-logo-dark.svg" />
               <img className="light" src="/glow-logo-light.svg" />
+            </a>
+
+            <a
+              href="https://twitter.com/glowwallet"
+              target="_blank"
+              className="twitter luma-button link rounded round icon-only"
+            >
+              <TwitterIcon />
             </a>
           </div>
         </footer>
@@ -234,6 +243,15 @@ export default function App({ Component, pageProps }: AppProps) {
 
         footer img.light {
           display: none;
+        }
+
+        footer .twitter {
+          margin-bottom: 0.25rem;
+        }
+
+        footer .twitter :global(svg) {
+          height: 1.25rem;
+          width: 1.25rem;
         }
 
         @media (prefers-color-scheme: dark) {
