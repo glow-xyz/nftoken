@@ -18,7 +18,7 @@ import "../public/globals.css";
 import "../styles/app.scss";
 
 const nav = [
-  { title: "Overview", href: "/" },
+  { title: "Overview", href: "/overview" },
   { title: "Getting Started", href: "/getting-started" },
   { title: "Technical Details", href: "/technical-details" },
   { title: "Security", href: "/security" },
@@ -61,11 +61,15 @@ export default function App({ Component, pageProps }: AppProps) {
     setNavOpen(false);
   }, [router.pathname]);
 
+  if (router.pathname === "/") {
+    return <Component {...pageProps} />;
+  }
+
   return (
     <GlowProvider>
       <Head>
         <title>{pageProps.markdoc?.frontmatter.title}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <div className="wrapper">
@@ -80,7 +84,7 @@ export default function App({ Component, pageProps }: AppProps) {
               </button>
 
               <Link href="/">
-                <a className="logo">NFToken</a>
+                <img src="/logo.svg" className="logo" />
               </Link>
             </div>
 
@@ -151,9 +155,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
         .logo {
           display: block;
-          font-weight: var(--black-font-weight);
-          color: var(--primary-color);
-          margin: 0;
+          height: 1rem;
+          cursor: pointer;
         }
 
         .github {
