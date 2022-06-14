@@ -69,6 +69,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <GlowProvider>
       <Head>
         <title>{pageProps.markdoc?.frontmatter.title}</title>
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <div className="wrapper">
@@ -83,7 +84,7 @@ export default function App({ Component, pageProps }: AppProps) {
               </button>
 
               <Link href="/">
-                <a className="logo">NFToken</a>
+                <img src="/logo.svg" className="logo" />
               </Link>
             </div>
 
@@ -154,9 +155,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
         .logo {
           display: block;
-          font-weight: var(--black-font-weight);
-          color: var(--primary-color);
-          margin: 0;
+          height: 1rem;
+          cursor: pointer;
         }
 
         .github {

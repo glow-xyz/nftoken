@@ -8,15 +8,16 @@ export default function Index() {
     <>
       <Head>
         <title>NFToken</title>
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <div className="wrapper">
         <div className="inner">
           <div className="content">
-            <h1>NFToken</h1>
-            <h2>
+            <img className="logo" src="/logo-brand-color.svg" />
+            <h1>
               A faster, cheaper, simpler <br />
               Solana NFT standard.
-            </h2>
+            </h1>
             <div className="buttons flex-center">
               <Link href="/overview">
                 <a className="mr-5 luma-button flex-center icon-right round solid large brand">
@@ -32,20 +33,21 @@ export default function Index() {
               </Link>
             </div>
           </div>
-          <img src="/sketch.jpg" alt="" />
+          <img src="/sketch.jpg" alt="" className="graphic" />
         </div>
       </div>
 
       <style jsx>{`
         .wrapper {
           border-top: 4px solid var(--brand-color);
+          display: grid;
+          place-items: center;
+          height: 85vh; /* For visual centering. */
         }
 
         .inner {
           padding: 1.5rem;
           max-width: 1200px;
-          margin: 0 auto;
-          padding-top: 8rem;
 
           display: grid;
           grid-template-columns: max-content 1fr;
@@ -56,21 +58,20 @@ export default function Index() {
           margin-top: 3rem;
         }
 
-        img {
+        .graphic {
           width: 100%;
           display: block;
           max-width: 300px;
         }
 
-        h1 {
-          font-size: 3rem;
-          font-weight: 900;
-          color: var(--brand-color);
-          margin-bottom: 0;
-          letter-spacing: -0.07rem;
+        .logo {
+          display: block;
+          height: 2rem;
+          margin-bottom: 1rem;
+          margin-left: 0.25rem;
         }
 
-        h2 {
+        h1 {
           font-size: 4rem;
           font-weight: 500;
           letter-spacing: -0.02em;
