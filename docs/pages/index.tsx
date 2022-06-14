@@ -15,8 +15,8 @@ export default function Index() {
           <div className="content">
             <img className="logo" src="/logo-brand-color.svg" />
             <h1>
-              A faster, cheaper, simpler <br />
-              Solana NFT standard.
+              A simple, inexpensive <br />
+              Solana NFT Standard
             </h1>
             <div className="buttons flex-center">
               <Link href="/overview">
@@ -27,7 +27,7 @@ export default function Index() {
               </Link>
               <Link href="/getting-started">
                 <a className="luma-button flex-center icon-right round link large secondary">
-                  Mint in your browser
+                  Create an NFT
                   <ChevronRightIcon />
                 </a>
               </Link>
