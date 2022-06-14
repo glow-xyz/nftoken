@@ -61,14 +61,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.pathname]);
 
   if (router.pathname === "/") {
-    return (
-      <>
-        <Head>
-          <title>NFToken</title>
-        </Head>
-        <Component {...pageProps} />
-      </>
-    );
+    return <Component {...pageProps} />;
   }
 
   return (
