@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { ChevronRightIcon } from "@heroicons/react/outline";
-// import { ResponsiveBreakpoint } from "../utils/style-constants";
+import { ResponsiveBreakpoint } from "../utils/style-constants";
 
 export default function Index() {
   return (
@@ -20,7 +20,7 @@ export default function Index() {
             </h1>
             <div className="buttons flex-center">
               <Link href="/overview">
-                <a className="mr-5 luma-button flex-center icon-right round solid large brand">
+                <a className="luma-button flex-center icon-right round solid large brand">
                   <span>Learn more</span>
                   <ChevronRightIcon />
                 </a>
@@ -50,8 +50,9 @@ export default function Index() {
           max-width: 1200px;
 
           display: grid;
-          grid-template-columns: max-content 1fr;
-          grid-column-gap: 130px;
+          grid-template-columns: 1fr 300px;
+          grid-column-gap: 120px;
+          align-items: center;
         }
 
         .content {
@@ -61,7 +62,6 @@ export default function Index() {
         .graphic {
           width: 100%;
           display: block;
-          max-width: 300px;
         }
 
         .logo {
@@ -79,6 +79,64 @@ export default function Index() {
 
         .buttons {
           margin-top: 3rem;
+        }
+
+        .buttons a:first-child {
+          margin-right: 3rem;
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.large}) {
+          .graphic {
+            max-width: 300px;
+            margin: 0 auto;
+          }
+
+          .inner {
+            grid-template-columns: 1fr 200px;
+          }
+
+          .content {
+            margin-top: 1rem;
+          }
+
+          .logo {
+            height: 1rem;
+          }
+
+          h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+          }
+
+          .buttons {
+            margin-top: 2rem;
+          }
+
+          .buttons a:first-child {
+            margin-right: 1.5rem;
+          }
+
+          /* Reset large button styles. */
+          .luma-button {
+            --padding: var(--input-padding);
+            --size: var(--input-font-size);
+            --gap: var(--input-element-gap);
+            --height: var(--input-height);
+          }
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.small}) {
+          .wrapper {
+            place-items: start center;
+          }
+
+          .inner {
+            padding-bottom: 6rem;
+
+            grid-template-columns: 1fr;
+            grid-template-rows: max-content max-content;
+            grid-row-gap: 75px;
+          }
         }
       `}</style>
     </>
