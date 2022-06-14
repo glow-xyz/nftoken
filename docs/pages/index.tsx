@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { ChevronRightIcon } from "@heroicons/react/outline";
-import { ResponsiveBreakpoint } from "../utils/style-constants";
+// import { ResponsiveBreakpoint } from "../utils/style-constants";
 
 export default function Index() {
   return (
@@ -55,7 +55,7 @@ export default function Index() {
         }
 
         .content {
-          margin-top: 3rem;
+          margin-top: 2rem;
         }
 
         .graphic {
