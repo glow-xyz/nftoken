@@ -33,7 +33,7 @@ export default function Index() {
               </Link>
             </div>
           </div>
-          <img src="/sketch.jpg" alt="" className="graphic" />
+          <img src="/sketch.png" alt="" className="graphic" />
         </div>
       </div>
 
