@@ -9,7 +9,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import classNames from "classnames";
-import { animate, stagger } from "motion";
+import { motion } from "framer-motion";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { MenuIcon, XIcon, ExternalLinkIcon } from "@heroicons/react/solid";
 
@@ -31,26 +31,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (navOpen) {
-      animate("nav.mobile", {
-        pointerEvents: "auto",
-        height: "100%",
-        paddingTop: "1.5rem",
-        paddingBottom: "1.5rem",
-      });
-      animate(
-        "nav.mobile a",
-        { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
-        { delay: stagger(0.05, { start: 0.05 }) }
-      );
       document.body.classList.add("no-scroll");
     } else {
-      animate("nav.mobile", {
-        pointerEvents: "none",
-        height: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-      });
-      animate("nav.mobile a", { opacity: 0 });
       document.body.classList.remove("no-scroll");
     }
   }, [navOpen]);
@@ -106,9 +88,31 @@ export default function App({ Component, pageProps }: AppProps) {
             </div>
           </nav>
 
-          <nav className="mobile">
+          <motion.nav
+            variants={{
+              hidden: { height: 0, paddingTop: 0, paddingBottom: 0 },
+              visible: {
+                height: "100%",
+                paddingTop: "1.5rem",
+                paddingBottom: "1.5rem",
+              },
+            }}
+            initial="hidden"
+            animate={navOpen ? "visible" : "hidden"}
+            transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
+            style={{
+              overflow: "hidden",
+              position: "fixed",
+              backgroundColor: "var(--white)",
+              left: 0,
+              right: 0,
+              zIndex: 100,
+              paddingLeft: "1.5rem",
+              paddingRight: "1.5rem",
+            }}
+          >
             <NavContent />
-          </nav>
+          </motion.nav>
 
           <main>
             <Component {...pageProps} />
@@ -194,19 +198,6 @@ export default function App({ Component, pageProps }: AppProps) {
           padding-left: 3rem;
           position: sticky;
           top: 8rem;
-        }
-
-        nav.mobile {
-          /* Hide nav by default, so there's no flash on page load. */
-          height: 0;
-          padding: 0 1.5rem;
-
-          position: fixed;
-          background-color: var(--white);
-          left: 0;
-          right: 0;
-          z-index: 100;
-          overflow: hidden;
         }
 
         main {
