@@ -1,18 +1,16 @@
-import axios from "axios";
-import { useState } from "react";
-import classNames from "classnames";
 import { Network } from "@glow-app/glow-client";
+import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import { SolanaClient } from "@glow-app/solana-client";
+import { BadgeCheckIcon } from "@heroicons/react/outline";
 import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
-import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
+import classNames from "classnames";
 import { Field, Form, Formik, useFormikContext } from "formik";
+import { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { ApiClient } from "../utils/api-client";
+import { ACCEPT_IMAGE_PROP, DropZone } from "../components/LuxDropZone";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
-import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
-import { BadgeCheckIcon } from "@heroicons/react/outline";
 
 type FormData = {
   name: string;
