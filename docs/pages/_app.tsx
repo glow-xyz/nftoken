@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingBottom: "1.5rem",
       });
       animate(
-        document.querySelectorAll("nav.mobile .nav-item"),
+        "nav.mobile .nav-item",
         { opacity: [0, 1], transform: ["translateY(-8px)", "translateY(0)"] },
         { delay: stagger(0.05, { start: 0.05 }) }
       );
@@ -50,7 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: 0,
         paddingBottom: 0,
       });
-      animate(document.querySelectorAll("nav.mobile .nav-item"), {
+      animate("nav.mobile .nav-item", {
         opacity: 0,
       });
       document.body.classList.remove("no-scroll");
