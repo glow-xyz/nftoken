@@ -8,8 +8,11 @@ export const ApiClient = createAxiosClient({
     "/cdn/create-presigned-url": {
       request: z.object({
         extension: z.string(),
-        folder: z.string(),
-        bucket: z.string(),
+        destination: z.object({
+          folder: z.string(),
+          bucket: z.string(),
+        }),
+        contentType: z.string().nullish()
       }),
       response: z.object({ upload_url: z.string(), file_url: z.string() }),
     },

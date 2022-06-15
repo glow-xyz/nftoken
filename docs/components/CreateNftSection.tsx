@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import { useState } from "react";
 import classNames from "classnames";
 import { Network } from "@glow-app/glow-client";
@@ -10,7 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { ApiClient } from "../utils/api-client";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
-import { uploadJsonToS3 } from "../utils/upload-file";
+import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 
@@ -45,12 +45,12 @@ export const CreateNftSection = () => {
           ) : (
             <Formik
               initialValues={initialValues}
-              onSubmit={async ({ name }, { resetForm }) => {
+              onSubmit={async ({ name, image }, { resetForm }) => {
                 const { publicKey } = await window.glow!.connect();
 
                 const nft_keypair = Keypair.generate();
                 const { file_url: metadata_url } = await uploadJsonToS3({
-                  json: { name },
+                  json: { name, image },
                 });
                 const recentBlockhash = await SolanaClient.getRecentBlockhash({
                   rpcUrl: "https://api.mainnet-beta.solana.com",
@@ -203,21 +203,8 @@ const ImageDropZone = () => {
     accept: ACCEPT_IMAGE_PROP,
     multiple: false,
     onDrop: async (files) => {
-      const [file] = files
-      const { upload_url, file_url } = await ApiClient.post(
-        "/cdn/create-presigned-url",
-        {
-          extension: "png",
-          bucket: "cdn.glow.app",
-          folder: "n",
-        }
-      );
-
-      await axios.put(upload_url, file, {
-        headers: {
-          "Content-Type": file.type,
-        },
-      });
+      const [file] = files;
+      const { file_url } = await uploadImageToS3({ file });
 
       setFieldValue("image", file_url);
     },
