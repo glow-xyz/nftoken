@@ -1,17 +1,17 @@
-import { useState } from "react";
-import classNames from "classnames";
 import { Network } from "@glow-app/glow-client";
+import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import { SolanaClient } from "@glow-app/solana-client";
-import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
-import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
-import { Field, Form, Formik, useFormikContext } from "formik";
-import { useDropzone } from "react-dropzone";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
+import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
+import classNames from "classnames";
+import { Field, Form, Formik, useFormikContext } from "formik";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { getImageUrl } from "../utils/cdn";
+import { ACCEPT_IMAGE_PROP, DropZone } from "../components/LuxDropZone";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
-import { uploadJsonToS3 } from "../utils/upload-file";
-import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
-import { getImageUrl } from "../utils/cdn";
+import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 
 type FormData = {
   name: string;
@@ -44,12 +44,12 @@ export const CreateNftSection = () => {
           ) : (
             <Formik
               initialValues={initialValues}
-              onSubmit={async ({ name }, { resetForm }) => {
+              onSubmit={async ({ name, image }, { resetForm }) => {
                 const { publicKey } = await window.glow!.connect();
 
                 const nft_keypair = Keypair.generate();
                 const { file_url: metadata_url } = await uploadJsonToS3({
-                  json: { name },
+                  json: { name, image },
                 });
                 const recentBlockhash = await SolanaClient.getRecentBlockhash({
                   rpcUrl: "https://api.mainnet-beta.solana.com",
@@ -201,23 +201,11 @@ const ImageDropZone = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: ACCEPT_IMAGE_PROP,
     multiple: false,
-    // onDrop: async (files) => {
-    // We join both accepted and rejected because the error handling case is
-    // in upload hook as well.
-    // const [file] = files;
-    // const { file_url } = await uploadFileToS3({
-    //   file,
-    //   destination: { bucket: "cdn.lu.ma", folder: "misc" },
-    //   ZmClient,
-    // });
-    // setUploadedFile(file_url);
-    // },
-    onDrop: () => {
-      setFieldValue(
-        "image",
-        // TODO: replace this placeholder with the actual uploadedimage.
-        "https://cdn.lu.ma/editor-images/ld/9ecd4074-14c5-43df-8306-dccc22aed391"
-      );
+    onDrop: async (files) => {
+      const [file] = files;
+      const { file_url } = await uploadImageToS3({ file });
+
+      setFieldValue("image", file_url);
     },
     noKeyboard: true,
   });

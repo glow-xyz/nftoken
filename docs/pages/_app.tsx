@@ -38,8 +38,8 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingBottom: "1.5rem",
       });
       animate(
-        "nav.mobile a",
-        { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
+        "nav.mobile .nav-item",
+        { opacity: [0, 1], transform: ["translateY(-8px)", "translateY(0)"] },
         { delay: stagger(0.05, { start: 0.05 }) }
       );
       document.body.classList.add("no-scroll");
@@ -50,7 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: 0,
         paddingBottom: 0,
       });
-      animate("nav.mobile a", { opacity: 0 });
+      animate("nav.mobile .nav-item", { opacity: 0 });
       document.body.classList.remove("no-scroll");
     }
   }, [navOpen]);
@@ -261,15 +261,17 @@ function NavContent() {
         ></div>
 
         {nav.map((item) => (
-          <Link href={item.href} key={item.title}>
-            <a
-              className={classNames({
-                current: router.pathname === item.href,
-              })}
-            >
-              {item.title}
-            </a>
-          </Link>
+          <div className="nav-item" key={item.title}>
+            <Link href={item.href}>
+              <a
+                className={classNames({
+                  current: router.pathname === item.href,
+                })}
+              >
+                {item.title}
+              </a>
+            </Link>
+          </div>
         ))}
       </div>
 
