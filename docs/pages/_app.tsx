@@ -50,9 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: 0,
         paddingBottom: 0,
       });
-      animate("nav.mobile .nav-item", {
-        opacity: 0,
-      });
+      animate("nav.mobile .nav-item", { opacity: 0 });
       document.body.classList.remove("no-scroll");
     }
   }, [navOpen]);
