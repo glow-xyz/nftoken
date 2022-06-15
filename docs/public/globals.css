@@ -6,6 +6,13 @@ body {
   margin: 0;
 }
 
+body,
+body.force-light,
+body.dark.force-light {
+  --brand-color: #eb9147 !important;
+  --brand-active-color: #1c8cf3 !important;
+}
+
 body.no-scroll {
   height: 100vh;
   overflow: hidden;
