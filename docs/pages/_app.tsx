@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
       });
       animate(
         document.querySelectorAll("nav.mobile .nav-item"),
-        { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
+        { opacity: [0, 1], transform: ["translateY(-8px)", "translateY(0)"] },
         { delay: stagger(0.05, { start: 0.05 }) }
       );
       document.body.classList.add("no-scroll");
