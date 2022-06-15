@@ -132,7 +132,7 @@ export const CreateNftSection = () => {
         </div>
 
         {!canSignIn && (
-          <div className="overlay">
+          <div className="overlay text-center">
             <p>
               You’ll need to install{" "}
               <a href="https://glow.app/download" target="_blank">
