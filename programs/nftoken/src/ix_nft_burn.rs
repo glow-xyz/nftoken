@@ -1,6 +1,4 @@
 use crate::account_types::*;
-use crate::constants::*;
-use crate::errors::*;
 use anchor_lang::prelude::*;
 
 /// # Burn NFT

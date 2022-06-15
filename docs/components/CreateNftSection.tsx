@@ -81,9 +81,7 @@ export const CreateNftSection = () => {
                       isSigner: false,
                     },
                   ],
-                  programId: new PublicKey(
-                    "nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi"
-                  ),
+                  programId: new PublicKey(NFTOKEN_ADDRESS),
                   data: NFTOKEN_NFT_CREATE_IX.toBuffer({
                     ix: null,
                     metadata_url,

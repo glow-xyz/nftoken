@@ -1,8 +1,8 @@
 use anchor_lang::prelude::*;
 
 use crate::ix_collection_create::*;
-use crate::ix_collection_transfer::*;
 use crate::ix_collection_update::*;
+use crate::ix_collection_update_authority::*;
 use crate::ix_mintlist_add_mint_infos::*;
 use crate::ix_mintlist_create::*;
 use crate::ix_mintlist_mint_nft::*;
@@ -20,8 +20,8 @@ pub mod account_types;
 pub mod constants;
 pub mod errors;
 pub mod ix_collection_create;
-pub mod ix_collection_transfer;
 pub mod ix_collection_update;
+pub mod ix_collection_update_authority;
 pub mod ix_mintlist_add_mint_infos;
 pub mod ix_mintlist_create;
 pub mod ix_mintlist_mint_nft;
@@ -35,7 +35,7 @@ pub mod ix_nft_unset_collection;
 pub mod ix_nft_unset_delegate;
 pub mod ix_nft_update;
 
-declare_id!("nf7SGC2ZAruzXwogZRffpATHwG8j7fJfxppSWaUjCfi");
+declare_id!("nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL");
 
 #[program]
 pub mod nftoken {
@@ -94,8 +94,8 @@ pub mod nftoken {
         return collection_update_inner(ctx, args);
     }
 
-    pub fn collection_transfer_v1(ctx: Context<CollectionTransferCreator>) -> Result<()> {
-        return collection_transfer_inner(ctx);
+    pub fn collection_update_authority_v1(ctx: Context<CollectionUpdateAuthority>) -> Result<()> {
+        return collection_update_authority_inner(ctx);
     }
 
     pub fn mintlist_create_v1(
