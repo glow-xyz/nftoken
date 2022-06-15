@@ -16,7 +16,7 @@
     "@lux-org/sass": "0.46.0",
     "@markdoc/markdoc": "0.1.2",
     "@markdoc/next.js": "0.1.4-1",
-    "@metaplex-foundation/beet": "0.2.0",
+    "@metaplex-foundation/beet": "0.3.0",
     "@solana/web3.js": "1.43.6",
     "@svgr/webpack": "6.2.1",
     "@types/luxon": "2.3.2",
