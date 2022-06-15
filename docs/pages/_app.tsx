@@ -37,14 +37,11 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: "1.5rem",
         paddingBottom: "1.5rem",
       });
-      document.querySelectorAll("nav.mobile a").forEach((el) => {
-        animate(el, { opacity: 1 });
-      });
-      // animate(
-      //   document.querySelectorAll("nav.mobile a"),
-      //   { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
-      //   { delay: stagger(0.05, { start: 0.05 }) }
-      // );
+      animate(
+        document.querySelectorAll("nav.mobile .nav-item"),
+        { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
+        { delay: stagger(0.05, { start: 0.05 }) }
+      );
       document.body.classList.add("no-scroll");
     } else {
       animate("nav.mobile", {
@@ -53,10 +50,8 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: 0,
         paddingBottom: 0,
       });
-      // animate(document.querySelectorAll("nav.mobile a"), { opacity: 0 });
-      document.querySelectorAll("nav.mobile a").forEach((el) => {
-        console.log("hi");
-        animate(el, { opacity: 0 });
+      animate(document.querySelectorAll("nav.mobile .nav-item"), {
+        opacity: 0,
       });
       document.body.classList.remove("no-scroll");
     }
@@ -268,15 +263,17 @@ function NavContent() {
         ></div>
 
         {nav.map((item) => (
-          <Link href={item.href} key={item.title}>
-            <a
-              className={classNames({
-                current: router.pathname === item.href,
-              })}
-            >
-              {item.title}
-            </a>
-          </Link>
+          <div className="nav-item" key={item.title}>
+            <Link href={item.href}>
+              <a
+                className={classNames({
+                  current: router.pathname === item.href,
+                })}
+              >
+                {item.title}
+              </a>
+            </Link>
+          </div>
         ))}
       </div>
 
