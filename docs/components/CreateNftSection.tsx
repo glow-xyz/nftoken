@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from "react";
 import classNames from "classnames";
 import { Network } from "@glow-app/glow-client";
@@ -6,6 +7,7 @@ import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
 import { Field, Form, Formik, useFormikContext } from "formik";
 import { useDropzone } from "react-dropzone";
+import { ApiClient } from "../utils/api-client";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
@@ -200,19 +202,24 @@ const ImageDropZone = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: ACCEPT_IMAGE_PROP,
     multiple: false,
-    // onDrop: async (files) => {
-    // We join both accepted and rejected because the error handling case is
-    // in upload hook as well.
-    // const [file] = files;
-    // const { file_url } = await uploadFileToS3({
-    //   file,
-    //   destination: { bucket: "cdn.lu.ma", folder: "misc" },
-    //   ZmClient,
-    // });
-    // setUploadedFile(file_url);
-    // },
-    onDrop: () => {
-      setFieldValue("image", "https://source.unsplash.com/random");
+    onDrop: async (files) => {
+      const [file] = files
+      const { upload_url, file_url } = await ApiClient.post(
+        "/cdn/create-presigned-url",
+        {
+          extension: "png",
+          bucket: "cdn.glow.app",
+          folder: "n",
+        }
+      );
+
+      await axios.put(upload_url, file, {
+        headers: {
+          "Content-Type": file.type,
+        },
+      });
+
+      setFieldValue("image", file_url);
     },
     noKeyboard: true,
   });
