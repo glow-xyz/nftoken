@@ -6,10 +6,12 @@ import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
 import { Field, Form, Formik, useFormikContext } from "formik";
 import { useDropzone } from "react-dropzone";
+import { BadgeCheckIcon } from "@heroicons/react/outline";
+import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { DropZone, ACCEPT_IMAGE_PROP } from "../components/LuxDropZone";
-import { BadgeCheckIcon } from "@heroicons/react/outline";
+import { getImageUrl } from "../utils/cdn";
 
 type FormData = {
   name: string;
@@ -213,7 +215,11 @@ const ImageDropZone = () => {
     // setUploadedFile(file_url);
     // },
     onDrop: () => {
-      setFieldValue("image", "https://source.unsplash.com/random");
+      setFieldValue(
+        "image",
+        // TODO: replace this placeholder with the actual uploadedimage.
+        "https://cdn.lu.ma/editor-images/ld/9ecd4074-14c5-43df-8306-dccc22aed391"
+      );
     },
     noKeyboard: true,
   });
@@ -227,7 +233,11 @@ const ImageDropZone = () => {
         inputProps={getInputProps()}
       />
 
-      {data.image && <img src={data.image} />}
+      {data.image && (
+        <img
+          src={getImageUrl({ url: data.image, width: 1000, height: 1000 })}
+        />
+      )}
 
       <style jsx>{`
         .container.with-image {
