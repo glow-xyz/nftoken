@@ -26,7 +26,7 @@ export const CreateNftSection = () => {
 
   return (
     <Container>
-      <div className="create-nft-section">
+      <div>
         <div
           className={classNames("form-section", {
             blurred: !canSignIn || !user,
@@ -151,12 +151,6 @@ export const CreateNftSection = () => {
       </div>
 
       <style jsx>{`
-        .create-nft-section {
-          width: 36rem;
-          max-width: 100%;
-          position: relative;
-        }
-
         .overlay {
           position: absolute;
           inset: 0;
@@ -253,7 +247,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
           position: relative;
           padding-top: 2.25rem;
           overflow: hidden;
-          max-width: max-content;
+          width: 100%;
         }
 
         .badge {
