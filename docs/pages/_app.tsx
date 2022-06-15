@@ -37,11 +37,14 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: "1.5rem",
         paddingBottom: "1.5rem",
       });
-      animate(
-        "nav.mobile a",
-        { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
-        { delay: stagger(0.05, { start: 0.05 }) }
-      );
+      document.querySelectorAll("nav.mobile a").forEach((el) => {
+        animate(el, { opacity: 1 });
+      });
+      // animate(
+      //   document.querySelectorAll("nav.mobile a"),
+      //   { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
+      //   { delay: stagger(0.05, { start: 0.05 }) }
+      // );
       document.body.classList.add("no-scroll");
     } else {
       animate("nav.mobile", {
@@ -50,7 +53,11 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: 0,
         paddingBottom: 0,
       });
-      animate("nav.mobile a", { opacity: 0 });
+      // animate(document.querySelectorAll("nav.mobile a"), { opacity: 0 });
+      document.querySelectorAll("nav.mobile a").forEach((el) => {
+        console.log("hi");
+        animate(el, { opacity: 0 });
+      });
       document.body.classList.remove("no-scroll");
     }
   }, [navOpen]);
