@@ -62,7 +62,11 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.pathname]);
 
   if (router.pathname === "/") {
-    return <Component {...pageProps} />;
+    return (
+      <body className="theme-blue">
+        <Component {...pageProps} />
+      </body>
+    );
   }
 
   return (
@@ -72,174 +76,176 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      <div className="wrapper">
-        <header>
-          <div className="header-inner spread">
-            <div className="flex-center">
-              <button
-                className="mobile-nav"
-                onClick={() => setNavOpen(!navOpen)}
+      <body className="theme-blue">
+        <div className="wrapper">
+          <header>
+            <div className="header-inner spread">
+              <div className="flex-center">
+                <button
+                  className="mobile-nav"
+                  onClick={() => setNavOpen(!navOpen)}
+                >
+                  {navOpen ? <XIcon /> : <MenuIcon />}
+                </button>
+
+                <Link href="/">
+                  <img src="/logo.svg" className="logo" />
+                </Link>
+              </div>
+
+              <a
+                href="https://github.com/glow-xyz/nftoken"
+                target="_blank"
+                className="github"
               >
-                {navOpen ? <XIcon /> : <MenuIcon />}
-              </button>
-
-              <Link href="/">
-                <img src="/logo.svg" className="logo" />
-              </Link>
+                <span>GitHub</span>
+                <ExternalLinkIcon />
+              </a>
             </div>
+          </header>
 
-            <a
-              href="https://github.com/glow-xyz/nftoken"
-              target="_blank"
-              className="github"
-            >
-              <span>GitHub</span>
-              <ExternalLinkIcon />
-            </a>
-          </div>
-        </header>
+          <div className="content">
+            <nav className="desktop">
+              <div className="nav-inner">
+                <NavContent />
+              </div>
+            </nav>
 
-        <div className="content">
-          <nav className="desktop">
-            <div className="nav-inner">
+            <nav className="mobile">
               <NavContent />
-            </div>
-          </nav>
+            </nav>
 
-          <nav className="mobile">
-            <NavContent />
-          </nav>
+            <main>
+              <Component {...pageProps} />
 
-          <main>
-            <Component {...pageProps} />
+              <NextPrev />
+            </main>
+          </div>
 
-            <NextPrev />
-          </main>
+          <Footer />
         </div>
 
-        <Footer />
-      </div>
-
-      <style jsx>{`
-        .wrapper {
-          min-height: 100vh;
-          display: grid;
-          grid-template-rows: max-content 1fr max-content;
-        }
-
-        header {
-          padding: 1.2rem 3rem;
-          border-top: 4px solid var(--brand-color);
-          border-bottom: 1px solid var(--secondary-border-color);
-          position: sticky;
-          top: 0;
-          background-color: var(--primary-bg-color);
-          z-index: 100;
-        }
-
-        .header-inner {
-          width: 100%;
-          max-width: 53rem;
-          margin: 0 auto;
-        }
-
-        button.mobile-nav {
-          display: none;
-          line-height: 1;
-          margin-right: 0.75rem;
-          background-color: var(--brand-color);
-          color: var(--white);
-          border-radius: 0.5rem;
-          padding: 0.1rem 0.3rem 0.2rem 0.3rem;
-        }
-
-        .logo {
-          display: block;
-          height: 1rem;
-          cursor: pointer;
-        }
-
-        .github {
-          display: block;
-          background-color: var(--brand-color);
-          color: var(--white);
-          font-size: var(--small-font-size);
-          font-weight: var(--medium-font-weight);
-          height: max-content;
-          padding: 0.2rem 0.8rem;
-          border-radius: 99px;
-        }
-
-        .github :global(svg) {
-          margin-left: 0.3rem;
-          transform: translateY(-0.1rem);
-        }
-
-        .content {
-          display: grid;
-          grid-template-columns: max-content 1fr;
-          grid-column-gap: 2rem;
-          height: 100%;
-
-          width: 100%;
-          max-width: 60rem;
-          margin: 0 auto;
-        }
-
-        nav.desktop {
-          height: 100%;
-        }
-
-        nav.desktop .nav-inner {
-          padding-left: 3rem;
-          position: sticky;
-          top: 8rem;
-        }
-
-        nav.mobile {
-          /* Hide nav by default, so there's no flash on page load. */
-          height: 0;
-          padding: 0 1.5rem;
-
-          position: fixed;
-          background-color: var(--white);
-          left: 0;
-          right: 0;
-          z-index: 100;
-          overflow: hidden;
-        }
-
-        main {
-          padding: 3rem 4rem 5rem 4rem;
-        }
-
-        @media (max-width: ${ResponsiveBreakpoint.medium}) {
+        <style jsx>{`
           .wrapper {
-            display: block;
-          }
-
-          .content {
-            display: block;
-          }
-
-          nav.desktop {
-            display: none;
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: max-content 1fr max-content;
           }
 
           header {
-            padding: 1rem 1.5rem;
+            padding: 1.2rem 3rem;
+            border-top: 4px solid var(--brand-color);
+            border-bottom: 1px solid var(--secondary-border-color);
+            position: sticky;
+            top: 0;
+            background-color: var(--primary-bg-color);
+            z-index: 100;
+          }
+
+          .header-inner {
+            width: 100%;
+            max-width: 53rem;
+            margin: 0 auto;
           }
 
           button.mobile-nav {
+            display: none;
+            line-height: 1;
+            margin-right: 0.75rem;
+            background-color: var(--brand-color);
+            color: var(--white);
+            border-radius: 0.5rem;
+            padding: 0.1rem 0.3rem 0.2rem 0.3rem;
+          }
+
+          .logo {
             display: block;
+            height: 1rem;
+            cursor: pointer;
+          }
+
+          .github {
+            display: block;
+            background-color: var(--brand-color);
+            color: var(--white);
+            font-size: var(--small-font-size);
+            font-weight: var(--medium-font-weight);
+            height: max-content;
+            padding: 0.2rem 0.8rem;
+            border-radius: 99px;
+          }
+
+          .github :global(svg) {
+            margin-left: 0.3rem;
+            transform: translateY(-0.1rem);
+          }
+
+          .content {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            grid-column-gap: 2rem;
+            height: 100%;
+
+            width: 100%;
+            max-width: 60rem;
+            margin: 0 auto;
+          }
+
+          nav.desktop {
+            height: 100%;
+          }
+
+          nav.desktop .nav-inner {
+            padding-left: 3rem;
+            position: sticky;
+            top: 8rem;
+          }
+
+          nav.mobile {
+            /* Hide nav by default, so there's no flash on page load. */
+            height: 0;
+            padding: 0 1.5rem;
+
+            position: fixed;
+            background-color: var(--white);
+            left: 0;
+            right: 0;
+            z-index: 100;
+            overflow: hidden;
           }
 
           main {
-            padding: 1.5rem;
-            padding-bottom: 6rem;
+            padding: 3rem 4rem 5rem 4rem;
           }
-        }
-      `}</style>
+
+          @media (max-width: ${ResponsiveBreakpoint.medium}) {
+            .wrapper {
+              display: block;
+            }
+
+            .content {
+              display: block;
+            }
+
+            nav.desktop {
+              display: none;
+            }
+
+            header {
+              padding: 1rem 1.5rem;
+            }
+
+            button.mobile-nav {
+              display: block;
+            }
+
+            main {
+              padding: 1.5rem;
+              padding-bottom: 6rem;
+            }
+          }
+        `}</style>
+      </body>
     </GlowProvider>
   );
 }
