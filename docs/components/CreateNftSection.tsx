@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { Field, Form, Formik, useFormikContext } from "formik";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { getImageUrl } from "../utils/cdn";
 import { ACCEPT_IMAGE_PROP, DropZone } from "../components/LuxDropZone";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
@@ -131,7 +132,7 @@ export const CreateNftSection = () => {
         </div>
 
         {!canSignIn && (
-          <div className="overlay">
+          <div className="overlay text-center">
             <p>
               You’ll need to install{" "}
               <a href="https://glow.app/download" target="_blank">
@@ -218,7 +219,11 @@ const ImageDropZone = () => {
         inputProps={getInputProps()}
       />
 
-      {data.image && <img src={data.image} />}
+      {data.image && (
+        <img
+          src={getImageUrl({ url: data.image, width: 1000, height: 1000 })}
+        />
+      )}
 
       <style jsx>{`
         .container.with-image {
@@ -229,7 +234,6 @@ const ImageDropZone = () => {
 
         img {
           width: 100%;
-          border-radius: var(--border-radius);
         }
       `}</style>
     </div>
