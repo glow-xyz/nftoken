@@ -1,8 +1,12 @@
 import { Network } from "@glow-app/glow-client";
 import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
-import { SolanaClient } from "@glow-app/solana-client";
+import {
+  GPublicKey,
+  GTransaction,
+  SolanaClient,
+} from "@glow-app/solana-client";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
-import { Keypair, PublicKey, Transaction } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import classNames from "classnames";
 import { Field, Form, Formik, useFormikContext } from "formik";
 import { useState } from "react";
@@ -44,7 +48,7 @@ export const CreateNftSection = () => {
             <Formik
               initialValues={initialValues}
               onSubmit={async ({ name, image }, { resetForm }) => {
-                const { publicKey } = await window.glow!.connect();
+                const { address: wallet } = await window.glow!.connect();
 
                 const nft_keypair = Keypair.generate();
                 const { file_url: metadata_url } = await uploadJsonToS3({
@@ -54,45 +58,46 @@ export const CreateNftSection = () => {
                   rpcUrl: "https://api.mainnet-beta.solana.com",
                 });
 
-                // TODO: replace this with not Solana web3.js
-                const transaction = new Transaction({
-                  feePayer: publicKey,
+                const transaction = GTransaction.create({
+                  feePayer: wallet,
                   recentBlockhash,
-                });
-                transaction.add({
-                  keys: [
-                    // NFT Creator
+                  instructions: [
                     {
-                      pubkey: publicKey,
-                      isSigner: true,
-                      isWritable: true,
-                    },
-                    // Holder
-                    { pubkey: publicKey, isWritable: false, isSigner: false },
-                    {
-                      pubkey: nft_keypair.publicKey,
-                      isSigner: true,
-                      isWritable: true,
-                    },
-                    {
-                      pubkey: PublicKey.default,
-                      isWritable: false,
-                      isSigner: false,
+                      accounts: [
+                        // NFT Creator
+                        { address: wallet, signer: true, writable: true },
+                        // Holder
+                        { address: wallet, writable: false, signer: false },
+                        {
+                          address: nft_keypair.publicKey,
+                          signer: true,
+                          writable: true,
+                        },
+                        {
+                          address: GPublicKey.default,
+                          writable: false,
+                          signer: false,
+                        },
+                      ],
+                      programId: new PublicKey(NFTOKEN_ADDRESS),
+                      data: NFTOKEN_NFT_CREATE_IX.toBuffer({
+                        ix: null,
+                        metadata_url,
+                        collection_included: false,
+                      }),
                     },
                   ],
-                  programId: new PublicKey(NFTOKEN_ADDRESS),
-                  data: NFTOKEN_NFT_CREATE_IX.toBuffer({
-                    ix: null,
-                    metadata_url,
-                    collection_included: false,
-                  }),
                 });
-                transaction.partialSign(nft_keypair);
+
+                const signedTx = GTransaction.sign({
+                  secretKey: nft_keypair.secretKey,
+                  gtransaction: transaction,
+                });
 
                 await window.glow!.signAndSendTransaction({
-                  transactionBase64: transaction
-                    .serialize({ verifySignatures: false })
-                    .toString("base64"),
+                  transactionBase64: GTransaction.toBuffer({
+                    gtransaction: signedTx,
+                  }).toString("base64"),
                   network: Network.Mainnet,
                 });
 
