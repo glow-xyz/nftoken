@@ -37,7 +37,7 @@ article h3 + * {
 article a:not(h1 a):not(h2 a):not(h3 a) {
   color: var(--brand-color);
   font-weight: 500;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 article p,
@@ -49,7 +49,7 @@ article li {
 article code:not(pre code) {
   background-color: var(--secondary-bg-color);
   color: var(--red-50);
-  padding: 0 0.3rem;
+  padding: 0.2em 0.4em;
   border-radius: var(--border-radius);
 }
 
