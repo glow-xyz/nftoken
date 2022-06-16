@@ -25,7 +25,7 @@ export default function Index() {
                   <ChevronRightIcon />
                 </a>
               </Link>
-              <Link href="/getting-started">
+              <Link href="/create-an-nft">
                 <a className="luma-button flex-center icon-right round link large secondary">
                   Create an NFT
                   <ChevronRightIcon />

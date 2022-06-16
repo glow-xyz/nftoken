@@ -247,18 +247,19 @@ export default function App({ Component, pageProps }: AppProps) {
 function NavContent() {
   const router = useRouter();
 
+  const currentNavItem = nav.find((item) => item.href === router.pathname);
+
   return (
     <>
       <div className="container">
-        <div
-          className="active-highlight"
-          style={{
-            top:
-              nav.indexOf(nav.find((item) => item.href === router.pathname)!) *
-                2.25 +
-              "rem",
-          }}
-        ></div>
+        {currentNavItem && (
+          <div
+            className="active-highlight"
+            style={{
+              top: nav.indexOf(currentNavItem) * 2.25 + "rem",
+            }}
+          ></div>
+        )}
 
         {nav.map((item) => (
           <div className="nav-item" key={item.title}>
