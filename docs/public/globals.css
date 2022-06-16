@@ -48,8 +48,13 @@ article li {
 
 article code:not(pre code) {
   background-color: var(--secondary-bg-color);
+  color: var(--red-50);
   padding: 0.2em 0.4em;
   border-radius: var(--border-radius);
+}
+
+body.dark article code:not(pre code) {
+  color: var(--red-30);
 }
 
 article strong {

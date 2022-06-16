@@ -36,10 +36,6 @@ export const Footer = () => {
           height: 1.5rem;
         }
 
-        footer img.light {
-          display: none;
-        }
-
         footer .twitter {
           margin-bottom: 0.25rem;
         }
@@ -49,14 +45,12 @@ export const Footer = () => {
           width: 1.25rem;
         }
 
-        @media (prefers-color-scheme: dark) {
-          footer img.light {
-            display: block;
-          }
+        :global(body.light) footer img.light {
+          display: none;
+        }
 
-          footer img.dark {
-            display: none;
-          }
+        :global(body.dark) footer img.dark {
+          display: none;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
