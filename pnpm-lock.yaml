@@ -14,7 +14,7 @@ importers:
     specifiers:
       '@glow-app/glow-client': 0.3.0
       '@glow-app/glow-react': 0.1.1
-      '@glow-app/solana-client': 0.4.0
+      '@glow-app/solana-client': file:~/Code/glow-js/packages/solana-client
       '@heroicons/react': 1.0.6
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
@@ -48,7 +48,7 @@ importers:
     dependencies:
       '@glow-app/glow-client': 0.3.0
       '@glow-app/glow-react': 0.1.1_ef5jwxihqo6n7gxfmzogljlgcm
-      '@glow-app/solana-client': 0.4.0
+      '@glow-app/solana-client': link:../../glow-js/packages/solana-client
       '@heroicons/react': 1.0.6_react@18.1.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
@@ -1527,31 +1527,6 @@ packages:
       - supports-color
     dev: false
 
-  /@glow-app/solana-client/0.4.0:
-    resolution: {integrity: sha512-EvB6aLLL2VKxXjt0+iR++Y2pRo90f4lYPIIWSdxCZtl5VKJQXiJ3e716Tgkyty02JZ0XGX5NJTErsBLT7xbwGw==}
-    dependencies:
-      '@metaplex-foundation/beet': 0.2.0
-      '@solana/web3.js': 1.43.4
-      axios: 0.27.2
-      bignumber.js: 9.0.2
-      bn.js: 5.2.1
-      bs58: 5.0.0
-      buffer: 6.0.3
-      js-sha256: 0.9.0
-      lodash: 4.17.21
-      luxon: 2.4.0
-      p-limit: 3.1.0
-      rimraf: 3.0.2
-      tweetnacl: 1.0.3
-      zod: 3.17.3
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   /@heroicons/react/1.0.6_react@18.1.0:
     resolution: {integrity: sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==}
     peerDependencies:
@@ -2310,33 +2285,6 @@ packages:
       buffer: 6.0.3
       buffer-layout: 1.2.2
       dotenv: 10.0.0
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - utf-8-validate
-    dev: false
-
-  /@solana/web3.js/1.43.4:
-    resolution: {integrity: sha512-9+c965R3vjIRIfUFQtKfaG8BM4tVoo/fp4DvmqHAGLTaeHilVsRdyXszW6+Ues5KczgBejlp62k2SeUcbOibUg==}
-    engines: {node: '>=12.20.0'}
-    deprecated: This version introduced a bug that could cause certain transactions to fail signature verification when used with certain wallets.
-    dependencies:
-      '@babel/runtime': 7.18.3
-      '@ethersproject/sha2': 5.6.1
-      '@solana/buffer-layout': 4.0.0
-      bigint-buffer: 1.1.5
-      bn.js: 5.2.1
-      borsh: 0.7.0
-      bs58: 4.0.1
-      buffer: 6.0.1
-      fast-stable-stringify: 1.0.0
-      jayson: 3.6.6
-      js-sha3: 0.8.0
-      node-fetch: 2.6.7
-      rpc-websockets: 7.5.0
-      secp256k1: 4.0.3
-      superstruct: 0.14.2
-      tweetnacl: 1.0.3
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -6196,13 +6144,6 @@ packages:
       p-try: 2.2.0
     dev: false
 
-  /p-limit/3.1.0:
-    resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      yocto-queue: 0.1.0
-    dev: false
-
   /p-limit/4.0.0:
     resolution: {integrity: sha512-5b0R4txpzjPWVw/cXXUResoD4hb6U/x9BH08L7nw+GN1sezDzPdxeRvpc9c433fZhBan/wusjbCsqwqm4EIBIQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -7631,11 +7572,6 @@ packages:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.0.1
-    dev: false
-
-  /yocto-queue/0.1.0:
-    resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
-    engines: {node: '>=10'}
     dev: false
 
   /yocto-queue/1.0.0:
