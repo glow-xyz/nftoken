@@ -4,15 +4,15 @@ title: Create an NFT
 
 # {% $markdoc.frontmatter.title %}
 
-You can create an NFT in just a couple seconds.=
+You can create an NFT in just a couple seconds.
 
 You don't have to mess around with code or the terminal. This makes it really easy for non-developers to get started.
 
-**Download Glow**
+## Download Glow
 
-If you don't have the Glow Solana wallet, you'll need to [download Glow](https://glow.app/download). Once you have that downloaded, you can 
+If you don't have the Glow Solana wallet, you'll need to [download Glow](https://glow.app/download). Once you have that downloaded, you can
 
-**Get SOL**
+## Get SOL
 
 You'll also need to have a small amount of SOL if you want to create an NFT on mainnet.
 
