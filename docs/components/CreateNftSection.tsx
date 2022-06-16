@@ -9,8 +9,9 @@ import {
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Field, Form, Formik, useFormikContext } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
+import confetti from "canvas-confetti";
 import { getImageUrl } from "../utils/cdn";
 import { ACCEPT_IMAGE_PROP, DropZone } from "../components/LuxDropZone";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
@@ -27,6 +28,32 @@ export const CreateNftSection = () => {
   const [success, setSuccess] = useState(false);
 
   const initialValues: FormData = { name: "", image: null };
+
+  useEffect(() => {
+    if (!success) {
+      return;
+    }
+
+    const end = Date.now() + 3 * 1000;
+
+    const shootConfetti = () => {
+      const settings = {
+        particleCount: 5,
+        spread: 100,
+        colors: ["#f87171", "#fb923c", "#fbbf24", "#38bdf8", "#a78bfa"],
+        disableForReducedMotion: true,
+      };
+
+      confetti({ ...settings, angle: 60, origin: { x: 0 } });
+      confetti({ ...settings, angle: 120, origin: { x: 1 } });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(shootConfetti);
+      }
+    };
+
+    shootConfetti();
+  }, [success]);
 
   return (
     <Container>
