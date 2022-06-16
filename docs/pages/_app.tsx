@@ -19,7 +19,7 @@ import "../styles/app.scss";
 
 const nav = [
   { title: "Overview", href: "/overview" },
-  { title: "Getting Started", href: "/getting-started" },
+  { title: "Create an NFT", href: "/create-an-nft" },
   { title: "Technical Details", href: "/technical-details" },
   { title: "Security", href: "/security" },
   { title: "FAQ", href: "/faq" },
@@ -202,7 +202,7 @@ export default function App({ Component, pageProps }: AppProps) {
           padding: 0 1.5rem;
 
           position: fixed;
-          background-color: var(--white);
+          background-color: var(--primary-bg-color);
           left: 0;
           right: 0;
           z-index: 100;
