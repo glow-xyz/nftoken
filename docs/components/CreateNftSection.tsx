@@ -1,12 +1,12 @@
 import { Network } from "@glow-app/glow-client";
 import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import {
+  GKeypair,
   GPublicKey,
   GTransaction,
   SolanaClient,
 } from "@glow-app/solana-client";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
-import { Keypair, PublicKey } from "@solana/web3.js";
 import classNames from "classnames";
 import { Field, Form, Formik, useFormikContext } from "formik";
 import { useState } from "react";
@@ -50,7 +50,7 @@ export const CreateNftSection = () => {
               onSubmit={async ({ name, image }, { resetForm }) => {
                 const { address: wallet } = await window.glow!.connect();
 
-                const nft_keypair = Keypair.generate();
+                const nft_keypair = GKeypair.generate();
                 const { file_url: metadata_url } = await uploadJsonToS3({
                   json: { name, image },
                 });
@@ -69,22 +69,22 @@ export const CreateNftSection = () => {
                         // Holder
                         { address: wallet, writable: false, signer: false },
                         {
-                          address: nft_keypair.publicKey,
+                          address: nft_keypair.address,
                           signer: true,
                           writable: true,
                         },
                         {
-                          address: GPublicKey.default,
+                          address: GPublicKey.default.toString(),
                           writable: false,
                           signer: false,
                         },
                       ],
-                      programId: new PublicKey(NFTOKEN_ADDRESS),
-                      data: NFTOKEN_NFT_CREATE_IX.toBuffer({
+                      program: NFTOKEN_ADDRESS,
+                      data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
                         ix: null,
                         metadata_url,
                         collection_included: false,
-                      }),
+                      }).toString("base64"),
                     },
                   ],
                 });
