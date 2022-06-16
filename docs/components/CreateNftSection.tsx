@@ -243,13 +243,13 @@ const ImageDropZone = () => {
 
 const Container = ({ children }: { children: React.ReactNode }) => {
   return (
-    <section className="px-3 pb-3 rounded">
+    <section className="px-3 pb-3 my-3 rounded">
       <div className="badge text-xs font-weight-bold">Live Minting Demo</div>
       <div>{children}</div>
 
       <style jsx>{`
         section {
-          border: 1px solid var(--primary-border-color);
+          border: 1px solid var(--divider-color);
           background-color: var(--secondary-bg-color);
           position: relative;
           padding-top: 2.25rem;
