@@ -207,10 +207,12 @@ const ImageDropZone = () => {
 
       setUploading(true);
 
-      const { file_url } = await uploadImageToS3({ file });
-      setFieldValue("image", file_url);
-
-      setUploading(false);
+      try {
+        const { file_url } = await uploadImageToS3({ file });
+        setFieldValue("image", file_url);
+      } finally {
+        setUploading(false);
+      }
     },
     noKeyboard: true,
   });
