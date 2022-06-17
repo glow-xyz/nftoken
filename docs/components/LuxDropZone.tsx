@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React from "react";
+import { LuxSpinner } from "../components/LuxSpinner";
 import { DropzoneInputProps, DropzoneRootProps } from "react-dropzone";
 import { PhotographIcon } from "@heroicons/react/outline";
 
@@ -33,7 +34,7 @@ export const DropZone = ({
     >
       <div>
         {inputProps && <input {...inputProps} />}
-        {icon}
+        {isLoading ? <LuxSpinner /> : icon}
         <div className="label text-lg b animated">{label}</div>
 
         {sublabel && (
