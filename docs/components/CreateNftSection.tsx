@@ -197,7 +197,7 @@ const ImageDropZone = () => {
   const { values, setFieldValue } = useFormikContext();
   const data = values as FormData;
 
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(true);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: ACCEPT_IMAGE_PROP,
