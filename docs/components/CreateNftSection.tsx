@@ -236,8 +236,13 @@ const ImageDropZone = () => {
       <style jsx>{`
         .container.with-image {
           display: grid;
-          grid-template-columns: 2fr 1fr;
+          grid-template-columns: 1fr 8rem;
           grid-column-gap: 1rem;
+        }
+
+        /* Make sure height doesn't jump when image is added on the right. */
+        .container :global(.dropzone-wrapper) {
+          height: 8rem;
         }
 
         img {
