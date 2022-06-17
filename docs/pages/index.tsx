@@ -64,6 +64,11 @@ export default function Index() {
           display: block;
         }
 
+        :global(body.dark) .graphic {
+          filter: invert(1);
+          mix-blend-mode: lighten;
+        }
+
         .logo {
           display: block;
           height: 2rem;
