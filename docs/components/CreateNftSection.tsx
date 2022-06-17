@@ -62,106 +62,96 @@ export const CreateNftSection = () => {
         <div
           className={classNames("form-section", {
             blurred: !canSignIn || !user,
+            invisible: success,
           })}
         >
-          {success ? (
-            <div className="success">
-              <div className="success-icon text-success">
-                <BadgeCheckIcon />
+          <Formik
+            initialValues={initialValues}
+            onSubmit={async ({ name, image }, { resetForm }) => {
+              const { address: wallet } = await window.glow!.connect();
+
+              const nft_keypair = GKeypair.generate();
+              const { file_url: metadata_url } = await uploadJsonToS3({
+                json: { name, image },
+              });
+              const recentBlockhash = await SolanaClient.getRecentBlockhash({
+                rpcUrl: "https://api.mainnet-beta.solana.com",
+              });
+
+              const transaction = GTransaction.create({
+                feePayer: wallet,
+                recentBlockhash,
+                instructions: [
+                  {
+                    accounts: [
+                      // NFT Creator
+                      { address: wallet, signer: true, writable: true },
+                      // Holder
+                      { address: wallet, writable: false, signer: false },
+                      {
+                        address: nft_keypair.address,
+                        signer: true,
+                        writable: true,
+                      },
+                      {
+                        address: GPublicKey.default.toString(),
+                        writable: false,
+                        signer: false,
+                      },
+                    ],
+                    program: NFTOKEN_ADDRESS,
+                    data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
+                      ix: null,
+                      metadata_url,
+                      collection_included: false,
+                    }).toString("base64"),
+                  },
+                ],
+              });
+
+              const signedTx = GTransaction.sign({
+                secretKey: nft_keypair.secretKey,
+                gtransaction: transaction,
+              });
+
+              await window.glow!.signAndSendTransaction({
+                transactionBase64: GTransaction.toBuffer({
+                  gtransaction: signedTx,
+                }).toString("base64"),
+                network: Network.Mainnet,
+              });
+
+              resetForm({ values: { name: "", image: null } });
+              setSuccess(true);
+            }}
+          >
+            <Form>
+              <div className="mb-4">
+                <label htmlFor="name" className="luma-input-label medium">
+                  Name
+                </label>
+                <Field name="name" id="name" className="luma-input" />
               </div>
-              <p className="font-weight-medium text-success mb-0 text-center">
-                <span>Your NFT has been minted!</span>
-              </p>
-            </div>
-          ) : (
-            <Formik
-              initialValues={initialValues}
-              onSubmit={async ({ name, image }, { resetForm }) => {
-                const { address: wallet } = await window.glow!.connect();
 
-                const nft_keypair = GKeypair.generate();
-                const { file_url: metadata_url } = await uploadJsonToS3({
-                  json: { name, image },
-                });
-                const recentBlockhash = await SolanaClient.getRecentBlockhash({
-                  rpcUrl: "https://api.mainnet-beta.solana.com",
-                });
+              <ImageDropZone />
 
-                const transaction = GTransaction.create({
-                  feePayer: wallet,
-                  recentBlockhash,
-                  instructions: [
-                    {
-                      accounts: [
-                        // NFT Creator
-                        { address: wallet, signer: true, writable: true },
-                        // Holder
-                        { address: wallet, writable: false, signer: false },
-                        {
-                          address: nft_keypair.address,
-                          signer: true,
-                          writable: true,
-                        },
-                        {
-                          address: GPublicKey.default.toString(),
-                          writable: false,
-                          signer: false,
-                        },
-                      ],
-                      program: NFTOKEN_ADDRESS,
-                      data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
-                        ix: null,
-                        metadata_url,
-                        collection_included: false,
-                      }).toString("base64"),
-                    },
-                  ],
-                });
-
-                const signedTx = GTransaction.sign({
-                  secretKey: nft_keypair.secretKey,
-                  gtransaction: transaction,
-                });
-
-                await window.glow!.signAndSendTransaction({
-                  transactionBase64: GTransaction.toBuffer({
-                    gtransaction: signedTx,
-                  }).toString("base64"),
-                  network: Network.Mainnet,
-                });
-
-                resetForm({ values: { name: "", image: null } });
-                setSuccess(true);
-              }}
-            >
-              <Form>
-                <div className="mb-4">
-                  <label htmlFor="name" className="luma-input-label medium">
-                    Name
-                  </label>
-                  <Field name="name" id="name" className="luma-input" />
-                </div>
-
-                <ImageDropZone />
-
-                <div className="mt-4 flex-end spread">
-                  <button
-                    type="submit"
-                    className="luma-button round brand solid flex-center "
-                  >
-                    Create NFT
-                  </button>
-                  <button
-                    type="button"
-                    onClick={signOut}
-                    className="ml-2 luma-button round text-secondary flex-center small"
-                  >
-                    Disconnect Wallet
-                  </button>
-                </div>
-              </Form>
-            </Formik>
-          )}
+              <div className="mt-4 flex-end spread">
+                <button
+                  type="submit"
+                  className="luma-button round brand solid flex-center "
+                >
+                  Create NFT
+                </button>
+                <button
+                  type="button"
+                  onClick={signOut}
+                  className="ml-2 luma-button round text-secondary flex-center small"
+                >
+                  Disconnect Wallet
+                </button>
+              </div>
+            </Form>
+          </Formik>
         </div>
 
         {!canSignIn && (
@@ -181,6 +171,19 @@ export const CreateNftSection = () => {
             <GlowSignInButton variant="purple" />
           </div>
         )}
+
+        <div
+          className={classNames("success", {
+            visible: success && canSignIn && user,
+          })}
+        >
+          <div className="success-icon text-success">
+            <BadgeCheckIcon />
+          </div>
+          <p className="font-weight-medium text-success mb-0 text-center text-lg">
+            <span>Your NFT has been minted!</span>
+          </p>
+        </div>
       </div>
 
       <style jsx>{`
@@ -193,7 +196,7 @@ export const CreateNftSection = () => {
         }
 
         .overlay p {
-          background-color: hsla(0, 0%, 100%, 0.8);
+          background-color: var(--primary-bg-color);
           padding: 0.3rem 1rem;
           border-radius: var(--border-radius);
           color: var(--primary-color);
@@ -207,14 +210,32 @@ export const CreateNftSection = () => {
           filter: blur(6px) brightness(120%) grayscale(20%);
         }
 
+        .form-section.invisible {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .success {
+          position: absolute;
+          inset: 0;
+          top: calc(50% - 2rem);
+          opacity: 0;
+          pointer-events: none;
+          transition: var(--transition);
+        }
+
+        .success.visible {
+          opacity: 1;
+        }
+
         .success-icon {
           margin: 0 auto;
           max-width: max-content;
         }
 
         .success-icon :global(svg) {
-          height: 1.25rem;
-          width: 1.25rem;
+          height: 1.5rem;
+          width: 1.5rem;
         }
       `}</style>
     </Container>
