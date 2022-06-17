@@ -37,16 +37,6 @@ export const CreateNftSection = () => {
     const end = Date.now() + 3 * 1000;
 
     const shootConfetti = () => {
-      const settings = {
-        particleCount: 5,
-        spread: 1000,
-        startVelocity: 45,
-        gravity: 2,
-        colors: ["#f87171", "#fb923c", "#fbbf24", "#38bdf8", "#a78bfa"],
-        angle: 270,
-        disableForReducedMotion: true,
-      };
-
       confetti({
         particleCount: 10,
         spread: 180,
