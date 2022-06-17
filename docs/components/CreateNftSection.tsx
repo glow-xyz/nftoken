@@ -87,58 +87,58 @@ export const CreateNftSection = () => {
             <Formik
               initialValues={initialValues}
               onSubmit={async ({ name, image }, { resetForm }) => {
-                // const { address: wallet } = await window.glow!.connect();
+                const { address: wallet } = await window.glow!.connect();
 
-                // const nft_keypair = GKeypair.generate();
-                // const { file_url: metadata_url } = await uploadJsonToS3({
-                //   json: { name, image },
-                // });
-                // const recentBlockhash = await SolanaClient.getRecentBlockhash({
-                //   rpcUrl: "https://api.mainnet-beta.solana.com",
-                // });
+                const nft_keypair = GKeypair.generate();
+                const { file_url: metadata_url } = await uploadJsonToS3({
+                  json: { name, image },
+                });
+                const recentBlockhash = await SolanaClient.getRecentBlockhash({
+                  rpcUrl: "https://api.mainnet-beta.solana.com",
+                });
 
-                // const transaction = GTransaction.create({
-                //   feePayer: wallet,
-                //   recentBlockhash,
-                //   instructions: [
-                //     {
-                //       accounts: [
-                //         // NFT Creator
-                //         { address: wallet, signer: true, writable: true },
-                //         // Holder
-                //         { address: wallet, writable: false, signer: false },
-                //         {
-                //           address: nft_keypair.address,
-                //           signer: true,
-                //           writable: true,
-                //         },
-                //         {
-                //           address: GPublicKey.default.toString(),
-                //           writable: false,
-                //           signer: false,
-                //         },
-                //       ],
-                //       program: NFTOKEN_ADDRESS,
-                //       data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
-                //         ix: null,
-                //         metadata_url,
-                //         collection_included: false,
-                //       }).toString("base64"),
-                //     },
-                //   ],
-                // });
+                const transaction = GTransaction.create({
+                  feePayer: wallet,
+                  recentBlockhash,
+                  instructions: [
+                    {
+                      accounts: [
+                        // NFT Creator
+                        { address: wallet, signer: true, writable: true },
+                        // Holder
+                        { address: wallet, writable: false, signer: false },
+                        {
+                          address: nft_keypair.address,
+                          signer: true,
+                          writable: true,
+                        },
+                        {
+                          address: GPublicKey.default.toString(),
+                          writable: false,
+                          signer: false,
+                        },
+                      ],
+                      program: NFTOKEN_ADDRESS,
+                      data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
+                        ix: null,
+                        metadata_url,
+                        collection_included: false,
+                      }).toString("base64"),
+                    },
+                  ],
+                });
 
-                // const signedTx = GTransaction.sign({
-                //   secretKey: nft_keypair.secretKey,
-                //   gtransaction: transaction,
-                // });
+                const signedTx = GTransaction.sign({
+                  secretKey: nft_keypair.secretKey,
+                  gtransaction: transaction,
+                });
 
-                // await window.glow!.signAndSendTransaction({
-                //   transactionBase64: GTransaction.toBuffer({
-                //     gtransaction: signedTx,
-                //   }).toString("base64"),
-                //   network: Network.Mainnet,
-                // });
+                await window.glow!.signAndSendTransaction({
+                  transactionBase64: GTransaction.toBuffer({
+                    gtransaction: signedTx,
+                  }).toString("base64"),
+                  network: Network.Mainnet,
+                });
 
                 resetForm({ values: { name: "", image: null } });
                 setSuccess(true);
