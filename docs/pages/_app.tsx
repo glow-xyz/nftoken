@@ -84,7 +84,10 @@ export default function App({ Component, pageProps }: AppProps) {
               </button>
 
               <Link href="/">
-                <img src="/logo.svg" className="logo" />
+                <a>
+                  <img src="/logo.svg" className="logo dark" />
+                  <img src="/logo-light.svg" className="logo light" />
+                </a>
               </Link>
             </div>
 
@@ -157,6 +160,14 @@ export default function App({ Component, pageProps }: AppProps) {
           display: block;
           height: 1rem;
           cursor: pointer;
+        }
+
+        :global(body.light) .logo.light {
+          display: none;
+        }
+
+        :global(body.dark) .logo.dark {
+          display: none;
         }
 
         .github {
