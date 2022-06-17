@@ -225,14 +225,22 @@ const ImageDropZone = () => {
   const { values, setFieldValue } = useFormikContext();
   const data = values as FormData;
 
+  const [uploading, setUploading] = useState(false);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: ACCEPT_IMAGE_PROP,
     multiple: false,
     onDrop: async (files) => {
       const [file] = files;
-      const { file_url } = await uploadImageToS3({ file });
 
-      setFieldValue("image", file_url);
+      setUploading(true);
+
+      try {
+        const { file_url } = await uploadImageToS3({ file });
+        setFieldValue("image", file_url);
+      } finally {
+        setUploading(false);
+      }
     },
     noKeyboard: true,
   });
@@ -242,6 +250,7 @@ const ImageDropZone = () => {
       <DropZone
         label="NFT Image"
         isDragActive={isDragActive}
+        isLoading={uploading}
         rootProps={getRootProps()}
         inputProps={getInputProps()}
       />
@@ -255,8 +264,13 @@ const ImageDropZone = () => {
       <style jsx>{`
         .container.with-image {
           display: grid;
-          grid-template-columns: 2fr 1fr;
+          grid-template-columns: 1fr 8rem;
           grid-column-gap: 1rem;
+        }
+
+        /* Make sure height doesn't jump when image is added on the right. */
+        .container :global(.dropzone-wrapper) {
+          height: 8rem;
         }
 
         img {
