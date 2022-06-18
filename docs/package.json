@@ -18,6 +18,7 @@
     "@markdoc/next.js": "0.1.4-1",
     "@metaplex-foundation/beet": "0.2.0",
     "@svgr/webpack": "6.2.1",
+    "@types/lodash": "4.14.182",
     "@types/luxon": "2.3.2",
     "@types/react-dom": "18.0.5",
     "axios": "0.27.2",

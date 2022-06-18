@@ -22,6 +22,7 @@ importers:
       '@metaplex-foundation/beet': 0.2.0
       '@svgr/webpack': 6.2.1
       '@types/canvas-confetti': 1.4.2
+      '@types/lodash': 4.14.182
       '@types/luxon': 2.3.2
       '@types/node': 17.0.41
       '@types/prismjs': 1.26.0
@@ -59,6 +60,7 @@ importers:
       '@markdoc/next.js': 0.1.4-1_f63c6e084888a3f13223f71889df0add
       '@metaplex-foundation/beet': 0.2.0
       '@svgr/webpack': 6.2.1
+      '@types/lodash': 4.14.182
       '@types/luxon': 2.3.2
       '@types/react-dom': 18.0.5
       axios: 0.27.2
