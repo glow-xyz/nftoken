@@ -1,6 +1,6 @@
 // See https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
 const URL_REGEX =
-  /(http(s)?:\/\/.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,10}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+  /(http(s)?:\/\/.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-z]{2,10}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
 
 export const startsWithHttp = (url: string): boolean => {
   return (
