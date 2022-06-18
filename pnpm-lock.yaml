@@ -36,6 +36,7 @@ importers:
       eslint: 8.17.0
       eslint-plugin-lodash: 7.4.0
       formik: 2.2.9
+      lodash: 4.17.21
       luxon: 2.4.0
       motion: 10.10.0
       next: 12.1.6
@@ -66,6 +67,7 @@ importers:
       copy-to-clipboard: 3.3.1
       email-validator: 2.0.4
       formik: 2.2.9_react@18.1.0
+      lodash: 4.17.21
       luxon: 2.4.0
       motion: 10.10.0_react-dom@18.1.0+react@18.1.0
       next: 12.1.6_b803a54b102d8cda6f0ac602082a9eab
