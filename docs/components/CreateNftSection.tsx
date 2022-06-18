@@ -8,7 +8,7 @@ import {
 } from "@glow-app/solana-client";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { Field, Form, Formik, useFormikContext } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import confetti from "canvas-confetti";
@@ -17,6 +17,7 @@ import { ACCEPT_IMAGE_PROP, DropZone } from "../components/LuxDropZone";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
+import { LuxInputField } from "../components/LuxInput";
 
 type FormData = {
   name: string;
@@ -127,10 +128,7 @@ export const CreateNftSection = () => {
           >
             <Form>
               <div className="mb-4">
-                <label htmlFor="name" className="luma-input-label medium">
-                  Name
-                </label>
-                <Field name="name" id="name" className="luma-input" />
+                <LuxInputField label="Name" name="name" required />
               </div>
 
               <ImageDropZone />

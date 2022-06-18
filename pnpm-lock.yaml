@@ -32,6 +32,7 @@ importers:
       canvas-confetti: 1.5.1
       classnames: 2.3.1
       copy-to-clipboard: 3.3.1
+      email-validator: 2.0.4
       eslint: 8.17.0
       eslint-plugin-lodash: 7.4.0
       formik: 2.2.9
@@ -44,6 +45,7 @@ importers:
       react-dom: 18.1.0
       react-dropzone: 14.2.1
       sass: 1.52.3
+      tlds: 1.231.0
       typescript: 4.7.3
       zod: 3.17.3
     dependencies:
@@ -62,6 +64,7 @@ importers:
       canvas-confetti: 1.5.1
       classnames: 2.3.1
       copy-to-clipboard: 3.3.1
+      email-validator: 2.0.4
       formik: 2.2.9_react@18.1.0
       luxon: 2.4.0
       motion: 10.10.0_react-dom@18.1.0+react@18.1.0
@@ -72,6 +75,7 @@ importers:
       react-dom: 18.1.0_react@18.1.0
       react-dropzone: 14.2.1_react@18.1.0
       sass: 1.52.3
+      tlds: 1.231.0
       typescript: 4.7.3
       zod: 3.17.3
     devDependencies:
@@ -3866,6 +3870,11 @@ packages:
       minimalistic-crypto-utils: 1.0.1
     dev: false
 
+  /email-validator/2.0.4:
+    resolution: {integrity: sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==}
+    engines: {node: '>4.0'}
+    dev: false
+
   /emittery/0.10.2:
     resolution: {integrity: sha512-aITqOwnLanpHLNXZJENbOgjUBeHocD+xsSJmNrjovKBW5HbSpW3d1pEls7GFQPUWXiwG9+0P4GtHfEqC/4M0Iw==}
     engines: {node: '>=12'}
@@ -7189,6 +7198,11 @@ packages:
 
   /tiny-warning/1.0.3:
     resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
+    dev: false
+
+  /tlds/1.231.0:
+    resolution: {integrity: sha512-L7UQwueHSkGxZHQBXHVmXW64oi+uqNtzFt2x6Ssk7NVnpIbw16CRs4eb/jmKOZ9t2JnqZ/b3Cfvo97lnXqKrhw==}
+    hasBin: true
     dev: false
 
   /tmp/0.0.33:
