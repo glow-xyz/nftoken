@@ -14,7 +14,7 @@
     "@glow-app/solana-client": "0.5.0",
     "@heroicons/react": "1.0.6",
     "@lux-org/sass": "0.46.0",
-    "@markdoc/markdoc": "0.1.2",
+    "@markdoc/markdoc": "0.1.3",
     "@markdoc/next.js": "0.1.4-1",
     "@metaplex-foundation/beet": "0.2.0",
     "@svgr/webpack": "6.2.1",

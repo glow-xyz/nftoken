@@ -17,7 +17,7 @@ importers:
       '@glow-app/solana-client': 0.5.0
       '@heroicons/react': 1.0.6
       '@lux-org/sass': 0.46.0
-      '@markdoc/markdoc': 0.1.2
+      '@markdoc/markdoc': 0.1.3
       '@markdoc/next.js': 0.1.4-1
       '@metaplex-foundation/beet': 0.2.0
       '@svgr/webpack': 6.2.1
@@ -52,8 +52,8 @@ importers:
       '@glow-app/solana-client': 0.5.0
       '@heroicons/react': 1.0.6_react@18.1.0
       '@lux-org/sass': 0.46.0
-      '@markdoc/markdoc': 0.1.2
-      '@markdoc/next.js': 0.1.4-1_f63c6e084888a3f13223f71889df0add
+      '@markdoc/markdoc': 0.1.3
+      '@markdoc/next.js': 0.1.4-1_1de246be78039c36a60b7e480757c6d5
       '@metaplex-foundation/beet': 0.2.0
       '@svgr/webpack': 6.2.1
       '@types/luxon': 2.3.2
@@ -1859,19 +1859,19 @@ packages:
     resolution: {integrity: sha512-5BF5EJStdkkHunag1QldKRansLBOGMqBhJfYWpsrblt3JYeUImrKxI+J6UHx/4veRVNGNY2g3VW81c7uBtD1Sw==}
     dev: false
 
-  /@markdoc/markdoc/0.1.2:
-    resolution: {integrity: sha512-3p+JTC1A0eqBdrl2UOIRoy+FLKtG1mh81R3Zzdm7FJiQIMt2mJmqmVQNDf3Md62G9rTtbj0ZuxlEattMbaslbw==}
+  /@markdoc/markdoc/0.1.3:
+    resolution: {integrity: sha512-4n2cobUSeOob+237wZhpNiOEHCSfOydlQnKHTFdRY6ug/DupXGaxkkkszJYQxRftiMs8jmb10XvVO1svEYD43Q==}
     engines: {node: '>=14.7.0'}
     dev: false
 
-  /@markdoc/next.js/0.1.4-1_f63c6e084888a3f13223f71889df0add:
+  /@markdoc/next.js/0.1.4-1_1de246be78039c36a60b7e480757c6d5:
     resolution: {integrity: sha512-16pIWYgdYXboyCdr0+NDPNDu4eHvtuPAtjyzP1T/VW5b7Ls0aCARoiOIfbwruTyQDfsgN/QXNxEj/TAmeY66kw==}
     peerDependencies:
       '@markdoc/markdoc': ^0.1.1
       next: '*'
       react: '*'
     dependencies:
-      '@markdoc/markdoc': 0.1.2
+      '@markdoc/markdoc': 0.1.3
       js-yaml: 4.1.0
       next: 12.1.6_b803a54b102d8cda6f0ac602082a9eab
       react: 18.1.0
@@ -3323,7 +3323,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /bytes/3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -7429,7 +7428,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
