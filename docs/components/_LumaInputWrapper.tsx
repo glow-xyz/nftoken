@@ -50,6 +50,7 @@ export const LumaInputWrapper = ({
         <LuxInputLabel text={label} size={size} />
         <div className="input-wrapper flex-baseline">
           <div className="flex-center flex-1">
+            {/* eslint-disable-next-line */}
             <div className="zero-width-filler">​</div>
             {/*
                 TODO
