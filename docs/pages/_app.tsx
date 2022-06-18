@@ -70,6 +70,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>{pageProps.markdoc?.frontmatter.title}</title>
         <link rel="icon" href="/favicon.png" />
+        <meta property="og:image" content="/share.png" />
       </Head>
 
       <div className="wrapper">
