@@ -88,7 +88,7 @@ importers:
       '@project-serum/anchor': 0.24.2
       '@project-serum/borsh': 0.2.5
       '@project-serum/serum': 0.13.65
-      '@solana/web3.js': 1.43.6
+      '@solana/web3.js': 1.44.1
       '@types/jest': 28.1.1
       '@types/lodash': 4.14.182
       '@typescript-eslint/eslint-plugin': 5.27.1
@@ -111,9 +111,9 @@ importers:
       zod: 3.17.3
     dependencies:
       '@project-serum/anchor': 0.24.2
-      '@project-serum/borsh': 0.2.5_@solana+web3.js@1.43.6
+      '@project-serum/borsh': 0.2.5_@solana+web3.js@1.44.1
       '@project-serum/serum': 0.13.65
-      '@solana/web3.js': 1.43.6
+      '@solana/web3.js': 1.44.1
       '@types/jest': 28.1.1
       '@types/lodash': 4.14.182
       '@typescript-eslint/eslint-plugin': 5.27.1_043f48e0ee10c350c28cdede89899bc7
@@ -1608,7 +1608,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       chalk: 4.1.2
       jest-message-util: 28.1.1
       jest-util: 28.1.1
@@ -1629,14 +1629,14 @@ packages:
       '@jest/test-result': 28.1.1
       '@jest/transform': 28.1.1
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.3.1
       exit: 0.1.2
       graceful-fs: 4.2.10
       jest-changed-files: 28.0.2
-      jest-config: 28.1.1_@types+node@17.0.40
+      jest-config: 28.1.1_@types+node@17.0.41
       jest-haste-map: 28.1.1
       jest-message-util: 28.1.1
       jest-regex-util: 28.0.2
@@ -1664,7 +1664,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 28.1.1
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       jest-mock: 28.1.1
     dev: false
 
@@ -1691,7 +1691,7 @@ packages:
     dependencies:
       '@jest/types': 28.1.1
       '@sinonjs/fake-timers': 9.1.2
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       jest-message-util: 28.1.1
       jest-mock: 28.1.1
       jest-util: 28.1.1
@@ -1723,7 +1723,7 @@ packages:
       '@jest/transform': 28.1.1
       '@jest/types': 28.1.1
       '@jridgewell/trace-mapping': 0.3.13
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
@@ -1812,7 +1812,7 @@ packages:
       '@jest/schemas': 28.0.2
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       '@types/yargs': 17.0.10
       chalk: 4.1.2
     dev: false
@@ -2207,8 +2207,8 @@ packages:
     resolution: {integrity: sha512-oIdm4vTJkUy6GmE6JgqDAuQPKI7XM4TPJkjtoIzp69RZe0iAD9JP2XHx7lV1jLdYXeYHqDXfBt3zcq7W91K6PA==}
     engines: {node: '>=11'}
     dependencies:
-      '@project-serum/borsh': 0.2.5_@solana+web3.js@1.43.6
-      '@solana/web3.js': 1.43.6
+      '@project-serum/borsh': 0.2.5_@solana+web3.js@1.44.1
+      '@solana/web3.js': 1.44.1
       base64-js: 1.5.1
       bn.js: 5.2.1
       bs58: 4.0.1
@@ -2231,8 +2231,8 @@ packages:
     resolution: {integrity: sha512-0/718g8/DnEuwAidUwh5wLYphUYXhUbiClkuRNhvNoa+1Y8a4g2tJyxoae+emV+PG/Gikd/QUBNMkIcimiIRTA==}
     engines: {node: '>=11'}
     dependencies:
-      '@project-serum/borsh': 0.2.5_@solana+web3.js@1.43.6
-      '@solana/web3.js': 1.43.6
+      '@project-serum/borsh': 0.2.5_@solana+web3.js@1.44.1
+      '@solana/web3.js': 1.44.1
       base64-js: 1.5.1
       bn.js: 5.2.1
       bs58: 4.0.1
@@ -2251,13 +2251,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@project-serum/borsh/0.2.5_@solana+web3.js@1.43.6:
+  /@project-serum/borsh/0.2.5_@solana+web3.js@1.44.1:
     resolution: {integrity: sha512-UmeUkUoKdQ7rhx6Leve1SssMR/Ghv8qrEiyywyxSWg7ooV7StdpPBhciiy5eB3T0qU1BXvdRNC8TdrkxK7WC5Q==}
     engines: {node: '>=10'}
     peerDependencies:
       '@solana/web3.js': ^1.2.0
     dependencies:
-      '@solana/web3.js': 1.43.6
+      '@solana/web3.js': 1.44.1
       bn.js: 5.2.1
       buffer-layout: 1.2.2
     dev: false
@@ -2268,7 +2268,7 @@ packages:
     dependencies:
       '@project-serum/anchor': 0.11.1
       '@solana/spl-token': 0.1.8
-      '@solana/web3.js': 1.43.6
+      '@solana/web3.js': 1.44.1
       bn.js: 5.2.1
       buffer-layout: 1.2.2
     transitivePeerDependencies:
@@ -2315,7 +2315,7 @@ packages:
     engines: {node: '>= 10'}
     dependencies:
       '@babel/runtime': 7.18.3
-      '@solana/web3.js': 1.43.6
+      '@solana/web3.js': 1.44.1
       bn.js: 5.2.1
       buffer: 6.0.3
       buffer-layout: 1.2.2
@@ -2353,8 +2353,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@solana/web3.js/1.43.6:
-    resolution: {integrity: sha512-F1Q7EOnLi5X+Ap5bAEi5PTwwXPZR+GTfIyOuWpWJfgm3GoawdP/x5lxJolDzzV5S99bNEU/rSTdxcW9EFzIiEw==}
+  /@solana/web3.js/1.44.1:
+    resolution: {integrity: sha512-s9nJdNAfmQKvn7K+pGcDZyJXhVN0Dy4yX0DzO+8yHSju1dF/RGJCR5TAUaAb3sZJgM+zxgyPu/P16Ji5HkdNOQ==}
     engines: {node: '>=12.20.0'}
     dependencies:
       '@babel/runtime': 7.18.3
@@ -2613,7 +2613,7 @@ packages:
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
     dependencies:
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
     dev: false
 
   /@types/http-cache-semantics/4.0.1:
@@ -2667,10 +2667,6 @@ packages:
 
   /@types/node/12.20.55:
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
-    dev: false
-
-  /@types/node/17.0.40:
-    resolution: {integrity: sha512-UXdBxNGqTMtm7hCwh9HtncFVLrXoqA3oJW30j6XWp5BH/wu3mVeaxo7cq5benFdBw34HB3XDT2TRPI7rXZ+mDg==}
     dev: false
 
   /@types/node/17.0.41:
@@ -3323,7 +3319,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /bytes/3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -5150,7 +5145,7 @@ packages:
       '@jest/expect': 28.1.1
       '@jest/test-result': 28.1.1
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       chalk: 4.1.2
       co: 4.6.0
       dedent: 0.7.0
@@ -5235,7 +5230,7 @@ packages:
       - supports-color
     dev: false
 
-  /jest-config/28.1.1_@types+node@17.0.40:
+  /jest-config/28.1.1_@types+node@17.0.41:
     resolution: {integrity: sha512-tASynMhS+jVV85zKvjfbJ8nUyJS/jUSYZ5KQxLUN2ZCvcQc/OmhQl2j6VEL3ezQkNofxn5pQ3SPYWPHb0unTZA==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     peerDependencies:
@@ -5250,7 +5245,7 @@ packages:
       '@babel/core': 7.18.0
       '@jest/test-sequencer': 28.1.1
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       babel-jest: 28.1.1_@babel+core@7.18.0
       chalk: 4.1.2
       ci-info: 3.3.1
@@ -5319,7 +5314,7 @@ packages:
       '@jest/environment': 28.1.1
       '@jest/fake-timers': 28.1.1
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       jest-mock: 28.1.1
       jest-util: 28.1.1
     dev: false
@@ -5340,7 +5335,7 @@ packages:
     dependencies:
       '@jest/types': 28.1.1
       '@types/graceful-fs': 4.1.5
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       anymatch: 3.1.2
       fb-watchman: 2.0.1
       graceful-fs: 4.2.10
@@ -5401,7 +5396,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
     dev: false
 
   /jest-pnp-resolver/1.2.2_jest-resolve@28.1.1:
@@ -5455,7 +5450,7 @@ packages:
       '@jest/test-result': 28.1.1
       '@jest/transform': 28.1.1
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       chalk: 4.1.2
       emittery: 0.10.2
       graceful-fs: 4.2.10
@@ -5541,7 +5536,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       chalk: 4.1.2
       ci-info: 3.3.1
       graceful-fs: 4.2.10
@@ -5553,7 +5548,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       chalk: 4.1.2
       ci-info: 3.3.1
       graceful-fs: 4.2.10
@@ -5578,7 +5573,7 @@ packages:
     dependencies:
       '@jest/test-result': 28.1.1
       '@jest/types': 28.1.1
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.10.2
@@ -5590,7 +5585,7 @@ packages:
     resolution: {integrity: sha512-Au7slXB08C6h+xbJPp7VIb6U0XX5Kc9uel/WFc6/rcTzGiaVCBRngBExSYuXSLFPULPSYU3cJ3ybS988lNFQhQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     dependencies:
-      '@types/node': 17.0.40
+      '@types/node': 17.0.41
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: false
@@ -7184,7 +7179,7 @@ packages:
     dev: false
 
   /through/2.3.8:
-    resolution: {integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=}
+    resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
     dev: false
 
   /tiny-warning/1.0.3:
@@ -7232,7 +7227,7 @@ packages:
     dev: false
 
   /tr46/0.0.3:
-    resolution: {integrity: sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=}
+    resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
     dev: false
 
   /traverse-chain/0.1.0:
@@ -7429,7 +7424,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -7485,11 +7479,11 @@ packages:
     dev: false
 
   /webidl-conversions/3.0.1:
-    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
     dev: false
 
   /whatwg-url/5.0.0:
-    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
+    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
     dependencies:
       tr46: 0.0.3
       webidl-conversions: 3.0.1
