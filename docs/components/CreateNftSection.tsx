@@ -18,6 +18,7 @@ import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
+import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
 
 type FormData = {
   name: string;
@@ -134,19 +135,14 @@ export const CreateNftSection = () => {
               <ImageDropZone />
 
               <div className="mt-4 flex-end spread">
-                <button
-                  type="submit"
-                  className="luma-button round brand solid flex-center "
-                >
-                  Create NFT
-                </button>
-                <button
-                  type="button"
+                <SubmitButton />
+                <LuxButton
+                  label="Disconnect Wallet"
                   onClick={signOut}
-                  className="ml-2 luma-button round text-secondary flex-center small"
-                >
-                  Disconnect Wallet
-                </button>
+                  color="secondary"
+                  size="small"
+                  variant="link"
+                />
               </div>
             </Form>
           </Formik>
@@ -237,6 +233,20 @@ export const CreateNftSection = () => {
         }
       `}</style>
     </Container>
+  );
+};
+
+const SubmitButton = () => {
+  const { values } = useFormikContext();
+  const data = values as FormData;
+
+  return (
+    <LuxSubmitButton
+      label="Create NFT"
+      rounded
+      color="brand"
+      disabled={!(data.name && data.image)}
+    />
   );
 };
 
