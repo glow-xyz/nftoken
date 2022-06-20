@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import { Header } from "../components/all-pages/Header";
 import { SocialHead } from "../components/SocialHead";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 
