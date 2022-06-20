@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ApiClient } from "./api-client";
 
 const MAX_IMAGE_SIZE = 50_000_000; // 50 megabytes
 
@@ -6,9 +7,7 @@ export class FileTooBigError extends Error {
   message = "The file is too big. Please choose a file that's under 50 MB.";
 }
 
-const GlowAxios = axios.create({ baseURL: "https://api.glow.app" });
-
-export const uploadFileToS3 = async ({
+export const uploadImageToS3 = async ({
   file,
   onUploadProgress,
 }: {
@@ -19,13 +18,14 @@ export const uploadFileToS3 = async ({
     throw new FileTooBigError();
   }
 
-  const {
-    data: { upload_url, file_url },
-  } = await GlowAxios.post<{ file_url: string; upload_url: string }>(
+  const { upload_url, file_url } = await ApiClient.post(
     "/cdn/create-presigned-url",
     {
-      contentType: file.type,
-      destination: { bucket: "cdn.glow.app", folder: "n" },
+      extension: "png",
+      destination: {
+        bucket: "cdn.glow.app",
+        folder: "n",
+      },
     }
   );
 
@@ -44,12 +44,11 @@ export const uploadJsonToS3 = async ({
 }: {
   json: any;
 }): Promise<{ file_url: string }> => {
-  const {
-    data: { upload_url, file_url },
-  } = await GlowAxios.post<{ file_url: string; upload_url: string }>(
+  const { upload_url, file_url } = await ApiClient.post(
     "/cdn/create-presigned-url",
     {
       destination: { bucket: "cdn.glow.app", folder: "n" },
+      extension: "json",
       contentType: "application/json",
     }
   );

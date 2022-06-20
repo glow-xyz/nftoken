@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Footer } from "../components/Footer";
 
 import { GlowProvider } from "@glow-app/glow-react";
 import "@glow-app/glow-react/dist/styles.css";
@@ -17,8 +18,8 @@ import "../public/globals.css";
 import "../styles/app.scss";
 
 const nav = [
-  { title: "Overview", href: "/" },
-  { title: "Getting Started", href: "/getting-started" },
+  { title: "Overview", href: "/overview" },
+  { title: "Create an NFT", href: "/create-an-nft" },
   { title: "Technical Details", href: "/technical-details" },
   { title: "Security", href: "/security" },
   { title: "FAQ", href: "/faq" },
@@ -37,8 +38,8 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingBottom: "1.5rem",
       });
       animate(
-        "nav.mobile a",
-        { opacity: 1, transform: ["translateY(-8px)", "translateY(0)"] },
+        "nav.mobile .nav-item",
+        { opacity: [0, 1], transform: ["translateY(-8px)", "translateY(0)"] },
         { delay: stagger(0.05, { start: 0.05 }) }
       );
       document.body.classList.add("no-scroll");
@@ -49,7 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
         paddingTop: 0,
         paddingBottom: 0,
       });
-      animate("nav.mobile a", { opacity: 0 });
+      animate("nav.mobile .nav-item", { opacity: 0 });
       document.body.classList.remove("no-scroll");
     }
   }, [navOpen]);
@@ -60,11 +61,16 @@ export default function App({ Component, pageProps }: AppProps) {
     setNavOpen(false);
   }, [router.pathname]);
 
+  if (router.pathname === "/") {
+    return <Component {...pageProps} />;
+  }
+
   return (
     <GlowProvider>
       <Head>
         <title>{pageProps.markdoc?.frontmatter.title}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.png" />
+        <meta property="og:image" content="https://nftoken.so/share.png" />
       </Head>
 
       <div className="wrapper">
@@ -79,7 +85,10 @@ export default function App({ Component, pageProps }: AppProps) {
               </button>
 
               <Link href="/">
-                <a className="logo">NFToken</a>
+                <a>
+                  <img src="/logo.svg" className="logo dark" />
+                  <img src="/logo-light.svg" className="logo light" />
+                </a>
               </Link>
             </div>
 
@@ -111,13 +120,15 @@ export default function App({ Component, pageProps }: AppProps) {
             <NextPrev />
           </main>
         </div>
+
+        <Footer />
       </div>
 
       <style jsx>{`
         .wrapper {
           min-height: 100vh;
           display: grid;
-          grid-template-rows: max-content 1fr;
+          grid-template-rows: max-content 1fr max-content;
         }
 
         header {
@@ -148,9 +159,16 @@ export default function App({ Component, pageProps }: AppProps) {
 
         .logo {
           display: block;
-          font-weight: var(--black-font-weight);
-          color: var(--primary-color);
-          margin: 0;
+          height: 1rem;
+          cursor: pointer;
+        }
+
+        :global(body.light) .logo.light {
+          display: none;
+        }
+
+        :global(body.dark) .logo.dark {
+          display: none;
         }
 
         .github {
@@ -196,7 +214,7 @@ export default function App({ Component, pageProps }: AppProps) {
           padding: 0 1.5rem;
 
           position: fixed;
-          background-color: var(--white);
+          background-color: var(--primary-bg-color);
           left: 0;
           right: 0;
           z-index: 100;
@@ -241,29 +259,32 @@ export default function App({ Component, pageProps }: AppProps) {
 function NavContent() {
   const router = useRouter();
 
+  const currentNavItem = nav.find((item) => item.href === router.pathname);
+
   return (
     <>
       <div className="container">
-        <div
-          className="active-highlight"
-          style={{
-            top:
-              nav.indexOf(nav.find((item) => item.href === router.pathname)!) *
-                2.25 +
-              "rem",
-          }}
-        ></div>
+        {currentNavItem && (
+          <div
+            className="active-highlight"
+            style={{
+              top: nav.indexOf(currentNavItem) * 2.25 + "rem",
+            }}
+          ></div>
+        )}
 
         {nav.map((item) => (
-          <Link href={item.href} key={item.title}>
-            <a
-              className={classNames({
-                current: router.pathname === item.href,
-              })}
-            >
-              {item.title}
-            </a>
-          </Link>
+          <div className="nav-item" key={item.title}>
+            <Link href={item.href}>
+              <a
+                className={classNames({
+                  current: router.pathname === item.href,
+                })}
+              >
+                {item.title}
+              </a>
+            </Link>
+          </div>
         ))}
       </div>
 
