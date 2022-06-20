@@ -27,7 +27,7 @@ type FormData = {
 };
 
 export const CreateNftSection = () => {
-  const { user, canSignIn, signOut } = useGlowContext();
+  const { user, glowDetected, signOut } = useGlowContext();
   const [success, setSuccess] = useState(false);
 
   const initialValues: FormData = { name: "", image: null };
@@ -75,7 +75,7 @@ export const CreateNftSection = () => {
       <div>
         <div
           className={classNames("form-section", {
-            blurred: !canSignIn || !user,
+            blurred: !glowDetected || !user,
             invisible: success,
           })}
         >
@@ -160,7 +160,7 @@ export const CreateNftSection = () => {
           </Formik>
         </div>
 
-        {!canSignIn && (
+        {!glowDetected && (
           <div className="overlay text-center">
             <p>
               You’ll need to install{" "}
@@ -172,7 +172,7 @@ export const CreateNftSection = () => {
           </div>
         )}
 
-        {canSignIn && !user && (
+        {glowDetected && !user && (
           <div className="overlay">
             <GlowSignInButton variant="purple" />
           </div>
@@ -180,7 +180,7 @@ export const CreateNftSection = () => {
 
         <div
           className={classNames("success", {
-            visible: success && canSignIn && user,
+            visible: success && glowDetected && user,
           })}
         >
           <div className="success-icon text-success">
