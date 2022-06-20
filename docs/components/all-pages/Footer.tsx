@@ -56,7 +56,8 @@ export const Footer = () => {
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
           .footer-inner {
-            padding: 1.25rem 1.5rem;
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
           }
         }
       `}</style>

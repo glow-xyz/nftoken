@@ -123,8 +123,9 @@ export const Header = () => {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
-          header {
-            padding: 1rem 1.5rem;
+          .header-inner {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
           }
 
           button.mobile-nav {
