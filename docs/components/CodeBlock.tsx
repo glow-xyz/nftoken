@@ -8,8 +8,6 @@ import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
 
-import "prism-themes/themes/prism-xonokai.css";
-
 export const CodeBlock = ({
   content,
   language,
@@ -74,7 +72,7 @@ export const CodeBlock = ({
         }
 
         button {
-          background-color: var(--secondary-color);
+          background-color: var(--tertiary-bg-color);
           padding: 0.3rem;
           line-height: 0;
           border-radius: var(--border-radius);
@@ -93,7 +91,7 @@ export const CodeBlock = ({
         }
 
         button :global(svg) {
-          color: var(--white);
+          color: var(--primary-color);
           grid-column: 1;
           grid-row: 1;
         }
