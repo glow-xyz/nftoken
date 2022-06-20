@@ -8,7 +8,7 @@ import {
 } from "@glow-app/solana-client";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { Field, Form, Formik, useFormikContext } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import confetti from "canvas-confetti";
@@ -17,6 +17,8 @@ import { ACCEPT_IMAGE_PROP, DropZone } from "../components/LuxDropZone";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
+import { LuxInputField } from "../components/LuxInput";
+import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
 
 type FormData = {
   name: string;
@@ -127,28 +129,20 @@ export const CreateNftSection = () => {
           >
             <Form>
               <div className="mb-4">
-                <label htmlFor="name" className="luma-input-label medium">
-                  Name
-                </label>
-                <Field name="name" id="name" className="luma-input" />
+                <LuxInputField label="Name" name="name" required />
               </div>
 
               <ImageDropZone />
 
               <div className="mt-4 flex-end spread">
-                <button
-                  type="submit"
-                  className="luma-button round brand solid flex-center "
-                >
-                  Create NFT
-                </button>
-                <button
-                  type="button"
+                <SubmitButton />
+                <LuxButton
+                  label="Disconnect Wallet"
                   onClick={signOut}
-                  className="ml-2 luma-button round text-secondary flex-center small"
-                >
-                  Disconnect Wallet
-                </button>
+                  color="secondary"
+                  size="small"
+                  variant="link"
+                />
               </div>
             </Form>
           </Formik>
@@ -239,6 +233,20 @@ export const CreateNftSection = () => {
         }
       `}</style>
     </Container>
+  );
+};
+
+const SubmitButton = () => {
+  const { values } = useFormikContext();
+  const data = values as FormData;
+
+  return (
+    <LuxSubmitButton
+      label="Create NFT"
+      rounded
+      color="brand"
+      disabled={!(data.name && data.image)}
+    />
   );
 };
 
