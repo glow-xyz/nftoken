@@ -137,7 +137,10 @@ export default function Index() {
           }
 
           .inner {
-            padding-bottom: 6rem;
+            padding-bottom: 5rem;
+
+            /* No more visual centering necessary. */
+            margin-bottom: 0;
 
             grid-template-columns: 1fr;
             grid-template-rows: max-content max-content;
