@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 importers:
 
@@ -47,17 +47,18 @@ importers:
       react-dom: 18.1.0
       react-dropzone: 14.2.1
       sass: 1.52.3
+      schema-dts: ^1.1.0
       tlds: 1.231.0
       typescript: 4.7.3
       zod: 3.17.3
     dependencies:
       '@glow-app/glow-client': 0.3.0
-      '@glow-app/glow-react': 0.1.1_react-dom@18.1.0+react@18.1.0
+      '@glow-app/glow-react': 0.1.1_ef5jwxihqo6n7gxfmzogljlgcm
       '@glow-app/solana-client': 0.5.0
       '@heroicons/react': 1.0.6_react@18.1.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
-      '@markdoc/next.js': 0.1.4-1_f63c6e084888a3f13223f71889df0add
+      '@markdoc/next.js': 0.1.4-1_6y6g4ccircr7cmrd64mitxyk3u
       '@metaplex-foundation/beet': 0.2.0
       '@svgr/webpack': 6.2.1
       '@types/lodash': 4.14.182
@@ -71,14 +72,15 @@ importers:
       formik: 2.2.9_react@18.1.0
       lodash: 4.17.21
       luxon: 2.4.0
-      motion: 10.10.0_react-dom@18.1.0+react@18.1.0
-      next: 12.1.6_b803a54b102d8cda6f0ac602082a9eab
+      motion: 10.10.0_ef5jwxihqo6n7gxfmzogljlgcm
+      next: 12.1.6_xab2ksyqfwgnu3ykyybaqku6vm
       prism-themes: 1.9.0
       prismjs: 1.28.0
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
       react-dropzone: 14.2.1_react@18.1.0
       sass: 1.52.3
+      schema-dts: 1.1.0_typescript@4.7.3
       tlds: 1.231.0
       typescript: 4.7.3
       zod: 3.17.3
@@ -87,7 +89,7 @@ importers:
       '@types/node': 17.0.41
       '@types/prismjs': 1.26.0
       '@types/react': 18.0.12
-      '@typescript-eslint/parser': 5.27.1_eslint@8.17.0+typescript@4.7.3
+      '@typescript-eslint/parser': 5.27.1_ud6rd4xtew5bv4yhvkvu24pzm4
       eslint: 8.17.0
       eslint-plugin-lodash: 7.4.0_eslint@8.17.0
 
@@ -1522,8 +1524,8 @@ packages:
       - supports-color
     dev: false
 
-  /@glow-app/glow-client/0.3.1:
-    resolution: {integrity: sha512-EDp+cQitiEUt90D/jRXH6ME5GreI+6jb3xo5XKls+I6Vw+09HQVcEGRkCetAG1WS1oZJ7pxVqCL17KGjKGyedg==}
+  /@glow-app/glow-client/0.6.0:
+    resolution: {integrity: sha512-UHQSm2xm7wN1pVfeBVMLWIWQN4mki/x6pgLxTBd2T7QlcjfaobFO+rKb3OtgHpoXRYrmzHYGdHZWCEyqVsjbaA==}
     dependencies:
       bs58: 5.0.0
       buffer: 6.0.3
@@ -1533,13 +1535,13 @@ packages:
       zod: 3.17.3
     dev: false
 
-  /@glow-app/glow-react/0.1.1_react-dom@18.1.0+react@18.1.0:
+  /@glow-app/glow-react/0.1.1_ef5jwxihqo6n7gxfmzogljlgcm:
     resolution: {integrity: sha512-eKv8ZNAYS1aC+JAAIwWsoxbCfAVmN/n/vtIdobKSxwyHPnPu926mypxSaG+bLvpFHQT7MdN7BG1axXWPJpbCFw==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0
       react-dom: ^17.0.0 || ^18.0.0
     dependencies:
-      '@glow-app/glow-client': 0.3.1
+      '@glow-app/glow-client': 0.6.0
       classnames: 2.3.1
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
@@ -1872,7 +1874,7 @@ packages:
     engines: {node: '>=14.7.0'}
     dev: false
 
-  /@markdoc/next.js/0.1.4-1_f63c6e084888a3f13223f71889df0add:
+  /@markdoc/next.js/0.1.4-1_6y6g4ccircr7cmrd64mitxyk3u:
     resolution: {integrity: sha512-16pIWYgdYXboyCdr0+NDPNDu4eHvtuPAtjyzP1T/VW5b7Ls0aCARoiOIfbwruTyQDfsgN/QXNxEj/TAmeY66kw==}
     peerDependencies:
       '@markdoc/markdoc': ^0.1.1
@@ -1881,7 +1883,7 @@ packages:
     dependencies:
       '@markdoc/markdoc': 0.1.2
       js-yaml: 4.1.0
-      next: 12.1.6_b803a54b102d8cda6f0ac602082a9eab
+      next: 12.1.6_xab2ksyqfwgnu3ykyybaqku6vm
       react: 18.1.0
     dev: false
 
@@ -1930,7 +1932,7 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@motionone/react/10.10.0_react-dom@18.1.0+react@18.1.0:
+  /@motionone/react/10.10.0_ef5jwxihqo6n7gxfmzogljlgcm:
     resolution: {integrity: sha512-6NJKT3O4Gz+JqH5QD1S6F3AOB2/wLg+270y+9GrNzf6uqF+PbHlreq3+/EUA/ijgqQ2AFfnabBLQAyXy6tz3gg==}
     peerDependencies:
       react: ^17.0.2
@@ -2794,6 +2796,27 @@ packages:
       typescript: 4.7.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@typescript-eslint/parser/5.27.1_ud6rd4xtew5bv4yhvkvu24pzm4:
+    resolution: {integrity: sha512-7Va2ZOkHi5NP+AZwb5ReLgNF6nWLGTeUJfxdkVUAPPSaAdbWNnFZzLZ4EGGmmiCTg+AwlbE1KyUYTBglosSLHQ==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/scope-manager': 5.27.1
+      '@typescript-eslint/types': 5.27.1
+      '@typescript-eslint/typescript-estree': 5.27.1_typescript@4.7.3
+      debug: 4.3.4
+      eslint: 8.17.0
+      typescript: 4.7.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /@typescript-eslint/scope-manager/5.27.1:
     resolution: {integrity: sha512-fQEOSa/QroWE6fAEg+bJxtRZJTH8NTskggybogHt4H9Da8zd4cJji76gA5SBlR0MgtwF7rebxTbDKB49YUCpAg==}
@@ -3331,7 +3354,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /bytes/3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -5929,12 +5951,12 @@ packages:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
 
-  /motion/10.10.0_react-dom@18.1.0+react@18.1.0:
+  /motion/10.10.0_ef5jwxihqo6n7gxfmzogljlgcm:
     resolution: {integrity: sha512-dHr4pfvLn48cDTj0GMCY6+R/Ny1s6vQa8ktAAEc2uoiun5XiNpfAuhJ0Gz6tnfffHMfJrsR9qWELlPdZKC11hQ==}
     dependencies:
       '@motionone/animation': 10.9.0
       '@motionone/dom': 10.10.0
-      '@motionone/react': 10.10.0_react-dom@18.1.0+react@18.1.0
+      '@motionone/react': 10.10.0_ef5jwxihqo6n7gxfmzogljlgcm
       '@motionone/svelte': 10.10.0
       '@motionone/types': 10.9.0
       '@motionone/vue': 10.10.0
@@ -5971,7 +5993,7 @@ packages:
       type-fest: 2.13.1
     dev: false
 
-  /next/12.1.6_b803a54b102d8cda6f0ac602082a9eab:
+  /next/12.1.6_xab2ksyqfwgnu3ykyybaqku6vm:
     resolution: {integrity: sha512-cebwKxL3/DhNKfg9tPZDQmbRKjueqykHHbgaoG4VBRH3AHQJ2HO0dbKFiS1hPhe1/qgc2d/hFeadsbPicmLD+A==}
     engines: {node: '>=12.22.0'}
     hasBin: true
@@ -6808,7 +6830,7 @@ packages:
       '@babel/runtime': 7.18.3
       eventemitter3: 4.0.7
       uuid: 8.3.2
-      ws: 8.7.0_d6955b83f926115bf12ffeabab6deaae
+      ws: 8.7.0_22kvxa7zeyivx4jp72v2w3pkvy
     optionalDependencies:
       bufferutil: 4.0.6
       utf-8-validate: 5.0.9
@@ -6856,6 +6878,14 @@ packages:
     resolution: {integrity: sha512-6QAm1BgQI88NPYymgGQLCZgvep4FyePDWFpXVK+zNSUgHwlqpJy8VEh8Et0KxTACS4VWwMousBElAZOH9nkkoQ==}
     dependencies:
       loose-envify: 1.4.0
+    dev: false
+
+  /schema-dts/1.1.0_typescript@4.7.3:
+    resolution: {integrity: sha512-vdmbs/5ycj4zyKpZIDqTcy+IZi4s7c38RVAYuDmRi7zgxUT8wRWPMLzg0jr7FjdVunYu9yZ00F3+XcZTTFcTOQ==}
+    peerDependencies:
+      typescript: '>=4.1.0'
+    dependencies:
+      typescript: 4.7.3
     dev: false
 
   /secp256k1/4.0.3:
@@ -7447,7 +7477,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -7606,7 +7635,7 @@ packages:
         optional: true
     dev: false
 
-  /ws/8.7.0_d6955b83f926115bf12ffeabab6deaae:
+  /ws/8.7.0_22kvxa7zeyivx4jp72v2w3pkvy:
     resolution: {integrity: sha512-c2gsP0PRwcLFzUiA8Mkr37/MI7ilIlHQxaEAtd0uNMbVMoy8puJyafRlm0bV9MbGSabUPeLrRRaqIBcFcA2Pqg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
