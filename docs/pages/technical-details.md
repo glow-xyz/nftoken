@@ -38,7 +38,7 @@ NFT Accounts store the data for the NFT.
 
 The `address` of the account is the ID of the NFT. This is a unique identifier.
 
-`data`:
+**Data**
 
 - `authority: Pubkey` — When the NFT is created, the `authority` is set to the creator. The creator can transfer the `authority` to another account.
 - `authority_can_update: bool` — The `authority` can update metadata about the NFT if `authority_can_update` is true. If `authority_can_update` is false, then the NFT is immutable and no one can update the metadata.
@@ -54,7 +54,7 @@ Collection Accounts store the data for the Collection. An NFT belongs to a colle
 
 The `address` of the account is the ID of the Collection. This is a unique identifier.
 
-`data`:
+**Data**
 
 - `authority: Pubkey` — When the collection is created, the `authority` is set to the creator.
 - `authority_can_update: bool` — The `authority` can update the metadata if `authority_can_update` is `true`.
@@ -73,10 +73,6 @@ The creators account is a PDA so the address is derived from the seeds — `['cr
 - `creators: Vec<NftSecondaryCreator>` — The `NftSecondaryCreator` object has an `address: Pubkey`, a `basis_points: u16`, and a `verified: bool`.
 
 When you create the NFT Creators account, the `nft.has_creators` field is automatically marked `true`.
-
-### Royalties
-
-The NFToken program lets you store how much should be paid in royalties to the different creators.
 
 {% callout %}
 
@@ -98,8 +94,8 @@ That being said, we are working on a version of the NFT Metadata spec that will 
 
 ### Metadata Format
 
-We recommend the [OpenSea NFT Metadata Standard](https://docs.opensea.io/docs/metadata-standards#metadata-structure). Most wallets and NFT marketplaces will respect Metadata in that standard, so it's the most portable way to store Metadata..
+We recommend the [OpenSea NFT Metadata Standard](https://docs.opensea.io/docs/metadata-standards#metadata-structure). Most wallets and NFT marketplaces will respect Metadata in that standard, so it's the most portable way to store Metadata.
 
-## Docs
+## Rust Docs
 
 You can find the Rust docs here: [docs.rs/nftoken/latest/nftoken](https://docs.rs/nftoken/latest/nftoken/)

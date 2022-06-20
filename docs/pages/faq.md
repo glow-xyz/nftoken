@@ -6,6 +6,10 @@ title: FAQ
 
 Have a question? Tweet at lead developer [@VictorPontis](https://twitter.com/victorpontis) and we will add the question here.
 
+## Does this work with existing wallets?
+
+We launched support for the NFToken spec in Glow. If you have Glow installed, you can create and send NFToken NFTs from within Glow.
+
 ## How does this compare with the Metaplex NFT Standard?
 
 The Metaplex standard was written built [very quickly](https://twitter.com/aeyakovenko/status/1524798066347237376) and released on top of the SPL Token Program which is designed for Fungible Tokens (not NFTs).
