@@ -84,7 +84,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 {navOpen ? <XIcon /> : <MenuIcon />}
               </button>
 
-              <Link href="/">
+              <Link href="/overview">
                 <a>
                   <img src="/logo.svg" className="logo dark" />
                   <img src="/logo-light.svg" className="logo light" />
