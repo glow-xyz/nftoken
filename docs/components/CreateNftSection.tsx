@@ -146,7 +146,7 @@ export const CreateNftSection = () => {
 
               <ImageDropZone />
 
-              <div className="mt-4 flex-end spread">
+              <div className="mt-4 flex-center spread">
                 <SubmitButton />
                 <LuxButton
                   label="Disconnect Wallet"
