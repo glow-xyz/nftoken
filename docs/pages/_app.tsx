@@ -68,7 +68,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <GlowProvider>
       <Head>
-        <title>{pageProps.markdoc?.frontmatter.title}</title>
+        <title>{pageProps.markdoc?.frontmatter.title} — NFToken</title>
         <link rel="icon" href="/favicon.png" />
         <meta property="og:image" content="https://nftoken.so/share.png" />
       </Head>

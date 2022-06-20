@@ -7,7 +7,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>NFToken</title>
+        <title>NFToken — a simple, inexpensive Solana NFT Standard</title>
         <link rel="icon" href="/favicon.png" />
         <meta property="og:image" content="https://nftoken.so/share.png" />
       </Head>
