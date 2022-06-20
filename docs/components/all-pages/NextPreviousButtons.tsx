@@ -1,5 +1,4 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { LuxButton } from "../LuxButton";
 import { DOC_PAGES } from "./navigation-constants";
