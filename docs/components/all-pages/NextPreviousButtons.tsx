@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { LuxButton } from "../LuxButton";
 import { DOC_PAGES } from "./navigation-constants";
 
 export const NextPreviousButtons = () => {
@@ -17,24 +18,30 @@ export const NextPreviousButtons = () => {
   return (
     <div className="spread">
       {DOC_PAGES[index - 1] ? (
-        <Link href={DOC_PAGES[index - 1].href}>
-          <a className="luma-button round icon-left flex-center p-0">
-            <ChevronLeftIcon />
-            {DOC_PAGES[index - 1].title}
-          </a>
-        </Link>
+        <LuxButton
+          label={DOC_PAGES[index - 1].title}
+          icon={<ChevronLeftIcon />}
+          href={DOC_PAGES[index - 1].href}
+          iconPlacement="left"
+          rounded
+          variant="link"
+          color="brand"
+        />
       ) : (
         // Spacer so the other link goes on the right.
         <div />
       )}
 
       {DOC_PAGES[index + 1] && (
-        <Link href={DOC_PAGES[index + 1].href}>
-          <a className="luma-button round icon-right flex-center p-0">
-            {DOC_PAGES[index + 1].title}
-            <ChevronRightIcon />
-          </a>
-        </Link>
+        <LuxButton
+          label={DOC_PAGES[index + 1].title}
+          icon={<ChevronRightIcon />}
+          href={DOC_PAGES[index + 1].href}
+          iconPlacement="right"
+          rounded
+          variant="link"
+          color="brand"
+        />
       )}
 
       <style jsx>{`
