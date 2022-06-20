@@ -1,3 +1,4 @@
+import React from "react";
 import { Network } from "@glow-app/glow-client";
 import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import {
@@ -40,11 +41,18 @@ export const CreateNftSection = () => {
 
     const shootConfetti = () => {
       confetti({
-        particleCount: 10,
+        particleCount: 40,
         spread: 180,
         startVelocity: 100,
-        gravity: 2,
-        colors: ["#f87171", "#fb923c", "#fbbf24", "#38bdf8", "#a78bfa"],
+        gravity: 3,
+        colors: [
+          "var(--red)",
+          "var(--green)",
+          "var(--barney)",
+          "var(--purple)",
+          "var(--yellow)",
+          "var(--orange)",
+        ],
         angle: 270,
         origin: { y: -1, x: 0.5 },
         disableForReducedMotion: true,
@@ -56,7 +64,11 @@ export const CreateNftSection = () => {
     };
 
     shootConfetti();
-  }, [success]);
+
+    setTimeout(() => {
+      setSuccess(false);
+    }, 7_500);
+  }, [success, setSuccess]);
 
   return (
     <Container>
