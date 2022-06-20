@@ -4,6 +4,10 @@ title: Overview
 
 # {% $markdoc.frontmatter.title %}
 
+```js
+const hi = () => {};
+```
+
 NFToken is a simple, easy to use NFT standard for the Solana blockchain. With NFToken, you can:
 
 - Create NFTs that represent art or other digital assets
