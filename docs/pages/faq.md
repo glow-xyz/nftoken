@@ -6,7 +6,7 @@ title: FAQ
 
 Have a question? Tweet at lead developer [@VictorPontis](https://twitter.com/victorpontis) and we will add the question here.
 
-## What wallets does this work with?
+## Where can I use NFToken NFTs?
 
 We launched support for the NFToken spec in [Glow](https://glow.app). If you have Glow installed, you can create and send NFToken NFTs from within Glow.
 
