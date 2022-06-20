@@ -2,6 +2,7 @@ import { ChevronRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { SocialHead } from "../components/SocialHead";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
+import { Footer } from "../components/all-pages/Footer";
 
 export default function Index() {
   return (
@@ -33,19 +34,22 @@ export default function Index() {
           </div>
           <img src="/sketch.png" alt="" className="graphic" />
         </div>
+
+        <Footer />
       </div>
 
       <style jsx>{`
         .wrapper {
           border-top: 4px solid var(--brand-color);
+          min-height: 100vh;
           display: grid;
-          place-items: center;
-          height: 85vh; /* For visual centering. */
+          grid-template-rows: 1fr max-content;
         }
 
         .inner {
           padding: 1.5rem;
           max-width: 1200px;
+          margin: 0 auto;
 
           display: grid;
           grid-template-columns: 1fr 300px;
@@ -54,7 +58,7 @@ export default function Index() {
         }
 
         .content {
-          margin-top: 2rem;
+          margin-top: 1rem;
         }
 
         .graphic {

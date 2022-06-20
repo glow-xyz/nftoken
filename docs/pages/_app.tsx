@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { Header } from "../components/all-pages/Header";
 import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons";
 import { TabBar } from "../components/all-pages/TabBar";
-import { Footer } from "../components/Footer";
+import { Footer } from "../components/all-pages/Footer";
 import { SocialHead } from "../components/SocialHead";
 import "../public/globals.css";
 import "../styles/app.scss";

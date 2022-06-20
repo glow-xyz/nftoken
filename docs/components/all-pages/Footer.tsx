@@ -1,5 +1,5 @@
-import TwitterIcon from "../icons/Twitter.svg";
-import { ResponsiveBreakpoint } from "../utils/style-constants";
+import TwitterIcon from "../../icons/Twitter.svg";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 export const Footer = () => {
   return (
@@ -23,6 +23,7 @@ export const Footer = () => {
         footer {
           padding: 2rem 1.5rem;
           background-color: var(--tertiary-bg-color);
+          width: 100%;
         }
 
         .footer-inner {
