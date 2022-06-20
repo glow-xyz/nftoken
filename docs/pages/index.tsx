@@ -1,4 +1,4 @@
-import Head from "next/head";
+import { Head } from "../components/Head";
 import Link from "next/link";
 import { ChevronRightIcon } from "@heroicons/react/outline";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
@@ -6,11 +6,7 @@ import { ResponsiveBreakpoint } from "../utils/style-constants";
 export default function Index() {
   return (
     <>
-      <Head>
-        <title>NFToken</title>
-        <link rel="icon" href="/favicon.png" />
-        <meta property="og:image" content="https://nftoken.so/share.png" />
-      </Head>
+      <Head title="NFToken — a simple, inexpensive Solana NFT Standard" />
       <div className="wrapper">
         <div className="inner">
           <div className="content">

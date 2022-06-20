@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+import { Head } from "../components/Head";
 import { Footer } from "../components/Footer";
 
 import { GlowProvider } from "@glow-app/glow-react";
 import "@glow-app/glow-react/dist/styles.css";
 
 import type { AppProps } from "next/app";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import classNames from "classnames";
@@ -67,11 +67,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <GlowProvider>
-      <Head>
-        <title>{pageProps.markdoc?.frontmatter.title}</title>
-        <link rel="icon" href="/favicon.png" />
-        <meta property="og:image" content="https://nftoken.so/share.png" />
-      </Head>
+      <Head title={pageProps.markdoc?.frontmatter.title + " — NFToken"} />
 
       <div className="wrapper">
         <header>
