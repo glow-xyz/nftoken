@@ -63,7 +63,7 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
         .content {
           display: grid;
           grid-template-columns: max-content 1fr;
-          grid-column-gap: 2rem;
+          grid-column-gap: 6rem;
           height: 100%;
 
           width: 100%;
@@ -76,7 +76,7 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
         }
 
         nav.desktop .nav-inner {
-          padding-left: 3rem;
+          padding-left: 0.75rem;
           position: sticky;
           top: 8rem;
         }
@@ -95,7 +95,9 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
         }
 
         main {
-          padding: 3rem 4rem 5rem 4rem;
+          padding-top: 3rem;
+          padding-bottom: 5rem;
+          padding-right: 1.5rem;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {

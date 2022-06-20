@@ -44,17 +44,19 @@ export default function Index() {
           min-height: 100vh;
           display: grid;
           grid-template-rows: 1fr max-content;
-
-          --footer-max-width: 62rem;
         }
 
         .inner {
           padding: 1.5rem;
           margin: 0 auto;
+          max-width: 60rem;
+
+          /* To visually center. */
+          margin-bottom: 4rem;
 
           display: grid;
-          grid-template-columns: 1fr 300px;
-          grid-column-gap: 120px;
+          grid-template-columns: 2fr 1fr;
+          grid-column-gap: 6rem;
           align-items: center;
         }
 
@@ -80,7 +82,7 @@ export default function Index() {
         }
 
         h1 {
-          font-size: 4rem;
+          font-size: 3.5rem;
           font-weight: 500;
           letter-spacing: -0.02em;
         }
@@ -94,25 +96,17 @@ export default function Index() {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.large}) {
-          .wrapper {
-            --footer-max-width: 47rem;
-          }
-
           .graphic {
             max-width: 300px;
             margin: 0 auto;
           }
 
           .inner {
-            grid-template-columns: 1fr 200px;
-          }
-
-          .content {
-            margin-top: 1rem;
+            grid-column-gap: 4rem;
           }
 
           .logo {
-            height: 1rem;
+            height: 1.5rem;
           }
 
           h1 {
@@ -138,10 +132,6 @@ export default function Index() {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.small}) {
-          .wrapper {
-            place-items: start center;
-          }
-
           h1 {
             font-size: 2.5rem;
           }
@@ -151,7 +141,7 @@ export default function Index() {
 
             grid-template-columns: 1fr;
             grid-template-rows: max-content max-content;
-            grid-row-gap: 75px;
+            grid-row-gap: 5rem;
           }
         }
       `}</style>
