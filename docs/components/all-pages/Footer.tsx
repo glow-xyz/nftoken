@@ -26,9 +26,13 @@ export const Footer = () => {
           width: 100%;
         }
 
+        :global(body) {
+          --footer-max-width: 52rem;
+        }
+
         .footer-inner {
+          max-width: var(--footer-max-width);
           width: 100%;
-          max-width: 52rem;
           margin: 0 auto;
         }
 

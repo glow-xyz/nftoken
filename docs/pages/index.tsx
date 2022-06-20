@@ -44,11 +44,12 @@ export default function Index() {
           min-height: 100vh;
           display: grid;
           grid-template-rows: 1fr max-content;
+
+          --footer-max-width: 62rem;
         }
 
         .inner {
           padding: 1.5rem;
-          max-width: 1200px;
           margin: 0 auto;
 
           display: grid;
@@ -93,6 +94,10 @@ export default function Index() {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.large}) {
+          .wrapper {
+            --footer-max-width: 47rem;
+          }
+
           .graphic {
             max-width: 300px;
             margin: 0 auto;
@@ -111,7 +116,7 @@ export default function Index() {
           }
 
           h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 600;
           }
 
@@ -135,6 +140,10 @@ export default function Index() {
         @media (max-width: ${ResponsiveBreakpoint.small}) {
           .wrapper {
             place-items: start center;
+          }
+
+          h1 {
+            font-size: 2.5rem;
           }
 
           .inner {
