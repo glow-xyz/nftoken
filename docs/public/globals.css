@@ -51,6 +51,7 @@ article code:not(pre code) {
   color: var(--red-50);
   padding: 0.2em 0.4em;
   border-radius: var(--border-radius);
+  overflow-wrap: anywhere;
 }
 
 body.dark article code:not(pre code) {

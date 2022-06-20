@@ -101,10 +101,6 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
-          .wrapper {
-            display: block;
-          }
-
           .content {
             display: block;
           }
