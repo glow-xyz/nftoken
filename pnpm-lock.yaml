@@ -14,7 +14,7 @@ importers:
     specifiers:
       '@glow-app/glow-client': 0.3.0
       '@glow-app/glow-react': 0.1.1
-      '@glow-app/solana-client': 0.5.0
+      '@glow-app/solana-client': 0.6.1
       '@heroicons/react': 1.0.6
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
@@ -49,7 +49,7 @@ importers:
     dependencies:
       '@glow-app/glow-client': 0.3.0
       '@glow-app/glow-react': 0.1.1_react-dom@18.1.0+react@18.1.0
-      '@glow-app/solana-client': 0.5.0
+      '@glow-app/solana-client': 0.6.1
       '@heroicons/react': 1.0.6_react@18.1.0
       '@lux-org/sass': 0.46.0
       '@markdoc/markdoc': 0.1.2
@@ -1514,8 +1514,8 @@ packages:
       - supports-color
     dev: false
 
-  /@glow-app/glow-client/0.3.1:
-    resolution: {integrity: sha512-EDp+cQitiEUt90D/jRXH6ME5GreI+6jb3xo5XKls+I6Vw+09HQVcEGRkCetAG1WS1oZJ7pxVqCL17KGjKGyedg==}
+  /@glow-app/glow-client/0.6.0:
+    resolution: {integrity: sha512-UHQSm2xm7wN1pVfeBVMLWIWQN4mki/x6pgLxTBd2T7QlcjfaobFO+rKb3OtgHpoXRYrmzHYGdHZWCEyqVsjbaA==}
     dependencies:
       bs58: 5.0.0
       buffer: 6.0.3
@@ -1531,17 +1531,17 @@ packages:
       react: ^17.0.0 || ^18.0.0
       react-dom: ^17.0.0 || ^18.0.0
     dependencies:
-      '@glow-app/glow-client': 0.3.1
+      '@glow-app/glow-client': 0.6.0
       classnames: 2.3.1
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
     dev: false
 
-  /@glow-app/solana-client/0.5.0:
-    resolution: {integrity: sha512-ZvXpCkR58JX/Z6mOdOu0onw2FOEwkY43ixdS/YQ1oh6fPlo3klLtO8LKfYY/qCY+q5bbrXrMp6SH5ONY4PM4xw==}
+  /@glow-app/solana-client/0.6.1:
+    resolution: {integrity: sha512-+oRkRnS0Z4AwzVZgl7NOd4z10c7tHwJFBL6EVCS5PJLSvc5H/SWADjg6y0OHCeOHz2bbz9up3YDptu8ggYNs4A==}
     dependencies:
       '@metaplex-foundation/beet': 0.2.0
-      '@solana/web3.js': 1.43.4
+      '@solana/web3.js': 1.44.1
       axios: 0.27.2
       bignumber.js: 9.0.2
       bn.js: 5.2.1
@@ -1550,7 +1550,7 @@ packages:
       js-sha256: 0.9.0
       lodash: 4.17.21
       luxon: 2.4.0
-      p-limit: 3.1.0
+      p-limit: 3.0.1
       rimraf: 3.0.2
       tweetnacl: 1.0.3
       zod: 3.17.3
@@ -2326,10 +2326,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@solana/web3.js/1.43.4:
-    resolution: {integrity: sha512-9+c965R3vjIRIfUFQtKfaG8BM4tVoo/fp4DvmqHAGLTaeHilVsRdyXszW6+Ues5KczgBejlp62k2SeUcbOibUg==}
+  /@solana/web3.js/1.43.6:
+    resolution: {integrity: sha512-F1Q7EOnLi5X+Ap5bAEi5PTwwXPZR+GTfIyOuWpWJfgm3GoawdP/x5lxJolDzzV5S99bNEU/rSTdxcW9EFzIiEw==}
     engines: {node: '>=12.20.0'}
-    deprecated: This version introduced a bug that could cause certain transactions to fail signature verification when used with certain wallets.
     dependencies:
       '@babel/runtime': 7.18.3
       '@ethersproject/sha2': 5.6.1
@@ -2353,8 +2352,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@solana/web3.js/1.43.6:
-    resolution: {integrity: sha512-F1Q7EOnLi5X+Ap5bAEi5PTwwXPZR+GTfIyOuWpWJfgm3GoawdP/x5lxJolDzzV5S99bNEU/rSTdxcW9EFzIiEw==}
+  /@solana/web3.js/1.44.1:
+    resolution: {integrity: sha512-s9nJdNAfmQKvn7K+pGcDZyJXhVN0Dy4yX0DzO+8yHSju1dF/RGJCR5TAUaAb3sZJgM+zxgyPu/P16Ji5HkdNOQ==}
     engines: {node: '>=12.20.0'}
     dependencies:
       '@babel/runtime': 7.18.3
@@ -3323,7 +3322,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /bytes/3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -6215,11 +6213,11 @@ packages:
       p-try: 2.2.0
     dev: false
 
-  /p-limit/3.1.0:
-    resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
+  /p-limit/3.0.1:
+    resolution: {integrity: sha512-mw/p92EyOzl2MhauKodw54Rx5ZK4624rNfgNaBguFZkHzyUG9WsDzFF5/yQVEJinbJDdP4jEfMN+uBquiGnaLg==}
     engines: {node: '>=10'}
     dependencies:
-      yocto-queue: 0.1.0
+      p-try: 2.2.0
     dev: false
 
   /p-limit/4.0.0:
@@ -7184,7 +7182,7 @@ packages:
     dev: false
 
   /through/2.3.8:
-    resolution: {integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=}
+    resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
     dev: false
 
   /tiny-warning/1.0.3:
@@ -7232,7 +7230,7 @@ packages:
     dev: false
 
   /tr46/0.0.3:
-    resolution: {integrity: sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=}
+    resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
     dev: false
 
   /traverse-chain/0.1.0:
@@ -7429,7 +7427,6 @@ packages:
     dependencies:
       node-gyp-build: 4.4.0
     dev: false
-    optional: true
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -7485,11 +7482,11 @@ packages:
     dev: false
 
   /webidl-conversions/3.0.1:
-    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
     dev: false
 
   /whatwg-url/5.0.0:
-    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
+    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
     dependencies:
       tr46: 0.0.3
       webidl-conversions: 3.0.1
@@ -7556,7 +7553,7 @@ packages:
     dev: false
 
   /wrappy/1.0.2:
-    resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
+    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
   /write-file-atomic/3.0.3:
     resolution: {integrity: sha512-AvHcyZ5JnSfq3ioSyjrBkH9yW4m7Ayk8/9My/DD9onKeu/94fwrMocemO2QAJFAlnnDN+ZDS+ZjAR5ua1/PV/Q==}
@@ -7651,11 +7648,6 @@ packages:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.0.1
-    dev: false
-
-  /yocto-queue/0.1.0:
-    resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
-    engines: {node: '>=10'}
     dev: false
 
   /yocto-queue/1.0.0:
