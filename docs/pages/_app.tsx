@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { Header } from "../components/all-pages/Header";
 import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons";
 import { TabBar } from "../components/all-pages/TabBar";
-import { Footer } from "../components/Footer";
+import { Footer } from "../components/all-pages/Footer";
 import { SocialHead } from "../components/SocialHead";
 import "../public/globals.css";
 import "../styles/app.scss";
@@ -63,7 +63,7 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
         .content {
           display: grid;
           grid-template-columns: max-content 1fr;
-          grid-column-gap: 2rem;
+          grid-column-gap: 6rem;
           height: 100%;
 
           width: 100%;
@@ -76,7 +76,7 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
         }
 
         nav.desktop .nav-inner {
-          padding-left: 3rem;
+          padding-left: 0.75rem;
           position: sticky;
           top: 8rem;
         }
@@ -95,14 +95,12 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
         }
 
         main {
-          padding: 3rem 4rem 5rem 4rem;
+          padding-top: 3rem;
+          padding-bottom: 5rem;
+          padding-right: 1.5rem;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
-          .wrapper {
-            display: block;
-          }
-
           .content {
             display: block;
           }
