@@ -8,8 +8,6 @@ import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
 
-import "prism-themes/themes/prism-xonokai.css";
-
 export const CodeBlock = ({
   content,
   language,
