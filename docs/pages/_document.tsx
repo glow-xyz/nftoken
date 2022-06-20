@@ -16,15 +16,24 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <script async src="https://www.googletagmanager.com/gtag/js?id=G-VC8X7BD6TD"></script>
-          <script>
-            <!-- Google Analytics -->
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { window.dataLayer.push(arguments); }
-            gtag('js', new Date());
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-VC8X7BD6TD"
+          ></script>
+          <script
+            data-cfasync={false}
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                  window.dataLayer.push(arguments);
+                }
+                gtag('js', new Date());
 
-            gtag('config', 'G-VC8X7BD6TD');
-          </script>
+                gtag('config', 'G-VC8X7BD6TD');
+              `,
+            }}
+          />
         </Head>
 
         <body>
