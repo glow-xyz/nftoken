@@ -1,4 +1,5 @@
 import TwitterIcon from "../icons/Twitter.svg";
+import { LuxButton } from "./LuxButton";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 
 export const Footer = () => {
@@ -10,13 +11,16 @@ export const Footer = () => {
           <img className="light" src="/glow-logo-light.svg" />
         </a>
 
-        <a
+        <LuxButton
+          label="Twitter"
+          icon={<TwitterIcon />}
           href="https://twitter.com/glowwallet"
-          target="_blank"
-          className="twitter luma-button link rounded round icon-only"
-        >
-          <TwitterIcon />
-        </a>
+          iconPlacement="icon-only"
+          color="twitter"
+          variant="link"
+          rounded
+          size="large"
+        />
       </div>
 
       <style jsx>{`
