@@ -6,9 +6,11 @@ title: FAQ
 
 Have a question? Tweet at lead developer [@VictorPontis](https://twitter.com/victorpontis) and we will add the question here.
 
-## Does this work with existing wallets?
+## What wallets does this work with?
 
-We launched support for the NFToken spec in Glow. If you have Glow installed, you can create and send NFToken NFTs from within Glow.
+We launched support for the NFToken spec in [Glow](https://glow.app). If you have Glow installed, you can create and send NFToken NFTs from within Glow.
+
+If your favorite wallet doesn't support the NFToken spec, let them know that you'd like them to add it.
 
 ## How does this compare with the Metaplex NFT Standard?
 
