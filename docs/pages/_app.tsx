@@ -1,21 +1,20 @@
-import { useState, useEffect } from "react";
-import { Footer } from "../components/Footer";
-
 import { GlowProvider } from "@glow-app/glow-react";
 import "@glow-app/glow-react/dist/styles.css";
-
-import type { AppProps } from "next/app";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { animate, stagger } from "motion";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
-import { MenuIcon, XIcon, ExternalLinkIcon } from "@heroicons/react/solid";
 
-import { ResponsiveBreakpoint } from "../utils/style-constants";
+import type { AppProps } from "next/app";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Footer } from "../components/Footer";
+import { SocialHead } from "../components/SocialHead";
 import "../public/globals.css";
 import "../styles/app.scss";
+
+import { ResponsiveBreakpoint } from "../utils/style-constants";
 
 const nav = [
   { title: "Overview", href: "/overview" },
@@ -67,11 +66,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <GlowProvider>
-      <Head>
-        <title>{pageProps.markdoc?.frontmatter.title}</title>
-        <link rel="icon" href="/favicon.png" />
-        <meta property="og:image" content="https://nftoken.so/share.png" />
-      </Head>
+      <SocialHead subtitle={pageProps.markdoc?.frontmatter.title} />
 
       <div className="wrapper">
         <header>
