@@ -158,32 +158,32 @@ const LuxModalHeader = ({
         .lu-modal-header {
           padding: var(--modal-header-footer-padding);
           border-bottom: 1px solid var(--divider-color);
+        }
 
-          .title {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            font-weight: var(--bold-font-weight);
+        .title {
+          color: var(--primary-color);
+          font-size: 1.1rem;
+          font-weight: var(--bold-font-weight);
+        }
+
+        .close {
+          padding: 0;
+          border: 0;
+          border-radius: 100px;
+          background-color: var(--secondary-color);
+          color: var(--modal-bg-color);
+          width: 1.25rem;
+          height: 1.25rem;
+
+          opacity: 0.75;
+
+          &:hover {
+            opacity: 1;
           }
+        }
 
-          .close {
-            padding: 0;
-            border: 0;
-            border-radius: 100px;
-            background-color: var(--secondary-color);
-            color: var(--modal-bg-color);
-            width: 1.25rem;
-            height: 1.25rem;
-
-            opacity: 0.75;
-
-            &:hover {
-              opacity: 1;
-            }
-          }
-
-          @media (max-width: ${ResponsiveBreakpoint.tiny}) {
-            background-color: var(--modal-header-bg-color);
-          }
+        @media (max-width: ${ResponsiveBreakpoint.tiny}) {
+          background-color: var(--modal-header-bg-color);
         }
       `}</style>
     </div>
