@@ -32,7 +32,13 @@ export default function Index() {
               </Link>
             </div>
           </div>
-          <img src="/sketch.png" alt="" className="graphic" />
+          <img
+            src="/sketch.png"
+            alt=""
+            width="342"
+            height="352"
+            className="graphic"
+          />
         </div>
 
         <Footer />
@@ -49,6 +55,7 @@ export default function Index() {
         .inner {
           padding: 1.5rem;
           margin: 0 auto;
+          width: 100%;
           max-width: 60rem;
 
           /* To visually center. */
@@ -65,7 +72,8 @@ export default function Index() {
         }
 
         .graphic {
-          width: 100%;
+          max-width: 100%;
+          height: auto;
           display: block;
         }
 
@@ -96,11 +104,6 @@ export default function Index() {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.large}) {
-          .graphic {
-            max-width: 300px;
-            margin: 0 auto;
-          }
-
           .inner {
             grid-column-gap: 4rem;
           }
@@ -136,7 +139,13 @@ export default function Index() {
             font-size: 2.5rem;
           }
 
+          .graphic {
+            width: 250px;
+            margin: 0 auto;
+          }
+
           .inner {
+            width: auto; /* To center everything horizontally. */
             padding-bottom: 5rem;
 
             /* No more visual centering necessary. */
