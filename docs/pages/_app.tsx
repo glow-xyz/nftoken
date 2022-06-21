@@ -56,8 +56,6 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
       <style jsx>{`
         .wrapper {
           min-height: 100vh;
-          display: grid;
-          grid-template-rows: max-content 1fr max-content;
         }
 
         .content {
