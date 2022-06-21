@@ -43,7 +43,7 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
             <TabBar />
           </nav>
 
-          <main>
+          <main className={"min-width-0"}>
             <Component {...pageProps} />
 
             <NextPreviousButtons />
