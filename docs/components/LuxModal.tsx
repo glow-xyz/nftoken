@@ -95,7 +95,6 @@ export const LuxModalContainer = ({
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEscape = (event: KeyboardEvent) => {
