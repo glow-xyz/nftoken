@@ -96,6 +96,7 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
           padding-top: 3rem;
           padding-bottom: 5rem;
           padding-right: 1.5rem;
+          min-height: 90vh; // Push the footer down on small pages
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
