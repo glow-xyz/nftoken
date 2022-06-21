@@ -1,5 +1,5 @@
 import TwitterIcon from "../../icons/Twitter.svg";
-import { LuxButton } from "./LuxButton";
+import { LuxButton } from "../LuxButton";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 export const Footer = () => {
