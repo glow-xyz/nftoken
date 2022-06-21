@@ -8,7 +8,7 @@ With a Mintlist, you can set up a website or app where users can mint NFTs for a
 
 ## Comparison to Metaplex's CandyMachine
 
-The Mintlist is similar to [Metaplex's CandyMachine program](https://docs.metaplex.com/candy-machine-v2/introduction) with a few differences:
+The Mintlist is similar to [Metaplex's CandyMachine](https://docs.metaplex.com/candy-machine-v2/introduction) with a few differences:
 
 1. Mintlists are cheaper than CandyMachines.
 2. The Mintlist program is built into the NFToken spec while the CandyMachine program requires the SPL Token program and the Metaplex Metadata program.
