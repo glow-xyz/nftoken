@@ -67,7 +67,6 @@ export const Header = () => {
 
       <style jsx>{`
         header {
-          padding: 1.2rem 3rem;
           border-top: 4px solid var(--brand-color);
           border-bottom: 1px solid var(--secondary-border-color);
           position: sticky;
@@ -78,8 +77,9 @@ export const Header = () => {
 
         .header-inner {
           width: 100%;
-          max-width: 53rem;
           margin: 0 auto;
+          max-width: 60rem;
+          padding: 1.5rem;
         }
 
         button.mobile-nav {
@@ -123,8 +123,9 @@ export const Header = () => {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
-          header {
-            padding: 1rem 1.5rem;
+          .header-inner {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
           }
 
           button.mobile-nav {

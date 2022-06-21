@@ -1,1 +1,9 @@
 @import "node_modules/@lux-org/sass/styles/app";
+
+body.light {
+  @import "node_modules/prism-themes/themes/prism-one-light";
+}
+
+body.dark {
+  @import "node_modules/prism-themes/themes/prism-one-dark";
+}

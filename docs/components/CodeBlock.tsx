@@ -8,8 +8,6 @@ import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
 
-import "prism-themes/themes/prism-xonokai.css";
-
 export const CodeBlock = ({
   content,
   language,
@@ -48,33 +46,35 @@ export const CodeBlock = ({
 
   return (
     <>
-      <div>
+      <div className={"code-container rounded"}>
         <pre
           dangerouslySetInnerHTML={{ __html: html }}
           // This class makes the Prism theme apply.
           className={`language-${language}`}
         />
 
-        <button onClick={handleCopy}>
+        <button className="copy-button" onClick={handleCopy}>
           <ClipboardIcon ref={copyIcon} />
           <CheckIcon ref={successIcon} />
         </button>
       </div>
 
       <style jsx>{`
-        div {
+        .code-container {
           position: relative;
+          overflow: hidden;
         }
 
-        pre {
+        .code-container pre {
           border-radius: var(--border-radius);
 
           /* Overriding the Prism theme. */
+          margin: 0;
           border: none;
         }
 
-        button {
-          background-color: var(--secondary-color);
+        .copy-button {
+          background-color: var(--tertiary-bg-color);
           padding: 0.3rem;
           line-height: 0;
           border-radius: var(--border-radius);
@@ -93,7 +93,7 @@ export const CodeBlock = ({
         }
 
         button :global(svg) {
-          color: var(--white);
+          color: var(--primary-color);
           grid-column: 1;
           grid-row: 1;
         }

@@ -2,6 +2,7 @@ import { ChevronRightIcon } from "@heroicons/react/outline";
 import { SocialHead } from "../components/SocialHead";
 import { LuxButton } from "../components/LuxButton";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
+import { Footer } from "../components/all-pages/Footer";
 
 export default function Index() {
   return (
@@ -40,28 +41,34 @@ export default function Index() {
           </div>
           <img src="/sketch.png" alt="" className="graphic" />
         </div>
+
+        <Footer />
       </div>
 
       <style jsx>{`
         .wrapper {
           border-top: 4px solid var(--brand-color);
+          min-height: 100vh;
           display: grid;
-          place-items: center;
-          height: 85vh; /* For visual centering. */
+          grid-template-rows: 1fr max-content;
         }
 
         .inner {
           padding: 1.5rem;
-          max-width: 1200px;
+          margin: 0 auto;
+          max-width: 60rem;
+
+          /* To visually center. */
+          margin-bottom: 4rem;
 
           display: grid;
-          grid-template-columns: 1fr 300px;
-          grid-column-gap: 120px;
+          grid-template-columns: 2fr 1fr;
+          grid-column-gap: 6rem;
           align-items: center;
         }
 
         .content {
-          margin-top: 2rem;
+          margin-top: 1rem;
         }
 
         .graphic {
@@ -82,7 +89,7 @@ export default function Index() {
         }
 
         h1 {
-          font-size: 4rem;
+          font-size: 3.5rem;
           font-weight: 500;
           letter-spacing: -0.02em;
         }
@@ -99,19 +106,15 @@ export default function Index() {
           }
 
           .inner {
-            grid-template-columns: 1fr 200px;
-          }
-
-          .content {
-            margin-top: 1rem;
+            grid-column-gap: 4rem;
           }
 
           .logo {
-            height: 1rem;
+            height: 1.5rem;
           }
 
           h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 600;
           }
 
@@ -130,16 +133,19 @@ export default function Index() {
         }
 
         @media (max-width: ${ResponsiveBreakpoint.small}) {
-          .wrapper {
-            place-items: start center;
+          h1 {
+            font-size: 2.5rem;
           }
 
           .inner {
-            padding-bottom: 6rem;
+            padding-bottom: 5rem;
+
+            /* No more visual centering necessary. */
+            margin-bottom: 0;
 
             grid-template-columns: 1fr;
             grid-template-rows: max-content max-content;
-            grid-row-gap: 75px;
+            grid-row-gap: 5rem;
           }
         }
       `}</style>
