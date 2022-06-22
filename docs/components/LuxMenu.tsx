@@ -213,7 +213,7 @@ export const LuxBaseMenu = ({
         }
 
         .menu-arrow,
-        .menu-arrow:before {
+        .menu-arrow::before {
           position: absolute;
           width: 8px;
           height: 8px;
@@ -225,35 +225,35 @@ export const LuxBaseMenu = ({
           visibility: hidden;
         }
 
-        .menu-arrow:before {
+        .menu-arrow::before {
           visibility: visible;
           content: "";
           transform: rotate(45deg);
         }
 
-        .manu-wrapper[data-popper-placement^="top"] .menu-arrow {
+        .menu-wrapper[data-popper-placement^="top"] .menu-arrow {
           bottom: -4px;
         }
 
-        .manu-wrapper[data-popper-placement^="top"] .menu-arrow:before {
+        .menu-wrapper[data-popper-placement^="top"] .menu-arrow::before {
           border-bottom: 1px solid var(--menu-border-color);
           border-right: 1px solid var(--menu-border-color);
         }
 
-        .manu-wrapper[data-popper-placement^="bottom"] .menu-arrow {
+        .menu-wrapper[data-popper-placement^="bottom"] .menu-arrow {
           top: -4px;
         }
 
-        .manu-wrapper[data-popper-placement^="bottom"] .menu-arrow:before {
+        .menu-wrapper[data-popper-placement^="bottom"] .menu-arrow::before {
           border-top: 1px solid var(--menu-border-color);
           border-left: 1px solid var(--menu-border-color);
         }
 
-        .manu-wrapper[data-popper-placement^="left"] .menu-arrow {
+        .menu-wrapper[data-popper-placement^="left"] .menu-arrow {
           right: -4px;
         }
 
-        .manu-wrapper[data-popper-placement^="left"] .menu-arrow:before {
+        .menu-wrapper[data-popper-placement^="left"] .menu-arrow::before {
           border-left: 1px solid var(--menu-border-color);
           border-bottom: 1px solid var(--menu-border-color);
         }
@@ -262,19 +262,19 @@ export const LuxBaseMenu = ({
           left: -4px;
         }
 
-        .menu-wrapper[data-popper-placement^="right"] > .menu-arrow:before {
+        .menu-wrapper[data-popper-placement^="right"] > .menu-arrow::before {
           border-right: 1px solid var(--menu-border-color);
           border-top: 1px solid var(--menu-border-color);
         }
 
         .menu-wrapper.inverted .menu,
         .menu-wrapper.inverted .menu-arrow,
-        .menu-wrapper.inverted .menu-arrow:before {
+        .menu-wrapper.inverted .menu-arrow::before {
           background-color: var(--menu-inverted-bg-color);
         }
 
         .menu-wrapper.inverted .menu,
-        .menu-wrapper.inverted .menu-arrow:before {
+        .menu-wrapper.inverted .menu-arrow::before {
           border-color: var(--menu-inverted-border-color);
         }
       `}</style>
