@@ -38,15 +38,30 @@ NFT Accounts store the data for the NFT.
 
 The `address` of the account is the ID of the NFT. This is a unique identifier.
 
-**Data**
+{% attribute-table title="NFT Account Attributes" %}
+{% attribute-row attribute="authority" type="Pubkey" %}
+When the NFT is created, the `authority` is set to the creator. The creator can transfer the `authority` to another account.
+{% /attribute-row %}
+{% attribute-row attribute="authority_can_update" type="boolean" %}
+The `authority` can update metadata about the NFT if `authority_can_update` is true. If `authority_can_update` is false, then the NFT is immutable and no one can update the metadata.
+{% /attribute-row %}
+{% attribute-row attribute="holder" type="Pubkey" %}
+This is who currently owns the NFT.
+{% /attribute-row %}
+{% attribute-row attribute="delegate" type="Pubkey" %}
+The `delegate` has permission to transfer the NFT once. This is useful for selling an NFT on the marketplace. When you list your NFT on a marketplace, the marketplace program will update the delegate to an account owned by the marketplace. When the NFT is sold, the marketplace uses the `delegate` to fulfill the sale and transfer the NFT to the new `holder`.
+{% /attribute-row %}
+{% attribute-row attribute="metadata_url" type="string" %}
+This is a string that points to a URL where the NFT metadata is stored.
+{% /attribute-row %}
+{% attribute-row attribute="collection" type="Pubkey" %}
+This is the collection that the NFT belongs to. This is a verified field — you cannot assign an NFT to a collection without permission.
+{% /attribute-row %}
+{% attribute-row attribute="is_frozen" type="boolean" %}
+A frozen NFT cannot be transferred. This field can be changed by the `authority` if the NFT has `authority_can_update` equal to true.
+{% /attribute-row %}
 
-- `authority: Pubkey` — When the NFT is created, the `authority` is set to the creator. The creator can transfer the `authority` to another account.
-- `authority_can_update: bool` — The `authority` can update metadata about the NFT if `authority_can_update` is true. If `authority_can_update` is false, then the NFT is immutable and no one can update the metadata.
-- `holder: Pubkey` — This is who currently owns the NFT.
-- `delegate: Pubkey` — The `delegate` has permission to transfer the NFT once. This is useful for selling an NFT on the marketplace. When you list your NFT on a marketplace, the marketplace program will update the delegate to an account owned by the marketplace. When the NFT is sold, the marketplace uses the `delegate` to fulfill the sale and transfer the NFT to the new `holder`.
-- `metadata_url: String` — This is a string that points to a URL where the NFT metadata is stored.
-- `collection: Pubkey` — This is the collection that the NFT belongs to. This is a verified field — you cannot assign an NFT to a collection without permission.
-- `is_frozen: bool` — A frozen NFT cannot be transferred. This field can be changed by the `authority` if the NFT has `authority_can_update` equal to true.
+{% /attribute-table %}
 
 ### Collection Account
 
