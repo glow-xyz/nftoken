@@ -20,6 +20,7 @@ import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
 import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
+import { LuxMenu } from "./LuxMenu";
 
 type FormData = {
   name: string;
@@ -72,13 +73,14 @@ export const CreateNftSection = () => {
 
   return (
     <Container>
-      <div>
+      <>
         <div
           className={classNames("form-section", {
             blurred: !glowDetected || !user,
             invisible: success,
           })}
         >
+          <NetworkSwitcher />
           <Formik
             initialValues={initialValues}
             onSubmit={async ({ name, image }, { resetForm }) => {
@@ -190,7 +192,7 @@ export const CreateNftSection = () => {
             <span>Your NFT has been minted!</span>
           </p>
         </div>
-      </div>
+      </>
 
       <style jsx>{`
         .overlay {
@@ -319,6 +321,34 @@ const ImageDropZone = () => {
         }
       `}</style>
     </div>
+  );
+};
+
+const NetworkSwitcher = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <LuxMenu
+      trigger={<LuxButton label="Mainnet" />}
+      open={open}
+      setOpen={setOpen}
+      placement="top-start"
+      rows={[
+        {
+          key: "mainnet",
+          name: "Mainnet",
+          onClick: () => {
+            console.log("mainnet!");
+          },
+        },
+        {
+          key: "devnet",
+          name: "Devnet",
+          onClick: () => {
+            console.log("devnet!");
+          },
+        },
+      ]}
+    />
   );
 };
 
