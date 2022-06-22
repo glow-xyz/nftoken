@@ -7,7 +7,7 @@ import {
   GTransaction,
   SolanaClient,
 } from "@glow-app/solana-client";
-import { BadgeCheckIcon } from "@heroicons/react/outline";
+import { BadgeCheckIcon, ChevronDownIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Form, Formik, useFormikContext } from "formik";
 import { useState, useEffect } from "react";
@@ -80,7 +80,10 @@ export const CreateNftSection = () => {
             invisible: success,
           })}
         >
-          <NetworkSwitcher />
+          <div className="network-switcher">
+            <NetworkSwitcher />
+          </div>
+
           <Formik
             initialValues={initialValues}
             onSubmit={async ({ name, image }, { resetForm }) => {
@@ -245,6 +248,12 @@ export const CreateNftSection = () => {
           height: 1.5rem;
           width: 1.5rem;
         }
+
+        .network-switcher {
+          position: absolute;
+          top: 0.25rem;
+          right: 1rem;
+        }
       `}</style>
     </Container>
   );
@@ -324,11 +333,19 @@ const ImageDropZone = () => {
   );
 };
 
-const NetworkSwitcher = () => {
+const NetworkSwitcher = ({}) => {
   const [open, setOpen] = useState(false);
   return (
     <LuxMenu
-      trigger={<LuxButton label="Mainnet" />}
+      trigger={
+        <LuxButton
+          label="Mainnet"
+          variant="link"
+          icon={<ChevronDownIcon />}
+          iconPlacement="right"
+          size="small"
+        />
+      }
       open={open}
       setOpen={setOpen}
       placement="bottom-start"
