@@ -26,8 +26,6 @@ export const AttributeTable = ({
         section {
           margin-top: 2rem;
           margin-bottom: 3rem;
-          border-left: 3px solid var(--brand-color);
-          padding-left: 1rem;
         }
 
         section > :global(div:not(:last-child)) {
