@@ -348,7 +348,7 @@ const NetworkSwitcher = ({}) => {
       }
       open={open}
       setOpen={setOpen}
-      placement="bottom-start"
+      placement="bottom-end"
       rows={[
         {
           key: "mainnet",
