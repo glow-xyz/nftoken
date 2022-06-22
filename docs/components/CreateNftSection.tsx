@@ -331,7 +331,7 @@ const NetworkSwitcher = () => {
       trigger={<LuxButton label="Mainnet" />}
       open={open}
       setOpen={setOpen}
-      placement="top-start"
+      placement="bottom-start"
       rows={[
         {
           key: "mainnet",

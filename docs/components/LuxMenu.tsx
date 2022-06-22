@@ -231,55 +231,51 @@ export const LuxBaseMenu = ({
           transform: rotate(45deg);
         }
 
-        .menu-wrapper {
-          &[data-popper-placement^="top"] .menu-arrow {
-            bottom: -4px;
-
-            &:before {
-              border-bottom: 1px solid var(--menu-border-color);
-              border-right: 1px solid var(--menu-border-color);
-            }
-          }
-
-          &[data-popper-placement^="bottom"] .menu-arrow {
-            top: -4px;
-
-            &:before {
-              border-top: 1px solid var(--menu-border-color);
-              border-left: 1px solid var(--menu-border-color);
-            }
-          }
-
-          &[data-popper-placement^="left"] .menu-arrow {
-            right: -4px;
-
-            &:before {
-              border-left: 1px solid var(--menu-border-color);
-              border-bottom: 1px solid var(--menu-border-color);
-            }
-          }
-
-          &[data-popper-placement^="right"] > .menu-arrow {
-            left: -4px;
-
-            &:before {
-              border-right: 1px solid var(--menu-border-color);
-              border-top: 1px solid var(--menu-border-color);
-            }
-          }
+        .manu-wrapper[data-popper-placement^="top"] .menu-arrow {
+          bottom: -4px;
         }
 
-        .menu-wrapper.inverted {
-          .menu,
-          .menu-arrow,
-          .menu-arrow:before {
-            background-color: var(--menu-inverted-bg-color);
-          }
+        .manu-wrapper[data-popper-placement^="top"] .menu-arrow:before {
+          border-bottom: 1px solid var(--menu-border-color);
+          border-right: 1px solid var(--menu-border-color);
+        }
 
-          .menu,
-          .menu-arrow:before {
-            border-color: var(--menu-inverted-border-color);
-          }
+        .manu-wrapper[data-popper-placement^="bottom"] .menu-arrow {
+          top: -4px;
+        }
+
+        .manu-wrapper[data-popper-placement^="bottom"] .menu-arrow:before {
+          border-top: 1px solid var(--menu-border-color);
+          border-left: 1px solid var(--menu-border-color);
+        }
+
+        .manu-wrapper[data-popper-placement^="left"] .menu-arrow {
+          right: -4px;
+        }
+
+        .manu-wrapper[data-popper-placement^="left"] .menu-arrow:before {
+          border-left: 1px solid var(--menu-border-color);
+          border-bottom: 1px solid var(--menu-border-color);
+        }
+
+        .menu-wrapper[data-popper-placement^="right"] > .menu-arrow {
+          left: -4px;
+        }
+
+        .menu-wrapper[data-popper-placement^="right"] > .menu-arrow:before {
+          border-right: 1px solid var(--menu-border-color);
+          border-top: 1px solid var(--menu-border-color);
+        }
+
+        .menu-wrapper.inverted .menu,
+        .menu-wrapper.inverted .menu-arrow,
+        .menu-wrapper.inverted .menu-arrow:before {
+          background-color: var(--menu-inverted-bg-color);
+        }
+
+        .menu-wrapper.inverted .menu,
+        .menu-wrapper.inverted .menu-arrow:before {
+          border-color: var(--menu-inverted-border-color);
         }
       `}</style>
     </React.Fragment>
@@ -558,15 +554,15 @@ export const LuxMenu = ({
             position: relative;
             background-color: var(--menu-search-bg-color);
             border-bottom: 1px solid var(--menu-search-divider-color);
+          }
 
-            input {
-              background: transparent;
-              border: 0;
-              padding: 0.375rem 0.75rem;
-              outline: 0;
-              width: 100%;
-              color: var(--input-color);
-            }
+          .search-wrapper input {
+            background: transparent;
+            border: 0;
+            padding: 0.375rem 0.75rem;
+            outline: 0;
+            width: 100%;
+            color: var(--input-color);
           }
 
           .rows {
@@ -585,31 +581,31 @@ export const LuxMenu = ({
 
           .create-row {
             cursor: pointer;
+          }
 
-            .icon {
-              margin-right: 0.75rem;
-              width: 1rem;
-              height: 1rem;
-              color: var(--menu-item-icon-color);
+          .create-row .icon {
+            margin-right: 0.75rem;
+            width: 1rem;
+            height: 1rem;
+            color: var(--menu-item-icon-color);
+          }
 
-              :global(svg) {
-                width: 1rem;
-                height: 1rem;
-              }
-            }
+          .create-row .icon :global(svg) {
+            width: 1rem;
+            height: 1rem;
+          }
 
-            span {
-              font-weight: var(--medium-font-weight);
-            }
+          .create-row span {
+            font-weight: var(--medium-font-weight);
+          }
 
-            &.selected {
-              color: var(--menu-item-hover-color);
-              background-color: var(--menu-item-hover-bg-color);
+          .create-row.selected {
+            color: var(--menu-item-hover-color);
+            background-color: var(--menu-item-hover-bg-color);
+          }
 
-              .icon {
-                color: var(--menu-item-icon-hover-color);
-              }
-            }
+          .create-row.selected .icon {
+            color: var(--menu-item-icon-hover-color);
           }
         `}</style>
       </>
@@ -653,11 +649,11 @@ const MenuItem = ({
           height: 1rem;
           color: var(--menu-item-icon-color);
           justify-content: center;
+        }
 
-          :global(svg) {
-            width: 1rem;
-            height: 1rem;
-          }
+        .menu-icon :global(svg) {
+          width: 1rem;
+          height: 1rem;
         }
 
         .menu-text {
@@ -679,19 +675,18 @@ const MenuItem = ({
           cursor: pointer;
           position: relative;
           z-index: 1;
+        }
 
-          &.selected {
-            color: var(--menu-item-hover-color);
-            background-color: var(--menu-item-hover-bg-color);
+        .menu-item.selected {
+          color: var(--menu-item-hover-color);
+          background-color: var(--menu-item-hover-bg-color);
+        }
+        .menu-item.selected .menu-icon {
+          color: var(--menu-item-icon-hover-color);
+        }
 
-            .menu-icon {
-              color: var(--menu-item-icon-hover-color);
-            }
-
-            .menu-right-text {
-              color: var(--menu-item-hover-color);
-            }
-          }
+        .menu-item.selected .menu-right-text {
+          color: var(--menu-item-hover-color);
         }
       `}</style>
     </div>
