@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Network } from "@glow-app/glow-client";
 import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import {
@@ -7,6 +7,7 @@ import {
   GTransaction,
   SolanaClient,
 } from "@glow-app/solana-client";
+import { NetworkContext } from "./NetworkContext";
 import { BadgeCheckIcon, ChevronDownIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Form, Formik, useFormikContext } from "formik";
@@ -338,11 +339,13 @@ const ImageDropZone = () => {
 
 const NetworkSwitcher = ({}) => {
   const [open, setOpen] = useState(false);
+  const networkContext = useContext(NetworkContext);
+
   return (
     <LuxMenu
       trigger={
         <LuxButton
-          label="Mainnet"
+          label={networkContext?.networkPrettyName ?? ""}
           variant="link"
           icon={<ChevronDownIcon />}
           iconPlacement="right"
@@ -357,14 +360,14 @@ const NetworkSwitcher = ({}) => {
           key: "mainnet",
           name: "Mainnet",
           onClick: () => {
-            console.log("mainnet!");
+            networkContext?.setNetwork(Network.Mainnet);
           },
         },
         {
           key: "devnet",
           name: "Devnet",
           onClick: () => {
-            console.log("devnet!");
+            networkContext?.setNetwork(Network.Devnet);
           },
         },
       ]}

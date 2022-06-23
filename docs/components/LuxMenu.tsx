@@ -141,7 +141,7 @@ export const LuxBaseMenu = ({
   return (
     <React.Fragment>
       <div
-        className="menu-trigger-wrapper"
+        className="lux-menu-trigger-wrapper"
         ref={referenceRef}
         onClick={() => {
           if (mode === "click") {
@@ -157,7 +157,7 @@ export const LuxBaseMenu = ({
         ReactDOM.createPortal(
           <div
             ref={popperRef}
-            className={classNames("menu-wrapper", "theme-cranberry", color)}
+            className={classNames("lux-menu-wrapper", color, "theme-cranberry")}
             style={styles.popper}
             {...attributes.popper}
           >
@@ -179,10 +179,12 @@ export const LuxBaseMenu = ({
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="menu">{children}</div>
+                  <div className="lux-menu" style={{ boxShadow: shadowStyle }}>
+                    {children}
+                  </div>
                   {showArrow && (
                     <div
-                      className="menu-arrow"
+                      className="lux-menu-arrow"
                       ref={arrowRef}
                       style={styles.arrow}
                     />
@@ -193,91 +195,6 @@ export const LuxBaseMenu = ({
           </div>,
           document.body
         )}
-
-      <style jsx>{`
-        .menu-trigger-wrapper {
-          display: inline-flex;
-          min-width: 0;
-        }
-
-        .menu-wrapper {
-          z-index: 999;
-        }
-
-        .menu {
-          border-radius: var(--border-radius);
-          border: 1px solid var(--menu-border-color);
-          overflow: hidden;
-          background-color: var(--menu-bg-color);
-          box-shadow: ${shadowStyle};
-        }
-
-        .menu-arrow,
-        .menu-arrow::before {
-          position: absolute;
-          width: 8px;
-          height: 8px;
-          background: inherit;
-          background-color: var(--menu-bg-color);
-        }
-
-        .menu-arrow {
-          visibility: hidden;
-        }
-
-        .menu-arrow::before {
-          visibility: visible;
-          content: "";
-          transform: rotate(45deg);
-        }
-
-        .menu-wrapper[data-popper-placement^="top"] .menu-arrow {
-          bottom: -4px;
-        }
-
-        .menu-wrapper[data-popper-placement^="top"] .menu-arrow::before {
-          border-bottom: 1px solid var(--menu-border-color);
-          border-right: 1px solid var(--menu-border-color);
-        }
-
-        .menu-wrapper[data-popper-placement^="bottom"] .menu-arrow {
-          top: -4px;
-        }
-
-        .menu-wrapper[data-popper-placement^="bottom"] .menu-arrow::before {
-          border-top: 1px solid var(--menu-border-color);
-          border-left: 1px solid var(--menu-border-color);
-        }
-
-        .menu-wrapper[data-popper-placement^="left"] .menu-arrow {
-          right: -4px;
-        }
-
-        .menu-wrapper[data-popper-placement^="left"] .menu-arrow::before {
-          border-left: 1px solid var(--menu-border-color);
-          border-bottom: 1px solid var(--menu-border-color);
-        }
-
-        .menu-wrapper[data-popper-placement^="right"] > .menu-arrow {
-          left: -4px;
-        }
-
-        .menu-wrapper[data-popper-placement^="right"] > .menu-arrow::before {
-          border-right: 1px solid var(--menu-border-color);
-          border-top: 1px solid var(--menu-border-color);
-        }
-
-        .menu-wrapper.inverted .menu,
-        .menu-wrapper.inverted .menu-arrow,
-        .menu-wrapper.inverted .menu-arrow::before {
-          background-color: var(--menu-inverted-bg-color);
-        }
-
-        .menu-wrapper.inverted .menu,
-        .menu-wrapper.inverted .menu-arrow::before {
-          border-color: var(--menu-inverted-border-color);
-        }
-      `}</style>
     </React.Fragment>
   );
 };
@@ -476,9 +393,9 @@ export const LuxMenu = ({
       showArrow={showArrow}
     >
       <>
-        <div className="menu-content">
+        <div className="lux-menu-content">
           {searchable && (
-            <div className="search-wrapper">
+            <div className="lux-menu-search-wrapper">
               <input
                 className="with-placeholder"
                 // @ts-ignore
@@ -543,71 +460,6 @@ export const LuxMenu = ({
             )}
           </div>
         </div>
-
-        <style jsx>{`
-          .menu-content {
-            min-width: 120px;
-            max-width: 240px;
-          }
-
-          .search-wrapper {
-            position: relative;
-            background-color: var(--menu-search-bg-color);
-            border-bottom: 1px solid var(--menu-search-divider-color);
-          }
-
-          .search-wrapper input {
-            background: transparent;
-            border: 0;
-            padding: 0.375rem 0.75rem;
-            outline: 0;
-            width: 100%;
-            color: var(--input-color);
-          }
-
-          .rows {
-            max-height: 50vh;
-          }
-
-          .create-row,
-          .no-result {
-            font-size: 0.9rem;
-            padding: 0.375rem 0.75rem;
-          }
-
-          .no-result {
-            color: var(--menu-no-result-color);
-          }
-
-          .create-row {
-            cursor: pointer;
-          }
-
-          .create-row .icon {
-            margin-right: 0.75rem;
-            width: 1rem;
-            height: 1rem;
-            color: var(--menu-item-icon-color);
-          }
-
-          .create-row .icon :global(svg) {
-            width: 1rem;
-            height: 1rem;
-          }
-
-          .create-row span {
-            font-weight: var(--medium-font-weight);
-          }
-
-          .create-row.selected {
-            color: var(--menu-item-hover-color);
-            background-color: var(--menu-item-hover-bg-color);
-          }
-
-          .create-row.selected .icon {
-            color: var(--menu-item-icon-hover-color);
-          }
-        `}</style>
       </>
     </LuxBaseMenu>
   );
@@ -624,7 +476,7 @@ const MenuItem = ({
 }) => {
   return (
     <div
-      className={classNames("menu-item flex-center spread", {
+      className={classNames("lux-menu-item flex-center spread", {
         selected,
       })}
       onMouseEnter={onHover}
@@ -637,58 +489,6 @@ const MenuItem = ({
       {row.rightText && (
         <div className="menu-right-text mono-number">{row.rightText}</div>
       )}
-
-      <style jsx>{`
-        .icon-text {
-          min-width: 0;
-        }
-
-        .menu-icon {
-          margin-right: 0.75rem;
-          width: 1rem;
-          height: 1rem;
-          color: var(--menu-item-icon-color);
-          justify-content: center;
-        }
-
-        .menu-icon :global(svg) {
-          width: 1rem;
-          height: 1rem;
-        }
-
-        .menu-text {
-          min-width: 0;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        .menu-right-text {
-          color: var(--menu-item-secondary-color);
-          margin-left: 1rem;
-        }
-
-        .menu-item {
-          padding: 0.375rem 0.75rem;
-          color: var(--menu-item-color);
-          font-size: 0.9rem;
-          cursor: pointer;
-          position: relative;
-          z-index: 1;
-        }
-
-        .menu-item.selected {
-          color: var(--menu-item-hover-color);
-          background-color: var(--menu-item-hover-bg-color);
-        }
-        .menu-item.selected .menu-icon {
-          color: var(--menu-item-icon-hover-color);
-        }
-
-        .menu-item.selected .menu-right-text {
-          color: var(--menu-item-hover-color);
-        }
-      `}</style>
     </div>
   );
 };
