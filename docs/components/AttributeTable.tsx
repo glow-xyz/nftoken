@@ -19,7 +19,7 @@ export const AttributeTable = ({
           font-weight: var(--medium-font-weight);
           border-bottom: 1px solid var(--secondary-border-color);
           padding-bottom: 0.75rem;
-          margin-bottom: 0.75rem;
+          margin-bottom: 1rem;
           margin-top: 0;
         }
 
