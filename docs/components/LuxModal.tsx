@@ -143,7 +143,7 @@ const LuxModalHeader = ({
         className="btn close flex-center-center animated"
         onClick={onHide}
       >
-        <CloseIcon />
+        <XIcon />
       </button>
     </div>
   );
