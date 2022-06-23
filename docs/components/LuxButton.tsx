@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useFormikContext } from "formik";
 import lodashSize from "lodash/size";
 import React, { DOMAttributes } from "react";
+import { LuxLink } from "./LuxLink";
 
 import { LuxSpinner } from "./LuxSpinner";
 
@@ -65,7 +66,7 @@ export const LuxButton = ({
   ...props
 }: LuxButtonProps) => {
   const svg = loading ? <LuxSpinner /> : icon;
-  const Button = "button";
+  const Button = href ? LuxLink : "button";
   // button doesn't support forceOpenInNewTab so we don't pass it down
   const extraProps = href ? { forceOpenInNewTab, forcePageChange } : {};
 
@@ -73,6 +74,7 @@ export const LuxButton = ({
     <Button
       {...props}
       ref={ref as any}
+      href={href!}
       className={classNames(
         "btn luma-button flex-center",
         size,
