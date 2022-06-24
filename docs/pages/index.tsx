@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from "@heroicons/react/outline";
-import Link from "next/link";
 import { SocialHead } from "../components/SocialHead";
+import { LuxButton } from "../components/LuxButton";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import { Footer } from "../components/all-pages/Footer";
 
@@ -18,18 +18,25 @@ export default function Index() {
               Solana NFT Standard
             </h1>
             <div className="buttons flex-center">
-              <Link href="/overview">
-                <a className="luma-button flex-center icon-right round solid large brand">
-                  <span>Learn more</span>
-                  <ChevronRightIcon />
-                </a>
-              </Link>
-              <Link href="/create-an-nft">
-                <a className="luma-button flex-center icon-right round link large secondary">
-                  Create an NFT
-                  <ChevronRightIcon />
-                </a>
-              </Link>
+              <LuxButton
+                label="Learn more"
+                icon={<ChevronRightIcon />}
+                href="/overview"
+                iconPlacement="right"
+                rounded
+                color="brand"
+                size="large"
+              />
+              <LuxButton
+                label="Create an NFT"
+                icon={<ChevronRightIcon />}
+                href="/create-an-nft"
+                iconPlacement="right"
+                rounded
+                color="secondary"
+                variant="link"
+                size="large"
+              />
             </div>
           </div>
           <img
@@ -97,10 +104,7 @@ export default function Index() {
 
         .buttons {
           margin-top: 3rem;
-        }
-
-        .buttons a:first-child {
-          margin-right: 3rem;
+          gap: 3rem;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.large}) {
@@ -119,14 +123,11 @@ export default function Index() {
 
           .buttons {
             margin-top: 2rem;
-          }
-
-          .buttons a:first-child {
-            margin-right: 1.5rem;
+            gap: 1.5rem;
           }
 
           /* Reset large button styles. */
-          .luma-button {
+          .wrapper :global(.luma-button) {
             --padding: var(--input-padding);
             --size: var(--input-font-size);
             --gap: var(--input-element-gap);
