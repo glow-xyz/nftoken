@@ -1,6 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext } from "react";
 import { Network } from "@glow-app/glow-client";
 import { createUseAppContext } from "../utils/context";
+import { usePersistedState } from "../hooks/usePersistedState";
 
 const NETWORK_LOCAL_STORAGE_KEY = "nftoken-docs-network";
 type Context = {
@@ -22,24 +23,16 @@ export const NetworkProvider = ({
   children: React.ReactNode;
 }) => {
   const defaultNetwork: Network = Network.Mainnet;
-  const [networkState, setNetworkState] = useState<Network>(defaultNetwork);
-
-  useEffect(() => {
-    if (localStorage.getItem(NETWORK_LOCAL_STORAGE_KEY) === Network.Devnet) {
-      setNetworkState(Network.Devnet);
-    }
-  }, []);
-
-  const setAndPersistNetworkState = (name: Network) => {
-    setNetworkState(name);
-    localStorage.setItem(NETWORK_LOCAL_STORAGE_KEY, name);
-  };
+  const [network, setNetwork] = usePersistedState(
+    NETWORK_LOCAL_STORAGE_KEY,
+    defaultNetwork
+  );
 
   return (
     <NetworkContext.Provider
       value={{
-        network: networkState,
-        setNetwork: setAndPersistNetworkState,
+        network: network as Network,
+        setNetwork,
       }}
     >
       {children}
