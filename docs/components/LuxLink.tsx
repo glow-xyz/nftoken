@@ -4,7 +4,6 @@ import isEmpty from "lodash/isEmpty";
 import qs from "query-string";
 import React, { DOMAttributes } from "react";
 import Link from "next/link";
-
 import { ExternalLink } from "./ExternalLink";
 
 export const LuxLink = React.forwardRef(
@@ -34,8 +33,10 @@ export const LuxLink = React.forwardRef(
     >,
     ref: React.ForwardedRef<HTMLAnchorElement>
   ) => {
-    if (href.startsWith("https://nftoken.so")) {
-      href = href.slice("https://nftoken.so".length);
+    const HOST = "https://nftoken.so";
+
+    if (href.startsWith(HOST)) {
+      href = href.slice(HOST.length);
     }
 
     if (query && !isEmpty(query)) {
