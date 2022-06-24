@@ -72,6 +72,8 @@ export const CreateNftSection = () => {
     }, 7_500);
   }, [success, setSuccess]);
 
+  const networkContext = useContext(NetworkContext);
+
   return (
     <Container>
       <div
@@ -98,7 +100,10 @@ export const CreateNftSection = () => {
               json: { name, image },
             });
             const recentBlockhash = await SolanaClient.getRecentBlockhash({
-              rpcUrl: "https://api.mainnet-beta.solana.com",
+              rpcUrl:
+                networkContext?.network === Network.Devnet
+                  ? "https://api.devnet.solana.com"
+                  : "https://api.mainnet-beta.solana.com",
             });
 
             const transaction = GTransaction.create({
@@ -141,7 +146,7 @@ export const CreateNftSection = () => {
               transactionBase64: GTransaction.toBuffer({
                 gtransaction: signedTx,
               }).toString("base64"),
-              network: Network.Mainnet,
+              network: networkContext?.network ?? Network.Mainnet,
             });
 
             resetForm({ values: { name: "", image: null } });
