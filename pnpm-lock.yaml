@@ -16,7 +16,7 @@ importers:
       '@glow-app/glow-react': 1.0.1
       '@glow-app/solana-client': 1.0.1
       '@heroicons/react': 1.0.6
-      '@lux-org/sass': 0.46.0
+      '@luma-team/lux-sass': 0.47.0
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1
       '@metaplex-foundation/beet': 0.2.0
@@ -60,7 +60,7 @@ importers:
       '@glow-app/glow-react': 1.0.1_react-dom@18.2.0+react@18.2.0
       '@glow-app/solana-client': 1.0.1
       '@heroicons/react': 1.0.6_react@18.2.0
-      '@lux-org/sass': 0.46.0
+      '@luma-team/lux-sass': 0.47.0
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1_13e5523f3151cee01c8baa8288128a19
       '@metaplex-foundation/beet': 0.2.0
@@ -1874,8 +1874,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.13
     dev: false
 
-  /@lux-org/sass/0.46.0:
-    resolution: {integrity: sha512-5BF5EJStdkkHunag1QldKRansLBOGMqBhJfYWpsrblt3JYeUImrKxI+J6UHx/4veRVNGNY2g3VW81c7uBtD1Sw==}
+  /@luma-team/lux-sass/0.47.0:
+    resolution: {integrity: sha512-4M632z2/3DJ8QpIzBNgGP8YKEDX6C38UxQRL9SIR7F8Q2y4RlGWEPTswlex6HZ3F/+zsYoz3rCE/bHTs1oJSDQ==}
     dev: false
 
   /@markdoc/markdoc/0.1.2:
