@@ -7,7 +7,7 @@ import {
   GTransaction,
   SolanaClient,
 } from "@glow-app/solana-client";
-import { NetworkContext } from "./NetworkContext";
+import { NetworkContext, NETWORK_TO_INFO } from "./NetworkContext";
 import { BadgeCheckIcon, ChevronDownIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Form, Formik, useFormikContext } from "formik";
@@ -350,7 +350,11 @@ const NetworkSwitcher = () => {
     <LuxMenu
       trigger={
         <LuxButton
-          label={networkContext?.networkPrettyName ?? ""}
+          label={
+            networkContext?.network
+              ? NETWORK_TO_INFO[networkContext.network].name
+              : ""
+          }
           variant="link"
           icon={<ChevronDownIcon />}
           iconPlacement="right"

@@ -5,7 +5,12 @@ const NETWORK_LOCAL_STORAGE_KEY = "nftoken-docs-network";
 type Context = {
   network: Network;
   setNetwork: (network: Network) => void;
-  networkPrettyName: string;
+};
+
+export const NETWORK_TO_INFO: Record<Network, { name: string }> = {
+  [Network.Mainnet]: { name: "Mainnet" },
+  [Network.Devnet]: { name: "Devnet" },
+  [Network.Localnet]: { name: "Localnet" },
 };
 
 export const NetworkContext = createContext<Context | null>(null);
@@ -33,9 +38,6 @@ export const NetworkProvider = ({
     <NetworkContext.Provider
       value={{
         network: networkState,
-        networkPrettyName:
-          networkState.substring(0, 1).toUpperCase() +
-          networkState.substring(1),
         setNetwork: setAndPersistNetworkState,
       }}
     >
