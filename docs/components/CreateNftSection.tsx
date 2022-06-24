@@ -255,7 +255,7 @@ export const CreateNftSection = () => {
 
         .network-switcher {
           position: absolute;
-          top: 0.25rem;
+          top: 0.5rem;
           right: 1rem;
         }
       `}</style>
