@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { Network } from "@glow-app/glow-client";
+import { createUseAppContext } from "../utils/context";
 
 const NETWORK_LOCAL_STORAGE_KEY = "nftoken-docs-network";
 type Context = {
@@ -45,3 +46,5 @@ export const NetworkProvider = ({
     </NetworkContext.Provider>
   );
 };
+
+export const useNetworkContext = createUseAppContext(NetworkContext);

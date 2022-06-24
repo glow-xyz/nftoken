@@ -1,23 +1,19 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Network } from "@glow-app/glow-client";
-import { NetworkContext, NETWORK_TO_INFO } from "../NetworkContext";
+import { useNetworkContext, NETWORK_TO_INFO } from "../NetworkContext";
 import { LuxMenu } from "../LuxMenu";
 import { LuxButton } from "../LuxButton";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 export const NetworkSwitcher = () => {
   const [open, setOpen] = useState(false);
-  const networkContext = useContext(NetworkContext);
+  const { network, setNetwork } = useNetworkContext();
 
   return (
     <LuxMenu
       trigger={
         <LuxButton
-          label={
-            networkContext?.network
-              ? NETWORK_TO_INFO[networkContext.network].name
-              : ""
-          }
+          label={NETWORK_TO_INFO[network].name}
           variant="link"
           icon={<ChevronDownIcon />}
           iconPlacement="right"
@@ -31,16 +27,12 @@ export const NetworkSwitcher = () => {
         {
           key: "mainnet",
           name: "Mainnet",
-          onClick: () => {
-            networkContext?.setNetwork(Network.Mainnet);
-          },
+          onClick: () => setNetwork(Network.Mainnet),
         },
         {
           key: "devnet",
           name: "Devnet",
-          onClick: () => {
-            networkContext?.setNetwork(Network.Devnet);
-          },
+          onClick: () => setNetwork(Network.Devnet),
         },
       ]}
     />

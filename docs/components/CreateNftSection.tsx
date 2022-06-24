@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Network } from "@glow-app/glow-client";
 import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import {
@@ -7,7 +7,7 @@ import {
   GTransaction,
   SolanaClient,
 } from "@glow-app/solana-client";
-import { NetworkContext } from "./NetworkContext";
+import { useNetworkContext } from "./NetworkContext";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Form, Formik, useFormikContext } from "formik";
@@ -72,7 +72,7 @@ export const CreateNftSection = () => {
     }, 7_500);
   }, [success, setSuccess]);
 
-  const networkContext = useContext(NetworkContext);
+  const { network } = useNetworkContext();
 
   return (
     <Container>
@@ -101,7 +101,7 @@ export const CreateNftSection = () => {
             });
             const recentBlockhash = await SolanaClient.getRecentBlockhash({
               rpcUrl:
-                networkContext?.network === Network.Devnet
+                network === Network.Devnet
                   ? "https://api.devnet.solana.com"
                   : "https://api.mainnet-beta.solana.com",
             });
@@ -146,7 +146,7 @@ export const CreateNftSection = () => {
               transactionBase64: GTransaction.toBuffer({
                 gtransaction: signedTx,
               }).toString("base64"),
-              network: networkContext?.network ?? Network.Mainnet,
+              network: network ?? Network.Mainnet,
             });
 
             resetForm({ values: { name: "", image: null } });
