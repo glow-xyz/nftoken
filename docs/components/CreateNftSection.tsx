@@ -7,8 +7,8 @@ import {
   GTransaction,
   SolanaClient,
 } from "@glow-app/solana-client";
-import { NetworkContext, NETWORK_TO_INFO } from "./NetworkContext";
-import { BadgeCheckIcon, ChevronDownIcon } from "@heroicons/react/outline";
+import { NetworkContext } from "./NetworkContext";
+import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Form, Formik, useFormikContext } from "formik";
 import { useState, useEffect } from "react";
@@ -21,7 +21,7 @@ import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
 import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
-import { LuxMenu } from "./LuxMenu";
+import { NetworkSwitcher } from "./atoms/NetworkSwitcher";
 
 type FormData = {
   name: string;
@@ -339,48 +339,6 @@ const ImageDropZone = () => {
         }
       `}</style>
     </div>
-  );
-};
-
-const NetworkSwitcher = () => {
-  const [open, setOpen] = useState(false);
-  const networkContext = useContext(NetworkContext);
-
-  return (
-    <LuxMenu
-      trigger={
-        <LuxButton
-          label={
-            networkContext?.network
-              ? NETWORK_TO_INFO[networkContext.network].name
-              : ""
-          }
-          variant="link"
-          icon={<ChevronDownIcon />}
-          iconPlacement="right"
-          size="small"
-        />
-      }
-      open={open}
-      setOpen={setOpen}
-      placement="bottom-end"
-      rows={[
-        {
-          key: "mainnet",
-          name: "Mainnet",
-          onClick: () => {
-            networkContext?.setNetwork(Network.Mainnet);
-          },
-        },
-        {
-          key: "devnet",
-          name: "Devnet",
-          onClick: () => {
-            networkContext?.setNetwork(Network.Devnet);
-          },
-        },
-      ]}
-    />
   );
 };
 
