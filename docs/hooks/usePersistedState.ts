@@ -2,20 +2,20 @@ import {
   getFromLocalStorage,
   saveToLocalStorage,
 } from "../utils/local-storage";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const usePersistedState = (
   key: string,
   defaultValue?: string
 ): [value: string | null, setValue: (newValue: string) => void] => {
-  const [value, setCachedValue] = useState(() => {
-    const item = getFromLocalStorage(key);
-    if (item === null) {
-      return defaultValue;
-    }
+  const [value, setCachedValue] = useState(defaultValue);
 
-    return item;
-  });
+  useEffect(() => {
+    const item = getFromLocalStorage(key);
+    if (item !== null) {
+      setCachedValue(item);
+    }
+  }, []);
 
   const setValue = useCallback(
     (newValue: string) => {
