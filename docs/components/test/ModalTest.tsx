@@ -12,8 +12,8 @@ export const ModalTest = () => {
         color="brand"
         onClick={() => setShow(true)}
       />
-      <LuxModalContainer title="Modal!" onHide={() => setShow(false)}>
-        {show && <div className="p-4">Hey</div>}
+      <LuxModalContainer title="Modal Title" onHide={() => setShow(false)}>
+        {show && <div>Hi! I’m a modal.</div>}
       </LuxModalContainer>
     </>
   );
