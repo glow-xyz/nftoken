@@ -72,7 +72,6 @@ export const LuxBaseMenu = ({
 
   useEffect(() => {
     update && update();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, trigger]);
 
   useOnMount(() => {

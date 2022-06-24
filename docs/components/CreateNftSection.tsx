@@ -342,7 +342,7 @@ const ImageDropZone = () => {
   );
 };
 
-const NetworkSwitcher = ({}) => {
+const NetworkSwitcher = () => {
   const [open, setOpen] = useState(false);
   const networkContext = useContext(NetworkContext);
 

@@ -15,7 +15,7 @@ export const NetworkProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  let defaultNetwork: Network = Network.Mainnet;
+  const defaultNetwork: Network = Network.Mainnet;
   const [networkState, setNetworkState] = useState<Network>(defaultNetwork);
 
   useEffect(() => {
