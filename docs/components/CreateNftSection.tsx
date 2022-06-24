@@ -77,14 +77,6 @@ export const CreateNftSection = () => {
   return (
     <Container>
       <div
-        className={classNames("network-switcher", {
-          blurred: !glowDetected || !user,
-          invisible: success,
-        })}
-      >
-        <NetworkSwitcher />
-      </div>
-      <div
         className={classNames("form-section", {
           blurred: !glowDetected || !user,
           invisible: success,
@@ -346,6 +338,9 @@ const Container = ({ children }: { children: React.ReactNode }) => {
   return (
     <section className="px-3 pb-3 my-3 rounded">
       <div className="badge text-xs font-weight-bold">Live Minting Demo</div>
+      <div className="network-switcher">
+        <NetworkSwitcher />
+      </div>
       <div>{children}</div>
 
       <style jsx>{`
@@ -367,6 +362,21 @@ const Container = ({ children }: { children: React.ReactNode }) => {
           line-height: 1;
           padding: 0.3rem 0.6rem 0.35rem 0.6rem;
           border-bottom-right-radius: calc(var(--border-radius) / 2);
+        }
+
+        .network-switcher {
+          position: absolute;
+          top: 0;
+          right: 0;
+          line-height: 1;
+          background-color: var(--gray-90);
+          padding: 0.2rem 0.5rem 0.3rem 0.6rem;
+          border-bottom-left-radius: calc(var(--border-radius) / 2);
+        }
+
+        .network-switcher :global(.luma-button .label),
+        .network-switcher :global(.luma-button svg) {
+          color: var(--white);
         }
       `}</style>
     </section>
