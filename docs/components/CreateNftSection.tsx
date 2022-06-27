@@ -21,6 +21,7 @@ import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
 import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
 import { InteractiveWell } from "./InteractiveWell";
+import { NETWORK_TO_RPC } from "../utils/rpc-types";
 
 type FormData = {
   name: string;
@@ -90,10 +91,7 @@ export const CreateNftSection = () => {
                 json: { name, image },
               });
               const recentBlockhash = await SolanaClient.getRecentBlockhash({
-                rpcUrl:
-                  network === Network.Devnet
-                    ? "https://api.devnet.solana.com"
-                    : "https://api.mainnet-beta.solana.com",
+                rpcUrl: NETWORK_TO_RPC[network],
               });
 
               const transaction = GTransaction.create({
