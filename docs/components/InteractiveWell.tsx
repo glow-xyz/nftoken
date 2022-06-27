@@ -1,15 +1,18 @@
+import classNames from "classnames";
 import { NetworkSwitcher } from "./atoms/NetworkSwitcher";
 
 export const InteractiveWell = ({
   title,
+  className = "",
   children,
 }: {
   title: string;
+  className?: string;
   children: React.ReactNode;
 }) => {
   return (
-    <section className="px-3 pb-3 my-3 rounded">
-      <div className="badge text-xs font-weight-bold">{title}</div>
+    <section className={classNames("px-3 pb-3 rounded", className)}>
+      <div className="title text-xs font-weight-bold">{title}</div>
       <div className="network-switcher">
         <NetworkSwitcher />
       </div>
@@ -25,7 +28,7 @@ export const InteractiveWell = ({
           width: 100%;
         }
 
-        .badge {
+        .title {
           position: absolute;
           top: 0;
           left: 0;

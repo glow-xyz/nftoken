@@ -74,127 +74,127 @@ export const CreateNftSection = () => {
   const { network } = useNetworkContext();
 
   return (
-    <InteractiveWell title="Live Minting Demo">
-      <div
-        className={classNames("form-section", {
-          blurred: !glowDetected || !user,
-          invisible: success,
-        })}
+    <div className="create-nft-section">
+      <InteractiveWell
+        title="Live Minting Demo"
+        className={classNames("my-3", { blurred: !glowDetected || !user })}
       >
-        <Formik
-          initialValues={initialValues}
-          onSubmit={async ({ name, image }, { resetForm }) => {
-            const { address: wallet } = await window.glow!.connect();
+        <div className={classNames("form-section", { invisible: success })}>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={async ({ name, image }, { resetForm }) => {
+              const { address: wallet } = await window.glow!.connect();
 
-            const nft_keypair = GKeypair.generate();
-            const { file_url: metadata_url } = await uploadJsonToS3({
-              json: { name, image },
-            });
-            const recentBlockhash = await SolanaClient.getRecentBlockhash({
-              rpcUrl:
-                network === Network.Devnet
-                  ? "https://api.devnet.solana.com"
-                  : "https://api.mainnet-beta.solana.com",
-            });
+              const nft_keypair = GKeypair.generate();
+              const { file_url: metadata_url } = await uploadJsonToS3({
+                json: { name, image },
+              });
+              const recentBlockhash = await SolanaClient.getRecentBlockhash({
+                rpcUrl:
+                  network === Network.Devnet
+                    ? "https://api.devnet.solana.com"
+                    : "https://api.mainnet-beta.solana.com",
+              });
 
-            const transaction = GTransaction.create({
-              feePayer: wallet,
-              recentBlockhash,
-              instructions: [
-                {
-                  accounts: [
-                    // NFT Creator
-                    { address: wallet, signer: true, writable: true },
-                    // Holder
-                    { address: wallet, writable: false, signer: false },
-                    {
-                      address: nft_keypair.address,
-                      signer: true,
-                      writable: true,
-                    },
-                    {
-                      address: GPublicKey.default.toString(),
-                      writable: false,
-                      signer: false,
-                    },
-                  ],
-                  program: NFTOKEN_ADDRESS,
-                  data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
-                    ix: null,
-                    metadata_url,
-                    collection_included: false,
-                  }).toString("base64"),
-                },
-              ],
-            });
+              const transaction = GTransaction.create({
+                feePayer: wallet,
+                recentBlockhash,
+                instructions: [
+                  {
+                    accounts: [
+                      // NFT Creator
+                      { address: wallet, signer: true, writable: true },
+                      // Holder
+                      { address: wallet, writable: false, signer: false },
+                      {
+                        address: nft_keypair.address,
+                        signer: true,
+                        writable: true,
+                      },
+                      {
+                        address: GPublicKey.default.toString(),
+                        writable: false,
+                        signer: false,
+                      },
+                    ],
+                    program: NFTOKEN_ADDRESS,
+                    data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
+                      ix: null,
+                      metadata_url,
+                      collection_included: false,
+                    }).toString("base64"),
+                  },
+                ],
+              });
 
-            const signedTx = GTransaction.sign({
-              secretKey: nft_keypair.secretKey,
-              gtransaction: transaction,
-            });
+              const signedTx = GTransaction.sign({
+                secretKey: nft_keypair.secretKey,
+                gtransaction: transaction,
+              });
 
-            await window.glow!.signAndSendTransaction({
-              transactionBase64: GTransaction.toBuffer({
-                gtransaction: signedTx,
-              }).toString("base64"),
-              network: network ?? Network.Mainnet,
-            });
+              await window.glow!.signAndSendTransaction({
+                transactionBase64: GTransaction.toBuffer({
+                  gtransaction: signedTx,
+                }).toString("base64"),
+                network: network ?? Network.Mainnet,
+              });
 
-            resetForm({ values: { name: "", image: null } });
-            setSuccess(true);
-          }}
+              resetForm({ values: { name: "", image: null } });
+              setSuccess(true);
+            }}
+          >
+            <Form>
+              <div className="mb-4">
+                <LuxInputField label="Name" name="name" required />
+              </div>
+
+              <ImageDropZone />
+
+              <div className="mt-4 flex-center spread">
+                <SubmitButton />
+                <LuxButton
+                  label="Disconnect Wallet"
+                  onClick={signOut}
+                  color="secondary"
+                  size="small"
+                  variant="link"
+                />
+              </div>
+            </Form>
+          </Formik>
+        </div>
+
+        {!glowDetected && (
+          <div className="overlay text-center">
+            <p>
+              You’ll need to install{" "}
+              <a href="https://glow.app/download" target="_blank">
+                Glow
+              </a>{" "}
+              in order to mint an NFT.
+            </p>
+          </div>
+        )}
+
+        {glowDetected && !user && (
+          <div className="overlay">
+            <GlowSignInButton variant="purple" />
+          </div>
+        )}
+
+        <div
+          className={classNames("success", {
+            visible: success && glowDetected && user,
+          })}
         >
-          <Form>
-            <div className="mb-4">
-              <LuxInputField label="Name" name="name" required />
-            </div>
-
-            <ImageDropZone />
-
-            <div className="mt-4 flex-center spread">
-              <SubmitButton />
-              <LuxButton
-                label="Disconnect Wallet"
-                onClick={signOut}
-                color="secondary"
-                size="small"
-                variant="link"
-              />
-            </div>
-          </Form>
-        </Formik>
-      </div>
-
-      {!glowDetected && (
-        <div className="overlay text-center">
-          <p>
-            You’ll need to install{" "}
-            <a href="https://glow.app/download" target="_blank">
-              Glow
-            </a>{" "}
-            in order to mint an NFT.
+          <div className="success-icon text-success">
+            <BadgeCheckIcon />
+          </div>
+          <p className="font-weight-medium text-success mb-0 text-center text-lg">
+            <span>Your NFT has been minted!</span>
           </p>
         </div>
-      )}
-
-      {glowDetected && !user && (
-        <div className="overlay">
-          <GlowSignInButton variant="purple" />
-        </div>
-      )}
-
-      <div
-        className={classNames("success", {
-          visible: success && glowDetected && user,
-        })}
-      >
-        <div className="success-icon text-success">
-          <BadgeCheckIcon />
-        </div>
-        <p className="font-weight-medium text-success mb-0 text-center text-lg">
-          <span>Your NFT has been minted!</span>
-        </p>
-      </div>
+      </InteractiveWell>
 
       <style jsx>{`
         .overlay {
@@ -212,12 +212,13 @@ export const CreateNftSection = () => {
           color: var(--primary-color);
         }
 
-        .form-section,
-        .network-switcher {
+        .form-section {
           transition: var(--transition); /* So blur transitions smoothly. */
         }
 
-        .blurred {
+        .create-nft-section :global(.blurred .form-section),
+        .create-nft-section :global(.blurred .title),
+        .create-nft-section :global(.blurred .network-switcher) {
           filter: blur(6px) brightness(120%) grayscale(20%);
         }
 
@@ -255,7 +256,7 @@ export const CreateNftSection = () => {
           right: 1rem;
         }
       `}</style>
-    </InteractiveWell>
+    </div>
   );
 };
 
