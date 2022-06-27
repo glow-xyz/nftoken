@@ -29,6 +29,22 @@ const useNft = ({
   return { data: data!, error, mutate };
 };
 
+const KEYS = [
+  { key: "address", type: "address" },
+  { key: "collection", type: "address" },
+  { key: "holder", type: "address" },
+  { key: "delegate", type: "address" },
+  { key: "authority", type: "address" },
+  { key: "name" },
+  { key: "description" },
+  { key: "minted_at" },
+  { key: "metadata_url", type: "link" },
+  { key: "is_frozen" },
+  { key: "authority_can_update" },
+  { key: "image", type: "link" },
+  { key: "version" },
+];
+
 export default function NftPage({
   initialNft,
 }: {
@@ -61,39 +77,24 @@ export default function NftPage({
         <img src={nft.image} />
         <div>
           <h1>{nft.name}</h1>
-          <div className="info">
-            <div className="info-box">
-              <p>Address</p>
-              <SolanaAddress address={nft.address} />
-            </div>
 
-            <div className="info-box">
-              <p>Collection</p>
-              <SolanaAddress address={nft.collection} />
-            </div>
-            <div className="info-box">
-              <p>Holder</p>
-              <SolanaAddress address={nft.holder} />
-            </div>
-            <div className="info-box">
-              <p>Delegate</p>
-              <SolanaAddress address={nft.delegate} />
-            </div>
+          <div className="table">
+            {KEYS.map(({ key, type }, index) => (
+              <React.Fragment key={key}>
+                <p className="key">{key}</p>
+                {type === "address" ? (
+                  <SolanaAddress address={nft[key]} />
+                ) : type === "link" ? (
+                  <a href={nft[key]} target="_blank">
+                    {nft[key]}
+                  </a>
+                ) : (
+                  <p>{JSON.stringify(nft[key])}</p>
+                )}
+                {index !== KEYS.length - 1 && <div className="divider" />}
+              </React.Fragment>
+            ))}
           </div>
-
-          {nft.traits && (
-            <div className="trait-table">
-              {nft.traits.map(({ trait_type, value }, i) => (
-                <React.Fragment key={trait_type}>
-                  <p className="key">{trait_type}:</p>
-                  <p>{value}</p>
-                  {i !== nft.traits.length - 1 ? (
-                    <div className="divider" />
-                  ) : null}
-                </React.Fragment>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 
@@ -104,13 +105,9 @@ export default function NftPage({
 
         img {
           display: block;
-          max-width: 24rem;
+          max-width: 20rem;
           box-shadow: var(--shadow);
           border-radius: calc(var(--border-radius) * 2);
-        }
-
-        h1 {
-          margin-bottom: 1.5rem;
         }
 
         .columns {
@@ -119,63 +116,47 @@ export default function NftPage({
           grid-column-gap: 3rem;
         }
 
-        .info {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 1rem;
-        }
-
-        .info-box {
-          background-color: var(--secondary-bg-color);
-          padding: 0.5rem 0.75rem;
-          border-radius: var(--border-radius);
-        }
-
-        .info-box p {
-          margin-bottom: 0;
-          font-size: var(--tiny-font-size);
-          color: var(--secondary-color);
-          font-weight: var(--medium-font-weight);
-        }
-
-        .trait-table {
-          margin-top: 1rem;
-          display: grid;
-          grid-template-columns: max-content 1fr;
-          font-family: var(--mono-font);
-          background-color: var(--secondary-bg-color);
+        .table {
           padding: 0.75rem;
           border-radius: var(--border-radius);
+          background-color: var(--secondary-bg-color);
+          font-family: var(--mono-font);
+          font-weight: var(--medium-font-weight);
+
+          display: grid;
+          grid-template-columns: max-content 1fr;
+          grid-column-gap: 2rem;
         }
 
-        .trait-table p {
+        .table p,
+        .table a {
           margin-bottom: 0;
           word-break: break-all;
-          font-size: var(--small-font-size);
-          font-weight: var(--medium-font-weight);
         }
 
-        .trait-table .key {
-          padding-right: 1rem;
-          color: var(--secondary-color);
-          text-align: right;
+        .table .key {
           font-weight: var(--normal-font-weight);
+          color: var(--secondary-color);
         }
 
-        .trait-table .divider {
-          grid-column: span 2;
+        .table .divider {
           border-top: 1px solid var(--secondary-border-color);
+          grid-column: span 2;
           margin: 0.5rem 0;
+        }
+
+        .table a {
+          color: var(--primary-color);
+        }
+
+        .table a:hover {
+          text-decoration: underline;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
           .columns {
             grid-template-columns: 1fr;
             grid-row-gap: 2rem;
-          }
-
-          .info {
-            gap: 0.5rem;
           }
         }
       `}</style>
