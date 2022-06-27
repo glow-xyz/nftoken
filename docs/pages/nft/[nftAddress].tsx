@@ -2,10 +2,10 @@ import { Network } from "@glow-app/glow-client";
 import { Solana } from "@glow-app/solana-client";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import React from "react";
 import useSWR, { SWRResponse } from "swr";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
+import { SolanaAddress } from "../../components/SolanaAddress";
 
 const useNft = ({
   nftAddress,
@@ -59,7 +59,7 @@ export default function NftPage({
         <img src={nft.image} />
         <div>
           <h1>{nft.name}</h1>
-          <p>{nft.address}</p>
+          <SolanaAddress address={nft.address} />
           <p>{nft.holder}</p>
           <p>{nft.collection}</p>
           <p>{JSON.stringify(nft.traits)}</p>
@@ -74,7 +74,7 @@ export default function NftPage({
         img {
           display: block;
           max-width: 20rem;
-          box-shadow: var(--shadow);
+          box-shadow: var(--shadow-lg);
         }
 
         .columns {
