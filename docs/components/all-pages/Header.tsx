@@ -47,7 +47,7 @@ export const Header = () => {
             {navOpen ? <XIcon /> : <MenuIcon />}
           </button>
 
-          <Link href="/overview">
+          <Link href="/docs/overview">
             <a>
               <img src="/logo.svg" className="logo dark" />
               <img src="/logo-light.svg" className="logo light" />
