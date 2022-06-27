@@ -51,7 +51,18 @@ export default function NftPage({
     return <div>No NFT</div>;
   }
 
-  return <div>NFT {nft.name}</div>;
+  console.log(nft);
+
+  return (
+    <div>
+      <img src={nft.image} />
+      <h1>{nft.name}</h1>
+      <p>{nft.address}</p>
+      <p>{nft.holder}</p>
+      <p>{nft.collection}</p>
+      <p>{JSON.stringify(nft.traits)}</p>
+    </div>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
