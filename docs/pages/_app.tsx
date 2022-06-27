@@ -27,12 +27,22 @@ export default function App(props: AppProps) {
 
   return (
     <>
-      <Header />
-      <div className="content">
-        <Component {...pageProps} />
+      <div className="page">
+        <Header />
+        <div className="content">
+          <Component {...pageProps} />
+        </div>
+        <Footer />
       </div>
       <style jsx>{`
+        .page {
+          min-height: 100vh;
+          display: grid;
+          grid-template-rows: max-content 1fr max-content;
+        }
+
         .content {
+          width: 100%;
           max-width: 60rem;
           margin: 0 auto;
           padding: 1.5rem;

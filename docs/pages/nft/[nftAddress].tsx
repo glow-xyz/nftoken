@@ -1,3 +1,4 @@
+import React from "react";
 import { Network } from "@glow-app/glow-client";
 import { Solana } from "@glow-app/solana-client";
 import { GetServerSideProps } from "next";
@@ -6,7 +7,7 @@ import useSWR, { SWRResponse } from "swr";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { SolanaAddress } from "../../components/SolanaAddress";
-import React from "react";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 const useNft = ({
   nftAddress,
@@ -98,8 +99,8 @@ export default function NftPage({
 
         img {
           display: block;
-          max-width: 20rem;
-          box-shadow: var(--shadow-lg);
+          max-width: 24rem;
+          box-shadow: var(--shadow);
         }
 
         h1 {
@@ -112,9 +113,13 @@ export default function NftPage({
           grid-column-gap: 3rem;
         }
 
+        .info {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+
         .info-box {
-          display: inline-block;
-          margin-right: 1rem;
           background-color: var(--secondary-bg-color);
           padding: 0.5rem 0.75rem;
           border-radius: var(--border-radius);
@@ -155,6 +160,17 @@ export default function NftPage({
           grid-column: span 2;
           border-top: 1px solid var(--secondary-border-color);
           margin: 0.5rem 0;
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          .columns {
+            grid-template-columns: 1fr;
+            grid-row-gap: 2rem;
+          }
+
+          .info {
+            gap: 0.5rem;
+          }
         }
       `}</style>
     </div>
