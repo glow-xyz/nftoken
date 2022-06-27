@@ -101,6 +101,7 @@ export default function NftPage({
           display: block;
           max-width: 24rem;
           box-shadow: var(--shadow);
+          border-radius: calc(var(--border-radius) * 2);
         }
 
         h1 {
@@ -133,7 +134,7 @@ export default function NftPage({
         }
 
         .trait-table {
-          margin-top: 1.5rem;
+          margin-top: 1rem;
           display: grid;
           grid-template-columns: max-content 1fr;
           font-family: var(--mono-font);
