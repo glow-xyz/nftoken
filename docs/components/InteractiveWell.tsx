@@ -1,13 +1,15 @@
 import { NetworkSwitcher } from "./atoms/NetworkSwitcher";
 
 export const InteractiveWell = ({
+  title,
   children,
 }: {
+  title: string;
   children: React.ReactNode;
 }) => {
   return (
     <section className="px-3 pb-3 my-3 rounded">
-      <div className="badge text-xs font-weight-bold">Live Minting Demo</div>
+      <div className="badge text-xs font-weight-bold">{title}</div>
       <div className="network-switcher">
         <NetworkSwitcher />
       </div>

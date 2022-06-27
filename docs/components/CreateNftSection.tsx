@@ -74,7 +74,7 @@ export const CreateNftSection = () => {
   const { network } = useNetworkContext();
 
   return (
-    <InteractiveWell>
+    <InteractiveWell title="Live Minting Demo">
       <div
         className={classNames("form-section", {
           blurred: !glowDetected || !user,
