@@ -54,13 +54,35 @@ export default function NftPage({
   console.log(nft);
 
   return (
-    <div>
-      <img src={nft.image} />
-      <h1>{nft.name}</h1>
-      <p>{nft.address}</p>
-      <p>{nft.holder}</p>
-      <p>{nft.collection}</p>
-      <p>{JSON.stringify(nft.traits)}</p>
+    <div className="wrapper">
+      <div className="columns">
+        <img src={nft.image} />
+        <div>
+          <h1>{nft.name}</h1>
+          <p>{nft.address}</p>
+          <p>{nft.holder}</p>
+          <p>{nft.collection}</p>
+          <p>{JSON.stringify(nft.traits)}</p>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .wrapper {
+          margin-top: 1.5rem;
+        }
+
+        img {
+          display: block;
+          max-width: 20rem;
+          box-shadow: var(--shadow);
+        }
+
+        .columns {
+          display: grid;
+          grid-template-columns: max-content 1fr;
+          grid-column-gap: 3rem;
+        }
+      `}</style>
     </div>
   );
 }

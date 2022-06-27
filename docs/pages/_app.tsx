@@ -21,7 +21,26 @@ export default function App(props: AppProps) {
     return <Component {...pageProps} />;
   }
 
-  return <DocsPage {...props} />;
+  if (router.pathname.startsWith("docs")) {
+    return <DocsPage {...props} />;
+  }
+
+  return (
+    <>
+      <Header />
+      <div className="content">
+        <Component {...pageProps} />
+      </div>
+      <style jsx>{`
+        .content {
+          max-width: 60rem;
+          margin: 0 auto;
+          padding: 1.5rem;
+          padding-bottom: 3rem;
+        }
+      `}</style>
+    </>
+  );
 }
 
 const DocsPage = ({ Component, pageProps }: AppProps) => {
