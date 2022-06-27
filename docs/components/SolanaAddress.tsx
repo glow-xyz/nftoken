@@ -37,7 +37,7 @@ export const SolanaAddress = ({
   clickToCopy?: boolean;
 }) => {
   if (!address) {
-    return <div>Missing Address</div>;
+    return <div>None</div>;
   }
 
   const component = (

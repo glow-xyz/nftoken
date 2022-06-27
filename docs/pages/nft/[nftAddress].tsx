@@ -66,13 +66,18 @@ export default function NftPage({
               <p>Address</p>
               <SolanaAddress address={nft.address} />
             </div>
+
+            <div className="info-box">
+              <p>Collection</p>
+              <SolanaAddress address={nft.collection} />
+            </div>
             <div className="info-box">
               <p>Holder</p>
               <SolanaAddress address={nft.holder} />
             </div>
             <div className="info-box">
-              <p>Collection</p>
-              <SolanaAddress address={nft.collection} />
+              <p>Delegate</p>
+              <SolanaAddress address={nft.delegate} />
             </div>
           </div>
 
