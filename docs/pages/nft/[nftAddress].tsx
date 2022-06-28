@@ -95,21 +95,21 @@ export default function NftPage({
             <div className="table">
               {KEYS.map(({ key, type }) => (
                 <React.Fragment key={key}>
-                  <p className="key">{key}</p>
+                  <div className="key">{key}</div>
                   {type === "address" ? (
                     <SolanaAddress address={nft[key]?.toString()} />
                   ) : type === "link" ? (
-                    <p className="link">
+                    <div className="link">
                       <ExternalLink href={nft[key]!.toString()}>
                         <span>{nft[key]!.toString()}</span> <ExternalLinkIcon />
                       </ExternalLink>
-                    </p>
+                    </div>
                   ) : (
-                    <p>
+                    <div>
                       {typeof nft[key] === "string"
                         ? nft[key]?.toString()
                         : JSON.stringify(nft[key])}
-                    </p>
+                    </div>
                   )}
                   <div className="divider" />
                 </React.Fragment>
@@ -122,8 +122,8 @@ export default function NftPage({
                 <div className="table">
                   {nft.traits.map(({ trait_type, value }) => (
                     <React.Fragment key={trait_type}>
-                      <p className="key">{trait_type}</p>
-                      <p>{value}</p>
+                      <div className="key">{trait_type}</div>
+                      <div>{value}</div>
                       <div className="divider" />
                     </React.Fragment>
                   ))}
@@ -158,15 +158,11 @@ export default function NftPage({
           background-color: var(--secondary-bg-color);
           font-family: var(--mono-font);
           font-weight: var(--medium-font-weight);
+          overflow-wrap: anywhere;
 
           display: grid;
           grid-template-columns: max-content 1fr;
           grid-column-gap: 2rem;
-        }
-
-        .table p {
-          margin-bottom: 0;
-          overflow-wrap: anywhere;
         }
 
         .table .key {
