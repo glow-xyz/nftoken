@@ -53,7 +53,7 @@ export const NFTOKEN_MINTLIST_CREATE_IX = new FixableGlowBorsh<{
   metadata_url: string;
   collection_metadata_url: string;
   go_live_date: DateTime;
-  price: Solana.SolAmount;
+  price_lamports: Solana.SolAmount;
   num_nfts_total: number;
   minting_order: string;
 }>({
@@ -62,7 +62,7 @@ export const NFTOKEN_MINTLIST_CREATE_IX = new FixableGlowBorsh<{
     ["metadata_url", GlowBorsh.utf8String(96)],
     ["collection_metadata_url", FixableGlowBorsh.utf8String],
     ["go_live_date", GlowBorsh.timestamp],
-    ["price", GlowBorsh.solAmount],
+    ["price_lamports", GlowBorsh.solAmount],
     ["num_nfts_total", u32],
     ["minting_order", FixableGlowBorsh.utf8String],
   ],
@@ -135,5 +135,21 @@ export const NFTOKEN_COLLECTION_ACCOUNT = new FixableGlowBorsh<{
     ["unused_3", u8],
     ["unused_4", u8],
     ["metadata_url", FixableGlowBorsh.utf8String],
+  ],
+});
+
+export const SYSTEM_CREATE_ACCOUNT_IX = new FixableGlowBorsh<{
+  // TODO: Avoid passing it, creating a dedicated codec instead.
+  instruction: number; // Must be `1`.
+  lamports: Solana.SolAmount;
+  // FIXME: Do we have a better type for `u64`?
+  space: Solana.SolAmount;
+  program_id: Solana.Address;
+}>({
+  fields: [
+    ["instruction", u32],
+    ["lamports", GlowBorsh.solAmount],
+    ["space", GlowBorsh.solAmount],
+    ["program_id", GlowBorsh.address],
   ],
 });

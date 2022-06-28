@@ -46,6 +46,7 @@ export const LuxInput = forwardRef(
       value: string;
       onChange: (value: string) => void;
       type?:
+        | "datetime-local"
         | "email"
         | "eth_address"
         | "name"
