@@ -11,7 +11,7 @@
   "dependencies": {
     "@glow-app/glow-client": "1.0.0",
     "@glow-app/glow-react": "1.0.1",
-    "@glow-app/solana-client": "1.0.1",
+    "@glow-app/solana-client": "1.0.4",
     "@heroicons/react": "1.0.6",
     "@luma-team/lux-sass": "0.47.0",
     "@markdoc/markdoc": "0.1.2",

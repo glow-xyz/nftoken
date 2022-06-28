@@ -121,16 +121,12 @@ export const CreateNftSection = () => {
                     }).toString("base64"),
                   },
                 ],
-              });
-
-              const signedTx = GTransaction.sign({
-                secretKey: nft_keypair.secretKey,
-                gtransaction: transaction,
+                signers: [nft_keypair],
               });
 
               await window.glow!.signAndSendTransaction({
                 transactionBase64: GTransaction.toBuffer({
-                  gtransaction: signedTx,
+                  gtransaction: transaction,
                 }).toString("base64"),
                 network: Network.Mainnet,
               });

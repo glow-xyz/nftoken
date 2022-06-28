@@ -14,7 +14,7 @@ importers:
     specifiers:
       '@glow-app/glow-client': 1.0.0
       '@glow-app/glow-react': 1.0.1
-      '@glow-app/solana-client': 1.0.1
+      '@glow-app/solana-client': 1.0.4
       '@heroicons/react': 1.0.6
       '@luma-team/lux-sass': 0.47.0
       '@markdoc/markdoc': 0.1.2
@@ -62,7 +62,7 @@ importers:
     dependencies:
       '@glow-app/glow-client': 1.0.0
       '@glow-app/glow-react': 1.0.1_biqbaboplfbrettd7655fr4n2y
-      '@glow-app/solana-client': 1.0.1
+      '@glow-app/solana-client': 1.0.4
       '@heroicons/react': 1.0.6_react@18.2.0
       '@luma-team/lux-sass': 0.47.0
       '@markdoc/markdoc': 0.1.2
@@ -1570,6 +1570,31 @@ packages:
 
   /@glow-app/solana-client/1.0.1:
     resolution: {integrity: sha512-GAWUnAg6dL539k4OJ4H3E3dlSNSGLO/s4yDl40PpYuOCvRKeFrUy5fG962k5voFTHepVg5lHiMlnnAZubDkmHg==}
+    dependencies:
+      '@metaplex-foundation/beet': 0.2.0
+      '@solana/web3.js': 1.44.1
+      axios: 0.27.2
+      bignumber.js: 9.0.2
+      bn.js: 5.2.1
+      bs58: 5.0.0
+      buffer: 6.0.3
+      js-sha256: 0.9.0
+      lodash: 4.17.21
+      luxon: 2.4.0
+      p-limit: 3.0.1
+      rimraf: 3.0.2
+      tweetnacl: 1.0.3
+      zod: 3.17.3
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@glow-app/solana-client/1.0.4:
+    resolution: {integrity: sha512-fdWPR+mOUyDMsJqZGSwet/NHPanGnPSp/6bwTv6Mw9gFcBe78Em41Ndd8wR21E3l21AORBKk1MLBun4oufUIYA==}
     dependencies:
       '@metaplex-foundation/beet': 0.2.0
       '@solana/web3.js': 1.44.1
