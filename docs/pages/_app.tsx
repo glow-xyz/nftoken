@@ -22,7 +22,7 @@ export default function App(props: AppProps) {
     return <Component {...pageProps} />;
   }
 
-  if (router.pathname.startsWith("docs")) {
+  if (router.pathname.startsWith("/docs")) {
     return <DocsPage {...props} />;
   }
 
