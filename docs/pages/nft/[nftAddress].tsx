@@ -38,11 +38,11 @@ const KEYS = [
   { key: "authority", type: "address" },
   { key: "name" },
   { key: "description" },
+  { key: "image", type: "link" },
   { key: "minted_at" },
   { key: "metadata_url", type: "link" },
-  { key: "is_frozen" },
   { key: "authority_can_update" },
-  { key: "image", type: "link" },
+  { key: "is_frozen" },
   { key: "version" },
 ];
 
