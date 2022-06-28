@@ -3,7 +3,6 @@ import "@glow-app/glow-react/dist/styles.css";
 
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { Toaster } from "react-hot-toast";
 import { Header } from "../components/all-pages/Header";
 import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons";
 import { TabBar } from "../components/all-pages/TabBar";
@@ -22,37 +21,7 @@ export default function App(props: AppProps) {
     return <Component {...pageProps} />;
   }
 
-  if (router.pathname.startsWith("docs")) {
-    return <DocsPage {...props} />;
-  }
-
-  return (
-    <>
-      <div className="page">
-        <Header />
-        <div className="content">
-          <Component {...pageProps} />
-        </div>
-        <Footer />
-      </div>
-      <Toaster />
-      <style jsx>{`
-        .page {
-          min-height: 100vh;
-          display: grid;
-          grid-template-rows: max-content 1fr max-content;
-        }
-
-        .content {
-          width: 100%;
-          max-width: 60rem;
-          margin: 0 auto;
-          padding: 1.5rem;
-          padding-bottom: 3rem;
-        }
-      `}</style>
-    </>
-  );
+  return <DocsPage {...props} />;
 }
 
 const DocsPage = ({ Component, pageProps }: AppProps) => {
