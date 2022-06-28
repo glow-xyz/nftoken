@@ -104,25 +104,22 @@ export default function NftPage({
                   <div className="divider" />
                 </React.Fragment>
               ))}
-              {nft.traits &&
-                nft.traits.map(({ trait_type, value }) => (
-                  <React.Fragment key={trait_type}>
-                    <div className="key">
-                      <span>{trait_type}</span>
-                      <span> </span>
-                      <a
-                        href={nft.metadata_url ?? undefined}
-                        target="_blank"
-                        className="trait-badge"
-                      >
-                        Trait
-                      </a>
-                    </div>
-                    <p>{value}</p>
-                    <div className="divider" />
-                  </React.Fragment>
-                ))}
             </div>
+
+            {nft.traits && (
+              <div className="mt-4">
+                <h2>Traits</h2>
+                <div className="table">
+                  {nft.traits.map(({ trait_type, value }) => (
+                    <React.Fragment key={trait_type}>
+                      <p className="key">{trait_type}</p>
+                      <p>{value}</p>
+                      <div className="divider" />
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
