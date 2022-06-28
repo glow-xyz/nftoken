@@ -11,8 +11,8 @@ import { SolanaAddress } from "../../components/SolanaAddress";
 import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { ExternalLink } from "../../components/ExternalLink";
-import { LuxButton } from "../../components/LuxButton";
-import { ArrowRightIcon } from "@heroicons/react/solid";
+// import { LuxButton } from "../../components/LuxButton";
+// import { ArrowRightIcon } from "@heroicons/react/solid";
 
 const useNft = ({
   nftAddress,
