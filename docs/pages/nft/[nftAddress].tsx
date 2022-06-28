@@ -11,6 +11,8 @@ import { SolanaAddress } from "../../components/SolanaAddress";
 import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { ExternalLink } from "../../components/ExternalLink";
+import { LuxButton } from "../../components/LuxButton";
+import { ArrowRightIcon } from "@heroicons/react/solid";
 
 const useNft = ({
   nftAddress,
@@ -97,7 +99,20 @@ export default function NftPage({
                 <React.Fragment key={key}>
                   <div className="key">{key}</div>
                   {type === "address" ? (
-                    <SolanaAddress address={nft[key]?.toString()} />
+                    <div className="solana-address flex-center flex-wrap">
+                      <SolanaAddress address={nft[key]?.toString()} />
+                      {/* Commented out until the collection page is done. */}
+                      {/* {key === "collection" && (
+                        <LuxButton
+                          label="View Collection"
+                          icon={<ArrowRightIcon />}
+                          href={`/collection/${nft.collection}`}
+                          iconPlacement="right"
+                          rounded
+                          size="small"
+                        />
+                      )} */}
+                    </div>
                   ) : type === "link" ? (
                     <div className="link">
                       <ExternalLink href={nft[key]!.toString()}>
@@ -175,6 +190,14 @@ export default function NftPage({
 
         .table .link :global(svg) {
           margin-bottom: 0.2rem; /* For vertical alignment */
+        }
+
+        .table .solana-address {
+          gap: 1rem;
+        }
+
+        .table .solana-address :global(.luma-button) {
+          font-family: var(--font);
         }
 
         .table .divider {
