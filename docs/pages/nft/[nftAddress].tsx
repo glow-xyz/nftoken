@@ -1,11 +1,18 @@
+import React from "react";
 import { Network } from "@glow-app/glow-client";
 import { Solana } from "@glow-app/solana-client";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import React from "react";
 import useSWR, { SWRResponse } from "swr";
+import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
+import { SolanaAddress } from "../../components/SolanaAddress";
+import { SocialHead } from "../../components/SocialHead";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import { ExternalLink } from "../../components/ExternalLink";
+// import { LuxButton } from "../../components/LuxButton";
+// import { ArrowRightIcon } from "@heroicons/react/solid";
 
 const useNft = ({
   nftAddress,
@@ -26,6 +33,22 @@ const useNft = ({
   });
   return { data: data!, error, mutate };
 };
+
+type ATTRIBUTE_KEY = keyof NftokenTypes.NftInfo;
+type ATTRIBUTE_TYPE = "address" | "link";
+const KEYS: { key: ATTRIBUTE_KEY; type?: ATTRIBUTE_TYPE }[] = [
+  { key: "address", type: "address" },
+  { key: "collection", type: "address" },
+  { key: "holder", type: "address" },
+  { key: "delegate", type: "address" },
+  { key: "authority", type: "address" },
+  { key: "name" },
+  { key: "description" },
+  { key: "image", type: "link" },
+  { key: "minted_at" },
+  { key: "metadata_url", type: "link" },
+  { key: "authority_can_update" },
+];
 
 export default function NftPage({
   initialNft,
@@ -48,10 +71,181 @@ export default function NftPage({
   }
 
   if (nft === null) {
-    return <div>No NFT</div>;
+    return (
+      <>
+        <SocialHead subtitle="NFT Not Found" />
+        <h1>We couldn’t find an NFToken with this address.</h1>
+        <style jsx>{`
+          h1 {
+            font-size: 1.5rem;
+          }
+        `}</style>
+      </>
+    );
   }
 
-  return <div>NFT {nft.name}</div>;
+  return (
+    <>
+      <SocialHead subtitle={nft.name} />
+
+      <div className="wrapper">
+        <div className="columns">
+          <img src={nft.image} />
+          <div>
+            <h1>{nft.name}</h1>
+
+            <div className="table">
+              {KEYS.map(({ key, type }) => (
+                <React.Fragment key={key}>
+                  <div className="key">{key}</div>
+                  {type === "address" ? (
+                    <div className="solana-address flex-center flex-wrap">
+                      <SolanaAddress address={nft[key]?.toString()} />
+                      {/* Commented out until the collection page is done. */}
+                      {/* {key === "collection" && (
+                        <LuxButton
+                          label="View Collection"
+                          icon={<ArrowRightIcon />}
+                          href={`/collection/${nft.collection}`}
+                          iconPlacement="right"
+                          rounded
+                          size="small"
+                        />
+                      )} */}
+                    </div>
+                  ) : type === "link" ? (
+                    <div className="link">
+                      <ExternalLink href={nft[key]!.toString()}>
+                        <span>{nft[key]!.toString()}</span> <ExternalLinkIcon />
+                      </ExternalLink>
+                    </div>
+                  ) : (
+                    <div>
+                      {typeof nft[key] === "string"
+                        ? nft[key]?.toString()
+                        : JSON.stringify(nft[key])}
+                    </div>
+                  )}
+                  <div className="divider" />
+                </React.Fragment>
+              ))}
+            </div>
+
+            <div className="mt-4">
+              <h2>Traits</h2>
+              {nft.traits && nft.traits.length > 0 ? (
+                <div className="table">
+                  {nft.traits.map(({ trait_type, value }) => (
+                    <React.Fragment key={trait_type}>
+                      <div className="key">{trait_type}</div>
+                      <div>{value}</div>
+                      <div className="divider" />
+                    </React.Fragment>
+                  ))}
+                </div>
+              ) : (
+                <div className="table text-secondary">No traits set.</div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .wrapper {
+          margin-top: 1.5rem;
+        }
+
+        img {
+          display: block;
+          width: 100%;
+          box-shadow: var(--shadow);
+          border-radius: calc(var(--border-radius) * 2);
+        }
+
+        .columns {
+          display: grid;
+          grid-template-columns: 20rem 1fr;
+          grid-column-gap: 3rem;
+        }
+
+        .table {
+          padding: 0.75rem;
+          border-radius: var(--border-radius);
+          background-color: var(--secondary-bg-color);
+          font-family: var(--mono-font);
+          font-weight: var(--medium-font-weight);
+          overflow-wrap: anywhere;
+
+          display: grid;
+          grid-template-columns: max-content 1fr;
+          grid-column-gap: 2rem;
+        }
+
+        .table .key {
+          font-weight: var(--normal-font-weight);
+          color: var(--secondary-color);
+          max-width: 8.5rem; /* This width cuts "authority_can_update" in a nice way */
+        }
+
+        .table .link :global(svg) {
+          margin-bottom: 0.2rem; /* For vertical alignment */
+        }
+
+        .table .solana-address {
+          gap: 1rem;
+        }
+
+        .table .solana-address :global(.luma-button) {
+          font-family: var(--font);
+        }
+
+        .table .divider {
+          border-top: 1px solid var(--secondary-border-color);
+          grid-column: span 2;
+          margin: 0.5rem 0;
+        }
+
+        .table .divider:last-of-type {
+          display: none;
+        }
+
+        .table .trait-badge {
+          font-size: var(--tiny-pill-font-size);
+          font-weight: var(--bold-font-weight);
+          font-family: var(--font);
+          background-color: var(--gray-90);
+          color: var(--gray-20);
+          max-width: max-content;
+          padding: var(--tiny-pill-padding);
+          border-radius: 99rem;
+          vertical-align: text-top;
+          text-decoration: none;
+        }
+
+        .table .trait-badge:hover {
+          background-color: var(--gray-80);
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          img {
+            max-width: 24rem;
+            margin: 0 auto;
+          }
+
+          h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+          }
+
+          .columns {
+            grid-template-columns: 1fr;
+            grid-row-gap: 1.5rem;
+          }
+        }
+      `}</style>
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
