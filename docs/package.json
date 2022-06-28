@@ -54,7 +54,7 @@
     "@types/node": "18.0.0",
     "@types/prismjs": "1.26.0",
     "@types/react": "18.0.14",
-    "@types/react-copy-to-clipboard": "^5.0.2",
+    "@types/react-copy-to-clipboard": "5.0.2",
     "@typescript-eslint/parser": "5.29.0",
     "eslint": "8.18.0",
     "eslint-plugin-lodash": "7.4.0"
