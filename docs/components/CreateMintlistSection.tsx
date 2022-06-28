@@ -20,6 +20,7 @@ import {
 } from "../utils/nft-borsh";
 import { LuxInputField } from "../components/LuxInput";
 import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
+import BN from "bn.js";
 
 // FIXME: Move these to `@glow-app/solana-client`
 export const LAMPORTS_PER_SOL = 1000000000;
@@ -81,7 +82,7 @@ export const CreateMintlistSection = () => {
               const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
               const { lamports: mintlistAccountLamports } =
                 await SolanaClient.getMinimumBalanceForRentExemption({
-                  dataLength: mintlistAccountSize,
+                  dataLength: mintlistAccountSize.toNumber(),
                   rpcUrl: "https://api.mainnet-beta.solana.com",
                 });
 
@@ -113,10 +114,10 @@ export const CreateMintlistSection = () => {
                     // SystemProgram
                     program: GPublicKey.default.toBase58(),
                     data_base64: SYSTEM_CREATE_ACCOUNT_IX.toBuffer({
-                      instruction: 1,
-                      lamports: { lamports: mintlistAccountLamports },
-                      space: { lamports: String(mintlistAccountSize) },
-                      program_id: NFTOKEN_ADDRESS,
+                      ix_discriminator: null,
+                      amount: { lamports: mintlistAccountLamports },
+                      space: mintlistAccountSize,
+                      program_owner: NFTOKEN_ADDRESS,
                     }).toString("base64"),
                   },
                   // mintlist_create
@@ -367,36 +368,36 @@ const Container = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-function getMintlistAccountSize(numNftsTotal: number): number {
-  return (
+function getMintlistAccountSize(numNftsTotal: number): BN {
+  return new BN(
     // Account discriminator
     8 +
-    // version
-    1 +
-    // creator
-    32 +
-    // treasury_sol
-    32 +
-    // go_live_date
-    8 +
-    // price
-    8 +
-    // minting_order
-    1 +
-    // collection
-    32 +
-    // metadata_url
-    96 +
-    // created_at
-    8 +
-    // num_mints
-    4 +
-    // mints_redeemed
-    4 +
-    // num_nfts_configured
-    4 +
-    // mint_infos
-    numNftsTotal * getMintInfoSize()
+      // version
+      1 +
+      // creator
+      32 +
+      // treasury_sol
+      32 +
+      // go_live_date
+      8 +
+      // price
+      8 +
+      // minting_order
+      1 +
+      // collection
+      32 +
+      // metadata_url
+      96 +
+      // created_at
+      8 +
+      // num_mints
+      4 +
+      // mints_redeemed
+      4 +
+      // num_nfts_configured
+      4 +
+      // mint_infos
+      numNftsTotal * getMintInfoSize()
   );
 }
 

@@ -22,6 +22,7 @@ importers:
       '@metaplex-foundation/beet': 0.2.0
       '@popperjs/core': 2.11.5
       '@svgr/webpack': 6.2.1
+      '@types/bn.js': ^5.1.0
       '@types/canvas-confetti': 1.4.2
       '@types/lodash': 4.14.182
       '@types/luxon': 2.3.2
@@ -32,6 +33,7 @@ importers:
       '@types/react-dom': 18.0.5
       '@typescript-eslint/parser': 5.29.0
       axios: 0.27.2
+      bn.js: ^5.2.1
       bs58: 5.0.0
       canvas-confetti: 1.5.1
       classnames: 2.3.1
@@ -72,10 +74,12 @@ importers:
       '@metaplex-foundation/beet': 0.2.0
       '@popperjs/core': 2.11.5
       '@svgr/webpack': 6.2.1
+      '@types/bn.js': 5.1.0
       '@types/lodash': 4.14.182
       '@types/luxon': 2.3.2
       '@types/react-dom': 18.0.5
       axios: 0.27.2
+      bn.js: 5.2.1
       bs58: 5.0.0
       canvas-confetti: 1.5.1
       classnames: 2.3.1
@@ -2504,6 +2508,12 @@ packages:
     resolution: {integrity: sha512-kVzjari1s2YVi77D3w1yuvohV2idweYXMCDzqBiVNN63TcDWrIlTVOYpqVrvbbyOE/IyzBoTKF0fdnLPEORFxA==}
     dependencies:
       '@babel/types': 7.18.0
+    dev: false
+
+  /@types/bn.js/5.1.0:
+    resolution: {integrity: sha512-QSSVYj7pYFN49kW77o2s9xTCwZ8F2xLbjLLSEVh8D2F4JUhZtPAGOFLTD+ffqksBx/u4cE/KImFjyhqCjn/LIA==}
+    dependencies:
+      '@types/node': 18.0.0
     dev: false
 
   /@types/canvas-confetti/1.4.2:
