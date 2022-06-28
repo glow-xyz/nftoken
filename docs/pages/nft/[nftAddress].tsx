@@ -116,9 +116,9 @@ export default function NftPage({
               ))}
             </div>
 
-            {nft.traits && (
-              <div className="mt-4">
-                <h2>Traits</h2>
+            <div className="mt-4">
+              <h2>Traits</h2>
+              {nft.traits && nft.traits.length > 0 ? (
                 <div className="table">
                   {nft.traits.map(({ trait_type, value }) => (
                     <React.Fragment key={trait_type}>
@@ -128,8 +128,10 @@ export default function NftPage({
                     </React.Fragment>
                   ))}
                 </div>
-              </div>
-            )}
+              ) : (
+                <div className="table text-secondary">No traits set.</div>
+              )}
+            </div>
           </div>
         </div>
       </div>
