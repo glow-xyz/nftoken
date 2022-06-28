@@ -42,7 +42,7 @@ export const Header = () => {
 
   return (
     <>
-      <div>
+      <div className="header-container">
         <header>
           <div className="header-inner spread">
             <div className="flex-center">
@@ -76,13 +76,16 @@ export const Header = () => {
       </div>
 
       <style jsx>{`
+        .header-container {
+          position: sticky;
+          top: 0;
+          z-index: 101;
+        }
+
         header {
           border-top: 4px solid var(--brand-color);
           border-bottom: 1px solid var(--secondary-border-color);
-          position: sticky;
-          top: 0;
           background-color: var(--primary-bg-color);
-          z-index: 100;
         }
 
         .header-inner {
@@ -141,7 +144,6 @@ export const Header = () => {
           background-color: var(--primary-bg-color);
           left: 0;
           right: 0;
-          z-index: 100;
           overflow: hidden;
         }
 
