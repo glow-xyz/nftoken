@@ -7,6 +7,7 @@ import useSWR, { SWRResponse } from "swr";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { SolanaAddress } from "../../components/SolanaAddress";
+import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 const useNft = ({
@@ -69,31 +70,33 @@ export default function NftPage({
     return <div>No NFT</div>;
   }
 
-  console.log(nft);
-
   return (
-    <div className="wrapper">
-      <div className="columns">
-        <img src={nft.image} />
-        <div>
-          <h1>{nft.name}</h1>
+    <>
+      <SocialHead subtitle={nft.name} />
 
-          <div className="table">
-            {KEYS.map(({ key, type }, index) => (
-              <React.Fragment key={key}>
-                <p className="key">{key}</p>
-                {type === "address" ? (
-                  <SolanaAddress address={nft[key]} />
-                ) : type === "link" ? (
-                  <a href={nft[key]} target="_blank">
-                    {nft[key]}
-                  </a>
-                ) : (
-                  <p>{JSON.stringify(nft[key])}</p>
-                )}
-                {index !== KEYS.length - 1 && <div className="divider" />}
-              </React.Fragment>
-            ))}
+      <div className="wrapper">
+        <div className="columns">
+          <img src={nft.image} />
+          <div>
+            <h1>{nft.name}</h1>
+
+            <div className="table">
+              {KEYS.map(({ key, type }, index) => (
+                <React.Fragment key={key}>
+                  <p className="key">{key}</p>
+                  {type === "address" ? (
+                    <SolanaAddress address={nft[key]} />
+                  ) : type === "link" ? (
+                    <a href={nft[key]} target="_blank">
+                      {nft[key]}
+                    </a>
+                  ) : (
+                    <p>{JSON.stringify(nft[key])}</p>
+                  )}
+                  {index !== KEYS.length - 1 && <div className="divider" />}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -160,7 +163,7 @@ export default function NftPage({
           }
         }
       `}</style>
-    </div>
+    </>
   );
 }
 
