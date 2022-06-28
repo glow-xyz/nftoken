@@ -97,9 +97,27 @@ export default function NftPage({
                         : JSON.stringify(nft[key])}
                     </p>
                   )}
-                  {index !== KEYS.length - 1 && <div className="divider" />}
+                  <div className="divider" />
                 </React.Fragment>
               ))}
+              {nft.traits &&
+                nft.traits.map(({ trait_type, value }) => (
+                  <React.Fragment key={trait_type}>
+                    <div className="key">
+                      <span>{trait_type}</span>
+                      <span> </span>
+                      <a
+                        href={nft.metadata_url ?? undefined}
+                        target="_blank"
+                        className="trait-badge"
+                      >
+                        Trait
+                      </a>
+                    </div>
+                    <p>{value}</p>
+                    <div className="divider" />
+                  </React.Fragment>
+                ))}
             </div>
           </div>
         </div>
@@ -153,12 +171,28 @@ export default function NftPage({
           margin: 0.5rem 0;
         }
 
+        .table .divider:last-of-type {
+          display: none;
+        }
+
         .table a {
           color: var(--primary-color);
         }
 
         .table a:hover {
           text-decoration: underline;
+        }
+
+        .table .trait-badge {
+          font-size: var(--tiny-pill-font-size);
+          font-weight: var(--bold-font-weight);
+          font-family: var(--font);
+          background-color: var(--gray-90);
+          color: var(--gray-20);
+          max-width: max-content;
+          padding: var(--tiny-pill-padding);
+          border-radius: 99rem;
+          vertical-align: text-top;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
