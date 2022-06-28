@@ -3,6 +3,7 @@ import "@glow-app/glow-react/dist/styles.css";
 
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import { Toaster } from "react-hot-toast";
 import { Header } from "../components/all-pages/Header";
 import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons";
 import { TabBar } from "../components/all-pages/TabBar";
@@ -34,6 +35,7 @@ export default function App(props: AppProps) {
         </div>
         <Footer />
       </div>
+      <Toaster />
       <style jsx>{`
         .page {
           min-height: 100vh;

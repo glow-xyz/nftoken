@@ -25,9 +25,13 @@ export const ERROR_TOAST_STYLE = {
 };
 
 export const toastSuccess = (message: string, id?: string) => {
-  toast.success(message, { id, ...SUCCESS_TOAST_STYLE });
+  toast.success(message, {
+    id,
+    position: "bottom-center",
+    ...SUCCESS_TOAST_STYLE,
+  });
 };
 
 export const toastError = (message: string, id?: string) => {
-  toast.error(message, { id, ...ERROR_TOAST_STYLE });
+  toast.error(message, { id, position: "bottom-center", ...ERROR_TOAST_STYLE });
 };
