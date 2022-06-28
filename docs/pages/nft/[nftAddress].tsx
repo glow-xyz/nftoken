@@ -83,7 +83,7 @@ export default function NftPage({
             <h1>{nft.name}</h1>
 
             <div className="table">
-              {KEYS.map(({ key, type }, index) => (
+              {KEYS.map(({ key, type }) => (
                 <React.Fragment key={key}>
                   <p className="key">{key}</p>
                   {type === "address" ? (
