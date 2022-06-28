@@ -4,11 +4,13 @@ import { Solana } from "@glow-app/solana-client";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import useSWR, { SWRResponse } from "swr";
+import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { SolanaAddress } from "../../components/SolanaAddress";
 import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import { ExternalLink } from "../../components/ExternalLink";
 
 const useNft = ({
   nftAddress,
@@ -30,7 +32,9 @@ const useNft = ({
   return { data: data!, error, mutate };
 };
 
-const KEYS = [
+type ATTRIBUTE_KEY = keyof NftokenTypes.NftInfo;
+type ATTRIBUTE_TYPE = "address" | "link";
+const KEYS: { key: ATTRIBUTE_KEY; type?: ATTRIBUTE_TYPE }[] = [
   { key: "address", type: "address" },
   { key: "collection", type: "address" },
   { key: "holder", type: "address" },
@@ -42,8 +46,6 @@ const KEYS = [
   { key: "minted_at" },
   { key: "metadata_url", type: "link" },
   { key: "authority_can_update" },
-  { key: "is_frozen" },
-  { key: "version" },
 ];
 
 export default function NftPage({
@@ -85,15 +87,17 @@ export default function NftPage({
                 <React.Fragment key={key}>
                   <p className="key">{key}</p>
                   {type === "address" ? (
-                    <SolanaAddress address={nft[key]} />
+                    <SolanaAddress address={nft[key]?.toString()} />
                   ) : type === "link" ? (
-                    <a href={nft[key]} target="_blank">
-                      {nft[key]}
-                    </a>
+                    <p className="link">
+                      <ExternalLink href={nft[key]!.toString()}>
+                        <span>{nft[key]!.toString()}</span> <ExternalLinkIcon />
+                      </ExternalLink>
+                    </p>
                   ) : (
                     <p>
                       {typeof nft[key] === "string"
-                        ? nft[key]
+                        ? nft[key]?.toString()
                         : JSON.stringify(nft[key])}
                     </p>
                   )}
@@ -153,8 +157,7 @@ export default function NftPage({
           grid-column-gap: 2rem;
         }
 
-        .table p,
-        .table a {
+        .table p {
           margin-bottom: 0;
           overflow-wrap: anywhere;
         }
@@ -163,6 +166,10 @@ export default function NftPage({
           font-weight: var(--normal-font-weight);
           color: var(--secondary-color);
           max-width: 8.5rem; /* This width cuts "authority_can_update" in a nice way */
+        }
+
+        .table .link :global(svg) {
+          margin-bottom: 0.2rem; /* For vertical alignment */
         }
 
         .table .divider {
@@ -175,14 +182,6 @@ export default function NftPage({
           display: none;
         }
 
-        .table a {
-          color: var(--primary-color);
-        }
-
-        .table a:hover {
-          text-decoration: underline;
-        }
-
         .table .trait-badge {
           font-size: var(--tiny-pill-font-size);
           font-weight: var(--bold-font-weight);
@@ -193,6 +192,11 @@ export default function NftPage({
           padding: var(--tiny-pill-padding);
           border-radius: 99rem;
           vertical-align: text-top;
+          text-decoration: none;
+        }
+
+        .table .trait-badge:hover {
+          background-color: var(--gray-80);
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
