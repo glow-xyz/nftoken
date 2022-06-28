@@ -105,14 +105,14 @@ export default function NftPage({
 
         img {
           display: block;
-          max-width: 20rem;
+          width: 100%;
           box-shadow: var(--shadow);
           border-radius: calc(var(--border-radius) * 2);
         }
 
         .columns {
           display: grid;
-          grid-template-columns: max-content 1fr;
+          grid-template-columns: 20rem 1fr;
           grid-column-gap: 3rem;
         }
 
