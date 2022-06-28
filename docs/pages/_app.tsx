@@ -70,10 +70,6 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
             </div>
           </nav>
 
-          <nav className="mobile">
-            <TabBar />
-          </nav>
-
           <main className={"min-width-0"}>
             <Component {...pageProps} />
 
@@ -108,19 +104,6 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
           padding-left: 0.75rem;
           position: sticky;
           top: 8rem;
-        }
-
-        nav.mobile {
-          /* Hide nav by default, so there's no flash on page load. */
-          height: 0;
-          padding: 0 1.5rem;
-
-          position: fixed;
-          background-color: var(--primary-bg-color);
-          left: 0;
-          right: 0;
-          z-index: 100;
-          overflow: hidden;
         }
 
         main {

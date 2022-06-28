@@ -1,8 +1,9 @@
-import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
-import { animate, stagger } from "motion";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { animate, stagger } from "motion";
+import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
+import { TabBar } from "./TabBar";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 export const Header = () => {
@@ -40,29 +41,38 @@ export const Header = () => {
   }, [router.pathname]);
 
   return (
-    <header>
-      <div className="header-inner spread">
-        <div className="flex-center">
-          <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
-            {navOpen ? <XIcon /> : <MenuIcon />}
-          </button>
-
-          <Link href="/docs/overview">
-            <a>
-              <img src="/logo.svg" className="logo dark" />
-              <img src="/logo-light.svg" className="logo light" />
+    <>
+      <div>
+        <header>
+          <div className="header-inner spread">
+            <div className="flex-center">
+              <button
+                className="mobile-nav"
+                onClick={() => setNavOpen(!navOpen)}
+              >
+                {navOpen ? <XIcon /> : <MenuIcon />}
+              </button>
+              <Link href="/docs/overview">
+                <a>
+                  <img src="/logo.svg" className="logo dark" />
+                  <img src="/logo-light.svg" className="logo light" />
+                </a>
+              </Link>
+            </div>
+            <a
+              href="https://github.com/glow-xyz/nftoken"
+              target="_blank"
+              className="github"
+            >
+              <span>GitHub</span>
+              <ExternalLinkIcon />
             </a>
-          </Link>
-        </div>
+          </div>
+        </header>
 
-        <a
-          href="https://github.com/glow-xyz/nftoken"
-          target="_blank"
-          className="github"
-        >
-          <span>GitHub</span>
-          <ExternalLinkIcon />
-        </a>
+        <nav className="mobile">
+          <TabBar />
+        </nav>
       </div>
 
       <style jsx>{`
@@ -122,6 +132,19 @@ export const Header = () => {
           transform: translateY(-0.1rem);
         }
 
+        nav.mobile {
+          /* Hide nav by default, so there's no flash on page load. */
+          height: 0;
+          padding: 0 1.5rem;
+
+          position: fixed;
+          background-color: var(--primary-bg-color);
+          left: 0;
+          right: 0;
+          z-index: 100;
+          overflow: hidden;
+        }
+
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
           .header-inner {
             padding-top: 1rem;
@@ -133,6 +156,6 @@ export const Header = () => {
           }
         }
       `}</style>
-    </header>
+    </>
   );
 };
