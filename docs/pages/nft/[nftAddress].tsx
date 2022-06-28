@@ -91,7 +91,11 @@ export default function NftPage({
                       {nft[key]}
                     </a>
                   ) : (
-                    <p>{JSON.stringify(nft[key])}</p>
+                    <p>
+                      {typeof nft[key] === "string"
+                        ? nft[key]
+                        : JSON.stringify(nft[key])}
+                    </p>
                   )}
                   {index !== KEYS.length - 1 && <div className="divider" />}
                 </React.Fragment>
@@ -134,12 +138,13 @@ export default function NftPage({
         .table p,
         .table a {
           margin-bottom: 0;
-          word-break: break-all;
+          overflow-wrap: anywhere;
         }
 
         .table .key {
           font-weight: var(--normal-font-weight);
           color: var(--secondary-color);
+          max-width: 8.5rem; /* This width cuts "authority_can_update" in a nice way */
         }
 
         .table .divider {
@@ -157,9 +162,19 @@ export default function NftPage({
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
+          img {
+            max-width: 24rem;
+            margin: 0 auto;
+          }
+
+          h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+          }
+
           .columns {
             grid-template-columns: 1fr;
-            grid-row-gap: 2rem;
+            grid-row-gap: 1.5rem;
           }
         }
       `}</style>
