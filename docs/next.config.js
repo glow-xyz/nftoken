@@ -21,26 +21,6 @@ const nextConfig = {
     });
     return config;
   },
-  redirects: () => [
-    { source: "/docs", destination: "/docs/overview", permanent: true },
-    { source: "/overview", destination: "/docs/overview", permanent: true },
-    {
-      source: "/create-an-nft",
-      destination: "/docs/create-an-nft",
-      permanent: true,
-    },
-    {
-      source: "/technical-details",
-      destination: "/docs/technical-details",
-      permanent: true,
-    },
-    { source: "/faq", destination: "/docs/faq", permanent: true },
-    { source: "/changelog", destination: "/docs/changelog", permanent: true },
-  ],
-  rewrites: () => ({
-    // `fallback` allows us to only rewrite if the path doesn’t exist.
-    fallback: [{ source: "/docs/:slug", destination: "/docs/overview" }],
-  }),
 };
 
 /* config: https://markdoc.io/docs/nextjs#options */
