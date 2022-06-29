@@ -1,7 +1,14 @@
 import { strict as assert } from "assert";
 import BN from "bn.js";
 import { FixableGlowBorsh, GlowBorsh, Solana } from "@glow-app/solana-client";
-import { bool, u8, u32, array, FixedSizeBeet } from "@metaplex-foundation/beet";
+import {
+  bool,
+  u8,
+  u32,
+  array,
+  FixedSizeBeet,
+  fixedScalarEnum,
+} from "@metaplex-foundation/beet";
 import { Buffer } from "buffer";
 import { DateTime } from "luxon";
 import { NftokenTypes } from "./NftokenTypes";
@@ -71,6 +78,11 @@ export const NFTOKEN_MINTLIST_CREATE_IX = new FixableGlowBorsh<{
   ],
 });
 
+enum MintingOrder {
+  Sequential,
+  Random,
+}
+
 export const NFTOKEN_MINTLIST_ACCOUNT = new FixableGlowBorsh<{
   discriminator: null;
   version: number;
@@ -79,7 +91,7 @@ export const NFTOKEN_MINTLIST_ACCOUNT = new FixableGlowBorsh<{
   go_live_date: DateTime;
   price: Solana.SolAmount;
   metadata_url: string;
-  minting_order: number;
+  minting_order: MintingOrder;
   collection: Solana.Address;
   created_at: DateTime;
   num_nfts_total: number;
@@ -93,9 +105,10 @@ export const NFTOKEN_MINTLIST_ACCOUNT = new FixableGlowBorsh<{
     ["treasury_sol", GlowBorsh.address],
     ["go_live_date", GlowBorsh.timestamp],
     ["price", GlowBorsh.solAmount],
-    ["minting_order", u8], // TODO: Figure out what this should be to be an enum
+    // @ts-ignore
+    ["minting_order", fixedScalarEnum(MintingOrder)],
     ["collection", GlowBorsh.address],
-    ["metadata_url", FixableGlowBorsh.utf8String],
+    ["metadata_url", GlowBorsh.utf8String(96)],
     ["created_at", GlowBorsh.timestamp],
     ["num_nfts_total", u32],
     ["num_nfts_redeemed", u32],

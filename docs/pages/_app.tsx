@@ -23,7 +23,13 @@ export default function App(props: AppProps) {
     return <DocsPage {...props} />;
   }
 
-  return <Component {...pageProps} />;
+  return (
+    <GlowProvider>
+      <NetworkProvider>
+        <Component {...pageProps} />
+      </NetworkProvider>
+    </GlowProvider>
+  );
 }
 
 const DocsPage = ({ Component, pageProps }: AppProps) => {
