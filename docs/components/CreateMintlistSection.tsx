@@ -24,6 +24,7 @@ import { ImageDropZone } from "./forms/ImageDropZone";
 import { LiveDemoContainer } from "./LiveDemoContainer";
 import { getMintlistAccountSize } from "../utils/mintlist";
 import BN from "bn.js";
+import { NETWORK_TO_RPC } from "../utils/rpc-types";
 
 // TODO: Should we move these to `@glow-app/solana-client`?
 export const LAMPORTS_PER_SOL = 1_000_000_000;
@@ -92,14 +93,17 @@ export const CreateMintlistSection = () => {
               const collectionKeypair = GKeypair.generate();
 
               const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
+
+              const rpcUrl = NETWORK_TO_RPC[Network.Mainnet];
+
               const { lamports: mintlistAccountLamports } =
                 await SolanaClient.getMinimumBalanceForRentExemption({
                   dataLength: mintlistAccountSize.toNumber(),
-                  rpcUrl: "https://api.mainnet-beta.solana.com",
+                  rpcUrl,
                 });
 
               const recentBlockhash = await SolanaClient.getRecentBlockhash({
-                rpcUrl: "https://api.mainnet-beta.solana.com",
+                rpcUrl,
               });
 
               const tx = createMintlistCreateTx({
