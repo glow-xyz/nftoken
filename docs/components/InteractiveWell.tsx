@@ -35,7 +35,7 @@ export const InteractiveWell = ({
       {!minimal && (
         <div className={classNames("disconnect", { blurred })}>
           <LuxButton
-            label="Disconnect"
+            label="Disconnect Wallet"
             onClick={signOut}
             size="small"
             color="secondary"
