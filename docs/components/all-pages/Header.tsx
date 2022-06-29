@@ -1,8 +1,9 @@
-import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
-import { animate, stagger } from "motion";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { animate, stagger } from "motion";
+import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
+import { TabBar } from "./TabBar";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 export const Header = () => {
@@ -40,39 +41,43 @@ export const Header = () => {
   }, [router.pathname]);
 
   return (
-    <header>
-      <div className="header-inner spread">
-        <div className="flex-center">
-          <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
-            {navOpen ? <XIcon /> : <MenuIcon />}
-          </button>
-
-          <Link href="/overview">
-            <a>
-              <img src="/logo.svg" className="logo dark" />
-              <img src="/logo-light.svg" className="logo light" />
-            </a>
-          </Link>
+    <>
+      <header>
+        <div className="header-inner spread">
+          <div className="flex-center">
+            <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
+              {navOpen ? <XIcon /> : <MenuIcon />}
+            </button>
+            <Link href="/docs/overview">
+              <a>
+                <img src="/logo.svg" className="logo dark" />
+                <img src="/logo-light.svg" className="logo light" />
+              </a>
+            </Link>
+          </div>
+          <a
+            href="https://github.com/glow-xyz/nftoken"
+            target="_blank"
+            className="github"
+          >
+            <span>GitHub</span>
+            <ExternalLinkIcon />
+          </a>
         </div>
+      </header>
 
-        <a
-          href="https://github.com/glow-xyz/nftoken"
-          target="_blank"
-          className="github"
-        >
-          <span>GitHub</span>
-          <ExternalLinkIcon />
-        </a>
-      </div>
+      <nav className="mobile">
+        <TabBar />
+      </nav>
 
       <style jsx>{`
         header {
           border-top: 4px solid var(--brand-color);
           border-bottom: 1px solid var(--secondary-border-color);
+          background-color: var(--primary-bg-color);
           position: sticky;
           top: 0;
-          background-color: var(--primary-bg-color);
-          z-index: 100;
+          z-index: 101;
         }
 
         .header-inner {
@@ -122,6 +127,20 @@ export const Header = () => {
           transform: translateY(-0.1rem);
         }
 
+        nav.mobile {
+          /* Hide nav by default, so there's no flash on page load. */
+          height: 0;
+          padding: 0 1.5rem;
+
+          position: fixed;
+          background-color: var(--primary-bg-color);
+          left: 0;
+          right: 0;
+          top: 4rem;
+          overflow: hidden;
+          z-index: 100;
+        }
+
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
           .header-inner {
             padding-top: 1rem;
@@ -133,6 +152,6 @@ export const Header = () => {
           }
         }
       `}</style>
-    </header>
+    </>
   );
 };
