@@ -26,7 +26,7 @@ import { LiveDemoContainer } from "./LiveDemoContainer";
 import { getMintlistAccountSize } from "../utils/mintlist";
 
 // TODO: Should we move these to `@glow-app/solana-client`?
-export const LAMPORTS_PER_SOL = 1000000000;
+export const LAMPORTS_PER_SOL = 1_000_000_000;
 export const SYSVAR_CLOCK_PUBKEY = new GPublicKey(
   "SysvarC1ock11111111111111111111111111111111"
 );
