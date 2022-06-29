@@ -1,4 +1,5 @@
 import { CreateNftSection } from "../components/CreateNftSection";
+import { CreateMintlistSection } from "../components/CreateMintlistSection";
 import { Callout } from "../components/Callout";
 import { ModalTest } from "../components/test/ModalTest";
 import { AttributeTable, AttributeRow } from "../components/AttributeTable";
@@ -6,6 +7,10 @@ import { AttributeTable, AttributeRow } from "../components/AttributeTable";
 export default {
   ["create-nft-section"]: {
     render: CreateNftSection,
+    attributes: {},
+  },
+  ["create-mintlist-section"]: {
+    render: CreateMintlistSection,
     attributes: {},
   },
   ["callout"]: {
