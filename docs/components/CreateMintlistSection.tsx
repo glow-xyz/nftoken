@@ -21,16 +21,16 @@ import { uploadJsonToS3 } from "../utils/upload-file";
 import { DateTimePicker } from "./DateTimePicker";
 import { LuxInputLabel } from "./LuxInputLabel";
 import { ImageDropZone } from "./forms/ImageDropZone";
-import { LiveDemoContainer } from "./LiveDemoContainer";
 import { getMintlistAccountSize } from "../utils/mintlist";
 import BN from "bn.js";
 import { NETWORK_TO_RPC } from "../utils/rpc-types";
+import { InteractiveWell } from "./InteractiveWell";
+import { useNetworkContext } from "./NetworkContext";
 
 // TODO: Should we move these to `@glow-app/solana-client`?
 export const LAMPORTS_PER_SOL = 1_000_000_000;
-export const SYSVAR_CLOCK_PUBKEY = new GPublicKey(
-  "SysvarC1ock11111111111111111111111111111111"
-);
+export const SYSVAR_CLOCK_PUBKEY =
+  "SysvarC1ock11111111111111111111111111111111";
 
 type FormData = {
   mintlistName: string;
@@ -42,8 +42,8 @@ type FormData = {
 };
 
 export const CreateMintlistSection = () => {
-  const { user, glowDetected, signOut } = useGlowContext();
-  const [success, _setSuccess] = useState(false);
+  const { signOut } = useGlowContext();
+  const { network } = useNetworkContext();
 
   const initialValues: FormData = {
     mintlistName: "",
@@ -55,162 +55,135 @@ export const CreateMintlistSection = () => {
   };
 
   return (
-    <LiveDemoContainer>
-      <div>
-        <div
-          className={classNames("form-section", {
-            blurred: !glowDetected || !user,
-            invisible: success,
-          })}
-        >
-          <Formik
-            initialValues={initialValues}
-            validateOnMount
-            onSubmit={async (
-              {
-                mintlistName,
-                collectionName,
-                collectionImage,
-                priceSol,
-                numNftsTotal,
-                goLiveDate,
-              },
-              { resetForm, setSubmitting }
-            ) => {
-              const goLiveDateTime = DateTime.fromISO(goLiveDate);
+    <InteractiveWell title="Live Demo" className="my-3">
+      <Formik
+        initialValues={initialValues}
+        validateOnMount
+        onSubmit={async (
+          {
+            mintlistName,
+            collectionName,
+            collectionImage,
+            priceSol,
+            numNftsTotal,
+            goLiveDate,
+          },
+          { resetForm, setSubmitting }
+        ) => {
+          const goLiveDateTime = DateTime.fromISO(goLiveDate);
 
-              const { file_url: mintlistMetadataUrl } = await uploadJsonToS3({
-                json: { name: mintlistName },
-              });
+          const { file_url: mintlistMetadataUrl } = await uploadJsonToS3({
+            json: { name: mintlistName },
+          });
 
-              const { file_url: collectionMetadataUrl } = await uploadJsonToS3({
-                json: { name: collectionName, image: collectionImage },
-              });
+          const { file_url: collectionMetadataUrl } = await uploadJsonToS3({
+            json: { name: collectionName, image: collectionImage },
+          });
 
-              const { address: wallet } = await window.glow!.connect();
+          const { address: wallet } = await window.glow!.connect();
 
-              const mintlistKeypair = GKeypair.generate();
-              const collectionKeypair = GKeypair.generate();
+          const mintlistKeypair = GKeypair.generate();
+          const collectionKeypair = GKeypair.generate();
 
-              const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
+          const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
 
-              const rpcUrl = NETWORK_TO_RPC[Network.Mainnet];
+          const rpcUrl = NETWORK_TO_RPC[network];
 
-              const { lamports: mintlistAccountLamports } =
-                await SolanaClient.getMinimumBalanceForRentExemption({
-                  dataLength: mintlistAccountSize.toNumber(),
-                  rpcUrl,
-                });
+          const { lamports: mintlistAccountLamports } =
+            await SolanaClient.getMinimumBalanceForRentExemption({
+              dataLength: mintlistAccountSize.toNumber(),
+              rpcUrl,
+            });
 
-              const recentBlockhash = await SolanaClient.getRecentBlockhash({
-                rpcUrl,
-              });
+          const recentBlockhash = await SolanaClient.getRecentBlockhash({
+            rpcUrl,
+          });
 
-              const tx = createMintlistCreateTx({
-                wallet,
-                recentBlockhash,
-                mintlistKeypair,
-                mintlistAccountLamports,
-                mintlistAccountSize,
-                collectionKeypair,
-                goLiveDate: goLiveDateTime,
-                priceSol,
-                numNftsTotal,
-                mintlistMetadataUrl,
-                collectionMetadataUrl,
-              });
+          const tx = createMintlistCreateTx({
+            wallet,
+            recentBlockhash,
+            mintlistKeypair,
+            mintlistAccountLamports,
+            mintlistAccountSize,
+            collectionKeypair,
+            goLiveDate: goLiveDateTime,
+            priceSol,
+            numNftsTotal,
+            mintlistMetadataUrl,
+            collectionMetadataUrl,
+          });
 
-              try {
-                await window.glow!.signAndSendTransaction({
-                  transactionBase64: GTransaction.toBuffer({
-                    gtransaction: tx,
-                  }).toString("base64"),
-                  network: Network.Mainnet,
-                });
+          try {
+            await window.glow!.signAndSendTransaction({
+              transactionBase64: GTransaction.toBuffer({
+                gtransaction: tx,
+              }).toString("base64"),
+              network,
+            });
 
-                // TODO: Redirect to the mintlist page for uploading NFTs.
-                alert(`Created mintlist: ${mintlistKeypair.address}`);
+            // TODO: Redirect to the mintlist page for uploading NFTs.
+            alert(`Created mintlist: ${mintlistKeypair.address}`);
 
-                resetForm({ values: initialValues });
-              } catch (e) {
-                setSubmitting(false);
-              }
-            }}
-          >
-            <Form>
-              <div className="mb-4">
-                <LuxInputField
-                  label="Mintlist Name"
-                  name="mintlistName"
-                  placeholder="Mintlist #1"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <LuxInputField
-                  label="Collection Name"
-                  name="collectionName"
-                  placeholder="Fancy Turtles"
-                  required
-                />
-              </div>
-              <ImageDropZone<FormData>
-                label="Collection Avatar"
-                fieldName="collectionImage"
-              />
-              <div className="mb-4">
-                <LuxInputField
-                  label="Price (SOL)"
-                  name="priceSol"
-                  type="number"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <LuxInputField
-                  label="Total Number of NFTs"
-                  name="numNftsTotal"
-                  type="number"
-                  inputProps={{ min: 1, step: 1 }}
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <DatePickerField label="Go Live Date" fieldName="goLiveDate" />
-              </div>
-
-              <div className="mt-4 flex-center spread">
-                <SubmitButton />
-                <LuxButton
-                  label="Disconnect Wallet"
-                  onClick={signOut}
-                  color="secondary"
-                  size="small"
-                  variant="link"
-                />
-              </div>
-            </Form>
-          </Formik>
-        </div>
-
-        {!glowDetected && (
-          <div className="overlay text-center">
-            <p>
-              You’ll need to install{" "}
-              <a href="https://glow.app/download" target="_blank">
-                Glow
-              </a>{" "}
-              in order to mint an NFT.
-            </p>
+            resetForm({ values: initialValues });
+          } catch (e) {
+            setSubmitting(false);
+          }
+        }}
+      >
+        <Form>
+          <div className="mb-4">
+            <LuxInputField
+              label="Mintlist Name"
+              name="mintlistName"
+              placeholder="Mintlist #1"
+              required
+            />
           </div>
-        )}
-
-        {glowDetected && !user && (
-          <div className="overlay">
-            <GlowSignInButton variant="purple" />
+          <div className="mb-4">
+            <LuxInputField
+              label="Collection Name"
+              name="collectionName"
+              placeholder="Fancy Turtles"
+              required
+            />
           </div>
-        )}
-      </div>
+          <ImageDropZone<FormData>
+            label="Collection Avatar"
+            fieldName="collectionImage"
+          />
+          <div className="mb-4">
+            <LuxInputField
+              label="Price (SOL)"
+              name="priceSol"
+              type="number"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <LuxInputField
+              label="Total Number of NFTs"
+              name="numNftsTotal"
+              type="number"
+              inputProps={{ min: 1, step: 1 }}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <DatePickerField label="Go Live Date" fieldName="goLiveDate" />
+          </div>
+
+          <div className="mt-4 flex-center spread">
+            <SubmitButton />
+            <LuxButton
+              label="Disconnect Wallet"
+              onClick={signOut}
+              color="secondary"
+              size="small"
+              variant="link"
+            />
+          </div>
+        </Form>
+      </Formik>
 
       <style jsx>{`
         .overlay {
@@ -241,7 +214,7 @@ export const CreateMintlistSection = () => {
           pointer-events: none;
         }
       `}</style>
-    </LiveDemoContainer>
+    </InteractiveWell>
   );
 };
 
@@ -331,7 +304,7 @@ function createMintlistCreateTx({
           },
           // Clock
           {
-            address: SYSVAR_CLOCK_PUBKEY.toString(),
+            address: SYSVAR_CLOCK_PUBKEY,
             signer: false,
             writable: false,
           },
