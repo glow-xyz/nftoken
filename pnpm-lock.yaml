@@ -22,7 +22,7 @@ importers:
       '@metaplex-foundation/beet': 0.2.0
       '@popperjs/core': 2.11.5
       '@svgr/webpack': 6.2.1
-      '@types/bn.js': ^5.1.0
+      '@types/bn.js': 5.1.0
       '@types/canvas-confetti': 1.4.2
       '@types/lodash': 4.14.182
       '@types/luxon': 2.3.2
@@ -30,11 +30,11 @@ importers:
       '@types/prismjs': 1.26.0
       '@types/react': 18.0.14
       '@types/react-copy-to-clipboard': 5.0.2
-      '@types/react-datepicker': ^4.4.2
+      '@types/react-datepicker': 4.4.2
       '@types/react-dom': 18.0.5
       '@typescript-eslint/parser': 5.29.0
       axios: 0.27.2
-      bn.js: ^5.2.1
+      bn.js: 5.2.1
       bs58: 5.0.0
       canvas-confetti: 1.5.1
       classnames: 2.3.1
@@ -54,7 +54,7 @@ importers:
       query-string: 7.1.1
       react: 18.2.0
       react-copy-to-clipboard: 5.1.0
-      react-datepicker: ^4.8.0
+      react-datepicker: 4.8.0
       react-dom: 18.2.0
       react-dropzone: 14.2.1
       react-hot-toast: 2.2.0
