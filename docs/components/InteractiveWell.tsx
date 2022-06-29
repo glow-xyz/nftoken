@@ -10,13 +10,13 @@ export const InteractiveWell = ({
   children,
 }: {
   title: string;
-  // If true, this hides the network switcher and disconnect button.
+  // If true, this hides the network switcher.
   // Useful for cleaner success states.
   minimal?: boolean;
   className?: string;
   children: React.ReactNode;
 }) => {
-  const { user, glowDetected, signOut } = useGlowContext();
+  const { user, glowDetected } = useGlowContext();
 
   const blurred = !glowDetected || !user;
 
@@ -31,18 +31,6 @@ export const InteractiveWell = ({
       )}
 
       <div className={classNames("children", { blurred })}>{children}</div>
-
-      {!minimal && (
-        <div className={classNames("disconnect", { blurred })}>
-          <LuxButton
-            label="Disconnect Wallet"
-            onClick={signOut}
-            size="small"
-            color="secondary"
-            variant="link"
-          />
-        </div>
-      )}
 
       {!glowDetected && (
         <div className="overlay text-center">
@@ -97,12 +85,6 @@ export const InteractiveWell = ({
         .network-switcher :global(.luma-button .label),
         .network-switcher :global(.luma-button svg) {
           color: var(--white);
-        }
-
-        .disconnect {
-          position: absolute;
-          bottom: 1rem;
-          right: 1rem;
         }
 
         .overlay {

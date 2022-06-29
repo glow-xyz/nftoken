@@ -19,7 +19,7 @@ import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
-import { LuxSubmitButton } from "../components/LuxButton";
+import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
 import { InteractiveWell } from "./InteractiveWell";
 import { NETWORK_TO_RPC } from "../utils/rpc-types";
 
@@ -29,7 +29,7 @@ type FormData = {
 };
 
 export const CreateNftSection = () => {
-  const { user, glowDetected } = useGlowContext();
+  const { user, glowDetected, signOut } = useGlowContext();
   const [success, setSuccess] = useState(false);
 
   const initialValues: FormData = { name: "", image: null };
@@ -149,8 +149,16 @@ export const CreateNftSection = () => {
 
               <ImageDropZone />
 
-              <div className="mt-4">
+              <div className="mt-4 flex-center spread">
                 <SubmitButton />
+
+                <LuxButton
+                  label="Disconnect Wallet"
+                  onClick={signOut}
+                  size="small"
+                  color="secondary"
+                  variant="link"
+                />
               </div>
             </Form>
           </Formik>
