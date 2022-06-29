@@ -77,7 +77,7 @@ export const Header = () => {
           background-color: var(--primary-bg-color);
           position: sticky;
           top: 0;
-          z-index: 101;
+          z-index: 10;
         }
 
         .header-inner {
@@ -138,7 +138,7 @@ export const Header = () => {
           right: 0;
           top: 4rem;
           overflow: hidden;
-          z-index: 100;
+          z-index: 9;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
