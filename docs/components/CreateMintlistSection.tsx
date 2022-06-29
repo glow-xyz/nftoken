@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Network } from "@glow-app/glow-client";
 import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import {
@@ -8,8 +8,7 @@ import {
   SolanaClient,
 } from "@glow-app/solana-client";
 import classNames from "classnames";
-import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
-import { useState } from "react";
+import { Form, Formik, useFormikContext } from "formik";
 import { DateTime } from "luxon";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import {
@@ -24,6 +23,7 @@ import { LuxInputLabel } from "./LuxInputLabel";
 import { ImageDropZone } from "./forms/ImageDropZone";
 import { LiveDemoContainer } from "./LiveDemoContainer";
 import { getMintlistAccountSize } from "../utils/mintlist";
+import BN from "bn.js";
 
 // TODO: Should we move these to `@glow-app/solana-client`?
 export const LAMPORTS_PER_SOL = 1_000_000_000;
@@ -53,143 +53,6 @@ export const CreateMintlistSection = () => {
     numNftsTotal: 1,
   };
 
-  async function handleSubmit(
-    {
-      mintlistName,
-      collectionName,
-      collectionImage,
-      priceSol,
-      numNftsTotal,
-      goLiveDate,
-    }: FormData,
-    { resetForm, setSubmitting }: FormikHelpers<FormData>
-  ) {
-    const goLiveDateSeconds = (Date.parse(goLiveDate) / 1000) | 0;
-
-    const { file_url: mintlistMetadataUrl } = await uploadJsonToS3({
-      json: { name: mintlistName },
-    });
-
-    const { file_url: collectionMetadataUrl } = await uploadJsonToS3({
-      json: { name: collectionName, image: collectionImage },
-    });
-
-    const { address: wallet } = await window.glow!.connect();
-
-    const mintlistKeypair = GKeypair.generate();
-    const collectionKeypair = GKeypair.generate();
-
-    const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
-    const { lamports: mintlistAccountLamports } =
-      await SolanaClient.getMinimumBalanceForRentExemption({
-        dataLength: mintlistAccountSize.toNumber(),
-        rpcUrl: "https://api.mainnet-beta.solana.com",
-      });
-
-    const recentBlockhash = await SolanaClient.getRecentBlockhash({
-      rpcUrl: "https://api.mainnet-beta.solana.com",
-    });
-
-    const transaction = GTransaction.create({
-      feePayer: wallet,
-      recentBlockhash,
-      instructions: [
-        // Due to the 10kb limit on the size of accounts that can be initialized via CPI,
-        // the `mintlist` account must be initialized through a separate SystemProgram.createAccount instruction.
-        {
-          accounts: [
-            // payer
-            {
-              address: wallet,
-              signer: true,
-              writable: true,
-            },
-            // mintlist
-            {
-              address: mintlistKeypair.publicKey.toBase58(),
-              signer: true,
-              writable: true,
-            },
-          ],
-          // SystemProgram
-          program: GPublicKey.default.toBase58(),
-          data_base64: SYSTEM_CREATE_ACCOUNT_IX.toBuffer({
-            ix_discriminator: null,
-            amount: { lamports: mintlistAccountLamports },
-            space: mintlistAccountSize,
-            program_owner: NFTOKEN_ADDRESS,
-          }).toString("base64"),
-        },
-        // mintlist_create
-        {
-          accounts: [
-            // Authority
-            { address: wallet, signer: true, writable: true },
-            // Mintlist
-            {
-              address: mintlistKeypair.address,
-              signer: true,
-              writable: true,
-            },
-            // Collection
-            {
-              address: collectionKeypair.address,
-              signer: true,
-              writable: true,
-            },
-            // Treasury
-            {
-              address: wallet,
-              signer: false,
-              writable: false,
-            },
-            // System Program
-            {
-              address: GPublicKey.default.toString(),
-              signer: false,
-              writable: false,
-            },
-            // Clock
-            {
-              address: SYSVAR_CLOCK_PUBKEY.toString(),
-              signer: false,
-              writable: false,
-            },
-          ],
-          program: NFTOKEN_ADDRESS,
-          data_base64: NFTOKEN_MINTLIST_CREATE_IX.toBuffer({
-            ix: null,
-            go_live_date: DateTime.fromSeconds(goLiveDateSeconds),
-            price: {
-              lamports: String(priceSol * LAMPORTS_PER_SOL),
-            },
-            minting_order: "sequential",
-            num_nfts_total: numNftsTotal,
-            metadata_url: mintlistMetadataUrl,
-            collection_metadata_url: collectionMetadataUrl,
-          }).toString("base64"),
-        },
-      ],
-      signers: [mintlistKeypair, collectionKeypair],
-    });
-
-    try {
-      await window.glow!.signAndSendTransaction({
-        transactionBase64: GTransaction.toBuffer({
-          gtransaction: transaction,
-        }).toString("base64"),
-        network: Network.Mainnet,
-      });
-
-      // TODO: Redirect to the mintlist page for uploading NFTs.
-      alert(`Created mintlist: ${mintlistKeypair.address}`);
-
-      resetForm({ values: initialValues });
-    } catch (e) {
-      setSubmitting(false);
-    }
-  }
-
   return (
     <LiveDemoContainer>
       <div>
@@ -202,7 +65,73 @@ export const CreateMintlistSection = () => {
           <Formik
             initialValues={initialValues}
             validateOnMount
-            onSubmit={handleSubmit}
+            onSubmit={async (
+              {
+                mintlistName,
+                collectionName,
+                collectionImage,
+                priceSol,
+                numNftsTotal,
+                goLiveDate,
+              },
+              { resetForm, setSubmitting }
+            ) => {
+              const goLiveDateTime = DateTime.fromISO(goLiveDate);
+
+              const { file_url: mintlistMetadataUrl } = await uploadJsonToS3({
+                json: { name: mintlistName },
+              });
+
+              const { file_url: collectionMetadataUrl } = await uploadJsonToS3({
+                json: { name: collectionName, image: collectionImage },
+              });
+
+              const { address: wallet } = await window.glow!.connect();
+
+              const mintlistKeypair = GKeypair.generate();
+              const collectionKeypair = GKeypair.generate();
+
+              const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
+              const { lamports: mintlistAccountLamports } =
+                await SolanaClient.getMinimumBalanceForRentExemption({
+                  dataLength: mintlistAccountSize.toNumber(),
+                  rpcUrl: "https://api.mainnet-beta.solana.com",
+                });
+
+              const recentBlockhash = await SolanaClient.getRecentBlockhash({
+                rpcUrl: "https://api.mainnet-beta.solana.com",
+              });
+
+              const tx = createMintlistCreateTx({
+                wallet,
+                recentBlockhash,
+                mintlistKeypair,
+                mintlistAccountLamports,
+                mintlistAccountSize,
+                collectionKeypair,
+                goLiveDate: goLiveDateTime,
+                priceSol,
+                numNftsTotal,
+                mintlistMetadataUrl,
+                collectionMetadataUrl,
+              });
+
+              try {
+                await window.glow!.signAndSendTransaction({
+                  transactionBase64: GTransaction.toBuffer({
+                    gtransaction: tx,
+                  }).toString("base64"),
+                  network: Network.Mainnet,
+                });
+
+                // TODO: Redirect to the mintlist page for uploading NFTs.
+                alert(`Created mintlist: ${mintlistKeypair.address}`);
+
+                resetForm({ values: initialValues });
+              } catch (e) {
+                setSubmitting(false);
+              }
+            }}
           >
             <Form>
               <div className="mb-4">
@@ -311,6 +240,115 @@ export const CreateMintlistSection = () => {
     </LiveDemoContainer>
   );
 };
+
+function createMintlistCreateTx({
+  wallet,
+  recentBlockhash,
+  mintlistKeypair,
+  mintlistAccountLamports,
+  mintlistAccountSize,
+  collectionKeypair,
+  goLiveDate,
+  priceSol,
+  numNftsTotal,
+  mintlistMetadataUrl,
+  collectionMetadataUrl,
+}: {
+  wallet: string;
+  recentBlockhash: string;
+  mintlistKeypair: GKeypair;
+  mintlistAccountLamports: string;
+  mintlistAccountSize: BN;
+  collectionKeypair: GKeypair;
+  goLiveDate: DateTime;
+  priceSol: number;
+  numNftsTotal: number;
+  mintlistMetadataUrl: string;
+  collectionMetadataUrl: string;
+}) {
+  return GTransaction.create({
+    feePayer: wallet,
+    recentBlockhash,
+    instructions: [
+      // Due to the 10kb limit on the size of accounts that can be initialized via CPI,
+      // the `mintlist` account must be initialized through a separate SystemProgram.createAccount instruction.
+      {
+        accounts: [
+          // payer
+          {
+            address: wallet,
+            signer: true,
+            writable: true,
+          },
+          // mintlist
+          {
+            address: mintlistKeypair.publicKey.toBase58(),
+            signer: true,
+            writable: true,
+          },
+        ],
+        // SystemProgram
+        program: GPublicKey.default.toBase58(),
+        data_base64: SYSTEM_CREATE_ACCOUNT_IX.toBuffer({
+          ix_discriminator: null,
+          amount: { lamports: mintlistAccountLamports },
+          space: mintlistAccountSize,
+          program_owner: NFTOKEN_ADDRESS,
+        }).toString("base64"),
+      },
+      // mintlist_create
+      {
+        accounts: [
+          // Authority
+          { address: wallet, signer: true, writable: true },
+          // Mintlist
+          {
+            address: mintlistKeypair.address,
+            signer: true,
+            writable: true,
+          },
+          // Collection
+          {
+            address: collectionKeypair.address,
+            signer: true,
+            writable: true,
+          },
+          // Treasury
+          {
+            address: wallet,
+            signer: false,
+            writable: false,
+          },
+          // System Program
+          {
+            address: GPublicKey.default.toString(),
+            signer: false,
+            writable: false,
+          },
+          // Clock
+          {
+            address: SYSVAR_CLOCK_PUBKEY.toString(),
+            signer: false,
+            writable: false,
+          },
+        ],
+        program: NFTOKEN_ADDRESS,
+        data_base64: NFTOKEN_MINTLIST_CREATE_IX.toBuffer({
+          ix: null,
+          go_live_date: goLiveDate,
+          price: {
+            lamports: String(priceSol * LAMPORTS_PER_SOL),
+          },
+          minting_order: "sequential",
+          num_nfts_total: numNftsTotal,
+          metadata_url: mintlistMetadataUrl,
+          collection_metadata_url: collectionMetadataUrl,
+        }).toString("base64"),
+      },
+    ],
+    signers: [mintlistKeypair, collectionKeypair],
+  });
+}
 
 const DatePickerField = ({
   label,
