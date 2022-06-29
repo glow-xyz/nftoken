@@ -7,6 +7,7 @@ import useSWR, { SWRResponse } from "swr";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
+import { PageLayout } from "../../components/PageLayout";
 import { SolanaAddress } from "../../components/SolanaAddress";
 import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
@@ -85,7 +86,7 @@ export default function NftPage({
   }
 
   return (
-    <>
+    <PageLayout>
       <SocialHead subtitle={nft.name} />
 
       <div className="wrapper">
@@ -244,7 +245,7 @@ export default function NftPage({
           }
         }
       `}</style>
-    </>
+    </PageLayout>
   );
 }
 
