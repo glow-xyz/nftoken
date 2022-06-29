@@ -14,6 +14,7 @@ import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { ExternalLink } from "../../components/ExternalLink";
 import { LuxButton } from "../../components/LuxButton";
 import { ArrowRightIcon } from "@heroicons/react/solid";
+import { NftAttributesList } from "../../components/NftAttributesList";
 
 const useNft = ({
   nftAddress,
@@ -35,20 +36,18 @@ const useNft = ({
   return { data: data!, error, mutate };
 };
 
-type ATTRIBUTE_KEY = keyof NftokenTypes.NftInfo;
-type ATTRIBUTE_TYPE = "address" | "link";
-const KEYS: { key: ATTRIBUTE_KEY; type?: ATTRIBUTE_TYPE }[] = [
-  { key: "address", type: "address" },
-  { key: "collection", type: "address" },
-  { key: "holder", type: "address" },
-  { key: "delegate", type: "address" },
-  { key: "authority", type: "address" },
-  { key: "name" },
-  { key: "description" },
-  { key: "image", type: "link" },
-  { key: "minted_at" },
-  { key: "metadata_url", type: "link" },
-  { key: "authority_can_update" },
+const KEYS: (keyof NftokenTypes.NftInfo)[] = [
+  "address",
+  "collection",
+  "holder",
+  "delegate",
+  "authority",
+  "name",
+  "description",
+  "image",
+  "minted_at",
+  "metadata_url",
+  "authority_can_update",
 ];
 
 export default function NftPage({
@@ -85,6 +84,11 @@ export default function NftPage({
     );
   }
 
+  const attributes: { [key: string]: any } = {};
+  for (const key of KEYS) {
+    attributes[key] = nft[key];
+  }
+
   return (
     <PageLayout>
       <SocialHead subtitle={nft.name} />
@@ -95,41 +99,7 @@ export default function NftPage({
           <div>
             <h1>{nft.name}</h1>
 
-            <div className="table">
-              {KEYS.map(({ key, type }) => (
-                <React.Fragment key={key}>
-                  <div className="key">{key}</div>
-                  {type === "address" ? (
-                    <div className="solana-address flex-center flex-wrap">
-                      <SolanaAddress address={nft[key]?.toString()} />
-                      {key === "collection" && (
-                        <LuxButton
-                          label="View Collection"
-                          icon={<ArrowRightIcon />}
-                          href={`/collection/${nft.collection}`}
-                          iconPlacement="right"
-                          rounded
-                          size="small"
-                        />
-                      )}
-                    </div>
-                  ) : type === "link" ? (
-                    <div className="link">
-                      <ExternalLink href={nft[key]!.toString()}>
-                        <span>{nft[key]!.toString()}</span> <ExternalLinkIcon />
-                      </ExternalLink>
-                    </div>
-                  ) : (
-                    <div>
-                      {typeof nft[key] === "string"
-                        ? nft[key]?.toString()
-                        : JSON.stringify(nft[key])}
-                    </div>
-                  )}
-                  <div className="divider" />
-                </React.Fragment>
-              ))}
-            </div>
+            <NftAttributesList attributes={attributes} />
 
             <div className="mt-4">
               <h2>Traits</h2>
@@ -167,64 +137,6 @@ export default function NftPage({
           display: grid;
           grid-template-columns: 20rem 1fr;
           grid-column-gap: 3rem;
-        }
-
-        .table {
-          padding: 0.75rem;
-          border-radius: var(--border-radius);
-          background-color: var(--secondary-bg-color);
-          font-family: var(--mono-font);
-          font-weight: var(--medium-font-weight);
-          overflow-wrap: anywhere;
-
-          display: grid;
-          grid-template-columns: max-content 1fr;
-          grid-column-gap: 2rem;
-        }
-
-        .table .key {
-          font-weight: var(--normal-font-weight);
-          color: var(--secondary-color);
-          max-width: 8.5rem; /* This width cuts "authority_can_update" in a nice way */
-        }
-
-        .table .link :global(svg) {
-          margin-bottom: 0.2rem; /* For vertical alignment */
-        }
-
-        .table .solana-address {
-          gap: 1rem;
-        }
-
-        .table .solana-address :global(.luma-button) {
-          font-family: var(--font);
-        }
-
-        .table .divider {
-          border-top: 1px solid var(--secondary-border-color);
-          grid-column: span 2;
-          margin: 0.5rem 0;
-        }
-
-        .table .divider:last-of-type {
-          display: none;
-        }
-
-        .table .trait-badge {
-          font-size: var(--tiny-pill-font-size);
-          font-weight: var(--bold-font-weight);
-          font-family: var(--font);
-          background-color: var(--gray-90);
-          color: var(--gray-20);
-          max-width: max-content;
-          padding: var(--tiny-pill-padding);
-          border-radius: 99rem;
-          vertical-align: text-top;
-          text-decoration: none;
-        }
-
-        .table .trait-badge:hover {
-          background-color: var(--gray-80);
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
