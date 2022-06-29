@@ -3,7 +3,6 @@ import classNames from "classnames";
 import isEmpty from "lodash/isEmpty";
 import qs from "query-string";
 import React, { DOMAttributes } from "react";
-
 import Link from "next/link";
 import { ExternalLink } from "./ExternalLink";
 

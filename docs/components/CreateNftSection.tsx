@@ -1,12 +1,12 @@
-import React from "react";
 import { Network } from "@glow-app/glow-client";
-import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
+import { useGlowContext } from "@glow-app/glow-react";
 import {
   GKeypair,
   GPublicKey,
   GTransaction,
   SolanaClient,
 } from "@glow-app/solana-client";
+import { useNetworkContext } from "./NetworkContext";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Form, Formik, useFormikContext } from "formik";
@@ -20,6 +20,8 @@ import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
 import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
+import { InteractiveWell } from "./InteractiveWell";
+import { NETWORK_TO_RPC } from "../utils/rpc-types";
 
 type FormData = {
   name: string;
@@ -70,15 +72,16 @@ export const CreateNftSection = () => {
     }, 7_500);
   }, [success, setSuccess]);
 
+  const { network } = useNetworkContext();
+
   return (
-    <Container>
-      <div>
-        <div
-          className={classNames("form-section", {
-            blurred: !glowDetected || !user,
-            invisible: success,
-          })}
-        >
+    <div className="create-nft-section">
+      <InteractiveWell
+        title="Live Minting Demo"
+        minimal={success}
+        className="my-3"
+      >
+        <div className={classNames({ invisible: success })}>
           <Formik
             initialValues={initialValues}
             onSubmit={async ({ name, image }, { resetForm }) => {
@@ -89,7 +92,7 @@ export const CreateNftSection = () => {
                 json: { name, image },
               });
               const recentBlockhash = await SolanaClient.getRecentBlockhash({
-                rpcUrl: "https://api.mainnet-beta.solana.com",
+                rpcUrl: NETWORK_TO_RPC[network],
               });
 
               const transaction = GTransaction.create({
@@ -132,7 +135,7 @@ export const CreateNftSection = () => {
                 transactionBase64: GTransaction.toBuffer({
                   gtransaction: signedTx,
                 }).toString("base64"),
-                network: Network.Mainnet,
+                network: network ?? Network.Mainnet,
               });
 
               resetForm({ values: { name: "", image: null } });
@@ -148,35 +151,18 @@ export const CreateNftSection = () => {
 
               <div className="mt-4 flex-center spread">
                 <SubmitButton />
+
                 <LuxButton
                   label="Disconnect Wallet"
                   onClick={signOut}
-                  color="secondary"
                   size="small"
+                  color="secondary"
                   variant="link"
                 />
               </div>
             </Form>
           </Formik>
         </div>
-
-        {!glowDetected && (
-          <div className="overlay text-center">
-            <p>
-              You’ll need to install{" "}
-              <a href="https://glow.app/download" target="_blank">
-                Glow
-              </a>{" "}
-              in order to mint an NFT.
-            </p>
-          </div>
-        )}
-
-        {glowDetected && !user && (
-          <div className="overlay">
-            <GlowSignInButton variant="purple" />
-          </div>
-        )}
 
         <div
           className={classNames("success", {
@@ -190,33 +176,10 @@ export const CreateNftSection = () => {
             <span>Your NFT has been minted!</span>
           </p>
         </div>
-      </div>
+      </InteractiveWell>
 
       <style jsx>{`
-        .overlay {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .overlay p {
-          background-color: var(--primary-bg-color);
-          padding: 0.3rem 1rem;
-          border-radius: var(--border-radius);
-          color: var(--primary-color);
-        }
-
-        .form-section {
-          transition: var(--transition); /* So blur transitions smoothly. */
-        }
-
-        .form-section.blurred {
-          filter: blur(6px) brightness(120%) grayscale(20%);
-        }
-
-        .form-section.invisible {
+        .invisible {
           opacity: 0;
           pointer-events: none;
         }
@@ -244,7 +207,7 @@ export const CreateNftSection = () => {
           width: 1.5rem;
         }
       `}</style>
-    </Container>
+    </div>
   );
 };
 
@@ -319,36 +282,5 @@ const ImageDropZone = () => {
         }
       `}</style>
     </div>
-  );
-};
-
-const Container = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <section className="px-3 pb-3 my-3 rounded">
-      <div className="badge text-xs font-weight-bold">Live Minting Demo</div>
-      <div>{children}</div>
-
-      <style jsx>{`
-        section {
-          border: 1px solid var(--divider-color);
-          background-color: var(--secondary-bg-color);
-          position: relative;
-          padding-top: 2.25rem;
-          overflow: hidden;
-          width: 100%;
-        }
-
-        .badge {
-          position: absolute;
-          top: 0;
-          left: 0;
-          background-color: var(--gray-90);
-          color: var(--white);
-          line-height: 1;
-          padding: 0.3rem 0.6rem 0.35rem 0.6rem;
-          border-bottom-right-radius: calc(var(--border-radius) / 2);
-        }
-      `}</style>
-    </section>
   );
 };
