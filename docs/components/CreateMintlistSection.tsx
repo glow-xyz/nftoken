@@ -7,9 +7,8 @@ import {
   GTransaction,
   SolanaClient,
 } from "@glow-app/solana-client";
-import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
-import { Form, Formik, useFormikContext } from "formik";
+import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
 import { useState } from "react";
 import { DateTime } from "luxon";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
@@ -17,16 +16,16 @@ import {
   NFTOKEN_MINTLIST_CREATE_IX,
   SYSTEM_CREATE_ACCOUNT_IX,
 } from "../utils/nft-borsh";
-import { LuxInputField } from "../components/LuxInput";
-import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
-import BN from "bn.js";
+import { LuxInputField } from "./LuxInput";
+import { LuxButton, LuxSubmitButton } from "./LuxButton";
 import { uploadJsonToS3 } from "../utils/upload-file";
-import { FormikHelpers } from "formik/dist/types";
 import { DateTimePicker } from "./DateTimePicker";
 import { LuxInputLabel } from "./LuxInputLabel";
 import { ImageDropZone } from "./forms/ImageDropZone";
+import { LiveDemoContainer } from "./LiveDemoContainer";
+import { getMintlistAccountSize } from "../utils/mintlist";
 
-// FIXME: Move these to `@glow-app/solana-client`
+// TODO: Should we move these to `@glow-app/solana-client`?
 export const LAMPORTS_PER_SOL = 1000000000;
 export const SYSVAR_CLOCK_PUBKEY = new GPublicKey(
   "SysvarC1ock11111111111111111111111111111111"
@@ -63,7 +62,7 @@ export const CreateMintlistSection = () => {
       numNftsTotal,
       goLiveDate,
     }: FormData,
-    { resetForm }: FormikHelpers<FormData>
+    { resetForm, setSubmitting }: FormikHelpers<FormData>
   ) {
     const goLiveDateSeconds = (Date.parse(goLiveDate) / 1000) | 0;
 
@@ -79,13 +78,6 @@ export const CreateMintlistSection = () => {
 
     const mintlistKeypair = GKeypair.generate();
     const collectionKeypair = GKeypair.generate();
-
-    console.log({
-      mintlist: mintlistKeypair.address,
-      mintlistMetadataUrl,
-      collection: collectionKeypair.address,
-      collectionMetadataUrl,
-    });
 
     const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
     const { lamports: mintlistAccountLamports } =
@@ -181,17 +173,25 @@ export const CreateMintlistSection = () => {
       signers: [mintlistKeypair, collectionKeypair],
     });
 
-    await window.glow!.signAndSendTransaction({
-      transactionBase64: GTransaction.toBuffer({
-        gtransaction: transaction,
-      }).toString("base64"),
-      network: Network.Mainnet,
-    });
+    try {
+      await window.glow!.signAndSendTransaction({
+        transactionBase64: GTransaction.toBuffer({
+          gtransaction: transaction,
+        }).toString("base64"),
+        network: Network.Mainnet,
+      });
 
-    resetForm();
+      // TODO: Redirect to the mintlist page for uploading NFTs.
+      alert(`Created mintlist: ${mintlistKeypair.address}`);
+
+      resetForm({ values: initialValues });
+    } catch (e) {
+      setSubmitting(false);
+    }
   }
+
   return (
-    <Container>
+    <LiveDemoContainer>
       <div>
         <div
           className={classNames("form-section", {
@@ -277,19 +277,6 @@ export const CreateMintlistSection = () => {
             <GlowSignInButton variant="purple" />
           </div>
         )}
-
-        <div
-          className={classNames("success", {
-            visible: success && glowDetected && user,
-          })}
-        >
-          <div className="success-icon text-success">
-            <BadgeCheckIcon />
-          </div>
-          <p className="font-weight-medium text-success mb-0 text-center text-lg">
-            <span>Your NFT has been minted!</span>
-          </p>
-        </div>
       </div>
 
       <style jsx>{`
@@ -320,31 +307,8 @@ export const CreateMintlistSection = () => {
           opacity: 0;
           pointer-events: none;
         }
-
-        .success {
-          position: absolute;
-          inset: 0;
-          top: calc(50% - 2rem);
-          opacity: 0;
-          pointer-events: none;
-          transition: var(--transition);
-        }
-
-        .success.visible {
-          opacity: 1;
-        }
-
-        .success-icon {
-          margin: 0 auto;
-          max-width: max-content;
-        }
-
-        .success-icon :global(svg) {
-          height: 1.5rem;
-          width: 1.5rem;
-        }
       `}</style>
-    </Container>
+    </LiveDemoContainer>
   );
 };
 
@@ -375,87 +339,14 @@ const DatePickerField = ({
 };
 
 const SubmitButton = () => {
-  const { isValid } = useFormikContext();
+  const { values, isValid } = useFormikContext<FormData>();
 
   return (
     <LuxSubmitButton
       label="Create Mintlist"
       rounded
       color="brand"
-      disabled={!isValid}
+      disabled={!isValid || !values.collectionImage}
     />
   );
 };
-
-const Container = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <section className="px-3 pb-3 my-3 rounded">
-      <div className="badge text-xs font-weight-bold">Live Minting Demo</div>
-      <div>{children}</div>
-
-      <style jsx>{`
-        section {
-          border: 1px solid var(--divider-color);
-          background-color: var(--secondary-bg-color);
-          position: relative;
-          padding-top: 2.25rem;
-          overflow: hidden;
-          width: 100%;
-        }
-
-        .badge {
-          position: absolute;
-          top: 0;
-          left: 0;
-          background-color: var(--gray-90);
-          color: var(--white);
-          line-height: 1;
-          padding: 0.3rem 0.6rem 0.35rem 0.6rem;
-          border-bottom-right-radius: calc(var(--border-radius) / 2);
-        }
-      `}</style>
-    </section>
-  );
-};
-
-function getMintlistAccountSize(numNftsTotal: number): BN {
-  return new BN(
-    // Account discriminator
-    8 +
-      // version
-      1 +
-      // creator
-      32 +
-      // treasury_sol
-      32 +
-      // go_live_date
-      8 +
-      // price
-      8 +
-      // minting_order
-      1 +
-      // collection
-      32 +
-      // metadata_url
-      96 +
-      // created_at
-      8 +
-      // num_mints
-      4 +
-      // mints_redeemed
-      4 +
-      // num_nfts_configured
-      4 +
-      // mint_infos
-      numNftsTotal * getMintInfoSize()
-  );
-}
-
-function getMintInfoSize(): number {
-  return (
-    // minted
-    1 +
-    // metadata_url
-    96
-  );
-}
