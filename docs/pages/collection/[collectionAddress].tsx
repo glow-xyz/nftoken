@@ -6,6 +6,7 @@ import useSWR, { SWRResponse } from "swr";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { SocialHead } from "../../components/SocialHead";
+import { PageLayout } from "../../components/PageLayout";
 
 const useCollection = ({
   collectionAddress,
@@ -65,7 +66,13 @@ export default function CollectionPage({
     );
   }
 
-  return JSON.stringify(collection);
+  console.log(collection);
+
+  return (
+    <PageLayout>
+      <h1>{collection.name}</h1>
+    </PageLayout>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
