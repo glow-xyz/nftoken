@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { useGlowContext, GlowSignInButton } from "@glow-app/glow-react";
 import { NetworkSwitcher } from "./atoms/NetworkSwitcher";
-import { LuxButton } from "./LuxButton";
 
 export const InteractiveWell = ({
   title,
