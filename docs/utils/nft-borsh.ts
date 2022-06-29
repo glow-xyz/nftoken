@@ -56,7 +56,7 @@ export const NFTOKEN_MINTLIST_CREATE_IX = new FixableGlowBorsh<{
   metadata_url: string;
   collection_metadata_url: string;
   go_live_date: DateTime;
-  price_lamports: Solana.SolAmount;
+  price: Solana.SolAmount;
   num_nfts_total: number;
   minting_order: string;
 }>({
@@ -65,7 +65,7 @@ export const NFTOKEN_MINTLIST_CREATE_IX = new FixableGlowBorsh<{
     ["metadata_url", GlowBorsh.utf8String(96)],
     ["collection_metadata_url", FixableGlowBorsh.utf8String],
     ["go_live_date", GlowBorsh.timestamp],
-    ["price_lamports", GlowBorsh.solAmount],
+    ["price", GlowBorsh.solAmount],
     ["num_nfts_total", u32],
     ["minting_order", FixableGlowBorsh.utf8String],
   ],
@@ -141,13 +141,6 @@ export const NFTOKEN_COLLECTION_ACCOUNT = new FixableGlowBorsh<{
   ],
 });
 
-// Schema: https://docs.rs/solana-program/1.10.6/solana_program/system_instruction/enum.SystemInstruction.html#variant.CreateAccount
-// Example transaction: https://solscan.io/tx/3WjJYXTaaeyn5j5EDzYPPU9pQuPM7rJmXxaLNV1LWxHA5YgAfTi1XfEaX8bQGRJqfUiogLPJqFVer5QCxynHkdCY
-// - 00000000 - discriminator
-// - c0e1e40000000000 - amount (15_000_000 lamports)
-// - 5200000000000000 - space (82)
-// - 06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9 - program owner (TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA)
-
 /**
  * This is a four bytes discriminator, used in system program.
  */
@@ -178,6 +171,12 @@ const discriminatorU32 = (hex: string): FixedSizeBeet<null, null> => {
   };
 };
 
+// Schema: https://docs.rs/solana-program/1.10.6/solana_program/system_instruction/enum.SystemInstruction.html#variant.CreateAccount
+// Example transaction: https://solscan.io/tx/3WjJYXTaaeyn5j5EDzYPPU9pQuPM7rJmXxaLNV1LWxHA5YgAfTi1XfEaX8bQGRJqfUiogLPJqFVer5QCxynHkdCY
+// - 00000000 - discriminator
+// - c0e1e40000000000 - amount (15_000_000 lamports)
+// - 5200000000000000 - space (82)
+// - 06ddf6e1d765a193d9cbe146ceeb79ac1cb485ed5f5b37913a8cf5857eff00a9 - program owner (TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA)
 export const SYSTEM_CREATE_ACCOUNT_IX = new GlowBorsh<{
   ix_discriminator: null;
   amount: Solana.SolAmount;

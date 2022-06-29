@@ -11,15 +11,13 @@ import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { Form, Formik, useFormikContext } from "formik";
 import { useState, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
 import confetti from "canvas-confetti";
-import { getImageUrl } from "../utils/cdn";
-import { ACCEPT_IMAGE_PROP, DropZone } from "../components/LuxDropZone";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
-import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
+import { uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
 import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
+import { ImageDropZone } from "./forms/ImageDropZone";
 import { InteractiveWell } from "./InteractiveWell";
 import { NETWORK_TO_RPC } from "../utils/rpc-types";
 
@@ -143,7 +141,7 @@ export const CreateNftSection = () => {
                 <LuxInputField label="Name" name="name" required />
               </div>
 
-              <ImageDropZone />
+              <ImageDropZone<FormData> label="NFT Image" fieldName="image" />
 
               <div className="mt-4 flex-center spread">
                 <SubmitButton />
@@ -218,65 +216,5 @@ const SubmitButton = () => {
       color="brand"
       disabled={!(data.name && data.image)}
     />
-  );
-};
-
-const ImageDropZone = () => {
-  const { values, setFieldValue } = useFormikContext();
-  const data = values as FormData;
-
-  const [uploading, setUploading] = useState(false);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: ACCEPT_IMAGE_PROP,
-    multiple: false,
-    onDrop: async (files) => {
-      const [file] = files;
-
-      setUploading(true);
-
-      try {
-        const { file_url } = await uploadImageToS3({ file });
-        setFieldValue("image", file_url);
-      } finally {
-        setUploading(false);
-      }
-    },
-    noKeyboard: true,
-  });
-
-  return (
-    <div className={classNames("container", { "with-image": data.image })}>
-      <DropZone
-        label="NFT Image"
-        isDragActive={isDragActive}
-        isLoading={uploading}
-        rootProps={getRootProps()}
-        inputProps={getInputProps()}
-      />
-
-      {data.image && (
-        <img
-          src={getImageUrl({ url: data.image, width: 1000, height: 1000 })}
-        />
-      )}
-
-      <style jsx>{`
-        .container.with-image {
-          display: grid;
-          grid-template-columns: 1fr 8rem;
-          grid-column-gap: 1rem;
-        }
-
-        /* Make sure height doesn't jump when image is added on the right. */
-        .container :global(.dropzone-wrapper) {
-          height: 8rem;
-        }
-
-        img {
-          width: 100%;
-        }
-      `}</style>
-    </div>
   );
 };
