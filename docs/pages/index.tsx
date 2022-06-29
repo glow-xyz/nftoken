@@ -21,7 +21,7 @@ export default function Index() {
               <LuxButton
                 label="Learn more"
                 icon={<ChevronRightIcon />}
-                href="/overview"
+                href="/docs/overview"
                 iconPlacement="right"
                 rounded
                 color="brand"
@@ -30,7 +30,7 @@ export default function Index() {
               <LuxButton
                 label="Create an NFT"
                 icon={<ChevronRightIcon />}
-                href="/create-an-nft"
+                href="/docs/create-an-nft"
                 iconPlacement="right"
                 rounded
                 color="secondary"

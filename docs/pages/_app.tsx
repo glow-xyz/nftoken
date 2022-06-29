@@ -5,6 +5,7 @@ import { NetworkProvider } from "../components/NetworkContext";
 
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import { Toaster } from "react-hot-toast";
 import { Header } from "../components/all-pages/Header";
 import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons";
 import { TabBar } from "../components/all-pages/TabBar";
@@ -23,7 +24,37 @@ export default function App(props: AppProps) {
     return <Component {...pageProps} />;
   }
 
-  return <DocsPage {...props} />;
+  if (router.pathname.startsWith("/docs")) {
+    return <DocsPage {...props} />;
+  }
+
+  return (
+    <>
+      <div className="page">
+        <Header />
+        <div className="content">
+          <Component {...pageProps} />
+        </div>
+        <Footer />
+      </div>
+      <Toaster />
+      <style jsx>{`
+        .page {
+          min-height: 100vh;
+          display: grid;
+          grid-template-rows: max-content 1fr max-content;
+        }
+
+        .content {
+          width: 100%;
+          max-width: 60rem;
+          margin: 0 auto;
+          padding: 1.5rem;
+          padding-bottom: 3rem;
+        }
+      `}</style>
+    </>
+  );
 }
 
 const DocsPage = ({ Component, pageProps }: AppProps) => {
@@ -82,24 +113,54 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
             top: 8rem;
           }
 
-          nav.mobile {
-            /* Hide nav by default, so there's no flash on page load. */
-            height: 0;
-            padding: 0 1.5rem;
-
-            position: fixed;
-            background-color: var(--primary-bg-color);
-            left: 0;
-            right: 0;
-            z-index: 100;
-            overflow: hidden;
-          }
-
           main {
             padding-top: 3rem;
             padding-bottom: 5rem;
             padding-right: 1.5rem;
             min-height: 90vh; // Push the footer down on small pages
+          }
+
+          @media (max-width: ${ResponsiveBreakpoint.medium}) {
+            .content {
+              display: grid;
+              grid-template-columns: max-content 1fr;
+              grid-column-gap: 6rem;
+              height: 100%;
+
+              width: 100%;
+              max-width: 60rem;
+              margin: 0 auto;
+            }
+
+            nav.desktop {
+              height: 100%;
+            }
+
+            nav.desktop .nav-inner {
+              padding-left: 0.75rem;
+              position: sticky;
+              top: 8rem;
+            }
+
+            nav.mobile {
+              /* Hide nav by default, so there's no flash on page load. */
+              height: 0;
+              padding: 0 1.5rem;
+
+              position: fixed;
+              background-color: var(--primary-bg-color);
+              left: 0;
+              right: 0;
+              z-index: 100;
+              overflow: hidden;
+            }
+
+            main {
+              padding-top: 3rem;
+              padding-bottom: 5rem;
+              padding-right: 1.5rem;
+              min-height: 90vh; // Push the footer down on small pages
+            }
           }
 
           @media (max-width: ${ResponsiveBreakpoint.medium}) {
