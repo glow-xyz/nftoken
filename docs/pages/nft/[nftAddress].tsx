@@ -12,8 +12,8 @@ import { SolanaAddress } from "../../components/SolanaAddress";
 import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { ExternalLink } from "../../components/ExternalLink";
-// import { LuxButton } from "../../components/LuxButton";
-// import { ArrowRightIcon } from "@heroicons/react/solid";
+import { LuxButton } from "../../components/LuxButton";
+import { ArrowRightIcon } from "@heroicons/react/solid";
 
 const useNft = ({
   nftAddress,
@@ -102,8 +102,7 @@ export default function NftPage({
                   {type === "address" ? (
                     <div className="solana-address flex-center flex-wrap">
                       <SolanaAddress address={nft[key]?.toString()} />
-                      {/* Commented out until the collection page is done. */}
-                      {/* {key === "collection" && (
+                      {key === "collection" && (
                         <LuxButton
                           label="View Collection"
                           icon={<ArrowRightIcon />}
@@ -112,7 +111,7 @@ export default function NftPage({
                           rounded
                           size="small"
                         />
-                      )} */}
+                      )}
                     </div>
                   ) : type === "link" ? (
                     <div className="link">
