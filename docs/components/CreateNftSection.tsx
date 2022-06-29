@@ -1,5 +1,5 @@
 import { Network } from "@glow-app/glow-client";
-import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
+import { useGlowContext } from "@glow-app/glow-react";
 import {
   GKeypair,
   GPublicKey,
@@ -19,7 +19,7 @@ import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadImageToS3, uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
-import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
+import { LuxSubmitButton } from "../components/LuxButton";
 import { InteractiveWell } from "./InteractiveWell";
 import { NETWORK_TO_RPC } from "../utils/rpc-types";
 
@@ -78,9 +78,10 @@ export const CreateNftSection = () => {
     <div className="create-nft-section">
       <InteractiveWell
         title="Live Minting Demo"
-        className={classNames("my-3", { blurred: !glowDetected || !user })}
+        minimal={success}
+        className="my-3"
       >
-        <div className={classNames("form-section", { invisible: success })}>
+        <div className={classNames({ invisible: success })}>
           <Formik
             initialValues={initialValues}
             onSubmit={async ({ name, image }, { resetForm }) => {
@@ -148,37 +149,12 @@ export const CreateNftSection = () => {
 
               <ImageDropZone />
 
-              <div className="mt-4 flex-center spread">
+              <div className="mt-4">
                 <SubmitButton />
-                <LuxButton
-                  label="Disconnect Wallet"
-                  onClick={signOut}
-                  color="secondary"
-                  size="small"
-                  variant="link"
-                />
               </div>
             </Form>
           </Formik>
         </div>
-
-        {!glowDetected && (
-          <div className="overlay text-center">
-            <p>
-              You’ll need to install{" "}
-              <a href="https://glow.app/download" target="_blank">
-                Glow
-              </a>{" "}
-              in order to mint an NFT.
-            </p>
-          </div>
-        )}
-
-        {glowDetected && !user && (
-          <div className="overlay">
-            <GlowSignInButton variant="purple" />
-          </div>
-        )}
 
         <div
           className={classNames("success", {
@@ -195,31 +171,6 @@ export const CreateNftSection = () => {
       </InteractiveWell>
 
       <style jsx>{`
-        .overlay {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .overlay p {
-          background-color: var(--primary-bg-color);
-          padding: 0.3rem 1rem;
-          border-radius: var(--border-radius);
-          color: var(--primary-color);
-        }
-
-        .form-section {
-          transition: var(--transition); /* So blur transitions smoothly. */
-        }
-
-        .create-nft-section :global(.blurred .form-section),
-        .create-nft-section :global(.blurred .title),
-        .create-nft-section :global(.blurred .network-switcher) {
-          filter: blur(6px) brightness(120%) grayscale(20%);
-        }
-
         .invisible {
           opacity: 0;
           pointer-events: none;
@@ -246,12 +197,6 @@ export const CreateNftSection = () => {
         .success-icon :global(svg) {
           height: 1.5rem;
           width: 1.5rem;
-        }
-
-        .network-switcher {
-          position: absolute;
-          top: 0.5rem;
-          right: 1rem;
         }
       `}</style>
     </div>
