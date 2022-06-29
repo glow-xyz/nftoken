@@ -16,7 +16,7 @@ importers:
       '@glow-app/glow-react': 1.0.1
       '@glow-app/solana-client': 1.0.4
       '@heroicons/react': 1.0.6
-      '@luma-team/lux-sass': 0.47.0
+      '@luma-team/lux-sass': 0.48.0
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1
       '@metaplex-foundation/beet': 0.2.0
@@ -70,7 +70,7 @@ importers:
       '@glow-app/glow-react': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@glow-app/solana-client': 1.0.4
       '@heroicons/react': 1.0.6_react@18.2.0
-      '@luma-team/lux-sass': 0.47.0
+      '@luma-team/lux-sass': 0.48.0
       '@markdoc/markdoc': 0.1.2
       '@markdoc/next.js': 0.1.4-1_cpsvepzrkhhoahelvkbiqeukde
       '@metaplex-foundation/beet': 0.2.0
@@ -1919,8 +1919,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.13
     dev: false
 
-  /@luma-team/lux-sass/0.47.0:
-    resolution: {integrity: sha512-4M632z2/3DJ8QpIzBNgGP8YKEDX6C38UxQRL9SIR7F8Q2y4RlGWEPTswlex6HZ3F/+zsYoz3rCE/bHTs1oJSDQ==}
+  /@luma-team/lux-sass/0.48.0:
+    resolution: {integrity: sha512-2gi5qwDHWaWfMMt2JsdUrkt4dp99RtADJNesTwy27GQjkqssCk5d5TmOn1+jcxcOD5Po6X1MQ5/RV676vF3N3w==}
     dev: false
 
   /@markdoc/markdoc/0.1.2:
