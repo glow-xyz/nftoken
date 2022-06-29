@@ -29,7 +29,7 @@ type FormData = {
 };
 
 export const CreateNftSection = () => {
-  const { user, glowDetected, signOut } = useGlowContext();
+  const { user, glowDetected } = useGlowContext();
   const [success, setSuccess] = useState(false);
 
   const initialValues: FormData = { name: "", image: null };
