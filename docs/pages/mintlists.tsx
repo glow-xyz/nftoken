@@ -1,6 +1,6 @@
 import { NftokenFetcher } from "../utils/NftokenFetcher";
 import { Network } from "@glow-app/glow-client";
-import useSWR, { SWRResponse } from "swr";
+import useSWR from "swr";
 import { useGlowContext } from "@glow-app/glow-react";
 import { Solana } from "@glow-app/solana-client";
 import { NftokenTypes } from "../utils/NftokenTypes";
@@ -80,15 +80,14 @@ function useMintlists({
 }): {
   data: NftokenTypes.MintlistInfo[] | undefined;
   error: any;
-  mutate: SWRResponse<NftokenTypes.MintlistInfo[], never>["mutate"];
 } {
   const swrKey = [wallet, network];
-  const { data, error, mutate } = useSWR(swrKey, async () => {
+  const { data, error } = useSWR(swrKey, async () => {
     if (!wallet) {
       return [];
     }
 
     return await NftokenFetcher.getAllMintlists({ wallet, network });
   });
-  return { data, error, mutate };
+  return { data, error };
 }
