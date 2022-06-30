@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { Network } from "@glow-app/glow-client";
 import { Solana } from "@glow-app/solana-client";
 import useSWR, { SWRResponse } from "swr";
@@ -143,9 +144,11 @@ export default function CollectionPage({
       {nftsInCollection && (
         <div className="nft-container mt-5">
           {nftsInCollection.map((nft) => (
-            <a href={`/nft/${nft.address}`} key={nft.address} className="nft">
-              <img src={nft.image} alt={nft.name} className="nft" />
-            </a>
+            <Link href={`/nft/${nft.address}`} key={nft.address}>
+              <a className="nft">
+                <img src={nft.image} alt={nft.name} className="nft" />
+              </a>
+            </Link>
           ))}
         </div>
       )}
