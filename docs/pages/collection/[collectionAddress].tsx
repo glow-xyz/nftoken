@@ -42,9 +42,9 @@ const useCollectionNfts = ({
 }): {
   // We can be confident that data will be nonnull even if the request fails,
   // if we defined fallbackData in the config.
-  data: NftokenTypes.NftInfo[] | null;
+  data: NftokenTypes.NftInfo[];
   error: any;
-  mutate: SWRResponse<NftokenTypes.NftInfo[] | null, never>["mutate"];
+  mutate: SWRResponse<NftokenTypes.NftInfo[], never>["mutate"];
 } => {
   const swrKey = [collectionAddress, network, "getNftsInCollection"];
   const { data, error, mutate } = useSWR(swrKey, async () => {
@@ -135,7 +135,7 @@ export default function CollectionPage({
           {collection.traits && collection.traits.length > 0 ? (
             <NftAttributeList attributes={traits} />
           ) : (
-            <div className="trait-empty-state">No traits set.</div>
+            <div className="traits-empty-state">No traits set.</div>
           )}
         </div>
       </div>
@@ -166,11 +166,18 @@ export default function CollectionPage({
         .columns {
           display: grid;
           grid-template-columns: 1.5fr 1fr;
-          grid-column-gap: 1rem;
+          grid-column-gap: 1.5rem;
         }
 
         .traits-column {
           margin-top: 2.35rem;
+        }
+
+        .traits-empty-state {
+          color: var(--secondary-color);
+          background-color: var(--secondary-bg-color);
+          padding: 0.75rem;
+          border-radius: var(--border-radius);
         }
 
         .nft-container {

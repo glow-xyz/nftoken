@@ -42,12 +42,12 @@ const KEYS: (keyof NftokenTypes.NftInfo)[] = [
   "holder",
   "delegate",
   "authority",
+  "authority_can_update",
   "name",
   "description",
   "image",
   "minted_at",
   "metadata_url",
-  "authority_can_update",
 ];
 
 export default function NftPage({
@@ -113,7 +113,7 @@ export default function NftPage({
               {nft.traits && nft.traits.length > 0 ? (
                 <NftAttributeList attributes={traits} />
               ) : (
-                <div className="trait-empty-state">No traits set.</div>
+                <div className="traits-empty-state">No traits set.</div>
               )}
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function NftPage({
           grid-column-gap: 3rem;
         }
 
-        .trait-empty-state {
+        .traits-empty-state {
           color: var(--secondary-color);
           background-color: var(--secondary-bg-color);
           padding: 0.75rem;
