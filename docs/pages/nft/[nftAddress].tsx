@@ -14,7 +14,7 @@ import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { ExternalLink } from "../../components/ExternalLink";
 import { LuxButton } from "../../components/LuxButton";
 import { ArrowRightIcon } from "@heroicons/react/solid";
-import { NftAttributesList } from "../../components/NftAttributesList";
+import { NftAttributeList } from "../../components/NftAttributeList";
 
 const useNft = ({
   nftAddress,
@@ -99,7 +99,7 @@ export default function NftPage({
           <div>
             <h1>{nft.name}</h1>
 
-            <NftAttributesList attributes={attributes} />
+            <NftAttributeList attributes={attributes} />
 
             <div className="mt-4">
               <h2>Traits</h2>

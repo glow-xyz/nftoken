@@ -7,6 +7,7 @@ import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { SocialHead } from "../../components/SocialHead";
 import { PageLayout } from "../../components/PageLayout";
+import { NftAttributeList } from "../../components/NftAttributeList";
 
 const useCollection = ({
   collectionAddress,
