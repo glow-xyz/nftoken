@@ -18,9 +18,10 @@ export const ValueList = ({
       <div className="container">
         {Object.keys(attributes).map((key) => (
           <React.Fragment key={key}>
-            <div className="key">{key}</div>
-            <Value value={attributes[key]} attributeKey={key} />
-            <div className="divider" />
+            <div className="value-container">
+              <div className="key">{key}</div>
+              <Value value={attributes[key]} attributeKey={key} />
+            </div>
           </React.Fragment>
         ))}
       </div>
@@ -33,16 +34,25 @@ export const ValueList = ({
           font-family: var(--mono-font);
           font-weight: var(--medium-font-weight);
           overflow-wrap: anywhere;
-
-          display: grid;
-          grid-template-columns: max-content 1fr;
-          grid-column-gap: 2rem;
         }
 
-        .container .key {
+        .value-container {
+          display: flex;
+          align-items: baseline;
+        }
+
+        .value-container .key {
           font-weight: var(--normal-font-weight);
           color: var(--secondary-color);
-          max-width: 8.5rem; /* This width cuts "authority_can_update" in a nice way */
+          width: 8.5rem;
+          margin-right: 2rem;
+          flex-shrink: 0;
+        }
+
+        .value-container + .value-container {
+          border-top: 1px solid var(--secondary-border-color);
+          margin-top: 0.5rem;
+          padding-top: 0.5rem;
         }
 
         .container .divider {
