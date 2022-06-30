@@ -132,7 +132,7 @@ export default function CollectionPage({
       </div>
       <div className="columns">
         <div>
-          <h2 className="text-secondary">On-chain metadata</h2>
+          <h2 className="text-secondary">On-Chain Metadata</h2>
           <ValueList
             attributes={{
               address: collection.address,
@@ -144,7 +144,7 @@ export default function CollectionPage({
           />
         </div>
         <div className="traits-column">
-          <h2 className="text-secondary">Off-chain metadata</h2>
+          <h2 className="text-secondary">Off-Chain Metadata</h2>
           <ValueList
             attributes={{
               image: collection.image,
