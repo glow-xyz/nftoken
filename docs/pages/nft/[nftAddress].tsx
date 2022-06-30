@@ -4,16 +4,11 @@ import { Solana } from "@glow-app/solana-client";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import useSWR, { SWRResponse } from "swr";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { PageLayout } from "../../components/PageLayout";
-import { SolanaAddress } from "../../components/SolanaAddress";
 import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { ExternalLink } from "../../components/ExternalLink";
-import { LuxButton } from "../../components/LuxButton";
-import { ArrowRightIcon } from "@heroicons/react/solid";
 import { NftAttributeList } from "../../components/NftAttributeList";
 
 const useNft = ({
