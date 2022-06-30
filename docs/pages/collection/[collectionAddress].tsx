@@ -19,9 +19,9 @@ const useCollection = ({
 }): {
   // We can be confident that data will be nonnull even if the request fails,
   // if we defined fallbackData in the config.
-  data: NftokenTypes.Collection | null;
+  data: NftokenTypes.CollectionInfo | null;
   error: any;
-  mutate: SWRResponse<NftokenTypes.Collection | null, never>["mutate"];
+  mutate: SWRResponse<NftokenTypes.CollectionInfo | null, never>["mutate"];
 } => {
   const swrKey = [collectionAddress, network];
   const { data, error, mutate } = useSWR(swrKey, async () => {
@@ -56,7 +56,7 @@ const useCollectionNfts = ({
   return { data: data!, error, mutate };
 };
 
-const KEYS: (keyof NftokenTypes.Collection)[] = [
+const KEYS: (keyof NftokenTypes.CollectionInfo)[] = [
   "address",
   "authority",
   "authority_can_update",
@@ -70,7 +70,7 @@ export default function CollectionPage({
   initialCollection,
   initialNftsInCollection,
 }: {
-  initialCollection: NftokenTypes.Collection;
+  initialCollection: NftokenTypes.CollectionInfo;
   initialNftsInCollection: NftokenTypes.NftInfo[];
 }) {
   const {
