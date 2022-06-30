@@ -73,15 +73,12 @@ export default function NftPage({
 
   if (nft === null) {
     return (
-      <>
+      <PageLayout>
         <SocialHead subtitle="NFT Not Found" />
-        <h1>We couldn’t find an NFToken with this address.</h1>
-        <style jsx>{`
-          h1 {
-            font-size: 1.5rem;
-          }
-        `}</style>
-      </>
+        <h1 className="text-xl font-weight-medium">
+          We couldn’t find an NFToken with this address.
+        </h1>
+      </PageLayout>
     );
   }
 
