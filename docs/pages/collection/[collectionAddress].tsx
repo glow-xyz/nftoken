@@ -7,7 +7,7 @@ import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { SocialHead } from "../../components/SocialHead";
 import { PageLayout } from "../../components/PageLayout";
-import { NftAttributeList } from "../../components/NftAttributeList";
+import { ValueList } from "../../components/ValueList";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 const useCollection = ({
@@ -128,12 +128,12 @@ export default function CollectionPage({
         <div>
           <div className="collection-badge">Collection</div>
           <h1>{collection.name}</h1>
-          <NftAttributeList attributes={attributes} />
+          <ValueList attributes={attributes} />
         </div>
         <div className="traits-column">
           <h2>Traits</h2>
           {collection.traits && collection.traits.length > 0 ? (
-            <NftAttributeList attributes={traits} />
+            <ValueList attributes={traits} />
           ) : (
             <div className="traits-empty-state">No traits set.</div>
           )}

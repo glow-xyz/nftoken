@@ -7,7 +7,7 @@ import { LuxButton } from "./LuxButton";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { ArrowRightIcon } from "@heroicons/react/solid";
 
-export const NftAttributeList = ({
+export const ValueList = ({
   attributes,
 }: {
   attributes: { [key: string]: any };

@@ -9,7 +9,7 @@ import { NftokenTypes } from "../../utils/NftokenTypes";
 import { PageLayout } from "../../components/PageLayout";
 import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { NftAttributeList } from "../../components/NftAttributeList";
+import { ValueList } from "../../components/ValueList";
 
 const useNft = ({
   nftAddress,
@@ -101,12 +101,12 @@ export default function NftPage({
           <div>
             <h1>{nft.name}</h1>
 
-            <NftAttributeList attributes={attributes} />
+            <ValueList attributes={attributes} />
 
             <div className="mt-4">
               <h2>Traits</h2>
               {nft.traits && nft.traits.length > 0 ? (
-                <NftAttributeList attributes={traits} />
+                <ValueList attributes={traits} />
               ) : (
                 <div className="traits-empty-state">No traits set.</div>
               )}
