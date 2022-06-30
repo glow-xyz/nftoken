@@ -1,19 +1,24 @@
+import React from "react";
+import { Solana } from "@glow-app/solana-client";
+import { Network } from "@glow-app/glow-client";
+import { useRouter } from "next/router";
+import { PlusIcon, MinusIcon } from "@heroicons/react/outline";
+import useSWR, { SWRResponse } from "swr";
+import { DateTime } from "luxon";
 import { PageLayout } from "../../components/PageLayout";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { useNetworkContext } from "../../components/NetworkContext";
-import { useRouter } from "next/router";
-import { Solana } from "@glow-app/solana-client";
-import { Network } from "@glow-app/glow-client";
-import useSWR, { SWRResponse } from "swr";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
-import React from "react";
 import { SolanaAddress } from "../../components/SolanaAddress";
 import { ExternalLink } from "../../components/ExternalLink";
 import { ChevronLeftIcon, ExternalLinkIcon } from "@heroicons/react/outline";
-import { DateTime } from "luxon";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { useGlowContext } from "@glow-app/glow-react";
-import { LuxButton } from "../../components/LuxButton";
+import { LuxButton, LuxSubmitButton } from "../../components/LuxButton";
+import { InteractiveWell } from "../../components/InteractiveWell";
+import { FieldArray, Form, Formik } from "formik";
+import { LuxInputField } from "../../components/LuxInput";
+import { ImageDropZone } from "../../components/forms/ImageDropZone";
 
 type ATTRIBUTE_KEY = keyof NftokenTypes.MintlistInfo;
 type ATTRIBUTE_TYPE = "address" | "link" | "unix_timestamp" | "amount";
@@ -36,7 +41,7 @@ export default function MintlistPage() {
   const { query } = useRouter();
   const mintlistAddress = query.mintlistAddress as Solana.Address;
 
-  const { user } = useGlowContext();
+  const { user, signOut } = useGlowContext();
 
   const { network } = useNetworkContext();
 
@@ -135,6 +140,18 @@ export default function MintlistPage() {
                   <div>{data.mintlist.num_nfts_redeemed}</div>
                 </div>
               </div>
+            </div>
+            <div>
+              <h2>NFTs</h2>
+              {user && mintlist.authority === user.address && (
+                <NftsUploader onSignOut={signOut} />
+              )}
+
+              {mintlist.mint_infos.length ? (
+                <div>TODO: NFTs grid</div>
+              ) : (
+                <p>No NFTs have been uploaded to this mintlist yet.</p>
+              )}
             </div>
           </>
         )}
@@ -245,4 +262,127 @@ function useMintlist({
   });
 
   return { data, error, mutate };
+}
+
+type NftConfig = { name: string; image: string };
+
+type FormData = {
+  nfts: NftConfig[];
+};
+
+function NftsUploader({ onSignOut }: { onSignOut: () => void }) {
+  const initialValues: FormData = {
+    nfts: [{ name: "", image: "" }],
+  };
+
+  return (
+    <>
+      <InteractiveWell title="Upload NFTs">
+        <Formik
+          initialValues={initialValues}
+          onSubmit={async () => {
+            console.log("Submitting");
+          }}
+        >
+          {({ values, isValid }) => (
+            <Form>
+              <div className="grid">
+                <FieldArray name="nfts">
+                  {({ insert, remove }) => (
+                    <>
+                      {values.nfts.map((_, index) => (
+                        <div>
+                          <div className="mb-4">
+                            <LuxInputField
+                              placeholder="Name"
+                              name={`nfts.${index}.name`}
+                              required
+                            />
+                          </div>
+
+                          <div className="mb-4">
+                            <ImageDropZone
+                              label="NFT Image"
+                              fieldName={`nfts.${index}.image`}
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            className="button remove-nft-button animated"
+                            onClick={() => remove(index)}
+                          >
+                            <MinusIcon
+                              style={{
+                                width: "2rem",
+                                height: "2rem",
+                              }}
+                            />
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        className="button add-nft-button animated"
+                        onClick={() =>
+                          insert(values.nfts.length, { name: "", image: "" })
+                        }
+                      >
+                        <PlusIcon
+                          style={{
+                            width: "2rem",
+                            height: "2rem",
+                          }}
+                        />
+                      </button>
+                    </>
+                  )}
+                </FieldArray>
+              </div>
+              <div className="mt-4 flex-center spread">
+                <LuxSubmitButton
+                  label={`Upload ${values.nfts.length} NFTs`}
+                  rounded
+                  color="brand"
+                  disabled={!(isValid && values.nfts.every((nft) => nft.image))}
+                />
+                <LuxButton
+                  label="Disconnect Wallet"
+                  onClick={onSignOut}
+                  color="secondary"
+                  size="small"
+                  variant="link"
+                />
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </InteractiveWell>
+      <style jsx>{`
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          column-gap: 1rem;
+          row-gap: 2rem;
+        }
+
+        .button {
+          border: 1px solid var(--primary-border-color);
+          border-radius: var(--border-radius);
+          background-color: var(--faint-gray);
+        }
+        .button:hover {
+          background-color: var(--pale-gray);
+        }
+
+        .add-nft-button {
+          // Make sure the button doesn't collapse when the grid is empty..
+          min-height: 15.6rem;
+        }
+
+        .remove-nft-button {
+          width: 100%;
+        }
+      `}</style>
+    </>
+  );
 }
