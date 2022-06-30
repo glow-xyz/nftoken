@@ -66,13 +66,17 @@ export default function MintlistPage() {
                 {data.collection && (
                   <>
                     <h2>Collection</h2>
-                    <figure>
-                      <img
-                        alt={data.collection.name}
-                        src={data.collection.image}
-                      />
-                      <figcaption>{data.collection.name}</figcaption>
-                    </figure>
+                    {data.collection.image ? (
+                      <figure>
+                        <img
+                          alt={data.collection.name}
+                          src={data.collection.image}
+                        />
+                        <figcaption>{data.collection.name}</figcaption>
+                      </figure>
+                    ) : (
+                      <h3>{data.collection.name}</h3>
+                    )}
                   </>
                 )}
               </div>
