@@ -9,9 +9,11 @@ import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import React from "react";
 import { SolanaAddress } from "../../components/SolanaAddress";
 import { ExternalLink } from "../../components/ExternalLink";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
+import { ChevronLeftIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { DateTime } from "luxon";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import { useGlowContext } from "@glow-app/glow-react";
+import { LuxButton } from "../../components/LuxButton";
 
 type ATTRIBUTE_KEY = keyof NftokenTypes.MintlistInfo;
 type ATTRIBUTE_TYPE = "address" | "link" | "unix_timestamp" | "amount";
@@ -34,17 +36,30 @@ export default function MintlistPage() {
   const { query } = useRouter();
   const mintlistAddress = query.mintlistAddress as Solana.Address;
 
+  const { user } = useGlowContext();
+
   const { network } = useNetworkContext();
 
   const { data: mintlist } = useMintlist({ address: mintlistAddress, network });
-
-  console.log({ mintlist });
 
   return (
     <>
       <PageLayout>
         {mintlist && (
           <>
+            {user && (
+              <div className="navigation">
+                <LuxButton
+                  label="Back to Mintlists"
+                  icon={<ChevronLeftIcon />}
+                  href="/mintlists"
+                  iconPlacement="left"
+                  rounded
+                  variant="link"
+                  color="brand"
+                />
+              </div>
+            )}
             <h1>{mintlist.name}</h1>
             <div className="columns">
               <div className="collection">
@@ -63,7 +78,7 @@ export default function MintlistPage() {
               </div>
 
               <div>
-                <h2>On-chain Data</h2>
+                <h2>On-Chain Data</h2>
                 <div className="table">
                   {KEYS.map(({ key, type }) => {
                     return (
@@ -118,6 +133,10 @@ export default function MintlistPage() {
         )}
       </PageLayout>
       <style jsx>{`
+        .navigation {
+          margin-bottom: 2rem;
+        }
+
         .columns {
           display: grid;
           grid-template-columns: 20rem 1fr;

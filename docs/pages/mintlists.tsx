@@ -24,8 +24,9 @@ export default function MintlistsPage() {
       <PageLayout>
         <h1>Mintlists</h1>
         <p>
-          Below you can find overview of all the mintlists you created. Click on
-          the mintlist name to go to its details page where you can manage it.
+          Below you can find the overview of all the mintlists you created.
+          Click on the mintlist name to go to its details page where you can
+          manage it.
         </p>
         <InteractiveWell title="Your Mintlists">
           <div className="table">
