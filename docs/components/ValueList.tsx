@@ -1,11 +1,12 @@
-import { Solana } from "@glow-app/solana-client";
 import React from "react";
+import { Solana } from "@glow-app/solana-client";
+import { ExternalLinkIcon } from "@heroicons/react/outline";
+import { ArrowRightIcon } from "@heroicons/react/solid";
 import { startsWithHttp } from "../utils/social-links";
 import { SolanaAddress } from "./SolanaAddress";
 import { ExternalLink } from "./ExternalLink";
 import { LuxButton } from "./LuxButton";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
-import { ArrowRightIcon } from "@heroicons/react/solid";
+import { ResponsiveBreakpoint } from "../utils/style-constants";
 
 export const ValueList = ({
   attributes,
@@ -52,6 +53,12 @@ export const ValueList = ({
 
         .container .divider:last-of-type {
           display: none;
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.small}) {
+          .container {
+            grid-column-gap: 1rem;
+          }
         }
       `}</style>
     </>
