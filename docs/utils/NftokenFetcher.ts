@@ -283,22 +283,40 @@ export namespace NftokenFetcher {
     }));
   };
 
+  /**
+   * Get either all globally created mintlists, or if `wallet` is provided,
+   * only the mintlists where the `authority` is the `wallet`.
+   */
   export const getAllMintlists = async ({
+    wallet,
     network,
   }: {
+    wallet?: string;
     network: Network;
   }): Promise<NftokenTypes.MintlistInfo[]> => {
+    const filters = [
+      {
+        memcmp: {
+          offset: 0,
+          bytes: bs58.encode(Buffer.from("86a4166f558e09f1", "hex")),
+        },
+      },
+    ];
+
+    if (wallet) {
+      filters.push({
+        memcmp: {
+          // Account discriminator + version number
+          offset: 8 + 1,
+          bytes: wallet,
+        },
+      });
+    }
+
     const accounts = await SolanaClient.getProgramAccounts({
       program: NFTOKEN_ADDRESS,
       rpcUrl: NETWORK_TO_RPC[network],
-      filters: [
-        {
-          memcmp: {
-            offset: 0,
-            bytes: bs58.encode(Buffer.from("86a4166f558e09f1", "hex")),
-          },
-        },
-      ],
+      filters,
     });
 
     const mintlists: NftokenTypes.Mintlist[] = accounts.flatMap((account) => {

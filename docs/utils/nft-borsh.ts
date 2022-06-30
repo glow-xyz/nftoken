@@ -93,9 +93,9 @@ export const NFTOKEN_MINTLIST_ACCOUNT = new FixableGlowBorsh<{
     ["treasury_sol", GlowBorsh.address],
     ["go_live_date", GlowBorsh.timestamp],
     ["price", GlowBorsh.solAmount],
-    ["minting_order", u8], // TODO: Figure out what this should be to be an enum
+    ["minting_order", u8],
     ["collection", GlowBorsh.address],
-    ["metadata_url", FixableGlowBorsh.utf8String],
+    ["metadata_url", GlowBorsh.utf8String(96)],
     ["created_at", GlowBorsh.timestamp],
     ["num_nfts_total", u32],
     ["num_nfts_redeemed", u32],
