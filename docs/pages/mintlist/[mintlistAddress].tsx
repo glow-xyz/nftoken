@@ -40,12 +40,12 @@ export default function MintlistPage() {
 
   const { network } = useNetworkContext();
 
-  const { data: mintlist } = useMintlist({ address: mintlistAddress, network });
+  const { data } = useMintlist({ address: mintlistAddress, network });
 
   return (
     <>
       <PageLayout>
-        {mintlist && (
+        {data && (
           <>
             {user && (
               <div className="navigation">
@@ -60,18 +60,18 @@ export default function MintlistPage() {
                 />
               </div>
             )}
-            <h1>{mintlist.name}</h1>
+            <h1>{data.mintlist.name}</h1>
             <div className="columns">
               <div className="collection">
-                {mintlist.collectionInfo && (
+                {data.collection && (
                   <>
                     <h2>Collection</h2>
                     <figure>
                       <img
-                        alt={mintlist.collectionInfo.name}
-                        src={mintlist.collectionInfo.image}
+                        alt={data.collection.name}
+                        src={data.collection.image}
                       />
-                      <figcaption>{mintlist.collectionInfo.name}</figcaption>
+                      <figcaption>{data.collection.name}</figcaption>
                     </figure>
                   </>
                 )}
@@ -87,24 +87,27 @@ export default function MintlistPage() {
                         {type === "address" ? (
                           <div className="solana-address flex-center flex-wrap">
                             <SolanaAddress
-                              address={mintlist[key]?.toString()}
+                              address={data.mintlist[key]?.toString()}
                             />
                           </div>
                         ) : type === "link" ? (
                           <div className="link">
-                            <ExternalLink href={mintlist[key]!.toString()}>
-                              <span>{mintlist[key]!.toString()}</span>{" "}
+                            <ExternalLink href={data.mintlist[key]!.toString()}>
+                              <span>{data.mintlist[key]!.toString()}</span>{" "}
                               <ExternalLinkIcon />
                             </ExternalLink>
                           </div>
                         ) : type === "amount" ? (
                           <div>
-                            {(mintlist[key] as { lamports: string }).lamports}
+                            {
+                              (data.mintlist[key] as { lamports: string })
+                                .lamports
+                            }
                           </div>
                         ) : type === "unix_timestamp" ? (
                           <div>
                             {DateTime.fromISO(
-                              mintlist[key]! as string
+                              data.mintlist[key]! as string
                             ).toLocaleString({
                               dateStyle: "medium",
                               timeStyle: "short",
@@ -112,20 +115,20 @@ export default function MintlistPage() {
                           </div>
                         ) : (
                           <div>
-                            {typeof mintlist[key] === "string"
-                              ? mintlist[key]?.toString()
-                              : JSON.stringify(mintlist[key])}
+                            {typeof data.mintlist[key] === "string"
+                              ? data.mintlist[key]?.toString()
+                              : JSON.stringify(data.mintlist[key])}
                           </div>
                         )}
                       </React.Fragment>
                     );
                   })}
                   <div className="key">nfts_uploaded</div>
-                  <div>{mintlist.mint_infos.length}</div>
+                  <div>{data.mintlist.mint_infos.length}</div>
                   <div className="key">nfts_total</div>
-                  <div>{mintlist.num_nfts_total}</div>
+                  <div>{data.mintlist.num_nfts_total}</div>
                   <div className="key">nfts_minted</div>
-                  <div>{mintlist.num_nfts_redeemed}</div>
+                  <div>{data.mintlist.num_nfts_redeemed}</div>
                 </div>
               </div>
             </div>
@@ -202,8 +205,9 @@ export default function MintlistPage() {
   );
 }
 
-type MintlistInfoWithCollectionInfo = NftokenTypes.MintlistInfo & {
-  collectionInfo: NftokenTypes.CollectionInfo | null;
+type MintlistAndCollection = {
+  mintlist: NftokenTypes.MintlistInfo;
+  collection: NftokenTypes.CollectionInfo | null;
 };
 
 function useMintlist({
@@ -213,9 +217,9 @@ function useMintlist({
   address: Solana.Address;
   network: Network;
 }): {
-  data?: MintlistInfoWithCollectionInfo | null;
+  data?: MintlistAndCollection | null;
   error: any;
-  mutate: SWRResponse<MintlistInfoWithCollectionInfo | null, never>["mutate"];
+  mutate: SWRResponse<MintlistAndCollection | null, never>["mutate"];
 } {
   const swrKey = [address, network];
   const { data, error, mutate } = useSWR(swrKey, async () => {
@@ -231,8 +235,8 @@ function useMintlist({
     });
 
     return {
-      ...mintlist,
-      collectionInfo: collection,
+      mintlist,
+      collection,
     };
   });
 
