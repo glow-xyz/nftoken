@@ -166,7 +166,7 @@ export default function CollectionPage({
         .columns {
           display: grid;
           grid-template-columns: 1.5fr 1fr;
-          grid-column-gap: 1.5rem;
+          grid-column-gap: 1rem;
         }
 
         .traits-column {
@@ -182,7 +182,7 @@ export default function CollectionPage({
 
         .nft-container {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          grid-template-columns: repeat(3, 1fr);
           grid-gap: 1rem;
         }
 
@@ -211,8 +211,18 @@ export default function CollectionPage({
             grid-template-columns: 1fr;
           }
 
+          .nft-container {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
           .traits-column {
             margin-top: 1.5rem;
+          }
+        }
+
+        @media (max-width: ${ResponsiveBreakpoint.small}) {
+          .nft-container {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
