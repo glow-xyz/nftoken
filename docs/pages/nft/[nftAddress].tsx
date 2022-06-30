@@ -89,6 +89,13 @@ export default function NftPage({
     attributes[key] = nft[key];
   }
 
+  const traits: { [key: string]: any } = {};
+  if (nft.traits) {
+    for (const entry of nft.traits) {
+      traits[entry.trait_type] = entry.value;
+    }
+  }
+
   return (
     <PageLayout>
       <SocialHead subtitle={nft.name} />
@@ -104,17 +111,9 @@ export default function NftPage({
             <div className="mt-4">
               <h2>Traits</h2>
               {nft.traits && nft.traits.length > 0 ? (
-                <div className="table">
-                  {nft.traits.map(({ trait_type, value }) => (
-                    <React.Fragment key={trait_type}>
-                      <div className="key">{trait_type}</div>
-                      <div>{value}</div>
-                      <div className="divider" />
-                    </React.Fragment>
-                  ))}
-                </div>
+                <NftAttributeList attributes={traits} />
               ) : (
-                <div className="table text-secondary">No traits set.</div>
+                <div className="trait-empty-state">No traits set.</div>
               )}
             </div>
           </div>
@@ -137,6 +136,13 @@ export default function NftPage({
           display: grid;
           grid-template-columns: 20rem 1fr;
           grid-column-gap: 3rem;
+        }
+
+        .trait-empty-state {
+          color: var(--secondary-color);
+          background-color: var(--secondary-bg-color);
+          padding: 0.75rem;
+          border-radius: var(--border-radius);
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
