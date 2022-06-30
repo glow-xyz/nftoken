@@ -16,17 +16,16 @@ export default function MintlistsPage() {
 
   const { network } = useNetworkContext();
 
-  let { data: mintlists } = useMintlists({ wallet, network });
-  mintlists ??= [];
+  const { data } = useMintlists({ wallet, network });
+  const mintlists = data ?? [];
 
   return (
     <>
       <PageLayout>
         <h1>Mintlists</h1>
         <p>
-          Below you can find the overview of all the mintlists you created.
-          Click on the mintlist name to go to its details page where you can
-          manage it.
+          Below you can find overview of all the mintlists you created. Click on
+          the mintlist name to go to its details page where you can manage it.
         </p>
         <InteractiveWell title="Your Mintlists">
           <div className="table">
