@@ -147,6 +147,7 @@ export default function CollectionPage({
             <Link href={`/nft/${nft.address}`} key={nft.address}>
               <a className="nft">
                 <img src={nft.image} alt={nft.name} className="nft" />
+                <div className="name">{nft.name}</div>
               </a>
             </Link>
           ))}
@@ -186,7 +187,8 @@ export default function CollectionPage({
         .nft-container {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          grid-gap: 1rem;
+          grid-column-gap: 1rem;
+          grid-row-gap: 1.5rem;
         }
 
         .nft {
@@ -203,6 +205,14 @@ export default function CollectionPage({
           width: 100%;
           border-radius: var(--border-radius);
           box-shadow: var(--shadow);
+        }
+
+        .nft .name {
+          color: var(--primary-color);
+          text-align: center;
+          margin-top: 0.5rem;
+          font-size: var(--large-font-size);
+          font-weight: var(--medium-font-weight);
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
