@@ -10,6 +10,7 @@ import { SocialHead } from "../../components/SocialHead";
 import { PageLayout } from "../../components/PageLayout";
 import { ValueList } from "../../components/ValueList";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import { SquareImage } from "../../components/SquareImage";
 
 const useCollection = ({
   collectionAddress,
@@ -125,19 +126,32 @@ export default function CollectionPage({
   return (
     <PageLayout>
       <SocialHead subtitle={collection.name} />
+      <div>
+        <div className="collection-badge">Collection</div>
+        <h1>{collection.name}</h1>
+      </div>
       <div className="columns">
         <div>
-          <div className="collection-badge">Collection</div>
-          <h1>{collection.name}</h1>
-          <ValueList attributes={attributes} />
+          <h2 className="text-secondary">On-chain metadata</h2>
+          <ValueList
+            attributes={{
+              address: collection.address,
+              authority: collection.authority,
+              authority_can_update: collection.authority_can_update,
+              description: collection.description,
+              minted_at: collection.minted_at,
+            }}
+          />
         </div>
         <div className="traits-column">
-          <h2>Traits</h2>
-          {collection.traits && collection.traits.length > 0 ? (
-            <ValueList attributes={traits} />
-          ) : (
-            <div className="traits-empty-state">No traits set.</div>
-          )}
+          <h2 className="text-secondary">Off-chain metadata</h2>
+          <ValueList
+            attributes={{
+              image: collection.image,
+              metadata_url: collection.metadata_url,
+              ...traits,
+            }}
+          />
         </div>
       </div>
 
@@ -146,7 +160,11 @@ export default function CollectionPage({
           {nftsInCollection.map((nft) => (
             <Link href={`/nft/${nft.address}`} key={nft.address}>
               <a className="nft">
-                <img src={nft.image} alt={nft.name} className="nft" />
+                {nft.image && (
+                  <div className="image">
+                    <SquareImage src={nft.image} size={400} alt={nft.name} />
+                  </div>
+                )}
                 <div className="name">{nft.name}</div>
               </a>
             </Link>
@@ -169,19 +187,8 @@ export default function CollectionPage({
 
         .columns {
           display: grid;
-          grid-template-columns: 1.5fr 1fr;
+          grid-template-columns: 1fr 1fr;
           grid-column-gap: 1rem;
-        }
-
-        .traits-column {
-          margin-top: 2.35rem;
-        }
-
-        .traits-empty-state {
-          color: var(--secondary-color);
-          background-color: var(--secondary-bg-color);
-          padding: 0.75rem;
-          border-radius: var(--border-radius);
         }
 
         .nft-container {
@@ -200,16 +207,14 @@ export default function CollectionPage({
           opacity: 0.95;
         }
 
-        .nft img {
-          display: block;
-          width: 100%;
+        .nft .image {
           border-radius: var(--border-radius);
+          overflow: hidden;
           box-shadow: var(--shadow);
         }
 
         .nft .name {
           color: var(--primary-color);
-          text-align: center;
           margin-top: 0.5rem;
           font-size: var(--large-font-size);
           font-weight: var(--medium-font-weight);

@@ -10,6 +10,7 @@ import { PageLayout } from "../../components/PageLayout";
 import { SocialHead } from "../../components/SocialHead";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { ValueList } from "../../components/ValueList";
+import { SquareImage } from "../../components/SquareImage";
 
 const useNft = ({
   nftAddress,
@@ -97,7 +98,11 @@ export default function NftPage({
 
       <div className="wrapper">
         <div className="columns">
-          <img src={nft.image} />
+          {nft.image && (
+            <div className="image">
+              <SquareImage src={nft.image} size={500} alt={nft.name} />
+            </div>
+          )}
           <div>
             <h1>{nft.name}</h1>
 
@@ -120,11 +125,15 @@ export default function NftPage({
           margin-top: 1.5rem;
         }
 
-        img {
+        .image {
           display: block;
           width: 100%;
           box-shadow: var(--shadow);
           border-radius: calc(var(--border-radius) * 2);
+          overflow: hidden;
+          height: max-content;
+          max-width: 500px;
+          margin: 0 auto;
         }
 
         .columns {
