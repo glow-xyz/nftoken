@@ -143,11 +143,11 @@ export default function MintlistPage() {
             </div>
             <div>
               <h2>NFTs</h2>
-              {user && mintlist.authority === user.address && (
+              {user && data.mintlist.authority === user.address && (
                 <NftsUploader onSignOut={signOut} />
               )}
 
-              {mintlist.mint_infos.length ? (
+              {data.mintlist.mint_infos.length ? (
                 <div>TODO: NFTs grid</div>
               ) : (
                 <p>No NFTs have been uploaded to this mintlist yet.</p>
