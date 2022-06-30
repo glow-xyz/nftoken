@@ -98,7 +98,7 @@ export default function CollectionPage({
   if (collection === null) {
     return (
       <>
-        <SocialHead subtitle="NFT Not Found" />
+        <SocialHead subtitle="Collection Not Found" />
         <h1>We couldn’t find a collection with this address.</h1>
         <style jsx>{`
           h1 {
