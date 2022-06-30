@@ -55,19 +55,9 @@ export const ValueList = ({
           padding-top: 0.5rem;
         }
 
-        .container .divider {
-          border-top: 1px solid var(--secondary-border-color);
-          grid-column: span 2;
-          margin: 0.5rem 0;
-        }
-
-        .container .divider:last-of-type {
-          display: none;
-        }
-
         @media (max-width: ${ResponsiveBreakpoint.small}) {
-          .container {
-            grid-column-gap: 1rem;
+          .value-container .key {
+            margin-right: 1rem;
           }
         }
       `}</style>
