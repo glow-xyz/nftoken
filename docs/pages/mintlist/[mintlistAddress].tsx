@@ -55,6 +55,11 @@ export default function MintlistPage() {
 
   const { data } = useMintlist({ address: mintlistAddress, network });
 
+  const isAuthority = user && data?.mintlist.authority === user.address;
+
+  const showUploader =
+    data && data.mintlist.mint_infos.length < data.mintlist.num_nfts_total;
+
   return (
     <>
       <PageLayout>
@@ -153,22 +158,19 @@ export default function MintlistPage() {
             </div>
             <div>
               <h2>NFTs</h2>
-              {user &&
-                data.mintlist.authority === user.address &&
-                data.mintlist.mint_infos.length <
-                  data.mintlist.num_nfts_total && (
-                  <div className="mb-4">
-                    <div className="mb-2">
-                      NOTE: You can upload up to {MAX_NFTS_PER_BATCH} NFTs at
-                      once.
-                    </div>
-                    <NftsUploader
-                      mintlist={data.mintlist}
-                      network={network}
-                      onSignOut={signOut}
-                    />
+              {isAuthority && showUploader && (
+                <div className="mb-4">
+                  <div className="mb-2">
+                    NOTE: You can upload up to {MAX_NFTS_PER_BATCH} NFTs at
+                    once.
                   </div>
-                )}
+                  <NftsUploader
+                    mintlist={data.mintlist}
+                    network={network}
+                    onSignOut={signOut}
+                  />
+                </div>
+              )}
 
               <NftsGrid mintInfos={data.mintlist.mint_infos} />
             </div>
