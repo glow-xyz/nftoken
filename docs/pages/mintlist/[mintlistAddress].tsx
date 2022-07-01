@@ -362,8 +362,6 @@ function NftsUploader({
             } catch (err) {
               console.error(err);
             }
-
-            setSubmitting(false);
           }}
         >
           {({ values, isValid }) => (

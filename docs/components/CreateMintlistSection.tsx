@@ -59,17 +59,14 @@ export const CreateMintlistSection = () => {
       <Formik
         initialValues={initialValues}
         validateOnMount
-        onSubmit={async (
-          {
-            mintlistName,
-            collectionName,
-            collectionImage,
-            priceSol,
-            numNftsTotal,
-            goLiveDate,
-          },
-          { setSubmitting }
-        ) => {
+        onSubmit={async ({
+          mintlistName,
+          collectionName,
+          collectionImage,
+          priceSol,
+          numNftsTotal,
+          goLiveDate,
+        }) => {
           const goLiveDateTime = DateTime.fromISO(goLiveDate);
 
           const { file_url: mintlistMetadataUrl } = await uploadJsonToS3({
@@ -122,8 +119,8 @@ export const CreateMintlistSection = () => {
             });
 
             push(`/mintlist/${mintlistKeypair.address}`);
-          } catch (e) {
-            setSubmitting(false);
+          } catch (err) {
+            console.error(err);
           }
         }}
       >
