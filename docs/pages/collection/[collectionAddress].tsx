@@ -98,16 +98,12 @@ export default function CollectionPage({
 
   if (collection === null) {
     return (
-      <>
+      <PageLayout>
         <SocialHead subtitle="Collection Not Found" />
-        <h1>We couldn’t find a collection with this address.</h1>
-        <style jsx>{`
-          h1 {
-            font-size: 1.5rem;
-            padding: 1rem;
-          }
-        `}</style>
-      </>
+        <h1 className="text-xl font-weight-medium">
+          We couldn’t find a collection with this address.
+        </h1>
+      </PageLayout>
     );
   }
 
