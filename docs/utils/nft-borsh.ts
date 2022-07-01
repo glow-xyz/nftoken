@@ -141,6 +141,33 @@ export const NFTOKEN_COLLECTION_ACCOUNT = new FixableGlowBorsh<{
   ],
 });
 
+export const NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 = new FixableGlowBorsh<{
+  ix: null;
+  current_nft_count: number;
+  mint_infos: NftokenTypes.MintInfoArg[];
+}>({
+  fields: [
+    [
+      "ix",
+      GlowBorsh.ixDiscriminator({ ix_name: "mintlist_add_mint_infos_v1" }),
+    ],
+    ["current_nft_count", u32],
+    [
+      "mint_infos",
+      array(
+        new GlowBorsh<NftokenTypes.MintInfoArg>({
+          fields: [
+            [
+              "metadata_url",
+              GlowBorsh.utf8String(NftokenTypes.METADATA_URL_LENGTH),
+            ],
+          ],
+        })
+      ),
+    ],
+  ],
+});
+
 /**
  * This is a four bytes discriminator, used in system program.
  */

@@ -1,9 +1,10 @@
 import React from "react";
-import { Solana } from "@glow-app/solana-client";
+import { GTransaction, Solana, SolanaClient } from "@glow-app/solana-client";
 import { Network } from "@glow-app/glow-client";
 import { useRouter } from "next/router";
-import { PlusIcon, MinusIcon } from "@heroicons/react/outline";
-import useSWR, { SWRResponse } from "swr";
+import { PlusIcon } from "@heroicons/react/outline";
+import useSWR from "swr";
+import classNames from "classnames";
 import { DateTime } from "luxon";
 import { PageLayout } from "../../components/PageLayout";
 import { NftokenTypes } from "../../utils/NftokenTypes";
@@ -19,6 +20,12 @@ import { InteractiveWell } from "../../components/InteractiveWell";
 import { FieldArray, Form, Formik } from "formik";
 import { LuxInputField } from "../../components/LuxInput";
 import { ImageDropZone } from "../../components/forms/ImageDropZone";
+import { uploadJsonToS3 } from "../../utils/upload-file";
+import { NETWORK_TO_RPC } from "../../utils/rpc-types";
+import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "../../utils/nft-borsh";
+import { NFTOKEN_ADDRESS } from "../../utils/constants";
+
+const MAX_NFTS_PER_BATCH = 10;
 
 type ATTRIBUTE_KEY = keyof NftokenTypes.MintlistInfo;
 type ATTRIBUTE_TYPE = "address" | "link" | "unix_timestamp" | "amount";
@@ -43,7 +50,8 @@ export default function MintlistPage() {
 
   const { user, signOut } = useGlowContext();
 
-  const { network } = useNetworkContext();
+  const networkContext = useNetworkContext();
+  const network = (query.network || networkContext.network) as Network;
 
   const { data } = useMintlist({ address: mintlistAddress, network });
 
@@ -143,15 +151,24 @@ export default function MintlistPage() {
             </div>
             <div>
               <h2>NFTs</h2>
-              {user && data.mintlist.authority === user.address && (
-                <NftsUploader onSignOut={signOut} />
-              )}
+              {user &&
+                data.mintlist.authority === user.address &&
+                data.mintlist.mint_infos.length <
+                  data.mintlist.num_nfts_total && (
+                  <>
+                    <p className="mb-4">
+                      NOTE: You can upload up to {MAX_NFTS_PER_BATCH} NFTs at
+                      once.
+                    </p>
+                    <NftsUploader
+                      mintlist={data.mintlist}
+                      network={network}
+                      onSignOut={signOut}
+                    />
+                  </>
+                )}
 
-              {data.mintlist.mint_infos.length ? (
-                <div>TODO: NFTs grid</div>
-              ) : (
-                <p>No NFTs have been uploaded to this mintlist yet.</p>
-              )}
+              <NftsGrid mintInfos={data.mintlist.mint_infos} />
             </div>
           </>
         )}
@@ -240,10 +257,9 @@ function useMintlist({
 }): {
   data?: MintlistAndCollection | null;
   error: any;
-  mutate: SWRResponse<MintlistAndCollection | null, never>["mutate"];
 } {
   const swrKey = [address, network];
-  const { data, error, mutate } = useSWR(swrKey, async () => {
+  const { data, error } = useSWR(swrKey, async () => {
     const mintlist = await NftokenFetcher.getMintlist({ address, network });
 
     if (!mintlist) {
@@ -261,7 +277,7 @@ function useMintlist({
     };
   });
 
-  return { data, error, mutate };
+  return { data, error };
 }
 
 type NftConfig = { name: string; image: string };
@@ -270,7 +286,18 @@ type FormData = {
   nfts: NftConfig[];
 };
 
-function NftsUploader({ onSignOut }: { onSignOut: () => void }) {
+function NftsUploader({
+  mintlist,
+  network,
+  onSignOut,
+}: {
+  mintlist: NftokenTypes.MintlistInfo;
+  network: Network;
+  onSignOut: () => void;
+}) {
+  const availableToUpload =
+    mintlist.num_nfts_total - mintlist.mint_infos.length;
+
   const initialValues: FormData = {
     nfts: [{ name: "", image: "" }],
   };
@@ -280,18 +307,71 @@ function NftsUploader({ onSignOut }: { onSignOut: () => void }) {
       <InteractiveWell title="Upload NFTs">
         <Formik
           initialValues={initialValues}
-          onSubmit={async () => {
-            console.log("Submitting");
+          onSubmit={async ({ nfts }, { resetForm, setSubmitting }) => {
+            const { address: wallet } = await window.glow!.connect();
+
+            const mintInfoArgs: NftokenTypes.MintInfoArg[] = await Promise.all(
+              nfts.map(async ({ name, image }) => {
+                const { file_url } = await uploadJsonToS3({
+                  json: { name, image },
+                });
+
+                return { metadata_url: file_url };
+              })
+            );
+
+            const recentBlockhash = await SolanaClient.getRecentBlockhash({
+              rpcUrl: NETWORK_TO_RPC[network],
+            });
+
+            const tx = GTransaction.create({
+              feePayer: wallet,
+              recentBlockhash,
+              instructions: [
+                {
+                  accounts: [
+                    // mintlist
+                    {
+                      address: mintlist.address,
+                      signer: false,
+                      writable: true,
+                    },
+                    // authority
+                    { address: wallet, signer: true, writable: true },
+                  ],
+                  program: NFTOKEN_ADDRESS,
+                  data_base64: NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1.toBuffer({
+                    current_nft_count: mintlist.mint_infos.length,
+                    ix: null,
+                    mint_infos: mintInfoArgs,
+                  }).toString("base64"),
+                },
+              ],
+            });
+
+            try {
+              await window.glow!.signAndSendTransaction({
+                transactionBase64: GTransaction.toBuffer({
+                  gtransaction: tx,
+                }).toString("base64"),
+                network: network,
+              });
+              resetForm({ values: initialValues });
+            } catch (err) {
+              console.error(err);
+            }
+
+            setSubmitting(false);
           }}
         >
           {({ values, isValid }) => (
             <Form>
               <div className="grid">
                 <FieldArray name="nfts">
-                  {({ insert, remove }) => (
+                  {({ insert }) => (
                     <>
                       {values.nfts.map((_, index) => (
-                        <div>
+                        <div key={index}>
                           <div className="mb-4">
                             <LuxInputField
                               placeholder="Name"
@@ -300,40 +380,32 @@ function NftsUploader({ onSignOut }: { onSignOut: () => void }) {
                             />
                           </div>
 
-                          <div className="mb-4">
-                            <ImageDropZone
-                              label="NFT Image"
-                              fieldName={`nfts.${index}.image`}
-                            />
-                          </div>
+                          <ImageDropZone
+                            label="NFT Image"
+                            fieldName={`nfts.${index}.image`}
+                          />
+                        </div>
+                      ))}
+                      {values.nfts.length <= MAX_NFTS_PER_BATCH &&
+                        values.nfts.length < availableToUpload && (
                           <button
                             type="button"
-                            className="button remove-nft-button animated"
-                            onClick={() => remove(index)}
+                            className="add-nft-button animated"
+                            onClick={() =>
+                              insert(values.nfts.length, {
+                                name: "",
+                                image: "",
+                              })
+                            }
                           >
-                            <MinusIcon
+                            <PlusIcon
                               style={{
                                 width: "2rem",
                                 height: "2rem",
                               }}
                             />
                           </button>
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        className="button add-nft-button animated"
-                        onClick={() =>
-                          insert(values.nfts.length, { name: "", image: "" })
-                        }
-                      >
-                        <PlusIcon
-                          style={{
-                            width: "2rem",
-                            height: "2rem",
-                          }}
-                        />
-                      </button>
+                        )}
                     </>
                   )}
                 </FieldArray>
@@ -365,24 +437,112 @@ function NftsUploader({ onSignOut }: { onSignOut: () => void }) {
           row-gap: 2rem;
         }
 
-        .button {
+        .add-nft-button {
           border: 1px solid var(--primary-border-color);
           border-radius: var(--border-radius);
           background-color: var(--faint-gray);
+          // Make sure the button doesn't collapse when the grid is empty.
+          min-height: 11.8rem;
         }
-        .button:hover {
+        .add-nft-button:hover {
           background-color: var(--pale-gray);
-        }
-
-        .add-nft-button {
-          // Make sure the button doesn't collapse when the grid is empty..
-          min-height: 15.6rem;
-        }
-
-        .remove-nft-button {
-          width: 100%;
         }
       `}</style>
     </>
   );
+}
+
+function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
+  const { data: metadataMap } = useMintInfosMetadata(mintInfos);
+
+  if (!mintInfos.length) {
+    return <p>No NFTs have been uploaded to this mintlist yet.</p>;
+  }
+
+  const mintInfosWithMetadata = mintInfos
+    .filter(({ metadata_url }) => metadataMap.get(metadata_url))
+    .map((mintInfo) => ({
+      ...mintInfo,
+      metadata: metadataMap.get(mintInfo.metadata_url)!,
+    }));
+
+  return (
+    <>
+      <div className="grid">
+        {mintInfosWithMetadata.map((mintInfo) => (
+          <figure className="nft-card" key={mintInfo.metadata_url}>
+            <img
+              className="nft-image"
+              alt={mintInfo.metadata.name}
+              src={mintInfo.metadata.image}
+            />
+            <figcaption>
+              <div className="title">{mintInfo.metadata.name}</div>
+              <div
+                className={classNames([
+                  "subtitle",
+                  mintInfo.minted ? "status-minted" : "status-available",
+                ])}
+              >
+                {mintInfo.minted ? "Minted" : "Available"}
+              </div>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <style jsx>{`
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          column-gap: 1rem;
+        }
+
+        .nft-card {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nft-image {
+          width: 100%;
+          box-shadow: var(--shadow);
+          border-radius: calc(var(--border-radius) * 2);
+        }
+
+        .title {
+          font-weight: bold;
+        }
+
+        .subtitle {
+          font-size: 0.8rem;
+        }
+
+        .status-available {
+          color: var(--success-color);
+        }
+
+        .status-minted {
+          color: var(--secondary-color);
+        }
+      `}</style>
+    </>
+  );
+}
+
+function useMintInfosMetadata(mintInfos: NftokenTypes.MintInfo[]): {
+  data: Map<string, NftokenTypes.Metadata | null>;
+  error: unknown;
+} {
+  const metadataUrls = mintInfos.map((mintInfo) => mintInfo.metadata_url);
+
+  const swrKey = ["mintInfos", ...metadataUrls];
+
+  const { data, error } = useSWR(swrKey, async () => {
+    return await NftokenFetcher.getMetadataMap({
+      urls: metadataUrls,
+    });
+  });
+
+  return { data: data ?? new Map(), error };
 }
