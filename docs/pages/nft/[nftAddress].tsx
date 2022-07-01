@@ -32,20 +32,6 @@ const useNft = ({
   return { data: data!, error, mutate };
 };
 
-const KEYS: (keyof NftokenTypes.NftInfo)[] = [
-  "address",
-  "collection",
-  "holder",
-  "delegate",
-  "authority",
-  "authority_can_update",
-  "name",
-  "description",
-  "image",
-  "minted_at",
-  "metadata_url",
-];
-
 export default function NftPage({
   initialNft,
 }: {
