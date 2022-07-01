@@ -112,13 +112,6 @@ export default function CollectionPage({
     attributes[key] = collection[key];
   }
 
-  const traits: { [key: string]: any } = {};
-  if (collection.traits) {
-    for (const entry of collection.traits) {
-      traits[entry.trait_type] = entry.value;
-    }
-  }
-
   return (
     <PageLayout>
       <SocialHead subtitle={collection.name} />
@@ -130,22 +123,30 @@ export default function CollectionPage({
         <div>
           <h2 className="text-secondary">On-Chain Metadata</h2>
           <ValueList
-            attributes={{
-              address: collection.address,
-              authority: collection.authority,
-              authority_can_update: collection.authority_can_update,
-              metadata_url: collection.metadata_url,
-            }}
+            attributes={[
+              { label: "address", value: collection.address },
+              { label: "authority", value: collection.authority },
+              {
+                label: "authority_can_update",
+                value: collection.authority_can_update,
+              },
+              { label: "metadata_url", value: collection.metadata_url },
+            ]}
           />
         </div>
         <div className="traits-column">
           <h2 className="text-secondary">Off-Chain Metadata</h2>
           <ValueList
-            attributes={{
-              image: collection.image,
-              description: collection.description,
-              ...traits,
-            }}
+            attributes={[
+              { label: "image", value: collection.image },
+              { label: "description", value: collection.description },
+              ...(collection.traits
+                ? collection.traits.map((trait) => ({
+                    label: trait.trait_type,
+                    value: trait.value,
+                  }))
+                : []),
+            ]}
           />
         </div>
       </div>

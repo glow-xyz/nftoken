@@ -63,13 +63,6 @@ export default function NftPage({
     );
   }
 
-  const traits: { [key: string]: any } = {};
-  if (nft.traits) {
-    for (const entry of nft.traits) {
-      traits[entry.trait_type] = entry.value;
-    }
-  }
-
   return (
     <PageLayout>
       <SocialHead subtitle={nft.name} />
@@ -87,26 +80,34 @@ export default function NftPage({
             <div>
               <h2 className="text-secondary">On-Chain Metadata</h2>
               <ValueList
-                attributes={{
-                  address: nft.address,
-                  collection: nft.collection,
-                  holder: nft.holder,
-                  delegate: nft.delegate,
-                  authority: nft.authority,
-                  authority_can_update: nft.authority_can_update,
-                  metadata_url: nft.metadata_url,
-                }}
+                attributes={[
+                  { label: "address", value: nft.address },
+                  { label: "collection", value: nft.collection },
+                  { label: "holder", value: nft.holder },
+                  { label: "delegate", value: nft.delegate },
+                  { label: "authority", value: nft.authority },
+                  {
+                    label: "authority_can_update",
+                    value: nft.authority_can_update,
+                  },
+                  { label: "metadata_url", value: nft.metadata_url },
+                ]}
               />
             </div>
 
             <div className="mt-4">
               <h2 className="text-secondary">Off-Chain Metadata</h2>
               <ValueList
-                attributes={{
-                  image: nft.image,
-                  description: nft.description,
-                  ...traits,
-                }}
+                attributes={[
+                  { label: "image", value: nft.image },
+                  { label: "description", value: nft.description },
+                  ...(nft.traits
+                    ? nft.traits.map((trait) => ({
+                        label: trait.trait_type,
+                        value: trait.value,
+                      }))
+                    : []),
+                ]}
               />
             </div>
           </div>
