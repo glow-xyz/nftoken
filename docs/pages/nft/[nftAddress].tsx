@@ -80,11 +80,6 @@ export default function NftPage({
     );
   }
 
-  const attributes: { [key: string]: any } = {};
-  for (const key of KEYS) {
-    attributes[key] = nft[key];
-  }
-
   const traits: { [key: string]: any } = {};
   if (nft.traits) {
     for (const entry of nft.traits) {
@@ -106,15 +101,31 @@ export default function NftPage({
           <div>
             <h1>{nft.name}</h1>
 
-            <ValueList attributes={attributes} />
+            <div>
+              <h2 className="text-secondary">On-Chain Metadata</h2>
+              <ValueList
+                attributes={{
+                  address: nft.address,
+                  collection: nft.collection,
+                  holder: nft.holder,
+                  delegate: nft.delegate,
+                  authority: nft.authority,
+                  authority_can_update: nft.authority_can_update,
+                  description: nft.description,
+                  minted_at: nft.minted_at,
+                }}
+              />
+            </div>
 
             <div className="mt-4">
-              <h2>Traits</h2>
-              {nft.traits && nft.traits.length > 0 ? (
-                <ValueList attributes={traits} />
-              ) : (
-                <div className="traits-empty-state">No traits set.</div>
-              )}
+              <h2 className="text-secondary">Off-Chain Metadata</h2>
+              <ValueList
+                attributes={{
+                  image: nft.image,
+                  metadata_url: nft.metadata_url,
+                  ...traits,
+                }}
+              />
             </div>
           </div>
         </div>
