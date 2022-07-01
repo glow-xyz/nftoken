@@ -158,10 +158,10 @@ export default function MintlistPage() {
                 data.mintlist.mint_infos.length <
                   data.mintlist.num_nfts_total && (
                   <div className="mb-4">
-                    <p className="mb-2">
+                    <div className="mb-2">
                       NOTE: You can upload up to {MAX_NFTS_PER_BATCH} NFTs at
                       once.
-                    </p>
+                    </div>
                     <NftsUploader
                       mintlist={data.mintlist}
                       network={network}
@@ -309,7 +309,7 @@ function NftsUploader({
       <InteractiveWell title="Upload NFTs">
         <Formik
           initialValues={initialValues}
-          onSubmit={async ({ nfts }, { resetForm, setSubmitting }) => {
+          onSubmit={async ({ nfts }, { resetForm }) => {
             const { address: wallet } = await window.glow!.connect();
 
             const mintInfoArgs: NftokenTypes.MintInfoArg[] = await Promise.all(
@@ -456,7 +456,7 @@ function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
   const { data: metadataMap } = useMintInfosMetadata(mintInfos);
 
   if (!mintInfos.length) {
-    return <p>No NFTs have been uploaded to this mintlist yet.</p>;
+    return <div>No NFTs have been uploaded to this mintlist yet.</div>;
   }
 
   const mintInfosWithMetadata = mintInfos
