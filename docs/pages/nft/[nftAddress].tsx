@@ -32,20 +32,6 @@ const useNft = ({
   return { data: data!, error, mutate };
 };
 
-const KEYS: (keyof NftokenTypes.NftInfo)[] = [
-  "address",
-  "collection",
-  "holder",
-  "delegate",
-  "authority",
-  "authority_can_update",
-  "name",
-  "description",
-  "image",
-  "minted_at",
-  "metadata_url",
-];
-
 export default function NftPage({
   initialNft,
 }: {
@@ -77,18 +63,6 @@ export default function NftPage({
     );
   }
 
-  const attributes: { [key: string]: any } = {};
-  for (const key of KEYS) {
-    attributes[key] = nft[key];
-  }
-
-  const traits: { [key: string]: any } = {};
-  if (nft.traits) {
-    for (const entry of nft.traits) {
-      traits[entry.trait_type] = entry.value;
-    }
-  }
-
   return (
     <PageLayout>
       <SocialHead subtitle={nft.name} />
@@ -103,15 +77,38 @@ export default function NftPage({
           <div>
             <h1>{nft.name}</h1>
 
-            <ValueList attributes={attributes} />
+            <div>
+              <h2 className="text-secondary">On-Chain Metadata</h2>
+              <ValueList
+                attributes={[
+                  { label: "address", value: nft.address },
+                  { label: "collection", value: nft.collection },
+                  { label: "holder", value: nft.holder },
+                  { label: "delegate", value: nft.delegate },
+                  { label: "authority", value: nft.authority },
+                  {
+                    label: "authority_can_update",
+                    value: nft.authority_can_update,
+                  },
+                  { label: "metadata_url", value: nft.metadata_url },
+                ]}
+              />
+            </div>
 
             <div className="mt-4">
-              <h2>Traits</h2>
-              {nft.traits && nft.traits.length > 0 ? (
-                <ValueList attributes={traits} />
-              ) : (
-                <div className="traits-empty-state">No traits set.</div>
-              )}
+              <h2 className="text-secondary">Off-Chain Metadata</h2>
+              <ValueList
+                attributes={[
+                  { label: "image", value: nft.image },
+                  { label: "description", value: nft.description },
+                  ...(nft.traits
+                    ? nft.traits.map((trait) => ({
+                        label: trait.trait_type,
+                        value: trait.value,
+                      }))
+                    : []),
+                ]}
+              />
             </div>
           </div>
         </div>

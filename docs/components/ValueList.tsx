@@ -11,16 +11,19 @@ import { ResponsiveBreakpoint } from "../utils/style-constants";
 export const ValueList = ({
   attributes,
 }: {
-  attributes: { [key: string]: any };
+  attributes: {
+    label: string;
+    value: string | number | boolean | null | undefined;
+  }[];
 }) => {
   return (
     <>
       <div className="container">
-        {Object.keys(attributes).map((key) => (
-          <React.Fragment key={key}>
+        {attributes.map(({ label, value }) => (
+          <React.Fragment key={label}>
             <div className="value-container">
-              <div className="key">{key}</div>
-              <Value value={attributes[key]} attributeKey={key} />
+              <div className="label">{label}</div>
+              <Value value={value} label={label} />
             </div>
           </React.Fragment>
         ))}
@@ -41,7 +44,7 @@ export const ValueList = ({
           align-items: baseline;
         }
 
-        .value-container .key {
+        .value-container .label {
           font-weight: var(--normal-font-weight);
           color: var(--secondary-color);
           width: 8.5rem;
@@ -56,7 +59,7 @@ export const ValueList = ({
         }
 
         @media (max-width: ${ResponsiveBreakpoint.small}) {
-          .value-container .key {
+          .value-container .label {
             margin-right: 1rem;
           }
         }
@@ -65,13 +68,7 @@ export const ValueList = ({
   );
 };
 
-const Value = ({
-  attributeKey,
-  value,
-}: {
-  attributeKey: string;
-  value: any;
-}) => {
+const Value = ({ label, value }: { label: string; value: any }) => {
   if (typeof value !== "string") {
     return <div>{JSON.stringify(value)}</div>;
   }
@@ -81,7 +78,7 @@ const Value = ({
       <>
         <div className="solana-address flex-center flex-wrap">
           <SolanaAddress address={value} />
-          {attributeKey === "collection" && (
+          {label === "collection" && (
             <LuxButton
               label="View Collection"
               icon={<ArrowRightIcon />}
