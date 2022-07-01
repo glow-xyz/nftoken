@@ -94,8 +94,7 @@ export default function NftPage({
                   delegate: nft.delegate,
                   authority: nft.authority,
                   authority_can_update: nft.authority_can_update,
-                  description: nft.description,
-                  minted_at: nft.minted_at,
+                  metadata_url: nft.metadata_url,
                 }}
               />
             </div>
@@ -105,7 +104,7 @@ export default function NftPage({
               <ValueList
                 attributes={{
                   image: nft.image,
-                  metadata_url: nft.metadata_url,
+                  description: nft.description,
                   ...traits,
                 }}
               />

@@ -134,8 +134,7 @@ export default function CollectionPage({
               address: collection.address,
               authority: collection.authority,
               authority_can_update: collection.authority_can_update,
-              description: collection.description,
-              minted_at: collection.minted_at,
+              metadata_url: collection.metadata_url,
             }}
           />
         </div>
@@ -144,7 +143,7 @@ export default function CollectionPage({
           <ValueList
             attributes={{
               image: collection.image,
-              metadata_url: collection.metadata_url,
+              description: collection.description,
               ...traits,
             }}
           />
