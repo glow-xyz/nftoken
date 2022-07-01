@@ -8,7 +8,11 @@ import {
 } from "@glow-app/solana-client";
 import { Form, Formik, useFormikContext } from "formik";
 import { DateTime } from "luxon";
-import { NFTOKEN_ADDRESS } from "../utils/constants";
+import {
+  LAMPORTS_PER_SOL,
+  NFTOKEN_ADDRESS,
+  SYSVAR_CLOCK_PUBKEY,
+} from "../utils/constants";
 import {
   NFTOKEN_MINTLIST_CREATE_IX,
   SYSTEM_CREATE_ACCOUNT_IX,
@@ -24,11 +28,7 @@ import BN from "bn.js";
 import { NETWORK_TO_RPC } from "../utils/rpc-types";
 import { InteractiveWell } from "./InteractiveWell";
 import { useNetworkContext } from "./NetworkContext";
-
-// TODO: Should we move these to `@glow-app/solana-client`?
-export const LAMPORTS_PER_SOL = 1_000_000_000;
-export const SYSVAR_CLOCK_PUBKEY =
-  "SysvarC1ock11111111111111111111111111111111";
+import { useRouter } from "next/router";
 
 type FormData = {
   mintlistName: string;
@@ -40,6 +40,8 @@ type FormData = {
 };
 
 export const CreateMintlistSection = () => {
+  const { push } = useRouter();
+
   const { signOut } = useGlowContext();
   const { network } = useNetworkContext();
 
@@ -57,17 +59,14 @@ export const CreateMintlistSection = () => {
       <Formik
         initialValues={initialValues}
         validateOnMount
-        onSubmit={async (
-          {
-            mintlistName,
-            collectionName,
-            collectionImage,
-            priceSol,
-            numNftsTotal,
-            goLiveDate,
-          },
-          { resetForm, setSubmitting }
-        ) => {
+        onSubmit={async ({
+          mintlistName,
+          collectionName,
+          collectionImage,
+          priceSol,
+          numNftsTotal,
+          goLiveDate,
+        }) => {
           const goLiveDateTime = DateTime.fromISO(goLiveDate);
 
           const { file_url: mintlistMetadataUrl } = await uploadJsonToS3({
@@ -119,12 +118,9 @@ export const CreateMintlistSection = () => {
               network,
             });
 
-            // TODO: Redirect to the mintlist page for uploading NFTs.
-            alert(`Created mintlist: ${mintlistKeypair.address}`);
-
-            resetForm({ values: initialValues });
-          } catch (e) {
-            setSubmitting(false);
+            push(`/mintlist/${mintlistKeypair.address}`);
+          } catch (err) {
+            console.error(err);
           }
         }}
       >

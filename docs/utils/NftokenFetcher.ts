@@ -393,7 +393,7 @@ export namespace NftokenFetcher {
     return metadataMap.get(url) ?? null;
   };
 
-  const getMetadataMap = async ({
+  export const getMetadataMap = async ({
     urls: _urls,
   }: {
     urls: Array<string | null | undefined>;

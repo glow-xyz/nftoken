@@ -20,7 +20,7 @@ export namespace NftTypes {
 
 export namespace NftokenTypes {
   export const METADATA_URL_LENGTH = 96;
-  export const MetadataUrlZ = z.string().max(METADATA_URL_LENGTH).nullable();
+  export const MetadataUrlZ = z.string().max(METADATA_URL_LENGTH);
 
   export const MetadataZ = z.object({
     name: z.string(),
@@ -40,7 +40,7 @@ export namespace NftokenTypes {
     authority: Solana.AddressZ,
     authority_can_update: CoerceBooleanZ,
 
-    metadata_url: MetadataUrlZ,
+    metadata_url: MetadataUrlZ.nullable(),
   });
   export type CollectionAccount = z.infer<typeof CollectionAccountZ>;
   export const CollectionZ = CollectionAccountZ.merge(
@@ -58,7 +58,7 @@ export namespace NftokenTypes {
     collection: Solana.AddressZ.nullable(),
     delegate: Solana.AddressZ.nullable(),
 
-    metadata_url: MetadataUrlZ,
+    metadata_url: MetadataUrlZ.nullable(),
   });
 
   export type NftAccount = z.infer<typeof NftAccountZ>;
@@ -71,6 +71,11 @@ export namespace NftokenTypes {
 
   export const MintingOrderZ = z.enum(["sequential", "random"]);
   export type MintingOrder = z.infer<typeof MintingOrderZ>;
+
+  export const MintInfoArgZ = z.object({
+    metadata_url: MetadataUrlZ,
+  });
+  export type MintInfoArg = z.infer<typeof MintInfoArgZ>;
 
   export const MintInfoZ = z.object({
     minted: CoerceBooleanZ,
