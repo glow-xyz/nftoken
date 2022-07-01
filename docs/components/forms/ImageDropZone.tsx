@@ -1,8 +1,7 @@
-import { useFormikContext } from "formik";
+import { useFormikContext, getIn } from "formik";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import classNames from "classnames";
-import get from "lodash/get";
 import { ACCEPT_IMAGE_PROP, DropZone } from "../LuxDropZone";
 import { uploadImageToS3 } from "../../utils/upload-file";
 import { getImageUrl } from "../../utils/cdn";
@@ -37,7 +36,7 @@ export function ImageDropZone<Values extends Record<string, unknown>>({
   });
 
   // Using `get` here because `fieldName` can be a `.`-delimited nested path, e.g. `nfts.0.image`.
-  const value = get(values, fieldName) as string;
+  const value = getIn(values, fieldName as string) as string;
 
   return (
     <div className={classNames("container", { "with-image": value })}>
