@@ -445,8 +445,6 @@ function NftsUploader({
           border: 1px solid var(--primary-border-color);
           border-radius: var(--border-radius);
           background-color: var(--faint-gray);
-          // Make sure the button doesn't collapse when the grid is empty.
-          min-height: 11.8rem;
         }
         .add-nft-button:hover {
           background-color: var(--pale-gray);
