@@ -9,6 +9,7 @@ import { PageLayout } from "../components/PageLayout";
 import { useNetworkContext } from "../components/NetworkContext";
 import { DateTime } from "luxon";
 import React from "react";
+import { LuxButton } from "../components/LuxButton";
 
 export default function MintlistsPage() {
   const { user } = useGlowContext();
@@ -28,31 +29,41 @@ export default function MintlistsPage() {
           Click on the mintlist name to go to its details page where you can
           manage it.
         </p>
-        <InteractiveWell title="Your Mintlists">
-          <div className="table">
-            <div className="th">Mintlist Name</div>
-            <div className="th">NFTs Uploaded</div>
-            <div className="th">NFTs Minted</div>
-            <div className="th">Go Live Date</div>
-            {mintlists.map((mintlist) => (
-              <React.Fragment key={mintlist.address}>
-                <div>
-                  <a href={`/mintlist/${mintlist.address}`}>{mintlist.name}</a>
-                </div>
-                <div>
-                  {mintlist.mint_infos.length}/{mintlist.num_nfts_total}
-                </div>
-                <div>{mintlist.num_nfts_redeemed}</div>
-                <div>
-                  {DateTime.fromISO(mintlist.go_live_date).toLocaleString({
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
-                </div>
-              </React.Fragment>
-            ))}
-          </div>
-        </InteractiveWell>
+        <div className="mb-4">
+          <InteractiveWell title="Your Mintlists">
+            <div className="table">
+              <div className="th">Mintlist Name</div>
+              <div className="th">NFTs Uploaded</div>
+              <div className="th">NFTs Minted</div>
+              <div className="th">Go Live Date</div>
+              {mintlists.map((mintlist) => (
+                <React.Fragment key={mintlist.address}>
+                  <div>
+                    <a href={`/mintlist/${mintlist.address}`}>
+                      {mintlist.name}
+                    </a>
+                  </div>
+                  <div>
+                    {mintlist.mint_infos.length}/{mintlist.num_nfts_total}
+                  </div>
+                  <div>{mintlist.num_nfts_redeemed}</div>
+                  <div>
+                    {DateTime.fromISO(mintlist.go_live_date).toLocaleString({
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+          </InteractiveWell>
+        </div>
+        <LuxButton
+          label="Create Mintlist"
+          href="/docs/create-a-mintlist"
+          rounded
+          color="brand"
+        />
       </PageLayout>
       <style jsx>{`
         .table {

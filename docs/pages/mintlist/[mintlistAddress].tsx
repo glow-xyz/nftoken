@@ -23,7 +23,7 @@ import { ImageDropZone } from "../../components/forms/ImageDropZone";
 import { uploadJsonToS3 } from "../../utils/upload-file";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
 import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "../../utils/nft-borsh";
-import { NFTOKEN_ADDRESS } from "../../utils/constants";
+import { LAMPORTS_PER_SOL, NFTOKEN_ADDRESS } from "../../utils/constants";
 
 const MAX_NFTS_PER_BATCH = 10;
 
@@ -74,7 +74,7 @@ export default function MintlistPage() {
               </div>
             )}
             <h1>{data.mintlist.name}</h1>
-            <div className="columns">
+            <div className="columns mb-4">
               <div className="collection">
                 {data.collection && (
                   <>
@@ -116,10 +116,12 @@ export default function MintlistPage() {
                           </div>
                         ) : type === "amount" ? (
                           <div>
-                            {
+                            {parseInt(
                               (data.mintlist[key] as { lamports: string })
                                 .lamports
-                            }
+                            ) /
+                              LAMPORTS_PER_SOL +
+                              " SOL"}
                           </div>
                         ) : type === "unix_timestamp" ? (
                           <div>
@@ -155,8 +157,8 @@ export default function MintlistPage() {
                 data.mintlist.authority === user.address &&
                 data.mintlist.mint_infos.length <
                   data.mintlist.num_nfts_total && (
-                  <>
-                    <p className="mb-4">
+                  <div className="mb-4">
+                    <p className="mb-2">
                       NOTE: You can upload up to {MAX_NFTS_PER_BATCH} NFTs at
                       once.
                     </p>
@@ -165,7 +167,7 @@ export default function MintlistPage() {
                       network={network}
                       onSignOut={signOut}
                     />
-                  </>
+                  </div>
                 )}
 
               <NftsGrid mintInfos={data.mintlist.mint_infos} />
@@ -412,7 +414,9 @@ function NftsUploader({
               </div>
               <div className="mt-4 flex-center spread">
                 <LuxSubmitButton
-                  label={`Upload ${values.nfts.length} NFTs`}
+                  label={`Upload ${values.nfts.length} NFT${
+                    values.nfts.length !== 1 ? "s" : ""
+                  }`}
                   rounded
                   color="brand"
                   disabled={!(isValid && values.nfts.every((nft) => nft.image))}
