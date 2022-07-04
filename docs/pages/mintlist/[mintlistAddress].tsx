@@ -85,7 +85,7 @@ export default function MintlistPage() {
       <PageLayout>
         {data && (
           <>
-            {user && (
+            {isAuthority && (
               <div className="navigation">
                 <LuxButton
                   label="Back to Mintlists"
