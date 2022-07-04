@@ -12,28 +12,36 @@ export function NftCard({
 }) {
   return (
     <>
-      <div className="nft animated">
-        {image && (
-          <div className="image">
+      <div className="card animated">
+        <div className="image">
+          {image ? (
             <SquareImage src={image} size={400} alt={title} />
-          </div>
-        )}
-        <div className="name">{title}</div>
+          ) : (
+            <div className="placeholder" />
+          )}
+        </div>
+        <div className="title">{title}</div>
         <div>{subtitle}</div>
       </div>
       <style jsx>
         {`
-          .nft:hover {
+          .card:hover {
             opacity: 0.95;
           }
 
-          .nft .image {
+          .image {
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
           }
 
-          .nft .name {
+          .placeholder {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: var(--gray-30);
+          }
+
+          .title {
             color: var(--primary-color);
             margin-top: 0.5rem;
             font-size: var(--large-font-size);
