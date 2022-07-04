@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   GKeypair,
   GPublicKey,
@@ -40,6 +40,7 @@ import { NftCard } from "../../components/NftCard";
 import { SocialHead } from "../../components/SocialHead";
 import { ValueList } from "../../components/ValueList";
 import { LuxLink } from "../../components/LuxLink";
+import { useBoolean } from "../../hooks/useBoolean";
 
 const MAX_NFTS_PER_BATCH = 10;
 
@@ -310,14 +311,14 @@ function MintButton({
   mintlist: NftokenTypes.Mintlist;
   network: Network;
 }) {
-  const [minting, setMinting] = useState(false);
+  const minting = useBoolean();
 
   return (
     <LuxButton
       label="Mint NFT"
-      disabled={minting}
+      disabled={minting.value}
       onClick={async () => {
-        setMinting(true);
+        minting.setTrue();
 
         const { address: wallet } = await window.glow!.connect();
 
@@ -381,7 +382,7 @@ function MintButton({
           console.error(err);
         }
 
-        setMinting(false);
+        minting.setFalse();
       }}
     />
   );
