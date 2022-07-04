@@ -19,7 +19,7 @@ export function NftCard({
           </div>
         )}
         <div className="name">{title}</div>
-        {subtitle}
+        <div>{subtitle}</div>
       </div>
       <style jsx>
         {`
