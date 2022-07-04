@@ -12,7 +12,7 @@ export function NftCard({
 }) {
   return (
     <>
-      <div className="nft">
+      <div className="nft animated">
         {image && (
           <div className="image">
             <SquareImage src={image} size={400} alt={title} />
@@ -23,11 +23,6 @@ export function NftCard({
       </div>
       <style jsx>
         {`
-          .nft {
-            display: block;
-            transition: var(--transition);
-          }
-
           .nft:hover {
             opacity: 0.95;
           }
