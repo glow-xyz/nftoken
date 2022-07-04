@@ -44,6 +44,7 @@ import {
 import { useCollectionNfts } from "../../hooks/useCollectionNfts";
 import Link from "next/link";
 import { NftCard } from "../../components/NftCard";
+import { SocialHead } from "../../components/SocialHead";
 
 const MAX_NFTS_PER_BATCH = 10;
 
@@ -83,6 +84,9 @@ export default function MintlistPage() {
   return (
     <>
       <PageLayout>
+        <SocialHead
+          subtitle={data?.mintlist.name ? `${data.mintlist.name}` : "Mintlist"}
+        />
         {data && (
           <>
             {isAuthority && (
