@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { Network } from "@glow-app/glow-client";
 import { Solana } from "@glow-app/solana-client";
 import useSWR, { SWRResponse } from "swr";
@@ -12,6 +11,7 @@ import { ValueList } from "../../components/ValueList";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { useCollectionNfts } from "../../hooks/useCollectionNfts";
 import { NftCard } from "../../components/NftCard";
+import { LuxLink } from "../../components/LuxLink";
 
 const useCollection = ({
   collectionAddress,
@@ -132,11 +132,9 @@ export default function CollectionPage({
       {nftsInCollection && (
         <div className="nft-container mt-5">
           {nftsInCollection.map((nft) => (
-            <Link href={`/nft/${nft.address}`} key={nft.address}>
-              <a className="nft-card-link">
-                <NftCard title={nft.name!} image={nft.image} />
-              </a>
-            </Link>
+            <LuxLink href={`/nft/${nft.address}`} key={nft.address}>
+              <NftCard title={nft.name!} image={nft.image} />
+            </LuxLink>
           ))}
         </div>
       )}
@@ -165,10 +163,6 @@ export default function CollectionPage({
           grid-template-columns: repeat(3, 1fr);
           grid-column-gap: 1rem;
           grid-row-gap: 1.5rem;
-        }
-
-        .nft-card-link {
-          color: inherit;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {

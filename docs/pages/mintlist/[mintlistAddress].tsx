@@ -36,10 +36,10 @@ import {
   SYSVAR_SLOT_HASHES_PUBKEY,
 } from "../../utils/constants";
 import { useCollectionNfts } from "../../hooks/useCollectionNfts";
-import Link from "next/link";
 import { NftCard } from "../../components/NftCard";
 import { SocialHead } from "../../components/SocialHead";
 import { ValueList } from "../../components/ValueList";
+import { LuxLink } from "../../components/LuxLink";
 
 const MAX_NFTS_PER_BATCH = 10;
 
@@ -88,18 +88,17 @@ export default function MintlistPage() {
                 {data.collection && (
                   <>
                     <h2>Collection</h2>
-                    <Link
-                      href={`/collection/${data.collection.address}${
-                        network !== Network.Mainnet ? `?network=${network}` : ""
-                      }`}
+                    <LuxLink
+                      href={`/collection/${data.collection.address}`}
+                      query={
+                        network !== Network.Mainnet ? { network } : undefined
+                      }
                     >
-                      <a>
-                        <NftCard
-                          image={data.collection.image}
-                          title={data.collection.name!}
-                        />
-                      </a>
-                    </Link>
+                      <NftCard
+                        image={data.collection.image}
+                        title={data.collection.name!}
+                      />
+                    </LuxLink>
                   </>
                 )}
 
@@ -601,24 +600,21 @@ function NftsGrid({
           const nft = nftsData.get(mintInfo.metadata_url);
 
           return nft ? (
-            <Link
-              href={`/nft/${nft.address}${
-                network !== Network.Mainnet ? `?network=${network}` : ""
-              }`}
+            <LuxLink
+              href={`/nft/${nft.address}`}
+              query={network !== Network.Mainnet ? { network } : undefined}
               key={mintInfo.metadata_url}
             >
-              <a className="nft-card-link">
-                <NftCard
-                  image={mintInfo.metadata.image}
-                  title={mintInfo.metadata.name}
-                  subtitle={
-                    <div className={classNames(["subtitle", "status-minted"])}>
-                      Minted
-                    </div>
-                  }
-                />
-              </a>
-            </Link>
+              <NftCard
+                image={mintInfo.metadata.image}
+                title={mintInfo.metadata.name}
+                subtitle={
+                  <div className={classNames(["subtitle", "status-minted"])}>
+                    Minted
+                  </div>
+                }
+              />
+            </LuxLink>
           ) : (
             <NftCard
               key={mintInfo.metadata_url}
@@ -640,10 +636,6 @@ function NftsGrid({
           grid-template-columns: repeat(4, 1fr);
           column-gap: 1rem;
           row-gap: 2rem;
-        }
-
-        .nft-card-link {
-          color: inherit;
         }
 
         .subtitle {
