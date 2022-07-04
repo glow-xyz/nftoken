@@ -1,5 +1,11 @@
-import React from "react";
-import { GTransaction, Solana, SolanaClient } from "@glow-app/solana-client";
+import React, { useState } from "react";
+import {
+  GKeypair,
+  GPublicKey,
+  GTransaction,
+  Solana,
+  SolanaClient,
+} from "@glow-app/solana-client";
 import { Network } from "@glow-app/glow-client";
 import { useRouter } from "next/router";
 import { PlusIcon } from "@heroicons/react/outline";
@@ -14,7 +20,7 @@ import { SolanaAddress } from "../../components/SolanaAddress";
 import { ExternalLink } from "../../components/ExternalLink";
 import { ChevronLeftIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { useGlowContext } from "@glow-app/glow-react";
+import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import { LuxButton, LuxSubmitButton } from "../../components/LuxButton";
 import { InteractiveWell } from "../../components/InteractiveWell";
 import { FieldArray, Form, Formik } from "formik";
@@ -22,8 +28,16 @@ import { LuxInputField } from "../../components/LuxInput";
 import { ImageDropZone } from "../../components/forms/ImageDropZone";
 import { uploadJsonToS3 } from "../../utils/upload-file";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
-import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "../../utils/nft-borsh";
-import { LAMPORTS_PER_SOL, NFTOKEN_ADDRESS } from "../../utils/constants";
+import {
+  NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1,
+  NFTOKEN_MINTLIST_MINT_NFT_V1,
+} from "../../utils/nft-borsh";
+import {
+  LAMPORTS_PER_SOL,
+  NFTOKEN_ADDRESS,
+  SYSVAR_CLOCK_PUBKEY,
+  SYSVAR_SLOT_HASHES_PUBKEY,
+} from "../../utils/constants";
 
 const MAX_NFTS_PER_BATCH = 10;
 
@@ -48,7 +62,7 @@ export default function MintlistPage() {
   const { query } = useRouter();
   const mintlistAddress = query.mintlistAddress as Solana.Address;
 
-  const { user, signOut } = useGlowContext();
+  const { user, glowDetected, signOut } = useGlowContext();
 
   const networkContext = useNetworkContext();
   const network = (query.network || networkContext.network) as Network;
@@ -79,6 +93,29 @@ export default function MintlistPage() {
               </div>
             )}
             <h1>{data.mintlist.name}</h1>
+
+            {/* Minting Section */}
+            {data.mintlist.mint_infos.length ===
+              data.mintlist.num_nfts_total && (
+              <div className="mb-4">
+                {!glowDetected && (
+                  <p>
+                    You’ll need to install{" "}
+                    <a href="https://glow.app/download" target="_blank">
+                      Glow
+                    </a>{" "}
+                    in order to mint an NFT.
+                  </p>
+                )}
+                {glowDetected &&
+                  (user ? (
+                    <MintButton mintlist={data.mintlist} network={network} />
+                  ) : (
+                    <GlowSignInButton variant="purple" />
+                  ))}
+              </div>
+            )}
+
             <div className="columns mb-4">
               <div className="collection">
                 {data.collection && (
@@ -156,6 +193,7 @@ export default function MintlistPage() {
                 </div>
               </div>
             </div>
+
             <div>
               <h2>NFTs</h2>
               {isAuthority && showUploader && (
@@ -282,6 +320,90 @@ function useMintlist({
   });
 
   return { data, error };
+}
+
+function MintButton({
+  mintlist,
+  network,
+}: {
+  mintlist: NftokenTypes.Mintlist;
+  network: Network;
+}) {
+  const [minting, setMinting] = useState(false);
+
+  return (
+    <LuxButton
+      label="Mint NFT"
+      disabled={minting}
+      onClick={async () => {
+        setMinting(true);
+
+        const { address: wallet } = await window.glow!.connect();
+
+        const recentBlockhash = await SolanaClient.getRecentBlockhash({
+          rpcUrl: NETWORK_TO_RPC[network],
+        });
+
+        const nftKeypair = GKeypair.generate();
+
+        const tx = GTransaction.create({
+          feePayer: wallet,
+          recentBlockhash,
+          instructions: [
+            {
+              accounts: [
+                // signer
+                {
+                  address: wallet,
+                  signer: true,
+                  writable: true,
+                },
+                // nft
+                { address: nftKeypair.address, signer: true, writable: true },
+                // mintlist
+                { address: mintlist.address, writable: true },
+                // treasury_sol
+                {
+                  address: mintlist.treasury_sol,
+                  writable: true,
+                },
+                // System Program
+                {
+                  address: GPublicKey.default.toBase58(),
+                },
+                // Clock Sysvar
+                {
+                  address: SYSVAR_CLOCK_PUBKEY,
+                },
+                // SlotHashes
+                {
+                  address: SYSVAR_SLOT_HASHES_PUBKEY,
+                },
+              ],
+              program: NFTOKEN_ADDRESS,
+              data_base64: NFTOKEN_MINTLIST_MINT_NFT_V1.toBuffer({
+                ix: null,
+              }).toString("base64"),
+            },
+          ],
+          signers: [nftKeypair],
+        });
+
+        try {
+          await window.glow!.signAndSendTransaction({
+            transactionBase64: GTransaction.toBuffer({
+              gtransaction: tx,
+            }).toString("base64"),
+            network: network,
+          });
+        } catch (err) {
+          console.error(err);
+        }
+
+        setMinting(false);
+      }}
+    />
+  );
 }
 
 type NftConfig = { name: string; image: string };
@@ -498,6 +620,7 @@ function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           column-gap: 1rem;
+          row-gap: 2rem;
         }
 
         .nft-card {
