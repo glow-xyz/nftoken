@@ -662,58 +662,6 @@ function NftsGrid({
   );
 }
 
-// function NftCard({
-//   name,
-//   image,
-//   minted,
-// }: {
-//   name: string;
-//   image: string;
-//   minted: boolean;
-// }) {
-//   return (
-//     <>
-//       <figure className="nft-card">
-//         <img className="nft-image" alt={name} src={image} />
-//         <figcaption>
-//           <div className="title">{name}</div>
-//
-//         </figcaption>
-//       </figure>
-//
-//       <style jsx>{`
-//         .nft-card {
-//           display: flex;
-//           flex-direction: column;
-//           gap: 1rem;
-//         }
-//
-//         .nft-image {
-//           width: 100%;
-//           box-shadow: var(--shadow);
-//           border-radius: calc(var(--border-radius) * 2);
-//         }
-//
-//         .title {
-//           font-weight: bold;
-//         }
-//
-//         .subtitle {
-//           font-size: 0.8rem;
-//         }
-//
-//         .status-available {
-//           color: var(--success-color);
-//         }
-//
-//         .status-minted {
-//           color: var(--secondary-color);
-//         }
-//       `}</style>
-//     </>
-//   );
-// }
-
 function useMintInfosMetadata(mintInfos: NftokenTypes.MintInfo[]): {
   data: Map<string, NftokenTypes.Metadata | null>;
   error: unknown;
