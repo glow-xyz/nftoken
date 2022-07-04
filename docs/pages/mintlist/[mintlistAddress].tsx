@@ -8,7 +8,11 @@ import {
 } from "@glow-app/solana-client";
 import { Network } from "@glow-app/glow-client";
 import { useRouter } from "next/router";
-import { PlusIcon } from "@heroicons/react/outline";
+import {
+  ChevronLeftIcon,
+  ExternalLinkIcon,
+  PlusIcon,
+} from "@heroicons/react/outline";
 import useSWR from "swr";
 import classNames from "classnames";
 import { DateTime } from "luxon";
@@ -18,7 +22,6 @@ import { useNetworkContext } from "../../components/NetworkContext";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { SolanaAddress } from "../../components/SolanaAddress";
 import { ExternalLink } from "../../components/ExternalLink";
-import { ChevronLeftIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import { LuxButton, LuxSubmitButton } from "../../components/LuxButton";
@@ -38,6 +41,9 @@ import {
   SYSVAR_CLOCK_PUBKEY,
   SYSVAR_SLOT_HASHES_PUBKEY,
 } from "../../utils/constants";
+import { useCollectionNfts } from "../../hooks/useCollectionNfts";
+import Link from "next/link";
+import { NftCard } from "../../components/NftCard";
 
 const MAX_NFTS_PER_BATCH = 10;
 
@@ -210,7 +216,11 @@ export default function MintlistPage() {
                 </div>
               )}
 
-              <NftsGrid mintInfos={data.mintlist.mint_infos} />
+              <NftsGrid
+                mintInfos={data.mintlist.mint_infos}
+                collection={data.mintlist.collection}
+                network={network}
+              />
             </div>
           </>
         )}
@@ -576,8 +586,30 @@ function NftsUploader({
   );
 }
 
-function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
+function NftsGrid({
+  mintInfos,
+  collection,
+  network,
+}: {
+  mintInfos: NftokenTypes.MintInfo[];
+  collection: Solana.Address;
+  network: Network;
+}) {
   const { data: metadataMap } = useMintInfosMetadata(mintInfos);
+
+  const { data: mintedNfts } = useCollectionNfts({
+    collectionAddress: collection,
+    network,
+  });
+
+  const nftsData: Map<string, NftokenTypes.NftInfo> = (mintedNfts ?? []).reduce(
+    (result, nft) => {
+      result.set(nft.metadata_url, nft);
+
+      return result;
+    },
+    new Map()
+  );
 
   if (!mintInfos.length) {
     return <div>No NFTs have been uploaded to this mintlist yet.</div>;
@@ -593,26 +625,41 @@ function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
   return (
     <>
       <div className="grid">
-        {mintInfosWithMetadata.map((mintInfo) => (
-          <figure className="nft-card" key={mintInfo.metadata_url}>
-            <img
-              className="nft-image"
-              alt={mintInfo.metadata.name}
-              src={mintInfo.metadata.image}
+        {mintInfosWithMetadata.map((mintInfo) => {
+          const nft = nftsData.get(mintInfo.metadata_url);
+
+          return nft ? (
+            <Link
+              href={`/nft/${nft.address}${
+                network !== Network.Mainnet ? `?network=${network}` : ""
+              }`}
+              key={mintInfo.metadata_url}
+            >
+              <a className="nft-card-link">
+                <NftCard
+                  image={mintInfo.metadata.image}
+                  title={mintInfo.metadata.name}
+                  subtitle={
+                    <div className={classNames(["subtitle", "status-minted"])}>
+                      Minted
+                    </div>
+                  }
+                />
+              </a>
+            </Link>
+          ) : (
+            <NftCard
+              key={mintInfo.metadata_url}
+              image={mintInfo.metadata.image}
+              title={mintInfo.metadata.name}
+              subtitle={
+                <div className={classNames(["subtitle", "status-available"])}>
+                  Available
+                </div>
+              }
             />
-            <figcaption>
-              <div className="title">{mintInfo.metadata.name}</div>
-              <div
-                className={classNames([
-                  "subtitle",
-                  mintInfo.minted ? "status-minted" : "status-available",
-                ])}
-              >
-                {mintInfo.minted ? "Minted" : "Available"}
-              </div>
-            </figcaption>
-          </figure>
-        ))}
+          );
+        })}
       </div>
 
       <style jsx>{`
@@ -623,20 +670,8 @@ function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
           row-gap: 2rem;
         }
 
-        .nft-card {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .nft-image {
-          width: 100%;
-          box-shadow: var(--shadow);
-          border-radius: calc(var(--border-radius) * 2);
-        }
-
-        .title {
-          font-weight: bold;
+        .nft-card-link {
+          color: inherit;
         }
 
         .subtitle {
@@ -654,6 +689,58 @@ function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
     </>
   );
 }
+
+// function NftCard({
+//   name,
+//   image,
+//   minted,
+// }: {
+//   name: string;
+//   image: string;
+//   minted: boolean;
+// }) {
+//   return (
+//     <>
+//       <figure className="nft-card">
+//         <img className="nft-image" alt={name} src={image} />
+//         <figcaption>
+//           <div className="title">{name}</div>
+//
+//         </figcaption>
+//       </figure>
+//
+//       <style jsx>{`
+//         .nft-card {
+//           display: flex;
+//           flex-direction: column;
+//           gap: 1rem;
+//         }
+//
+//         .nft-image {
+//           width: 100%;
+//           box-shadow: var(--shadow);
+//           border-radius: calc(var(--border-radius) * 2);
+//         }
+//
+//         .title {
+//           font-weight: bold;
+//         }
+//
+//         .subtitle {
+//           font-size: 0.8rem;
+//         }
+//
+//         .status-available {
+//           color: var(--success-color);
+//         }
+//
+//         .status-minted {
+//           color: var(--secondary-color);
+//         }
+//       `}</style>
+//     </>
+//   );
+// }
 
 function useMintInfosMetadata(mintInfos: NftokenTypes.MintInfo[]): {
   data: Map<string, NftokenTypes.Metadata | null>;
