@@ -24,15 +24,15 @@ export namespace NftokenTypes {
 
   export const MetadataZ = z.object({
     name: z.string(),
-    description: z.string().nullable(),
+    description: z.string().nullable().optional(),
 
-    image: z.string(),
-    traits: NftTypes.NftTraitsZ,
+    image: z.string().url(),
+    traits: NftTypes.NftTraitsZ.nullable().optional(),
 
-    minted_at: z.string().nullable(), // TODO: use new type here that ensures it's a datetime
+    minted_at: z.string().nullable().optional(), // TODO: use new type here that ensures it's a datetime
 
-    animation_url: z.string().nullable(),
-    external_url: z.string().nullable(),
+    animation_url: z.string().nullable().optional(),
+    external_url: z.string().nullable().optional(),
   });
   export type Metadata = z.infer<typeof MetadataZ>;
 

@@ -41,6 +41,7 @@ import { SocialHead } from "../../components/SocialHead";
 import { ValueList } from "../../components/ValueList";
 import { LuxLink } from "../../components/LuxLink";
 import { useBoolean } from "../../hooks/useBoolean";
+import { CsvDropZone } from "../../components/forms/CsvDropZone";
 
 const MAX_NFTS_PER_BATCH = 10;
 
@@ -388,10 +389,8 @@ function MintButton({
   );
 }
 
-type NftConfig = { name: string; image: string };
-
 type FormData = {
-  nfts: NftConfig[];
+  nfts: Partial<NftokenTypes.Metadata>[];
 };
 
 function NftsUploader({
@@ -419,9 +418,9 @@ function NftsUploader({
             const { address: wallet } = await window.glow!.connect();
 
             const mintInfoArgs: NftokenTypes.MintInfoArg[] = await Promise.all(
-              nfts.map(async ({ name, image }) => {
+              nfts.map(async (metadata) => {
                 const { file_url } = await uploadJsonToS3({
-                  json: { name, image },
+                  json: metadata,
                 });
 
                 return { metadata_url: file_url };
@@ -470,8 +469,15 @@ function NftsUploader({
             }
           }}
         >
-          {({ values, isValid }) => (
+          {({ values, errors, isValid }) => (
             <Form>
+              <div className="mb-4">
+                <CsvDropZone fieldName="nfts" />
+                {errors.nfts && (
+                  <div className="error">{errors.nfts.toString()}</div>
+                )}
+              </div>
+              <div className="mb-4 text-center">or upload NFTs manually</div>
               <div className="grid">
                 <FieldArray name="nfts">
                   {({ insert }) => (
@@ -552,6 +558,10 @@ function NftsUploader({
         }
         .add-nft-button:hover {
           background-color: var(--pale-gray);
+        }
+
+        .error {
+          color: var(--error-color);
         }
       `}</style>
     </>
