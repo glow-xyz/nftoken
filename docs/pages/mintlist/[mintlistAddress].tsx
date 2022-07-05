@@ -1,8 +1,14 @@
 import React from "react";
-import { GTransaction, Solana, SolanaClient } from "@glow-app/solana-client";
+import {
+  GKeypair,
+  GPublicKey,
+  GTransaction,
+  Solana,
+  SolanaClient,
+} from "@glow-app/solana-client";
 import { Network } from "@glow-app/glow-client";
 import { useRouter } from "next/router";
-import { PlusIcon } from "@heroicons/react/outline";
+import { ChevronLeftIcon, PlusIcon } from "@heroicons/react/outline";
 import useSWR from "swr";
 import classNames from "classnames";
 import { DateTime } from "luxon";
@@ -10,11 +16,8 @@ import { PageLayout } from "../../components/PageLayout";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { useNetworkContext } from "../../components/NetworkContext";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
-import { SolanaAddress } from "../../components/SolanaAddress";
-import { ExternalLink } from "../../components/ExternalLink";
-import { ChevronLeftIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { useGlowContext } from "@glow-app/glow-react";
+import { GlowSignInButton, useGlowContext } from "@glow-app/glow-react";
 import { LuxButton, LuxSubmitButton } from "../../components/LuxButton";
 import { InteractiveWell } from "../../components/InteractiveWell";
 import { FieldArray, Form, Formik } from "formik";
@@ -22,33 +25,30 @@ import { LuxInputField } from "../../components/LuxInput";
 import { ImageDropZone } from "../../components/forms/ImageDropZone";
 import { uploadJsonToS3 } from "../../utils/upload-file";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
-import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "../../utils/nft-borsh";
-import { LAMPORTS_PER_SOL, NFTOKEN_ADDRESS } from "../../utils/constants";
+import {
+  NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1,
+  NFTOKEN_MINTLIST_MINT_NFT_V1,
+} from "../../utils/nft-borsh";
+import {
+  LAMPORTS_PER_SOL,
+  NFTOKEN_ADDRESS,
+  SYSVAR_CLOCK_PUBKEY,
+  SYSVAR_SLOT_HASHES_PUBKEY,
+} from "../../utils/constants";
+import { useCollectionNfts } from "../../hooks/useCollectionNfts";
+import { NftCard } from "../../components/NftCard";
+import { SocialHead } from "../../components/SocialHead";
+import { ValueList } from "../../components/ValueList";
+import { LuxLink } from "../../components/LuxLink";
+import { useBoolean } from "../../hooks/useBoolean";
 
 const MAX_NFTS_PER_BATCH = 10;
-
-type ATTRIBUTE_KEY = keyof NftokenTypes.MintlistInfo;
-type ATTRIBUTE_TYPE = "address" | "link" | "unix_timestamp" | "amount";
-const KEYS: { key: ATTRIBUTE_KEY; type?: ATTRIBUTE_TYPE }[] = [
-  { key: "address", type: "address" },
-  { key: "authority", type: "address" },
-  { key: "treasury_sol", type: "address" },
-  { key: "go_live_date", type: "unix_timestamp" },
-  { key: "created_at", type: "unix_timestamp" },
-  { key: "metadata_url", type: "link" },
-  { key: "collection", type: "address" },
-  { key: "price", type: "amount" },
-  { key: "minting_order" },
-  // We will handle the ones below manually
-  // { key: "num_nfts_total" },
-  // { key: "num_nfts_redeemed" },
-];
 
 export default function MintlistPage() {
   const { query } = useRouter();
   const mintlistAddress = query.mintlistAddress as Solana.Address;
 
-  const { user, signOut } = useGlowContext();
+  const { user, glowDetected, signOut } = useGlowContext();
 
   const networkContext = useNetworkContext();
   const network = (query.network || networkContext.network) as Network;
@@ -63,9 +63,12 @@ export default function MintlistPage() {
   return (
     <>
       <PageLayout>
+        <SocialHead
+          subtitle={data?.mintlist.name ? `${data.mintlist.name}` : "Mintlist"}
+        />
         {data && (
           <>
-            {user && (
+            {isAuthority && (
               <div className="navigation">
                 <LuxButton
                   label="Back to Mintlists"
@@ -78,84 +81,117 @@ export default function MintlistPage() {
                 />
               </div>
             )}
+            <div className="badge">Mintlist</div>
             <h1>{data.mintlist.name}</h1>
+
             <div className="columns mb-4">
               <div className="collection">
                 {data.collection && (
                   <>
                     <h2>Collection</h2>
-                    {data.collection.image ? (
-                      <figure>
-                        <img
-                          alt={data.collection.name}
-                          src={data.collection.image}
-                        />
-                        <figcaption>{data.collection.name}</figcaption>
-                      </figure>
-                    ) : (
-                      <h3>{data.collection.name}</h3>
-                    )}
+                    <LuxLink
+                      href={`/collection/${data.collection.address}`}
+                      query={
+                        network !== Network.Mainnet ? { network } : undefined
+                      }
+                    >
+                      <NftCard
+                        image={data.collection.image}
+                        title={data.collection.name!}
+                      />
+                    </LuxLink>
                   </>
+                )}
+
+                {/* Minting Section */}
+                {data.mintlist.mint_infos.length ===
+                  data.mintlist.num_nfts_total && (
+                  <div className="mt-4">
+                    {!glowDetected && (
+                      <p>
+                        You’ll need to install{" "}
+                        <a href="https://glow.app/download" target="_blank">
+                          Glow
+                        </a>{" "}
+                        in order to mint an NFT.
+                      </p>
+                    )}
+                    {glowDetected &&
+                      (user ? (
+                        <MintButton
+                          mintlist={data.mintlist}
+                          network={network}
+                        />
+                      ) : (
+                        <GlowSignInButton variant="purple" />
+                      ))}
+                  </div>
                 )}
               </div>
 
               <div>
                 <h2>On-Chain Data</h2>
                 <div className="table">
-                  {KEYS.map(({ key, type }) => {
-                    return (
-                      <React.Fragment key={key}>
-                        <div className="key">{key}</div>
-                        {type === "address" ? (
-                          <div className="solana-address flex-center flex-wrap">
-                            <SolanaAddress
-                              address={data.mintlist[key]?.toString()}
-                            />
-                          </div>
-                        ) : type === "link" ? (
-                          <div className="link">
-                            <ExternalLink href={data.mintlist[key]!.toString()}>
-                              <span>{data.mintlist[key]!.toString()}</span>{" "}
-                              <ExternalLinkIcon />
-                            </ExternalLink>
-                          </div>
-                        ) : type === "amount" ? (
-                          <div>
-                            {parseInt(
-                              (data.mintlist[key] as { lamports: string })
-                                .lamports
-                            ) /
-                              LAMPORTS_PER_SOL +
-                              " SOL"}
-                          </div>
-                        ) : type === "unix_timestamp" ? (
-                          <div>
-                            {DateTime.fromISO(
-                              data.mintlist[key]! as string
-                            ).toLocaleString({
-                              dateStyle: "medium",
-                              timeStyle: "short",
-                            })}
-                          </div>
-                        ) : (
-                          <div>
-                            {typeof data.mintlist[key] === "string"
-                              ? data.mintlist[key]?.toString()
-                              : JSON.stringify(data.mintlist[key])}
-                          </div>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                  <div className="key">nfts_uploaded</div>
-                  <div>{data.mintlist.mint_infos.length}</div>
-                  <div className="key">nfts_total</div>
-                  <div>{data.mintlist.num_nfts_total}</div>
-                  <div className="key">nfts_minted</div>
-                  <div>{data.mintlist.num_nfts_redeemed}</div>
+                  <ValueList
+                    attributes={[
+                      { label: "address", value: data.mintlist.address },
+                      { label: "authority", value: data.mintlist.authority },
+                      {
+                        label: "treasury_sol",
+                        value: data.mintlist.treasury_sol,
+                      },
+                      {
+                        label: "go_live_date",
+                        value: DateTime.fromISO(
+                          data.mintlist.go_live_date
+                        ).toLocaleString({
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        }),
+                      },
+                      {
+                        label: "created_at",
+                        value: DateTime.fromISO(
+                          data.mintlist.created_at
+                        ).toLocaleString({
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        }),
+                      },
+                      {
+                        label: "metadata_url",
+                        value: data.mintlist.metadata_url,
+                      },
+                      { label: "collection", value: data.mintlist.collection },
+                      {
+                        label: "price",
+                        value:
+                          parseInt(data.mintlist.price.lamports) /
+                            LAMPORTS_PER_SOL +
+                          " SOL",
+                      },
+                      {
+                        label: "minting_order",
+                        value: data.mintlist.minting_order,
+                      },
+                      {
+                        label: "nfts_uploaded",
+                        value: data.mintlist.mint_infos.length,
+                      },
+                      {
+                        label: "nfts_total",
+                        value: data.mintlist.num_nfts_total,
+                      },
+                      {
+                        label: "nfts_minted",
+                        value: data.mintlist.num_nfts_redeemed,
+                      },
+                    ]}
+                  />
                 </div>
               </div>
             </div>
+
             <div>
               <h2>NFTs</h2>
               {isAuthority && showUploader && (
@@ -172,7 +208,11 @@ export default function MintlistPage() {
                 </div>
               )}
 
-              <NftsGrid mintInfos={data.mintlist.mint_infos} />
+              <NftsGrid
+                mintInfos={data.mintlist.mint_infos}
+                collection={data.mintlist.collection}
+                network={network}
+              />
             </div>
           </>
         )}
@@ -182,42 +222,22 @@ export default function MintlistPage() {
           margin-bottom: 2rem;
         }
 
+        .badge {
+          font-size: var(--small-font-size);
+          font-weight: var(--medium-font-weight);
+          background-color: var(--secondary-bg-color);
+          max-width: max-content;
+          padding: 0.1rem 0.5rem;
+          border-radius: 99rem;
+          margin-left: -0.5rem;
+          margin-bottom: 0.25rem;
+          color: var(--secondary-color);
+        }
+
         .columns {
           display: grid;
           grid-template-columns: 20rem 1fr;
           grid-column-gap: 3rem;
-        }
-
-        .table {
-          padding: 0.75rem;
-          border-radius: var(--border-radius);
-          background-color: var(--secondary-bg-color);
-          font-family: var(--mono-font);
-          font-weight: var(--medium-font-weight);
-          overflow-wrap: anywhere;
-
-          display: grid;
-          grid-template-columns: max-content 1fr;
-          grid-column-gap: 2rem;
-        }
-
-        .table .key {
-          font-weight: var(--normal-font-weight);
-          color: var(--secondary-color);
-          max-width: 8.5rem; /* This width cuts "authority_can_update" in a nice way */
-        }
-
-        img {
-          display: block;
-          width: 100%;
-          box-shadow: var(--shadow);
-          border-radius: calc(var(--border-radius) * 2);
-        }
-
-        figcaption {
-          margin-top: 1rem;
-          text-align: center;
-          font-weight: bold;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
@@ -282,6 +302,90 @@ function useMintlist({
   });
 
   return { data, error };
+}
+
+function MintButton({
+  mintlist,
+  network,
+}: {
+  mintlist: NftokenTypes.Mintlist;
+  network: Network;
+}) {
+  const minting = useBoolean();
+
+  return (
+    <LuxButton
+      label="Mint NFT"
+      disabled={minting.value}
+      onClick={async () => {
+        minting.setTrue();
+
+        const { address: wallet } = await window.glow!.connect();
+
+        const recentBlockhash = await SolanaClient.getRecentBlockhash({
+          rpcUrl: NETWORK_TO_RPC[network],
+        });
+
+        const nftKeypair = GKeypair.generate();
+
+        const tx = GTransaction.create({
+          feePayer: wallet,
+          recentBlockhash,
+          instructions: [
+            {
+              accounts: [
+                // signer
+                {
+                  address: wallet,
+                  signer: true,
+                  writable: true,
+                },
+                // nft
+                { address: nftKeypair.address, signer: true, writable: true },
+                // mintlist
+                { address: mintlist.address, writable: true },
+                // treasury_sol
+                {
+                  address: mintlist.treasury_sol,
+                  writable: true,
+                },
+                // System Program
+                {
+                  address: GPublicKey.default.toBase58(),
+                },
+                // Clock Sysvar
+                {
+                  address: SYSVAR_CLOCK_PUBKEY,
+                },
+                // SlotHashes
+                {
+                  address: SYSVAR_SLOT_HASHES_PUBKEY,
+                },
+              ],
+              program: NFTOKEN_ADDRESS,
+              data_base64: NFTOKEN_MINTLIST_MINT_NFT_V1.toBuffer({
+                ix: null,
+              }).toString("base64"),
+            },
+          ],
+          signers: [nftKeypair],
+        });
+
+        try {
+          await window.glow!.signAndSendTransaction({
+            transactionBase64: GTransaction.toBuffer({
+              gtransaction: tx,
+            }).toString("base64"),
+            network: network,
+          });
+        } catch (err) {
+          console.error(err);
+        }
+
+        minting.setFalse();
+      }}
+    />
+  );
 }
 
 type NftConfig = { name: string; image: string };
@@ -454,8 +558,30 @@ function NftsUploader({
   );
 }
 
-function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
+function NftsGrid({
+  mintInfos,
+  collection,
+  network,
+}: {
+  mintInfos: NftokenTypes.MintInfo[];
+  collection: Solana.Address;
+  network: Network;
+}) {
   const { data: metadataMap } = useMintInfosMetadata(mintInfos);
+
+  const { data: mintedNfts } = useCollectionNfts({
+    collectionAddress: collection,
+    network,
+  });
+
+  const nftsData: Map<string, NftokenTypes.NftInfo> = (mintedNfts ?? []).reduce(
+    (result, nft) => {
+      result.set(nft.metadata_url, nft);
+
+      return result;
+    },
+    new Map()
+  );
 
   if (!mintInfos.length) {
     return <div>No NFTs have been uploaded to this mintlist yet.</div>;
@@ -471,26 +597,38 @@ function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
   return (
     <>
       <div className="grid">
-        {mintInfosWithMetadata.map((mintInfo) => (
-          <figure className="nft-card" key={mintInfo.metadata_url}>
-            <img
-              className="nft-image"
-              alt={mintInfo.metadata.name}
-              src={mintInfo.metadata.image}
+        {mintInfosWithMetadata.map((mintInfo) => {
+          const nft = nftsData.get(mintInfo.metadata_url);
+
+          return nft ? (
+            <LuxLink
+              href={`/nft/${nft.address}`}
+              query={network !== Network.Mainnet ? { network } : undefined}
+              key={mintInfo.metadata_url}
+            >
+              <NftCard
+                image={mintInfo.metadata.image}
+                title={mintInfo.metadata.name}
+                subtitle={
+                  <div className={classNames(["subtitle", "status-minted"])}>
+                    Minted
+                  </div>
+                }
+              />
+            </LuxLink>
+          ) : (
+            <NftCard
+              key={mintInfo.metadata_url}
+              image={mintInfo.metadata.image}
+              title={mintInfo.metadata.name}
+              subtitle={
+                <div className={classNames(["subtitle", "status-available"])}>
+                  Available
+                </div>
+              }
             />
-            <figcaption>
-              <div className="title">{mintInfo.metadata.name}</div>
-              <div
-                className={classNames([
-                  "subtitle",
-                  mintInfo.minted ? "status-minted" : "status-available",
-                ])}
-              >
-                {mintInfo.minted ? "Minted" : "Available"}
-              </div>
-            </figcaption>
-          </figure>
-        ))}
+          );
+        })}
       </div>
 
       <style jsx>{`
@@ -498,22 +636,7 @@ function NftsGrid({ mintInfos }: { mintInfos: NftokenTypes.MintInfo[] }) {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           column-gap: 1rem;
-        }
-
-        .nft-card {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .nft-image {
-          width: 100%;
-          box-shadow: var(--shadow);
-          border-radius: calc(var(--border-radius) * 2);
-        }
-
-        .title {
-          font-weight: bold;
+          row-gap: 2rem;
         }
 
         .subtitle {

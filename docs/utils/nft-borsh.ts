@@ -168,6 +168,14 @@ export const NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 = new FixableGlowBorsh<{
   ],
 });
 
+export const NFTOKEN_MINTLIST_MINT_NFT_V1 = new GlowBorsh<{
+  ix: null;
+}>({
+  fields: [
+    ["ix", GlowBorsh.ixDiscriminator({ ix_name: "mintlist_mint_nft_v1" })],
+  ],
+});
+
 /**
  * This is a four bytes discriminator, used in system program.
  */

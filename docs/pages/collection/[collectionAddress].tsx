@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { Network } from "@glow-app/glow-client";
 import { Solana } from "@glow-app/solana-client";
 import useSWR, { SWRResponse } from "swr";
@@ -10,7 +9,9 @@ import { SocialHead } from "../../components/SocialHead";
 import { PageLayout } from "../../components/PageLayout";
 import { ValueList } from "../../components/ValueList";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { SquareImage } from "../../components/SquareImage";
+import { useCollectionNfts } from "../../hooks/useCollectionNfts";
+import { NftCard } from "../../components/NftCard";
+import { LuxLink } from "../../components/LuxLink";
 
 const useCollection = ({
   collectionAddress,
@@ -29,29 +30,6 @@ const useCollection = ({
   const { data, error, mutate } = useSWR(swrKey, async () => {
     return await NftokenFetcher.getCollection({
       address: collectionAddress,
-      network,
-    });
-  });
-  return { data: data!, error, mutate };
-};
-
-const useCollectionNfts = ({
-  collectionAddress,
-  network,
-}: {
-  collectionAddress: Solana.Address;
-  network: Network;
-}): {
-  // We can be confident that data will be nonnull even if the request fails,
-  // if we defined fallbackData in the config.
-  data: NftokenTypes.NftInfo[];
-  error: any;
-  mutate: SWRResponse<NftokenTypes.NftInfo[], never>["mutate"];
-} => {
-  const swrKey = [collectionAddress, network, "getNftsInCollection"];
-  const { data, error, mutate } = useSWR(swrKey, async () => {
-    return await NftokenFetcher.getNftsInCollection({
-      collection: collectionAddress,
       network,
     });
   });
@@ -154,16 +132,9 @@ export default function CollectionPage({
       {nftsInCollection && (
         <div className="nft-container mt-5">
           {nftsInCollection.map((nft) => (
-            <Link href={`/nft/${nft.address}`} key={nft.address}>
-              <a className="nft">
-                {nft.image && (
-                  <div className="image">
-                    <SquareImage src={nft.image} size={400} alt={nft.name} />
-                  </div>
-                )}
-                <div className="name">{nft.name}</div>
-              </a>
-            </Link>
+            <LuxLink href={`/nft/${nft.address}`} key={nft.address}>
+              <NftCard title={nft.name!} image={nft.image} />
+            </LuxLink>
           ))}
         </div>
       )}
@@ -192,28 +163,6 @@ export default function CollectionPage({
           grid-template-columns: repeat(3, 1fr);
           grid-column-gap: 1rem;
           grid-row-gap: 1.5rem;
-        }
-
-        .nft {
-          display: block;
-          transition: var(--transition);
-        }
-
-        .nft:hover {
-          opacity: 0.95;
-        }
-
-        .nft .image {
-          border-radius: var(--border-radius);
-          overflow: hidden;
-          box-shadow: var(--shadow);
-        }
-
-        .nft .name {
-          color: var(--primary-color);
-          margin-top: 0.5rem;
-          font-size: var(--large-font-size);
-          font-weight: var(--medium-font-weight);
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
