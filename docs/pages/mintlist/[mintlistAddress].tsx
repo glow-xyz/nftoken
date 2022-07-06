@@ -43,6 +43,7 @@ import { ValueList } from "../../components/ValueList";
 import { LuxLink } from "../../components/LuxLink";
 import { useBoolean } from "../../hooks/useBoolean";
 import { CsvDropZone } from "../../components/forms/CsvDropZone";
+import FileIcon from "../../icons/feather/FileIcon.svg";
 
 // FIXME: set to 10
 const MINT_INFOS_PER_TX = 1;
@@ -483,13 +484,16 @@ function NftsUploader({
             }
           }}
         >
-          {({ values, errors, isValid }) => (
+          {({ values, isValid }) => (
             <Form>
               <div className="mb-4">
                 <CsvDropZone fieldName="nfts" />
-                {errors.nfts && (
-                  <div className="error">{errors.nfts.toString()}</div>
-                )}
+                <LuxLink href="/nfts-metadata-template.csv" download>
+                  <div className="download-link mt-2">
+                    <FileIcon />
+                    Download CSV Template
+                  </div>
+                </LuxLink>
               </div>
               <div className="mb-4 text-center">or upload NFTs manually</div>
               <div className="mint-infos">
@@ -502,18 +506,15 @@ function NftsUploader({
                             label="NFT Image"
                             fieldName={`nfts.${index}.image`}
                           />
-                          <div>
-                            <div className="mb-2">#{index}</div>
-                            <LuxInputField
-                              label="Name"
-                              placeholder={`Item #${String(index).padStart(
-                                4,
-                                "0"
-                              )}`}
-                              name={`nfts.${index}.name`}
-                              required
-                            />
-                          </div>
+                          <LuxInputField
+                            label="Name"
+                            placeholder={`Item #${String(index).padStart(
+                              4,
+                              "0"
+                            )}`}
+                            name={`nfts.${index}.name`}
+                            required
+                          />
                         </div>
                       ))}
                       {values.nfts.length < availableToUpload && (
@@ -570,8 +571,11 @@ function NftsUploader({
           gap: 1rem;
         }
 
-        .error {
-          color: var(--error-color);
+        .download-link {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 0.2rem;
         }
       `}</style>
     </>

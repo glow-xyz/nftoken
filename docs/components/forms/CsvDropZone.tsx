@@ -5,6 +5,7 @@ import FileIcon from "../../icons/feather/FileIcon.svg";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { useFormikContext } from "formik";
 import { ZodError } from "zod";
+import { toastError } from "../../utils/toast";
 
 export function CsvDropZone({ fieldName }: { fieldName: string }) {
   const { setFieldValue, setFieldError } = useFormikContext();
@@ -27,6 +28,7 @@ export function CsvDropZone({ fieldName }: { fieldName: string }) {
             }
 
             setFieldError(fieldName, "Invalid CSV data");
+            toastError("Invalid CSV data");
 
             return;
           }
@@ -35,6 +37,7 @@ export function CsvDropZone({ fieldName }: { fieldName: string }) {
         },
         error(error: Error) {
           setFieldError(fieldName, error.message);
+          toastError(error.message);
         },
       });
     },
