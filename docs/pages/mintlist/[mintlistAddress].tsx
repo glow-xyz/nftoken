@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   GKeypair,
   GPublicKey,
@@ -401,6 +401,8 @@ function NftsUploader({
   network: Network;
   onSignOut: () => void;
 }) {
+  const mintInfosContainerRef = useRef<HTMLDivElement>(null);
+
   const availableToUpload =
     mintlist.num_nfts_total - mintlist.mint_infos.length;
 
@@ -496,7 +498,7 @@ function NftsUploader({
                 </LuxLink>
               </div>
               <div className="mb-4 text-center">or upload NFTs manually</div>
-              <div className="mint-infos">
+              <div ref={mintInfosContainerRef} className="mint-infos">
                 <FieldArray name="nfts">
                   {({ insert }) => (
                     <>
@@ -522,12 +524,22 @@ function NftsUploader({
                           label="Add Row"
                           type="button"
                           className="add-nft-button animated"
-                          onClick={() =>
+                          onClick={() => {
                             insert(values.nfts.length, {
                               name: "",
                               image: "",
-                            })
-                          }
+                            });
+
+                            // Give it time to render.
+                            queueMicrotask(() => {
+                              if (!mintInfosContainerRef.current) {
+                                return;
+                              }
+
+                              mintInfosContainerRef.current.scrollTop =
+                                mintInfosContainerRef.current.scrollHeight;
+                            });
+                          }}
                         />
                       )}
                     </>
