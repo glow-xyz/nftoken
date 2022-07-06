@@ -45,8 +45,7 @@ import { useBoolean } from "../../hooks/useBoolean";
 import { CsvDropZone } from "../../components/forms/CsvDropZone";
 import FileIcon from "../../icons/feather/FileIcon.svg";
 
-// FIXME: set to 10
-const MINT_INFOS_PER_TX = 1;
+const MINT_INFOS_PER_TX = 10;
 
 export default function MintlistPage() {
   const { query } = useRouter();
@@ -438,8 +437,6 @@ function NftsUploader({
             ).map((mintInfoArgsBatch, batchIndex) => {
               const currentNftCount =
                 mintlist.mint_infos.length + batchIndex * MINT_INFOS_PER_TX;
-
-              console.log({ currentNftCount });
 
               const tx = GTransaction.create({
                 feePayer: wallet,
