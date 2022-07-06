@@ -8,10 +8,11 @@ import {
 } from "@glow-app/solana-client";
 import { Network } from "@glow-app/glow-client";
 import { useRouter } from "next/router";
-import { ChevronLeftIcon, PlusIcon } from "@heroicons/react/outline";
+import { ChevronLeftIcon } from "@heroicons/react/outline";
 import useSWR from "swr";
 import classNames from "classnames";
 import { DateTime } from "luxon";
+import chunk from "lodash/chunk";
 import { PageLayout } from "../../components/PageLayout";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { useNetworkContext } from "../../components/NetworkContext";
@@ -43,7 +44,8 @@ import { LuxLink } from "../../components/LuxLink";
 import { useBoolean } from "../../hooks/useBoolean";
 import { CsvDropZone } from "../../components/forms/CsvDropZone";
 
-const MAX_NFTS_PER_BATCH = 10;
+// FIXME: set to 10
+const MINT_INFOS_PER_TX = 1;
 
 export default function MintlistPage() {
   const { query } = useRouter();
@@ -197,10 +199,6 @@ export default function MintlistPage() {
               <h2>NFTs</h2>
               {isAuthority && showUploader && (
                 <div className="mb-4">
-                  <div className="mb-2">
-                    NOTE: You can upload up to {MAX_NFTS_PER_BATCH} NFTs at
-                    once.
-                  </div>
                   <NftsUploader
                     mintlist={data.mintlist}
                     network={network}
@@ -431,38 +429,54 @@ function NftsUploader({
               rpcUrl: NETWORK_TO_RPC[network],
             });
 
-            const tx = GTransaction.create({
-              feePayer: wallet,
-              recentBlockhash,
-              instructions: [
-                {
-                  accounts: [
-                    // mintlist
-                    {
-                      address: mintlist.address,
-                      signer: false,
-                      writable: true,
-                    },
-                    // authority
-                    { address: wallet, signer: true, writable: true },
-                  ],
-                  program: NFTOKEN_ADDRESS,
-                  data_base64: NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1.toBuffer({
-                    current_nft_count: mintlist.mint_infos.length,
-                    ix: null,
-                    mint_infos: mintInfoArgs,
-                  }).toString("base64"),
-                },
-              ],
+            const transactionsBase64 = chunk(
+              mintInfoArgs,
+              MINT_INFOS_PER_TX
+            ).map((mintInfoArgsBatch, batchIndex) => {
+              const currentNftCount =
+                mintlist.mint_infos.length + batchIndex * MINT_INFOS_PER_TX;
+
+              console.log({ currentNftCount });
+
+              const tx = GTransaction.create({
+                feePayer: wallet,
+                recentBlockhash,
+                instructions: [
+                  {
+                    accounts: [
+                      // mintlist
+                      {
+                        address: mintlist.address,
+                        signer: false,
+                        writable: true,
+                      },
+                      // authority
+                      { address: wallet, signer: true, writable: true },
+                    ],
+                    program: NFTOKEN_ADDRESS,
+                    data_base64: NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1.toBuffer({
+                      current_nft_count: currentNftCount,
+                      ix: null,
+                      mint_infos: mintInfoArgsBatch,
+                    }).toString("base64"),
+                  },
+                ],
+              });
+
+              return GTransaction.toBuffer({
+                gtransaction: tx,
+              }).toString("base64");
             });
 
             try {
-              await window.glow!.signAndSendTransaction({
-                transactionBase64: GTransaction.toBuffer({
-                  gtransaction: tx,
-                }).toString("base64"),
+              // @ts-ignore
+              await window.glow!.signAndSendAllTransactions({
+                transactionsBase64,
+                sendOrder: "sequential",
+                replaceBlockhash: true,
                 network: network,
               });
+
               resetForm({ values: initialValues });
             } catch (err) {
               console.error(err);
@@ -478,46 +492,43 @@ function NftsUploader({
                 )}
               </div>
               <div className="mb-4 text-center">or upload NFTs manually</div>
-              <div className="grid">
+              <div className="mint-infos">
                 <FieldArray name="nfts">
                   {({ insert }) => (
                     <>
                       {values.nfts.map((_, index) => (
-                        <div key={index}>
-                          <div className="mb-4">
-                            <LuxInputField
-                              placeholder="Name"
-                              name={`nfts.${index}.name`}
-                              required
-                            />
-                          </div>
-
+                        <div className="mint-info" key={index}>
                           <ImageDropZone
                             label="NFT Image"
                             fieldName={`nfts.${index}.image`}
                           />
+                          <div>
+                            <div className="mb-2">#{index}</div>
+                            <LuxInputField
+                              label="Name"
+                              placeholder={`Item #${String(index).padStart(
+                                4,
+                                "0"
+                              )}`}
+                              name={`nfts.${index}.name`}
+                              required
+                            />
+                          </div>
                         </div>
                       ))}
-                      {values.nfts.length <= MAX_NFTS_PER_BATCH &&
-                        values.nfts.length < availableToUpload && (
-                          <button
-                            type="button"
-                            className="add-nft-button animated"
-                            onClick={() =>
-                              insert(values.nfts.length, {
-                                name: "",
-                                image: "",
-                              })
-                            }
-                          >
-                            <PlusIcon
-                              style={{
-                                width: "2rem",
-                                height: "2rem",
-                              }}
-                            />
-                          </button>
-                        )}
+                      {values.nfts.length < availableToUpload && (
+                        <LuxButton
+                          label="Add Row"
+                          type="button"
+                          className="add-nft-button animated"
+                          onClick={() =>
+                            insert(values.nfts.length, {
+                              name: "",
+                              image: "",
+                            })
+                          }
+                        />
+                      )}
                     </>
                   )}
                 </FieldArray>
@@ -544,20 +555,19 @@ function NftsUploader({
         </Formik>
       </InteractiveWell>
       <style jsx>{`
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          column-gap: 1rem;
-          row-gap: 2rem;
+        .mint-infos {
+          max-height: 24rem;
+          overflow: scroll;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2rem;
         }
 
-        .add-nft-button {
-          border: 1px solid var(--primary-border-color);
-          border-radius: var(--border-radius);
-          background-color: var(--faint-gray);
-        }
-        .add-nft-button:hover {
-          background-color: var(--pale-gray);
+        .mint-info {
+          width: 100%;
+          display: flex;
+          gap: 1rem;
         }
 
         .error {
