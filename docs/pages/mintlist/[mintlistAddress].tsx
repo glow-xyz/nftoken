@@ -22,7 +22,7 @@ import { LuxButton, LuxSubmitButton } from "../../components/LuxButton";
 import { InteractiveWell } from "../../components/InteractiveWell";
 import { FieldArray, Form, Formik } from "formik";
 import { LuxInputField } from "../../components/LuxInput";
-import { ImageDropZone } from "../../components/forms/ImageDropZone";
+import { SimpleDropZone } from "../../components/forms/SimpleDropZone";
 import { uploadJsonToS3 } from "../../utils/upload-file";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
 import {
@@ -486,9 +486,10 @@ function NftsUploader({
                             />
                           </div>
 
-                          <ImageDropZone
+                          <SimpleDropZone
                             label="NFT Image"
                             fieldName={`nfts.${index}.image`}
+                            size={280}
                           />
                         </div>
                       ))}
