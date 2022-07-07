@@ -344,7 +344,7 @@ export namespace NftokenFetcher {
       ...(metadataMap.get(m.metadata_url!) ?? {}),
     }));
 
-    return sortBy(mintlistInfos, "address").reverse();
+    return sortBy(mintlistInfos, "go_live_date").reverse();
   };
 
   export const getMintlist = async ({
