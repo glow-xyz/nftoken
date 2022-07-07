@@ -1,3 +1,4 @@
+import { LuxLink } from "./LuxLink";
 import { SquareImage } from "./SquareImage";
 import { ReactNode } from "react";
 
@@ -5,12 +6,16 @@ export function NftCard({
   image,
   title,
   subtitle,
+  size = 400,
+  linkInfo,
 }: {
   image: string | undefined;
   title: string;
+  size?: number;
   subtitle?: ReactNode;
+  linkInfo?: { href: string; query?: any };
 }) {
-  return (
+  const inner = (
     <>
       <div className="card animated">
         <div className="image">
@@ -51,4 +56,10 @@ export function NftCard({
       </style>
     </>
   );
+
+  if (linkInfo) {
+    return <LuxLink {...linkInfo}>{inner}</LuxLink>;
+  }
+
+  return <>{inner}</>;
 }

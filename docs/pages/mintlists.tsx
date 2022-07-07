@@ -24,11 +24,13 @@ export default function MintlistsPage() {
     <>
       <PageLayout>
         <h1>Mintlists</h1>
+
         <p>
           Below you can find the overview of all the mintlists you created.
           Click on the mintlist name to go to its details page where you can
           manage it.
         </p>
+
         <div className="mb-4">
           <InteractiveWell title="Your Mintlists">
             <div className="table">
@@ -36,6 +38,7 @@ export default function MintlistsPage() {
               <div className="th">NFTs Uploaded</div>
               <div className="th">NFTs Minted</div>
               <div className="th">Go Live Date</div>
+
               {mintlists.map((mintlist) => (
                 <React.Fragment key={mintlist.address}>
                   <div>
@@ -58,6 +61,7 @@ export default function MintlistsPage() {
             </div>
           </InteractiveWell>
         </div>
+
         <LuxButton
           label="Create Mintlist"
           href="/docs/create-a-mintlist"
