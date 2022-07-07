@@ -4,8 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { uploadImageToS3 } from "../utils/upload-file";
 import { ACCEPT_IMAGE_PROP } from "./LuxDropZone";
 import { LuxInputLabel } from "./LuxInputLabel";
-import UploadIcon from "@icons/feather/arrow-up.svg";
-import XIcon from "@icons/feather/x.svg";
+import { XIcon, ArrowUpIcon } from "@heroicons/react/solid";
 import { LuxSpinner } from "./LuxSpinner";
 import classNames from "classnames";
 import { LuxButton } from "./LuxButton";
@@ -71,7 +70,7 @@ export const LuxSimpleDropZone = ({
           <input {...getInputProps()} />
 
           <div className={classNames("icon", { spinner: uploading })}>
-            {uploading ? <LuxSpinner /> : <UploadIcon />}
+            {uploading ? <LuxSpinner /> : <ArrowUpIcon />}
           </div>
         </div>
 
