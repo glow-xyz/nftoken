@@ -1,21 +1,23 @@
 import { Network } from "@glow-app/glow-client";
-import { useGlowContext } from "@glow-app/glow-react";
 import {
   GKeypair,
   GPublicKey,
   GTransaction,
   Solana,
-  SolanaClient,
+  SolanaClient
 } from "@glow-app/solana-client";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
 import { LuxButton } from "../../components/LuxButton";
 import { LuxSpinner } from "../../components/LuxSpinner";
-import { MintInfosUploader } from "../../components/mintlist/MintInfosForm";
-import { MintlistAndCollection } from "../../components/mintlist/mintlist-utils";
+import {
+  getMintlistStatus,
+  MintlistAndCollection,
+  MintlistStatus
+} from "../../components/mintlist/mintlist-utils";
 import { MintlistInfoHeader } from "../../components/mintlist/MintlistInfoHeader";
-import { MintlistNftsGrid } from "../../components/mintlist/MintlistNftsGrid";
+import { MintlistPending } from "../../components/mintlist/MintlistPending";
 import { useNetworkContext } from "../../components/NetworkContext";
 import { PageLayout } from "../../components/PageLayout";
 import { SocialHead } from "../../components/SocialHead";
@@ -23,18 +25,17 @@ import { useBoolean } from "../../hooks/useBoolean";
 import {
   NFTOKEN_ADDRESS,
   SYSVAR_CLOCK_PUBKEY,
-  SYSVAR_SLOT_HASHES_PUBKEY,
+  SYSVAR_SLOT_HASHES_PUBKEY
 } from "../../utils/constants";
 import { NFTOKEN_MINTLIST_MINT_NFT_V1 } from "../../utils/nft-borsh";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
 
+// TODO: add server side rendering
 export default function MintlistPage() {
   const { query } = useRouter();
   const mintlistAddress = query.mintlistAddress as Solana.Address;
-
-  const { signOut } = useGlowContext();
 
   const networkContext = useNetworkContext();
   const network = (query.network || networkContext.network) as Network;
@@ -52,61 +53,35 @@ export default function MintlistPage() {
   }
 
   const { mintlist, collection } = data;
+  const status = getMintlistStatus(mintlist);
 
   return (
     <PageLayout>
       <SocialHead subtitle={data.mintlist.name} />
       <MintlistInfoHeader mintlist={mintlist} collection={collection} />
 
-      <div>
-        <h2>NFTs</h2>
+      {status === MintlistStatus.Pending && (
+        <MintlistPending mintlist={mintlist} collection={collection} />
+      )}
+      {status === MintlistStatus.PreSale && (
+        <div>Presale TODO INSERT A COUNTERHERE</div>
+      )}
 
-        <div className="mb-4">
-          <MintInfosUploader
-            mintlist={data.mintlist}
-            network={network}
-            onSignOut={signOut}
-          />
+      {status === MintlistStatus.ForSale && (
+        <div>
+          <MintlistMintNftButton mintlist={mintlist} />
         </div>
+      )}
 
-        <MintlistNftsGrid
-          mintInfos={data.mintlist.mint_infos}
-          collection={data.mintlist.collection}
-          network={network}
-        />
-      </div>
+      {status === MintlistStatus.SaleEnded && <div>Sale Ended TODO</div>}
     </PageLayout>
   );
 }
 
-const _MintButton = () => {
-  // {/* Minting Section */}
-  // {mintlist.mint_infos.length === mintlist.num_nfts_total && (
-  //   <div className="mt-4">
-  //     {!glowDetected && (
-  //       <p>
-  //         You’ll need to install{" "}
-  //         <a href="https://glow.app/download" target="_blank">
-  //           Glow
-  //         </a>{" "}
-  //         in order to mint an NFT.
-  //       </p>
-  //     )}
-  //     {glowDetected &&
-  //       (user ? (
-  //         <MintButton mintlist={mintlist} network={network} />
-  //       ) : (
-  //         <GlowSignInButton variant="purple" />
-  //       ))}
-  //   </div>
-  // )}
-  return <div>TODO</div>;
-};
-
 function useMintlist({
-  address,
-  network,
-}: {
+                       address,
+                       network
+                     }: {
   address: Solana.Address;
   network: Network;
 }): {
@@ -123,7 +98,7 @@ function useMintlist({
 
     const collection = await NftokenFetcher.getCollection({
       address: mintlist.collection,
-      network,
+      network
     });
 
     if (!collection) {
@@ -132,7 +107,7 @@ function useMintlist({
 
     return {
       mintlist,
-      collection,
+      collection
     };
   });
 
@@ -140,12 +115,11 @@ function useMintlist({
 }
 
 function MintlistMintNftButton({
-  mintlist,
-  network,
-}: {
+                                 mintlist
+                               }: {
   mintlist: NftokenTypes.Mintlist;
-  network: Network;
 }) {
+  const { network } = useNetworkContext();
   const minting = useBoolean();
 
   return (
@@ -158,7 +132,7 @@ function MintlistMintNftButton({
         const { address: wallet } = await window.glow!.connect();
 
         const recentBlockhash = await SolanaClient.getRecentBlockhash({
-          rpcUrl: NETWORK_TO_RPC[network],
+          rpcUrl: NETWORK_TO_RPC[network]
         });
 
         const nftKeypair = GKeypair.generate();
@@ -173,7 +147,7 @@ function MintlistMintNftButton({
                 {
                   address: wallet,
                   signer: true,
-                  writable: true,
+                  writable: true
                 },
                 // nft
                 { address: nftKeypair.address, signer: true, writable: true },
@@ -182,36 +156,36 @@ function MintlistMintNftButton({
                 // treasury_sol
                 {
                   address: mintlist.treasury_sol,
-                  writable: true,
+                  writable: true
                 },
                 // System Program
                 {
-                  address: GPublicKey.default.toBase58(),
+                  address: GPublicKey.default.toBase58()
                 },
                 // Clock Sysvar
                 {
-                  address: SYSVAR_CLOCK_PUBKEY,
+                  address: SYSVAR_CLOCK_PUBKEY
                 },
                 // SlotHashes
                 {
-                  address: SYSVAR_SLOT_HASHES_PUBKEY,
-                },
+                  address: SYSVAR_SLOT_HASHES_PUBKEY
+                }
               ],
               program: NFTOKEN_ADDRESS,
               data_base64: NFTOKEN_MINTLIST_MINT_NFT_V1.toBuffer({
-                ix: null,
-              }).toString("base64"),
-            },
+                ix: null
+              }).toString("base64")
+            }
           ],
-          signers: [nftKeypair],
+          signers: [nftKeypair]
         });
 
         try {
           await window.glow!.signAndSendTransaction({
             transactionBase64: GTransaction.toBuffer({
-              gtransaction: tx,
+              gtransaction: tx
             }).toString("base64"),
-            network: network,
+            network: network
           });
         } catch (err) {
           console.error(err);

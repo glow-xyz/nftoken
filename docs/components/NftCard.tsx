@@ -20,7 +20,7 @@ export function NftCard({
       <div className="card animated">
         <div className="image">
           {image ? (
-            <SquareImage src={image} size={400} alt={title} />
+            <SquareImage src={image} size={size} alt={title} />
           ) : (
             <div className="placeholder" />
           )}

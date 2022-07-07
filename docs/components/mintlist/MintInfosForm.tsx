@@ -12,7 +12,6 @@ import { NETWORK_TO_RPC } from "../../utils/rpc-types";
 import { toastLoading, toastSuccess } from "../../utils/toast";
 import { uploadJsonToS3 } from "../../utils/upload-file";
 import { CsvDropZone } from "../forms/CsvDropZone";
-import { ImageDropZone } from "../forms/ImageDropZone";
 import { SimpleDropZone } from "../forms/SimpleDropZone";
 import { InteractiveWell } from "../InteractiveWell";
 import { LuxButton, LuxSubmitButton } from "../LuxButton";
@@ -159,14 +158,12 @@ export function MintInfosUploader({
                   {({ insert }) => (
                     <>
                       {values.nfts.map((_, index) => (
-                        <div className="mint-info" key={index}>
+                        <div className="mint-info flex-center" key={index}>
                           <SimpleDropZone
-                            label="NFT Image"
                             fieldName={`nfts.${index}.image`}
                             size={60}
                           />
                           <LuxInputField
-                            label="Name"
                             placeholder={`Item #${String(index).padStart(
                               4,
                               "0"
@@ -222,9 +219,9 @@ export function MintInfosUploader({
           )}
         </Formik>
       </InteractiveWell>
+
       <style jsx>{`
         .mint-infos {
-          max-height: 24rem;
           overflow: scroll;
           display: flex;
           flex-direction: column;

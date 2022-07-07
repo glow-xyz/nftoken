@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { getImageUrl } from "../utils/cdn";
 import { useDropzone } from "react-dropzone";
 import { uploadImageToS3 } from "../utils/upload-file";
@@ -16,7 +16,7 @@ export const LuxSimpleDropZone = ({
   image,
   setImage,
 }: {
-  label: string;
+  label?: string;
   size: number;
   shape?: "square" | "circle";
   image: string | null;
@@ -42,7 +42,7 @@ export const LuxSimpleDropZone = ({
   };
 
   return (
-    <>
+    <div>
       <LuxInputLabel text={label} />
       <div
         className="simple-drop-zone-container"
@@ -93,6 +93,6 @@ export const LuxSimpleDropZone = ({
           background-color: var(--tertiary-bg-color);
         }
       `}</style>
-    </>
+    </div>
   );
 };
