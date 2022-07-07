@@ -87,6 +87,85 @@ export const LuxSimpleDropZone = ({
           </div>
         )}
       </div>
+
+      {/* TODO: temporary backfill for lux-sass. To be removed later. */}
+      <style jsx>{`
+        .simple-drop-zone-container {
+          position: relative;
+          width: max-content;
+        }
+
+        .drop-zone {
+          height: var(--size);
+          width: var(--size);
+          /* TODO: had to modify this to tertiary but this'll get overwritten when we use lux-sass. */
+          background-color: var(--tertiary-bg-color);
+          cursor: pointer;
+          transition: var(--transition);
+          background-size: cover;
+        }
+
+        .drop-zone.square {
+          border-radius: var(--border-radius);
+        }
+
+        .drop-zone.circle {
+          border-radius: 999px;
+        }
+
+        .drop-zone.active {
+          background-color: var(--success-color);
+        }
+
+        .icon {
+          position: absolute;
+          bottom: calc(15% - 1rem);
+          right: calc(15% - 1rem);
+          height: 2rem;
+          width: 2rem;
+          border-radius: 100px;
+          background-color: var(--primary-color);
+          border: 2px solid var(--primary-bg-color);
+          display: flex;
+          place-items: center;
+          transition: var(--transition);
+        }
+
+        .icon :global(svg) {
+          color: white;
+          margin: 0 auto;
+          stroke-width: 3;
+        }
+
+        .drop-zone:hover .icon,
+        .drop-zone.active .icon {
+          transform: scale(1.2);
+        }
+
+        .drop-zone.active.has-image .icon {
+          background-color: var(--success-color);
+        }
+
+        /* While we’re uploading an image, making this bigger on hover feels weird. */
+        .icon.spinner {
+          transform: scale(1) !important;
+        }
+
+        .remove-button {
+          position: absolute;
+          top: -0.5rem;
+          right: -0.5rem;
+        }
+
+        .remove-button :global(.luma-button) {
+          --padding: 0.1rem;
+          --height: 1.2rem;
+        }
+
+        .remove-button :global(svg) {
+          stroke-width: 3;
+        }
+      `}</style>
     </>
   );
 };
