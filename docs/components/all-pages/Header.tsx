@@ -1,20 +1,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { animate, stagger } from "motion";
-import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
-import { TabBar } from "./TabBar";
+import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import classNames from "classnames";
 import { motion } from "framer-motion";
 
 export const Header = () => {
   const router = useRouter();
-  const [navOpen, setNavOpen] = useState(false);
-
-  useEffect(() => {
-    setNavOpen(false);
-  }, [router.pathname]);
 
   return (
     <>

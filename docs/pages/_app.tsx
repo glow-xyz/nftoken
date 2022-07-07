@@ -10,6 +10,7 @@ import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons
 import { TabBar } from "../components/all-pages/TabBar";
 import { Footer } from "../components/all-pages/Footer";
 import { SocialHead } from "../components/SocialHead";
+import { ChevronRightIcon } from "@heroicons/react/solid";
 import "../public/globals.css";
 import "../styles/app.scss";
 
@@ -56,6 +57,10 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
           </div>
 
           <Footer />
+
+          <button className="open-mobile-nav">
+            <ChevronRightIcon />
+          </button>
         </div>
 
         <style jsx>{`
@@ -88,6 +93,28 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
             padding-bottom: 5rem;
             padding-right: 1.5rem;
             min-height: 90vh; // Push the footer down on small pages
+          }
+
+          .open-mobile-nav {
+            background-color: var(--primary-bg-color);
+            color: var(--primary-color);
+            border: 1px solid var(--secondary-border-color);
+            height: 2.5rem;
+            width: 2.5rem;
+            border-radius: 99rem;
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            top: 9rem;
+            left: -1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            padding: 0;
+          }
+
+          .open-mobile-nav :global(svg) {
+            height: 1.5rem;
+            width: 1.5rem;
           }
 
           @media (max-width: ${ResponsiveBreakpoint.medium}) {
