@@ -5,6 +5,7 @@ import { animate, stagger } from "motion";
 import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
 import { TabBar } from "./TabBar";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import classNames from "classnames";
 
 export const Header = () => {
   const router = useRouter();
@@ -43,26 +44,52 @@ export const Header = () => {
   return (
     <>
       <header>
-        <div className="header-inner spread">
-          <div className="flex-center">
-            <button className="mobile-nav" onClick={() => setNavOpen(!navOpen)}>
-              {navOpen ? <XIcon /> : <MenuIcon />}
-            </button>
-            <Link href="/docs/overview">
-              <a>
-                <img src="/logo.svg" className="logo dark" />
-                <img src="/logo-light.svg" className="logo light" />
+        <div className="header-inner">
+          <div className="spread">
+            <div className="flex-center">
+              <button
+                className="mobile-nav"
+                onClick={() => setNavOpen(!navOpen)}
+              >
+                {navOpen ? <XIcon /> : <MenuIcon />}
+              </button>
+              <Link href="/docs/overview">
+                <a>
+                  <img src="/logo.svg" className="logo dark" />
+                  <img src="/logo-light.svg" className="logo light" />
+                </a>
+              </Link>
+            </div>
+            <a
+              href="https://github.com/glow-xyz/nftoken"
+              target="_blank"
+              className="github"
+            >
+              <span>GitHub</span>
+              <ExternalLinkIcon />
+            </a>
+          </div>
+
+          <div className="site-nav">
+            <Link href="/docs">
+              <a
+                className={classNames({
+                  active: router.pathname.startsWith("/docs"),
+                })}
+              >
+                Docs
+              </a>
+            </Link>
+            <Link href="/mintlists">
+              <a
+                className={classNames({
+                  active: router.pathname.startsWith("/mintlists"),
+                })}
+              >
+                Mintlists
               </a>
             </Link>
           </div>
-          <a
-            href="https://github.com/glow-xyz/nftoken"
-            target="_blank"
-            className="github"
-          >
-            <span>GitHub</span>
-            <ExternalLinkIcon />
-          </a>
         </div>
       </header>
 
@@ -85,6 +112,7 @@ export const Header = () => {
           margin: 0 auto;
           max-width: 60rem;
           padding: 1.5rem;
+          padding-bottom: 0;
         }
 
         button.mobile-nav {
@@ -141,10 +169,28 @@ export const Header = () => {
           z-index: 9;
         }
 
+        .site-nav {
+          margin-top: 1rem;
+          margin-bottom: -1.5px;
+        }
+
+        .site-nav a {
+          display: inline-block;
+          margin-right: 1rem;
+          padding-bottom: 0.25rem;
+          font-weight: 500;
+          color: var(--primary-color);
+          border-bottom: 2px solid transparent;
+          transition: var(--transition);
+        }
+
+        .site-nav a.active {
+          border-color: var(--brand-color);
+        }
+
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
           .header-inner {
             padding-top: 1rem;
-            padding-bottom: 1rem;
           }
 
           button.mobile-nav {

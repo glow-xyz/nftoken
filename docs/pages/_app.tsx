@@ -80,7 +80,7 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
           nav.desktop .nav-inner {
             padding-left: 0.75rem;
             position: sticky;
-            top: 8rem;
+            top: 8.5rem;
           }
 
           main {
