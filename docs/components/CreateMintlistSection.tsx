@@ -22,7 +22,7 @@ import { LuxButton, LuxSubmitButton } from "./LuxButton";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { DateTimePicker } from "./DateTimePicker";
 import { LuxInputLabel } from "./LuxInputLabel";
-import { ImageDropZone } from "./forms/ImageDropZone";
+import { SimpleDropZone } from "./forms/SimpleDropZone";
 import { getMintlistAccountSize } from "../utils/mintlist";
 import BN from "bn.js";
 import { NETWORK_TO_RPC } from "../utils/rpc-types";
@@ -141,10 +141,12 @@ export const CreateMintlistSection = () => {
               required
             />
           </div>
-          <ImageDropZone<FormData>
-            label="Collection Avatar"
-            fieldName="collectionImage"
-          />
+          <div className="mb-4">
+            <SimpleDropZone<FormData>
+              label="Collection Avatar"
+              fieldName="collectionImage"
+            />
+          </div>
           <div className="mb-4">
             <LuxInputField
               label="Price (SOL)"
