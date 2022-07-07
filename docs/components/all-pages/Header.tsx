@@ -6,6 +6,7 @@ import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
 import { TabBar } from "./TabBar";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import classNames from "classnames";
+import { motion } from "framer-motion";
 
 export const Header = () => {
   const router = useRouter();
@@ -71,24 +72,22 @@ export const Header = () => {
           </div>
 
           <div className="site-nav">
-            <Link href="/docs">
-              <a
-                className={classNames({
-                  active: router.pathname.startsWith("/docs"),
-                })}
-              >
-                Docs
-              </a>
-            </Link>
-            <Link href="/mintlists">
-              <a
-                className={classNames({
-                  active: router.pathname.startsWith("/mintlists"),
-                })}
-              >
-                Mintlists
-              </a>
-            </Link>
+            <div>
+              <Link href="/docs/overview">
+                <a>Docs</a>
+              </Link>
+              {router.pathname.startsWith("/docs") && (
+                <motion.div className="underline" layout layoutId="underline" />
+              )}
+            </div>
+            <div>
+              <Link href="/mintlists">
+                <a>Mintlists</a>
+              </Link>
+              {router.pathname === "/mintlists" && (
+                <motion.div className="underline" layout layoutId="underline" />
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -171,21 +170,22 @@ export const Header = () => {
 
         .site-nav {
           margin-top: 1rem;
-          margin-bottom: -1.5px;
+          display: flex;
+          gap: 1rem;
         }
 
         .site-nav a {
-          display: inline-block;
-          margin-right: 1rem;
+          display: block;
           padding-bottom: 0.25rem;
           font-weight: 500;
           color: var(--primary-color);
-          border-bottom: 2px solid transparent;
           transition: var(--transition);
         }
 
-        .site-nav a.active {
-          border-color: var(--brand-color);
+        .site-nav :global(.underline) {
+          height: 2px;
+          background-color: var(--brand-color);
+          margin-bottom: -1.5px;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
