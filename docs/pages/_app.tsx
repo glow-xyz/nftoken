@@ -80,11 +80,11 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
           nav.desktop .nav-inner {
             padding-left: 0.75rem;
             position: sticky;
-            top: 8.5rem;
+            top: 9.5rem;
           }
 
           main {
-            padding-top: 3rem;
+            padding-top: 2rem;
             padding-bottom: 5rem;
             padding-right: 1.5rem;
             min-height: 90vh; // Push the footer down on small pages
@@ -94,12 +94,15 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
             .content {
               display: block;
             }
+
             nav.desktop {
               display: none;
             }
+
             main {
-              padding: 1.5rem;
-              padding-bottom: 6rem;
+              padding-top: 1.5rem;
+              padding-left: 1.5rem;
+              padding-right: 1.5rem;
             }
           }
         `}</style>
