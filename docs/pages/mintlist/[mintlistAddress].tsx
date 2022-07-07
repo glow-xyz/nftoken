@@ -44,6 +44,8 @@ import { LuxLink } from "../../components/LuxLink";
 import { useBoolean } from "../../hooks/useBoolean";
 import { CsvDropZone } from "../../components/forms/CsvDropZone";
 import FileIcon from "../../icons/feather/FileIcon.svg";
+import pLimit from "p-limit";
+import { toastLoading, toastSuccess } from "../../utils/toast";
 
 const MINT_INFOS_PER_TX = 10;
 
@@ -400,6 +402,8 @@ function NftsUploader({
   network: Network;
   onSignOut: () => void;
 }) {
+  const uploadedMetadataCountRef = useRef(0);
+
   const mintInfosContainerRef = useRef<HTMLDivElement>(null);
 
   const availableToUpload =
@@ -417,14 +421,36 @@ function NftsUploader({
           onSubmit={async ({ nfts }, { resetForm }) => {
             const { address: wallet } = await window.glow!.connect();
 
-            const mintInfoArgs: NftokenTypes.MintInfoArg[] = await Promise.all(
-              nfts.map(async (metadata) => {
-                const { file_url } = await uploadJsonToS3({
-                  json: metadata,
-                });
+            uploadedMetadataCountRef.current = 0;
 
-                return { metadata_url: file_url };
-              })
+            const limit = pLimit(10);
+            const mintInfoArgs = await Promise.all(
+              nfts.map((metadata) =>
+                limit(async () => {
+                  const { file_url } = await uploadJsonToS3({
+                    json: metadata,
+                  });
+                  uploadedMetadataCountRef.current += 1;
+
+                  toastLoading(
+                    <>
+                      Uploading off-chain metadata&nbsp;
+                      <span className="mono">
+                        {uploadedMetadataCountRef.current}/{nfts.length}
+                      </span>
+                    </>,
+                    "uploading-nfts-metadata"
+                  );
+
+                  return { metadata_url: file_url };
+                })
+              )
+            );
+
+            uploadedMetadataCountRef.current = 0;
+            toastSuccess(
+              `Off-chain metadata upload. Done`,
+              "uploading-nfts-metadata"
             );
 
             const recentBlockhash = await SolanaClient.getRecentBlockhash({
@@ -584,6 +610,10 @@ function NftsUploader({
           align-items: center;
           justify-content: flex-end;
           gap: 0.2rem;
+        }
+
+        .mono {
+          font-variant-numeric: tabular-nums;
         }
       `}</style>
     </>

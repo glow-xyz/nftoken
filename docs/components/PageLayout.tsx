@@ -20,7 +20,7 @@ export const PageLayout = ({ children }: { children: React.ReactNode }) => {
 
         .content {
           width: 100%;
-          max-width: 60rem;
+          max-width: 62rem;
           margin: 0 auto;
           padding: 1.5rem;
           padding-bottom: 3rem;
