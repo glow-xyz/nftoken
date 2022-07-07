@@ -49,6 +49,8 @@ import { toastLoading, toastSuccess } from "../../utils/toast";
 
 const MINT_INFOS_PER_TX = 10;
 
+const OFFCHAIN_METADATA_UPLOAD_TOAST_ID = "uploading-nfts-metadata";
+
 export default function MintlistPage() {
   const { query } = useRouter();
   const mintlistAddress = query.mintlistAddress as Solana.Address;
@@ -439,7 +441,7 @@ function NftsUploader({
                         {uploadedMetadataCountRef.current}/{nfts.length}
                       </span>
                     </>,
-                    "uploading-nfts-metadata"
+                    OFFCHAIN_METADATA_UPLOAD_TOAST_ID
                   );
 
                   return { metadata_url: file_url };
