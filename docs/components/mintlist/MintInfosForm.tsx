@@ -17,6 +17,7 @@ import { InteractiveWell } from "../InteractiveWell";
 import { LuxButton, LuxSubmitButton } from "../LuxButton";
 import { LuxInputField } from "../LuxInput";
 import { LuxLink } from "../LuxLink";
+import { MINT_INFOS_PER_TX } from "./mintlist-utils";
 
 const OFFCHAIN_METADATA_UPLOAD_TOAST_ID = "uploading-nfts-metadata";
 type MintInfosFormData = {

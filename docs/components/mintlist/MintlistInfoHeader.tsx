@@ -6,12 +6,13 @@ import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { LuxButton } from "../LuxButton";
 import { NftCard } from "../NftCard";
 import { ValueList } from "../ValueList";
-import { MintlistAndCollection } from "./mintlist-utils";
+import { getMintlistStatus, MintlistAndCollection } from "./mintlist-utils";
 
 export const MintlistInfoHeader = ({
   mintlist,
   collection,
 }: MintlistAndCollection) => {
+  const status = getMintlistStatus(mintlist);
   return (
     <div>
       <div className="navigation">
@@ -41,6 +42,7 @@ export const MintlistInfoHeader = ({
 
         <ValueList
           attributes={[
+            { label: "status", value: status },
             { label: "address", value: mintlist.address },
             { label: "authority", value: mintlist.authority },
             {
