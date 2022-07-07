@@ -86,6 +86,13 @@ export const LuxSimpleDropZone = ({
           </div>
         )}
       </div>
+
+      <style jsx>{`
+        .drop-zone {
+          /* Since this component is used in InteractiveWell which already has a gray background. */
+          background-color: var(--tertiary-bg-color);
+        }
+      `}</style>
     </>
   );
 };
