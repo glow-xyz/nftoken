@@ -1,0 +1,93 @@
+import { useState } from "react";
+import { getImageUrl } from "../utils/cdn";
+import { useDropzone } from "react-dropzone";
+import { uploadImageToS3 } from "../utils/upload-file";
+import { ACCEPT_IMAGE_PROP } from "./LuxDropZone";
+import { LuxInputLabel } from "./LuxInputLabel";
+import UploadIcon from "@icons/feather/arrow-up.svg";
+import XIcon from "@icons/feather/x.svg";
+import { LuxSpinner } from "./LuxSpinner";
+import classNames from "classnames";
+import { LuxButton } from "./LuxButton";
+
+export const LuxSimpleDropZone = ({
+  label,
+  size,
+  shape = "square",
+  onImageChange,
+}: {
+  label: string;
+  size: number;
+  shape?: "square" | "circle";
+  onImageChange: (args: { image: string | null }) => void;
+}) => {
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [image, setImage] = useState<string | null>(null);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: ACCEPT_IMAGE_PROP,
+    multiple: false,
+    onDrop: async (files) => {
+      setUploading(true);
+      const [file] = files;
+      const { file_url } = await uploadImageToS3({ file });
+      setImage(file_url);
+      onImageChange({ image: file_url });
+      setUploading(false);
+    },
+    noKeyboard: true,
+  });
+
+  const onRemoveImage = () => {
+    setImage(null);
+    onImageChange({ image: null });
+  };
+
+  return (
+    <>
+      <LuxInputLabel text={label} />
+      <div
+        className="simple-drop-zone-container"
+        style={{ "--size": size + "px" } as React.CSSProperties}
+      >
+        <div
+          {...getRootProps()}
+          className={classNames("drop-zone", {
+            active: isDragActive,
+            "has-image": image !== null,
+            square: shape === "square",
+            circle: shape === "circle",
+          })}
+          style={{
+            backgroundImage: image
+              ? `url(${getImageUrl({
+                  url: image,
+                  width: size * 2,
+                  height: size * 2,
+                })})`
+              : "none",
+          }}
+        >
+          <input {...getInputProps()} />
+
+          <div className={classNames("icon", { spinner: uploading })}>
+            {uploading ? <LuxSpinner /> : <UploadIcon />}
+          </div>
+        </div>
+
+        {image && (
+          <div className="remove-button">
+            <LuxButton
+              label="Remove Image"
+              icon={<XIcon />}
+              iconPlacement="icon-only"
+              rounded
+              size="small"
+              onClick={onRemoveImage}
+            />
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
