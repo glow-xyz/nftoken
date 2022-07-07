@@ -449,7 +449,7 @@ function NftsUploader({
 
             uploadedMetadataCountRef.current = 0;
             toastSuccess(
-              `Off-chain metadata upload. Done`,
+              `Uploading off-chain metadata. Done`,
               "uploading-nfts-metadata"
             );
 
