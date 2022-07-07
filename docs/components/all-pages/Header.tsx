@@ -13,32 +13,6 @@ export const Header = () => {
   const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
-    if (navOpen) {
-      animate("nav.mobile", {
-        pointerEvents: "auto",
-        height: "100%",
-        paddingTop: "1.5rem",
-        paddingBottom: "1.5rem",
-      });
-      animate(
-        "nav.mobile .nav-item",
-        { opacity: [0, 1], transform: ["translateY(-8px)", "translateY(0)"] },
-        { delay: stagger(0.05, { start: 0.05 }) }
-      );
-      document.body.classList.add("no-scroll");
-    } else {
-      animate("nav.mobile", {
-        pointerEvents: "none",
-        height: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-      });
-      animate("nav.mobile .nav-item", { opacity: 0 });
-      document.body.classList.remove("no-scroll");
-    }
-  }, [navOpen]);
-
-  useEffect(() => {
     setNavOpen(false);
   }, [router.pathname]);
 
@@ -46,21 +20,13 @@ export const Header = () => {
     <>
       <header>
         <div className="header-inner">
-          <div className="spread">
-            <div className="flex-center">
-              <button
-                className="mobile-nav"
-                onClick={() => setNavOpen(!navOpen)}
-              >
-                {navOpen ? <XIcon /> : <MenuIcon />}
-              </button>
-              <Link href="/docs/overview">
-                <a>
-                  <img src="/logo.svg" className="logo dark" />
-                  <img src="/logo-light.svg" className="logo light" />
-                </a>
-              </Link>
-            </div>
+          <div className="flex-center spread">
+            <Link href="/docs/overview">
+              <a>
+                <img src="/logo.svg" className="logo dark" />
+                <img src="/logo-light.svg" className="logo light" />
+              </a>
+            </Link>
             <a
               href="https://github.com/glow-xyz/nftoken"
               target="_blank"
@@ -84,17 +50,13 @@ export const Header = () => {
               <Link href="/mintlists">
                 <a>Mintlists</a>
               </Link>
-              {router.pathname === "/mintlists" && (
+              {router.pathname.startsWith("/mintlist") && (
                 <motion.div className="underline" layout layoutId="underline" />
               )}
             </div>
           </div>
         </div>
       </header>
-
-      <nav className="mobile">
-        <TabBar />
-      </nav>
 
       <style jsx>{`
         header {
