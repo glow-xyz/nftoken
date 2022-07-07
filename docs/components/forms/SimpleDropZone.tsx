@@ -1,4 +1,4 @@
-import { useFormikContext } from "formik";
+import { useFormikContext, getIn } from "formik";
 import { LuxSimpleDropZone } from "../LuxSimpleDropZone";
 
 export function SimpleDropZone<Values extends Record<string, unknown>>({
@@ -10,13 +10,16 @@ export function SimpleDropZone<Values extends Record<string, unknown>>({
   fieldName: keyof Values;
   size?: number;
 }) {
-  const { setFieldValue } = useFormikContext<Values>();
+  const { values, setFieldValue } = useFormikContext<Values>();
+
+  const value = getIn(values, fieldName as string);
 
   return (
     <LuxSimpleDropZone
       label={label}
       size={size}
-      onImageChange={({ image }) => setFieldValue(fieldName as string, image)}
+      image={value}
+      setImage={(image) => setFieldValue(fieldName as string, image)}
     />
   );
 }

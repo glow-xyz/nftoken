@@ -13,15 +13,16 @@ export const LuxSimpleDropZone = ({
   label,
   size,
   shape = "square",
-  onImageChange,
+  image,
+  setImage,
 }: {
   label: string;
   size: number;
   shape?: "square" | "circle";
-  onImageChange: (args: { image: string | null }) => void;
+  image: string | null;
+  setImage: (image: string | null) => void;
 }) => {
   const [uploading, setUploading] = useState<boolean>(false);
-  const [image, setImage] = useState<string | null>(null);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: ACCEPT_IMAGE_PROP,
@@ -31,7 +32,6 @@ export const LuxSimpleDropZone = ({
       const [file] = files;
       const { file_url } = await uploadImageToS3({ file });
       setImage(file_url);
-      onImageChange({ image: file_url });
       setUploading(false);
     },
     noKeyboard: true,
@@ -39,7 +39,6 @@ export const LuxSimpleDropZone = ({
 
   const onRemoveImage = () => {
     setImage(null);
-    onImageChange({ image: null });
   };
 
   return (
