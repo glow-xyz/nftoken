@@ -1,6 +1,12 @@
 import { Network } from "@glow-app/glow-client";
 import { useGlowContext } from "@glow-app/glow-react";
-import { GKeypair, GPublicKey, GTransaction, Solana, SolanaClient } from "@glow-app/solana-client";
+import {
+  GKeypair,
+  GPublicKey,
+  GTransaction,
+  Solana,
+  SolanaClient,
+} from "@glow-app/solana-client";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
@@ -17,7 +23,7 @@ import { useBoolean } from "../../hooks/useBoolean";
 import {
   NFTOKEN_ADDRESS,
   SYSVAR_CLOCK_PUBKEY,
-  SYSVAR_SLOT_HASHES_PUBKEY
+  SYSVAR_SLOT_HASHES_PUBKEY,
 } from "../../utils/constants";
 import { NFTOKEN_MINTLIST_MINT_NFT_V1 } from "../../utils/nft-borsh";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
@@ -216,4 +222,3 @@ function MintlistMintNftButton({
     />
   );
 }
-

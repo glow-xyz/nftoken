@@ -13,7 +13,7 @@
     "@glow-app/glow-react": "1.0.1",
     "@glow-app/solana-client": "1.0.4",
     "@heroicons/react": "1.0.6",
-    "@luma-team/lux-sass": "0.48.0",
+    "@luma-team/lux-sass": "0.49.0",
     "@markdoc/markdoc": "0.1.2",
     "@markdoc/next.js": "0.1.4-1",
     "@metaplex-foundation/beet": "0.2.0",

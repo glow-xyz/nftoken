@@ -17,7 +17,7 @@ import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { LuxInputField } from "../components/LuxInput";
 import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
-import { ImageDropZone } from "./forms/ImageDropZone";
+import { SimpleDropZone } from "./forms/SimpleDropZone";
 import { InteractiveWell } from "./InteractiveWell";
 import { NETWORK_TO_RPC } from "../utils/rpc-types";
 
@@ -141,7 +141,7 @@ export const CreateNftSection = () => {
                 <LuxInputField label="Name" name="name" required />
               </div>
 
-              <ImageDropZone<FormData> label="NFT Image" fieldName="image" />
+              <SimpleDropZone<FormData> label="NFT Image" fieldName="image" />
 
               <div className="mt-4 flex-center spread">
                 <SubmitButton />

@@ -13,6 +13,7 @@ import { toastLoading, toastSuccess } from "../../utils/toast";
 import { uploadJsonToS3 } from "../../utils/upload-file";
 import { CsvDropZone } from "../forms/CsvDropZone";
 import { ImageDropZone } from "../forms/ImageDropZone";
+import { SimpleDropZone } from "../forms/SimpleDropZone";
 import { InteractiveWell } from "../InteractiveWell";
 import { LuxButton, LuxSubmitButton } from "../LuxButton";
 import { LuxInputField } from "../LuxInput";
@@ -159,9 +160,10 @@ export function MintInfosUploader({
                     <>
                       {values.nfts.map((_, index) => (
                         <div className="mint-info" key={index}>
-                          <ImageDropZone
+                          <SimpleDropZone
                             label="NFT Image"
                             fieldName={`nfts.${index}.image`}
+                            size={60}
                           />
                           <LuxInputField
                             label="Name"
