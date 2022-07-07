@@ -472,7 +472,6 @@ function NftsUploader({
               // @ts-ignore
               await window.glow!.signAndSendAllTransactions({
                 transactionsBase64,
-                sendOrder: "sequential",
                 replaceBlockhash: true,
                 network: network,
               });
