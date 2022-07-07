@@ -176,7 +176,7 @@ export const Header = () => {
 
         .site-nav a {
           display: block;
-          padding-bottom: 0.25rem;
+          padding-bottom: 0.4rem;
           font-weight: 500;
           color: var(--primary-color);
           transition: var(--transition);
