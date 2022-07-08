@@ -32,10 +32,8 @@ export const Header = () => {
         <div className="header-inner">
           <div className="flex-center spread">
             <LuxLink href="/docs/overview">
-              <a>
-                <img src="/logo.svg" className="logo dark" />
-                <img src="/logo-light.svg" className="logo light" />
-              </a>
+              <img src="/logo.svg" className="logo dark" />
+              <img src="/logo-light.svg" className="logo light" />
             </LuxLink>
             <a
               href="https://github.com/glow-xyz/nftoken"
