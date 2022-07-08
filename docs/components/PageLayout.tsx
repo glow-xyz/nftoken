@@ -58,8 +58,10 @@ export const PageLayout = ({
           grid-column-gap: 5rem;
         }
 
-        .content {
-          min-height: 90vh; // To push footer to the bottom of the page.
+        .secondary-nav-container {
+          position: sticky;
+          top: 9rem;
+          height: max-content;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
@@ -68,6 +70,10 @@ export const PageLayout = ({
             grid-template-rows: 0 auto;
             padding: 1.5rem;
             padding-bottom: 3rem;
+          }
+
+          .secondary-nav-container {
+            position: relative;
           }
         }
       `}</style>
