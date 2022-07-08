@@ -146,18 +146,30 @@ const Links = ({ links }: { links: SecondaryNavLink[] }) => {
 
   return (
     <>
-      {links.map((item) => (
-        <div className="nav-item" key={item.title}>
-          <LuxLink
-            href={item.href}
-            className={classNames({
-              current: router.pathname === item.href,
-            })}
-          >
-            {item.title}
-          </LuxLink>
-        </div>
-      ))}
+      {links.map((item) => {
+        const active = router.pathname === item.href;
+
+        return (
+          <div className="nav-item" key={item.title}>
+            {active && (
+              <motion.div
+                className="active-highlight"
+                layout="position"
+                layoutId="secondary-nav-active-highlight"
+                transition={{ type: "tween", duration: 0.2 }}
+              />
+            )}
+            <LuxLink
+              href={item.href}
+              className={classNames({
+                current: router.pathname === item.href,
+              })}
+            >
+              {item.title}
+            </LuxLink>
+          </div>
+        );
+      })}
 
       <style jsx>{`
         .nav-item :global(a) {
@@ -177,7 +189,19 @@ const Links = ({ links }: { links: SecondaryNavLink[] }) => {
 
         .nav-item :global(a).current {
           color: var(--white);
+          // background-color: var(--brand-color);
+        }
+
+        .nav-item {
+          position: relative;
+        }
+
+        .nav-item :global(.active-highlight) {
+          position: absolute;
+          inset: 0;
+          border-radius: var(--border-radius);
           background-color: var(--brand-color);
+          z-index: -1;
         }
       `}</style>
     </>
