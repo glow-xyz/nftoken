@@ -6,6 +6,7 @@ import { LuxLink } from "../LuxLink";
 
 enum TopLevelTab {
   DOCS,
+  NFTS,
   MINTLISTS,
 }
 const TopLevelTabs = [
@@ -14,6 +15,12 @@ const TopLevelTabs = [
     title: "Docs",
     href: "/docs/overview",
     match: (href: string) => href.startsWith("/docs"),
+  },
+  {
+    id: TopLevelTab.NFTS,
+    title: "Create an NFT",
+    href: "/nft/create",
+    match: (href: string) => href === "/nft/create",
   },
   {
     id: TopLevelTab.MINTLISTS,
