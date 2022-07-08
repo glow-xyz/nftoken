@@ -4,6 +4,25 @@ import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { motion } from "framer-motion";
 import { LuxLink } from "../LuxLink";
 
+enum TopLevelTab {
+  DOCS,
+  MINTLISTS,
+}
+const TopLevelTabs = [
+  {
+    id: TopLevelTab.DOCS,
+    title: "Docs",
+    href: "/docs/overview",
+    match: (href: string) => href.startsWith("/docs"),
+  },
+  {
+    id: TopLevelTab.MINTLISTS,
+    title: "Mintlists",
+    href: "/mintlists",
+    match: (href: string) => href.startsWith("/mintlist"), // Matches both /mintlists and /mintlist/[mintlistAddress]
+  },
+];
+
 export const Header = () => {
   const router = useRouter();
 
@@ -29,18 +48,18 @@ export const Header = () => {
           </div>
 
           <div className="site-nav">
-            <div>
-              <LuxLink href="/docs/overview">Docs</LuxLink>
-              {router.pathname.startsWith("/docs") && (
-                <motion.div className="underline" layout layoutId="underline" />
-              )}
-            </div>
-            <div>
-              <LuxLink href="/mintlists">Mintlists</LuxLink>
-              {router.pathname.startsWith("/mintlist") && (
-                <motion.div className="underline" layout layoutId="underline" />
-              )}
-            </div>
+            {TopLevelTabs.map((tab) => (
+              <div key={tab.id}>
+                <LuxLink href={tab.href}>{tab.title}</LuxLink>
+                {tab.match(router.pathname) && (
+                  <motion.div
+                    className="underline"
+                    layout
+                    layoutId="underline"
+                  />
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </header>
