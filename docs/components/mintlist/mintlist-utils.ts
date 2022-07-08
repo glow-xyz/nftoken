@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 
-export const MINT_INFOS_PER_TX = 1;
+export const MINT_INFOS_PER_TX = 10;
 
 export enum MintlistStatus {
   Pending = "pending",
@@ -46,7 +46,7 @@ export function useMintInfosMetadata(mintInfos: NftokenTypes.MintInfo[]): {
 
   const { data, error } = useSWR(swrKey, async () => {
     return await NftokenFetcher.getMetadataMap({
-      urls: metadataUrls
+      urls: metadataUrls,
     });
   });
 

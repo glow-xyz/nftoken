@@ -65,7 +65,7 @@ export function MintInfosUploader({
 
                   toastLoading(
                     <>
-                      Uploading off-chain metadata&nbsp;
+                      Uploading metadata&nbsp;
                       <span className="mono">
                         {uploadedMetadataCountRef.current}/{nfts.length}
                       </span>
@@ -79,10 +79,7 @@ export function MintInfosUploader({
             );
 
             uploadedMetadataCountRef.current = 0;
-            toastSuccess(
-              `Uploading off-chain metadata. Done`,
-              "uploading-nfts-metadata"
-            );
+            toastSuccess(`Uploading metadata. Done`, "uploading-nfts-metadata");
 
             const recentBlockhash = await SolanaClient.getRecentBlockhash({
               rpcUrl: NETWORK_TO_RPC[network],
@@ -222,6 +219,7 @@ export function MintInfosUploader({
 
       <style jsx>{`
         .mint-infos {
+          max-height: 24rem;
           overflow: scroll;
           display: flex;
           flex-direction: column;
