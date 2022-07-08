@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import { LuxLink } from "../LuxLink";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { DOC_PAGES } from "./navigation-constants";
 
@@ -18,22 +18,21 @@ export const TabBar = () => {
           <div
             className="active-highlight"
             style={{
-              top: DOC_PAGES.indexOf(currentNavItem) * 2.25 + "rem"
+              top: DOC_PAGES.indexOf(currentNavItem) * 2.25 + "rem",
             }}
           ></div>
         )}
 
         {DOC_PAGES.map((item) => (
           <div className="nav-item" key={item.title}>
-            <Link href={item.href}>
-              <a
-                className={classNames({
-                  current: router.pathname === item.href
-                })}
-              >
-                {item.title}
-              </a>
-            </Link>
+            <LuxLink
+              href={item.href}
+              className={classNames({
+                current: router.pathname === item.href,
+              })}
+            >
+              {item.title}
+            </LuxLink>
           </div>
         ))}
       </div>
@@ -43,7 +42,7 @@ export const TabBar = () => {
           position: relative;
         }
 
-        a {
+        .nav-item :global(a) {
           display: block;
           margin-bottom: 0.25rem;
           padding: 0.25rem 0.75rem;
@@ -53,12 +52,12 @@ export const TabBar = () => {
           transition: var(--transition);
         }
 
-        a:not(.current):hover {
+        .nav-item :global(a):not(.current):hover {
           color: var(--primary-color);
           background-color: var(--tertiary-bg-color);
         }
 
-        a.current {
+        .nav-item :global(a).current {
           color: var(--white);
         }
 
@@ -78,7 +77,7 @@ export const TabBar = () => {
             display: none;
           }
 
-          a.current {
+          .nav-item :global(a).current {
             background-color: var(--brand-color);
           }
         }
