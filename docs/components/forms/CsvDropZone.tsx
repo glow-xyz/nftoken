@@ -4,7 +4,7 @@ import { ACCEPT_TEXT_PROP, DropZone } from "../LuxDropZone";
 import FileIcon from "../../icons/feather/FileIcon.svg";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { useFormikContext } from "formik";
-import { ZodError } from "zod";
+import * as z from "zod";
 import { toastError } from "../../utils/toast";
 
 export function CsvDropZone({ fieldName }: { fieldName: string }) {
@@ -20,9 +20,14 @@ export function CsvDropZone({ fieldName }: { fieldName: string }) {
         header: true,
         complete: function ({ data }) {
           try {
-            NftokenTypes.MetadataZ.array().parse(data);
+            z.object({
+              name: z.string(),
+              image: z.string().url(),
+            })
+              .array()
+              .parse(data);
           } catch (err: unknown) {
-            if (err instanceof ZodError) {
+            if (err instanceof z.ZodError) {
               // TODO: Construct a better error message from ZodError.
               console.error(err);
             }
