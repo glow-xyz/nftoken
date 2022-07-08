@@ -7,3 +7,8 @@ export const DOC_PAGES = [
   { title: "FAQ", href: "/docs/faq" },
   { title: "Changelog", href: "/docs/changelog" },
 ];
+
+export const MINTLIST_PAGES = [
+  { title: "My Mintlists", href: "/mintlists" },
+  { title: "Create a Mintlist", href: "/mintlists/create" },
+];

@@ -1,15 +1,16 @@
-import { NftokenFetcher } from "../utils/NftokenFetcher";
+import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { Network } from "@glow-app/glow-client";
 import useSWR from "swr";
 import { useGlowContext } from "@glow-app/glow-react";
 import { Solana } from "@glow-app/solana-client";
-import { NftokenTypes } from "../utils/NftokenTypes";
-import { InteractiveWell } from "../components/InteractiveWell";
-import { PageLayout } from "../components/PageLayout";
-import { useNetworkContext } from "../components/NetworkContext";
+import { NftokenTypes } from "../../utils/NftokenTypes";
+import { InteractiveWell } from "../../components/InteractiveWell";
+import { PageLayout } from "../../components/PageLayout";
+import { useNetworkContext } from "../../components/NetworkContext";
 import { DateTime } from "luxon";
 import React from "react";
-import { LuxButton } from "../components/LuxButton";
+import { LuxButton } from "../../components/LuxButton";
+import { MINTLIST_PAGES } from "../../components/all-pages/navigation-constants";
 
 export default function MintlistsPage() {
   const { user } = useGlowContext();
@@ -22,7 +23,7 @@ export default function MintlistsPage() {
 
   return (
     <>
-      <PageLayout>
+      <PageLayout secondaryNavLinks={MINTLIST_PAGES}>
         <h1>Mintlists</h1>
         <p>
           Below you can find the overview of all the mintlists you created.
