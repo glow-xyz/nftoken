@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { motion } from "framer-motion";
+import { LuxLink } from "../LuxLink";
 
 export const Header = () => {
   const router = useRouter();
@@ -12,12 +12,12 @@ export const Header = () => {
       <header>
         <div className="header-inner">
           <div className="flex-center spread">
-            <Link href="/docs/overview">
+            <LuxLink href="/docs/overview">
               <a>
                 <img src="/logo.svg" className="logo dark" />
                 <img src="/logo-light.svg" className="logo light" />
               </a>
-            </Link>
+            </LuxLink>
             <a
               href="https://github.com/glow-xyz/nftoken"
               target="_blank"
@@ -30,17 +30,13 @@ export const Header = () => {
 
           <div className="site-nav">
             <div>
-              <Link href="/docs/overview">
-                <a>Docs</a>
-              </Link>
+              <LuxLink href="/docs/overview">Docs</LuxLink>
               {router.pathname.startsWith("/docs") && (
                 <motion.div className="underline" layout layoutId="underline" />
               )}
             </div>
             <div>
-              <Link href="/mintlists">
-                <a>Mintlists</a>
-              </Link>
+              <LuxLink href="/mintlists">Mintlists</LuxLink>
               {router.pathname.startsWith("/mintlist") && (
                 <motion.div className="underline" layout layoutId="underline" />
               )}
@@ -127,7 +123,7 @@ export const Header = () => {
           gap: 1rem;
         }
 
-        .site-nav a {
+        .site-nav :global(a) {
           display: block;
           padding-bottom: 0.4rem;
           font-weight: 500;
