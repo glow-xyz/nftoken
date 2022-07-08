@@ -115,10 +115,6 @@ export default function NftPage({
       </div>
 
       <style jsx>{`
-        .wrapper {
-          margin-top: 1.5rem;
-        }
-
         .image {
           display: block;
           width: 100%;
