@@ -3,6 +3,7 @@ import "@glow-app/glow-react/dist/styles.css";
 
 import { NetworkProvider } from "../components/NetworkContext";
 
+import { useState } from "react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { Header } from "../components/all-pages/Header";
@@ -10,7 +11,8 @@ import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons
 import { TabBar } from "../components/all-pages/TabBar";
 import { Footer } from "../components/all-pages/Footer";
 import { SocialHead } from "../components/SocialHead";
-import { ChevronRightIcon } from "@heroicons/react/solid";
+import { ChevronRightIcon, XIcon } from "@heroicons/react/solid";
+import { AnimatePresence, motion } from "framer-motion";
 import "../public/globals.css";
 import "../styles/app.scss";
 
@@ -34,6 +36,8 @@ export default function App(props: AppProps) {
 }
 
 const DocsPage = ({ Component, pageProps }: AppProps) => {
+  const [navOpen, setNavOpen] = useState(false);
+
   return (
     <GlowProvider>
       <NetworkProvider>
@@ -58,9 +62,31 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
 
           <Footer />
 
-          <button className="open-mobile-nav">
+          <button className="open-mobile-nav" onClick={() => setNavOpen(true)}>
             <ChevronRightIcon />
           </button>
+
+          <AnimatePresence>
+            {navOpen && (
+              <motion.nav
+                className="mobile-nav"
+                onClick={() => setNavOpen(false)}
+              >
+                <div
+                  className="mobile-nav-inner"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <TabBar />
+                </div>
+                <button
+                  className="close-mobile-nav"
+                  onClick={() => setNavOpen(false)}
+                >
+                  <XIcon />
+                </button>
+              </motion.nav>
+            )}
+          </AnimatePresence>
         </div>
 
         <style jsx>{`
@@ -113,6 +139,33 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
           }
 
           .open-mobile-nav :global(svg) {
+            height: 1.5rem;
+            width: 1.5rem;
+          }
+
+          .wrapper :global(.mobile-nav) {
+            position: fixed;
+            z-index: 20;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+          }
+
+          .wrapper :global(.mobile-nav) .mobile-nav-inner {
+            position: absolute;
+            inset: 0 4rem 0 0;
+            background-color: var(--primary-bg-color);
+            padding: 1.5rem;
+            padding-top: 5rem;
+          }
+
+          .close-mobile-nav {
+            color: white;
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+          }
+
+          .close-mobile-nav :global(svg) {
             height: 1.5rem;
             width: 1.5rem;
           }
