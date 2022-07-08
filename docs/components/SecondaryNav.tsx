@@ -154,7 +154,7 @@ const Links = ({ links }: { links: SecondaryNavLink[] }) => {
             {active && (
               <motion.div
                 className="active-highlight"
-                layout="position"
+                layout
                 layoutId="secondary-nav-active-highlight"
                 transition={{ type: "tween", duration: 0.2 }}
               />
