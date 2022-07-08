@@ -3,7 +3,7 @@ import "@glow-app/glow-react/dist/styles.css";
 
 import { NetworkProvider } from "../components/NetworkContext";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { Header } from "../components/all-pages/Header";
@@ -36,7 +36,22 @@ export default function App(props: AppProps) {
 }
 
 const DocsPage = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
+
   const [navOpen, setNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (navOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+  }, [navOpen]);
+
+  useEffect(() => {
+    // Close nav when a nav link is clicked.
+    setNavOpen(false);
+  }, [router.pathname]);
 
   return (
     <GlowProvider>
@@ -68,16 +83,23 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
 
           <AnimatePresence>
             {navOpen && (
-              <motion.nav
-                className="mobile-nav"
-                onClick={() => setNavOpen(false)}
-              >
-                <div
+              <motion.nav className="mobile-nav">
+                <motion.div
+                  className="mobile-nav-backdrop"
+                  onClick={() => setNavOpen(false)}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                />
+                <motion.div
                   className="mobile-nav-inner"
-                  onClick={(e) => e.stopPropagation()}
+                  initial={{ opacity: 0, x: "-100vw" }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: "-100vw" }}
+                  transition={{ type: "tween" }}
                 >
                   <TabBar />
-                </div>
+                </motion.div>
                 <button
                   className="close-mobile-nav"
                   onClick={() => setNavOpen(false)}
@@ -147,10 +169,15 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
             position: fixed;
             z-index: 20;
             inset: 0;
+          }
+
+          .wrapper :global(.mobile-nav-backdrop) {
+            position: fixed;
+            inset: 0;
             background-color: rgba(0, 0, 0, 0.8);
           }
 
-          .wrapper :global(.mobile-nav) .mobile-nav-inner {
+          .wrapper :global(.mobile-nav-inner) {
             position: absolute;
             inset: 0 4rem 0 0;
             background-color: var(--primary-bg-color);
