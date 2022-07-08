@@ -154,10 +154,11 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
             position: fixed;
             top: 9rem;
             left: -1.25rem;
-            display: flex;
+            padding: 0;
+
+            display: none;
             align-items: center;
             justify-content: end;
-            padding: 0;
           }
 
           .open-mobile-nav :global(svg) {
@@ -210,6 +211,10 @@ const DocsPage = ({ Component, pageProps }: AppProps) => {
               padding-top: 1.5rem;
               padding-left: 1.5rem;
               padding-right: 1.5rem;
+            }
+
+            .open-mobile-nav {
+              display: flex;
             }
           }
         `}</style>
