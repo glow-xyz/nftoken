@@ -1,5 +1,5 @@
-import { Solana } from "@glow-app/solana-client";
-import { Network } from "@glow-app/glow-client";
+import { Solana } from "@glow-xyz/solana-client";
+import { Network } from "@glow-xyz/glow-client";
 import { NftokenTypes } from "../utils/NftokenTypes";
 import useSWR, { SWRResponse } from "swr";
 import { NftokenFetcher } from "../utils/NftokenFetcher";

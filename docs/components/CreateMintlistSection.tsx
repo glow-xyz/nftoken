@@ -1,11 +1,11 @@
 import React from "react";
-import { useGlowContext } from "@glow-app/glow-react";
+import { useGlowContext } from "@glow-xyz/glow-react";
 import {
   GKeypair,
   GPublicKey,
   GTransaction,
   SolanaClient,
-} from "@glow-app/solana-client";
+} from "@glow-xyz/solana-client";
 import { Form, Formik, useFormikContext } from "formik";
 import { DateTime } from "luxon";
 import {

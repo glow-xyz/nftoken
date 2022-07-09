@@ -1,6 +1,6 @@
 export const NFTOKEN_ADDRESS = "nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL";
 
-// TODO: Should we move these to `@glow-app/solana-client`?
+// TODO: Should we move these to `@glow-xyz/solana-client`?
 
 export const LAMPORTS_PER_SOL = 1_000_000_000;
 

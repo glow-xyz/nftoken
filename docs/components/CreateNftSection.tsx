@@ -1,11 +1,11 @@
-import { Network } from "@glow-app/glow-client";
-import { useGlowContext } from "@glow-app/glow-react";
+import { Network } from "@glow-xyz/glow-client";
+import { useGlowContext } from "@glow-xyz/glow-react";
 import {
   GKeypair,
   GPublicKey,
   GTransaction,
   SolanaClient,
-} from "@glow-app/solana-client";
+} from "@glow-xyz/solana-client";
 import { useNetworkContext } from "./NetworkContext";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import classNames from "classnames";

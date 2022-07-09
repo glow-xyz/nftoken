@@ -1,11 +1,11 @@
-import { Network } from "@glow-app/glow-client";
+import { Network } from "@glow-xyz/glow-client";
 import {
   GKeypair,
   GPublicKey,
   GTransaction,
   Solana,
   SolanaClient
-} from "@glow-app/solana-client";
+} from "@glow-xyz/solana-client";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";

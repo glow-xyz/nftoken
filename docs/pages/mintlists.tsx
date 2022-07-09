@@ -1,8 +1,8 @@
 import { NftokenFetcher } from "../utils/NftokenFetcher";
-import { Network } from "@glow-app/glow-client";
+import { Network } from "@glow-xyz/glow-client";
 import useSWR from "swr";
-import { useGlowContext } from "@glow-app/glow-react";
-import { Solana } from "@glow-app/solana-client";
+import { useGlowContext } from "@glow-xyz/glow-react";
+import { Solana } from "@glow-xyz/solana-client";
 import { NftokenTypes } from "../utils/NftokenTypes";
 import { InteractiveWell } from "../components/InteractiveWell";
 import { PageLayout } from "../components/PageLayout";
@@ -63,10 +63,9 @@ export default function MintlistsPage() {
         </div>
 
         <LuxButton
-          label="Create Mintlist"
+          label="New Mintlist"
           href="/docs/create-a-mintlist"
-          rounded
-          color="brand"
+          size={"small"}
         />
       </PageLayout>
       <style jsx>{`

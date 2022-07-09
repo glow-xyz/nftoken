@@ -1,5 +1,5 @@
-import { Network } from "@glow-app/glow-client";
-import { GTransaction, SolanaClient } from "@glow-app/solana-client";
+import { Network } from "@glow-xyz/glow-client";
+import { GTransaction, SolanaClient } from "@glow-xyz/solana-client";
 import { TrashIcon } from "@heroicons/react/outline";
 import { FieldArray, Form, Formik, useFormikContext } from "formik";
 import chunk from "lodash/chunk";

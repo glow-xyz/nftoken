@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { Network } from "@glow-app/glow-client";
-import { Solana } from "@glow-app/solana-client";
+import { Network } from "@glow-xyz/glow-client";
+import { Solana } from "@glow-xyz/solana-client";
 import useSWR, { SWRResponse } from "swr";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
