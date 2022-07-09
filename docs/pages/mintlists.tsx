@@ -1,15 +1,22 @@
-import { NftokenFetcher } from "../utils/NftokenFetcher";
 import { Network } from "@glow-xyz/glow-client";
-import useSWR from "swr";
 import { useGlowContext } from "@glow-xyz/glow-react";
 import { Solana } from "@glow-xyz/solana-client";
-import { NftokenTypes } from "../utils/NftokenTypes";
-import { InteractiveWell } from "../components/InteractiveWell";
-import { PageLayout } from "../components/PageLayout";
-import { useNetworkContext } from "../components/NetworkContext";
 import { DateTime } from "luxon";
 import React from "react";
+import useSWR from "swr";
+import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
 import { LuxButton } from "../components/LuxButton";
+import { LuxLink } from "../components/LuxLink";
+import {
+  getMintlistStatus,
+  MintlistStatus,
+} from "../components/mintlist/mintlist-utils";
+import { MintlistStatusPill } from "../components/mintlist/MintlistStatusPill";
+import { useNetworkContext } from "../components/NetworkContext";
+import { PageLayout } from "../components/PageLayout";
+import { SquareImage } from "../components/SquareImage";
+import { NftokenFetcher } from "../utils/NftokenFetcher";
+import { NftokenTypes } from "../utils/NftokenTypes";
 
 export default function MintlistsPage() {
   const { user } = useGlowContext();
@@ -32,58 +39,77 @@ export default function MintlistsPage() {
         </p>
 
         <div className="mb-4">
-          <InteractiveWell title="Your Mintlists">
-            <div className="table">
-              <div className="th">Mintlist Name</div>
-              <div className="th">NFTs Uploaded</div>
-              <div className="th">NFTs Minted</div>
-              <div className="th">Go Live Date</div>
+          <NetworkSwitcher />
 
-              {mintlists.map((mintlist) => (
-                <React.Fragment key={mintlist.address}>
-                  <div>
-                    <a href={`/mintlist/${mintlist.address}`}>
-                      {mintlist.name}
-                    </a>
-                  </div>
-                  <div>
-                    {mintlist.mint_infos.length}/{mintlist.num_nfts_total}
-                  </div>
-                  <div>{mintlist.num_nfts_redeemed}</div>
-                  <div>
-                    {DateTime.fromISO(mintlist.go_live_date).toLocaleString({
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
-                  </div>
-                </React.Fragment>
-              ))}
-            </div>
-          </InteractiveWell>
+          <div className="flex-column gap-4 mt-2">
+            {mintlists.map((mintlist) => (
+              <MintlistRow key={mintlist.address} mintlist={mintlist} />
+            ))}
+          </div>
         </div>
 
         <LuxButton
           label="New Mintlist"
           href="/docs/create-a-mintlist"
-          size={"small"}
         />
       </PageLayout>
-      <style jsx>{`
-        .table {
-          display: grid;
-          flex-direction: column;
-          column-gap: 3rem;
-          row-gap: 0.5rem;
-          grid-template-columns: repeat(4, 1fr);
-        }
-
-        .th {
-          font-weight: bold;
-        }
-      `}</style>
     </>
   );
 }
+
+const MintlistRow = ({ mintlist }: { mintlist: NftokenTypes.MintlistInfo }) => {
+  const status = getMintlistStatus(mintlist);
+  return (
+    <LuxLink className="mintlist-row rounded animated" href={`/mintlist/${mintlist.address}`}>
+      <div className={"flex-center gap-3"}>
+        <SquareImage src={mintlist.image} size={80} />
+
+        <div>
+          <div className="font-weight-medium text-lg">{mintlist.name}</div>
+
+          <div>
+            <MintlistStatusPill status={status} />
+          </div>
+
+          {status === MintlistStatus.Pending && (
+            <div>{mintlist.mint_infos.length} Mint Infos Configured</div>
+          )}
+
+          {status === MintlistStatus.PreSale && (
+            <div>
+              Sale Starts{" "}
+              {DateTime.fromISO(mintlist.go_live_date).toLocaleString({
+                dateStyle: "medium",
+                timeStyle: "short",
+              })}
+            </div>
+          )}
+
+          {status === MintlistStatus.ForSale && (
+            <div>{mintlist.num_nfts_redeemed} Mints</div>
+          )}
+
+          {status === MintlistStatus.SaleEnded && <div>Congratulations!</div>}
+        </div>
+      </div>
+
+      <style jsx global>{`
+        a.mintlist-row {
+          color: inherit;
+        }
+
+        .mintlist-row {
+          padding: 0.5rem;
+          margin: -0.5rem;
+        }
+
+        .mintlist-row:hover {
+          background-color: var(--hover-bg-color);
+        }
+      `}</style>
+    </LuxLink>
+  );
+};
 
 function useMintlists({
   wallet,

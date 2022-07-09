@@ -186,7 +186,9 @@ const discriminatorU32 = (hex: string): FixedSizeBeet<null, null> => {
   return {
     write: function (buf: Buffer, offset: number) {
       const stringBuf = Buffer.from(hex, "hex");
-      assert.equal(stringBuf.byteLength, 4, `${hex} has invalid byte size`);
+      if (stringBuf.byteLength !== 4) {
+        throw new Error("String length wrong");
+      }
       stringBuf.copy(buf, offset, 0, 4);
     },
 
