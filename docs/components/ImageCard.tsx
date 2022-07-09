@@ -2,7 +2,7 @@ import { LuxLink } from "./LuxLink";
 import { SquareImage } from "./SquareImage";
 import { ReactNode } from "react";
 
-export function NftCard({
+export function ImageCard({
   image,
   title,
   subtitle,

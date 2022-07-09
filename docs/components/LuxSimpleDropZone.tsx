@@ -11,6 +11,7 @@ import { LuxButton } from "./LuxButton";
 
 export const LuxSimpleDropZone = ({
   label,
+  allowRemoving,
   size,
   shape = "square",
   image,
@@ -18,6 +19,7 @@ export const LuxSimpleDropZone = ({
 }: {
   label?: string;
   size: number;
+  allowRemoving?: boolean;
   shape?: "square" | "circle";
   image: string | null;
   setImage: (image: string | null) => void;
@@ -73,7 +75,7 @@ export const LuxSimpleDropZone = ({
           </div>
         </div>
 
-        {image && (
+        {image && allowRemoving && (
           <div className="remove-button">
             <LuxButton
               label="Remove Image"

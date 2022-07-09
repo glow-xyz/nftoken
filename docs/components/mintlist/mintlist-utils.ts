@@ -36,19 +36,31 @@ export type MintlistAndCollection = {
   collection: NftokenTypes.CollectionInfo;
 };
 
-export function useMintInfosMetadata(mintInfos: NftokenTypes.MintInfo[]): {
-  data: Map<string, NftokenTypes.Metadata | null>;
+export function useMintInfos(mintInfos: NftokenTypes.MintInfo[]): {
+  data: Array<
+    NftokenTypes.MintInfo & {
+      metadata: NftokenTypes.Metadata | null;
+    }
+  >;
   error: unknown;
 } {
   const metadataUrls = mintInfos.map((mintInfo) => mintInfo.metadata_url);
 
   const swrKey = ["mintInfos", ...metadataUrls];
 
-  const { data, error } = useSWR(swrKey, async () => {
+  const { data: metadataMap, error } = useSWR(swrKey, async () => {
     return await NftokenFetcher.getMetadataMap({
-      urls: metadataUrls
+      urls: metadataUrls,
     });
   });
 
-  return { data: data ?? new Map(), error };
+  return {
+    data: mintInfos.map((mintInfo) => ({
+      ...mintInfo,
+      metadata: metadataMap
+        ? metadataMap.get(mintInfo.metadata_url) ?? null
+        : null,
+    })),
+    error,
+  };
 }

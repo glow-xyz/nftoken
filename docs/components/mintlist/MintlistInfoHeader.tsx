@@ -4,7 +4,7 @@ import React from "react";
 import { LAMPORTS_PER_SOL } from "../../utils/constants";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { LuxButton } from "../LuxButton";
-import { NftCard } from "../NftCard";
+import { ImageCard } from "../ImageCard";
 import { ValueList } from "../ValueList";
 import { getMintlistStatus, MintlistAndCollection } from "./mintlist-utils";
 
@@ -33,7 +33,7 @@ export const MintlistInfoHeader = ({
 
       <div className="columns mb-4">
         <div className="collection">
-          <NftCard
+          <ImageCard
             image={collection.image}
             title={collection.name!}
             size={200}

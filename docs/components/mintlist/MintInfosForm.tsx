@@ -1,9 +1,10 @@
 import { Network } from "@glow-app/glow-client";
 import { GTransaction, SolanaClient } from "@glow-app/solana-client";
-import { FieldArray, Form, Formik } from "formik";
+import { TrashIcon } from "@heroicons/react/outline";
+import { FieldArray, Form, Formik, useFormikContext } from "formik";
 import chunk from "lodash/chunk";
 import pLimit from "p-limit";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import FileIcon from "../../icons/feather/FileIcon.svg";
 import { NFTOKEN_ADDRESS } from "../../utils/constants";
 import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "../../utils/nft-borsh";
@@ -11,17 +12,17 @@ import { NftokenTypes } from "../../utils/NftokenTypes";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
 import { toastLoading, toastSuccess } from "../../utils/toast";
 import { uploadJsonToS3 } from "../../utils/upload-file";
+import { ButtonSwitcher } from "../atoms/ButtonSwitcher";
 import { CsvDropZone } from "../forms/CsvDropZone";
 import { SimpleDropZone } from "../forms/SimpleDropZone";
 import { InteractiveWell } from "../InteractiveWell";
 import { LuxButton, LuxSubmitButton } from "../LuxButton";
 import { LuxInputField } from "../LuxInput";
-import { LuxLink } from "../LuxLink";
 import { MINT_INFOS_PER_TX } from "./mintlist-utils";
 
 const OFFCHAIN_METADATA_UPLOAD_TOAST_ID = "uploading-nfts-metadata";
 type MintInfosFormData = {
-  nfts: Partial<NftokenTypes.Metadata>[];
+  mint_infos: Partial<NftokenTypes.Metadata>[];
 };
 
 export function MintInfosUploader({
@@ -33,15 +34,14 @@ export function MintInfosUploader({
   network: Network;
   onSignOut: () => void;
 }) {
+  const [mode, setMode] = useState<"csv" | "rows">("rows");
   const uploadedMetadataCountRef = useRef(0);
-
-  const mintInfosContainerRef = useRef<HTMLDivElement>(null);
 
   const availableToUpload =
     mintlist.num_nfts_total - mintlist.mint_infos.length;
 
   const initialValues: MintInfosFormData = {
-    nfts: [{ name: "", image: "" }],
+    mint_infos: [{ name: "", image: "" }],
   };
 
   return (
@@ -49,14 +49,14 @@ export function MintInfosUploader({
       <InteractiveWell title="Upload NFTs">
         <Formik
           initialValues={initialValues}
-          onSubmit={async ({ nfts }, { resetForm }) => {
+          onSubmit={async ({ mint_infos }, { resetForm }) => {
             const { address: wallet } = await window.glow!.connect();
 
             uploadedMetadataCountRef.current = 0;
 
             const limit = pLimit(10);
             const mintInfoArgs = await Promise.all(
-              nfts.map((metadata) =>
+              mint_infos.map((metadata) =>
                 limit(async () => {
                   const { file_url } = await uploadJsonToS3({
                     json: metadata,
@@ -66,8 +66,8 @@ export function MintInfosUploader({
                   toastLoading(
                     <>
                       Uploading off-chain metadata&nbsp;
-                      <span className="mono">
-                        {uploadedMetadataCountRef.current}/{nfts.length}
+                      <span className="mono-number">
+                        {uploadedMetadataCountRef.current}/{mint_infos.length}
                       </span>
                     </>,
                     OFFCHAIN_METADATA_UPLOAD_TOAST_ID
@@ -141,72 +141,36 @@ export function MintInfosUploader({
         >
           {({ values }) => (
             <Form>
-              <div className="mb-4">
-                <CsvDropZone fieldName="nfts" />
-                <LuxLink href="/nfts-metadata-template.csv" download>
-                  <div className="download-link mt-2">
-                    <FileIcon />
-                    Download CSV Template
-                  </div>
-                </LuxLink>
+              <div className="flex">
+                <ButtonSwitcher
+                  options={[
+                    { label: "Enter NFTs", value: "rows" },
+                    { label: "Upload CSV", value: "csv" },
+                  ]}
+                  setSelectedOption={({ value }) => setMode(value)}
+                  selectedOptionValue={mode}
+                />
               </div>
 
-              <div className="mb-4 text-center">or upload NFTs manually</div>
+              <div className="my-3">
+                {mode === "rows" && (
+                  <MintInfoRows availableToUpload={availableToUpload} />
+                )}
 
-              <div ref={mintInfosContainerRef} className="mint-infos">
-                <FieldArray name="nfts">
-                  {({ insert }) => (
-                    <>
-                      {values.nfts.map((_, index) => (
-                        <div className="mint-info flex-center" key={index}>
-                          <SimpleDropZone
-                            fieldName={`nfts.${index}.image`}
-                            size={60}
-                          />
-                          <LuxInputField
-                            placeholder={`Item #${String(index).padStart(
-                              4,
-                              "0"
-                            )}`}
-                            name={`nfts.${index}.name`}
-                          />
-                        </div>
-                      ))}
-                      {values.nfts.length < availableToUpload && (
-                        <LuxButton
-                          label="Add Row"
-                          type="button"
-                          className="add-nft-button animated"
-                          onClick={() => {
-                            insert(values.nfts.length, {
-                              name: "",
-                              image: "",
-                            });
-
-                            // Give it time to render.
-                            queueMicrotask(() => {
-                              if (!mintInfosContainerRef.current) {
-                                return;
-                              }
-
-                              mintInfosContainerRef.current.scrollTop =
-                                mintInfosContainerRef.current.scrollHeight;
-                            });
-                          }}
-                        />
-                      )}
-                    </>
-                  )}
-                </FieldArray>
+                {mode === "csv" && (
+                  <DropCsvSection onDrop={() => setMode("rows")} />
+                )}
               </div>
+
               <div className="mt-4 flex-center spread">
                 <LuxSubmitButton
-                  label={`Upload ${values.nfts.length} NFT${
-                    values.nfts.length !== 1 ? "s" : ""
+                  label={`Upload ${values.mint_infos.length} NFT${
+                    values.mint_infos.length !== 1 ? "s" : ""
                   }`}
                   rounded
                   color="brand"
                 />
+
                 <LuxButton
                   label="Disconnect Wallet"
                   onClick={onSignOut}
@@ -219,33 +183,96 @@ export function MintInfosUploader({
           )}
         </Formik>
       </InteractiveWell>
-
-      <style jsx>{`
-        .mint-infos {
-          overflow: scroll;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 2rem;
-        }
-
-        .mint-info {
-          width: 100%;
-          display: flex;
-          gap: 1rem;
-        }
-
-        .download-link {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          gap: 0.2rem;
-        }
-
-        .mono {
-          font-variant-numeric: tabular-nums;
-        }
-      `}</style>
     </>
   );
 }
+
+const DropCsvSection = ({ onDrop }: { onDrop: () => void }) => {
+  const { setValues } = useFormikContext<MintInfosFormData>();
+  return (
+    <div className={"flex-column gap-2"}>
+      <CsvDropZone
+        onDrop={(rows) => {
+          const newMintInfos = rows.map((row) => ({
+            name: row.name,
+            image: row.image,
+          }));
+          setValues((values) => {
+            return {
+              ...values,
+              mint_infos: [...values.mint_infos, ...newMintInfos].filter(
+                (row) => row.name || row.image
+              ),
+            };
+          });
+          onDrop();
+        }}
+      />
+
+      <LuxButton
+        label={"Download CSV Template"}
+        variant={"link"}
+        href="/nfts-metadata-template.csv"
+        className={"mt-2"}
+        download
+        icon={<FileIcon />}
+      />
+    </div>
+  );
+};
+
+const MintInfoRows = ({ availableToUpload }: { availableToUpload: number }) => {
+  const { values } = useFormikContext<MintInfosFormData>();
+  return (
+    <div>
+      <FieldArray name="mint_infos">
+        {({ insert, remove }) => (
+          <div>
+            <div className={"flex-column gap-3"}>
+              {values.mint_infos.map((_, index) => (
+                <div className="mint-info flex-center gap-3" key={index}>
+                  <SimpleDropZone
+                    fieldName={`mint_infos.${index}.image`}
+                    size={60}
+                  />
+
+                  <LuxInputField
+                    placeholder={`NFT Name #${String(index).padStart(3, "0")}`}
+                    name={`mint_infos.${index}.name`}
+                  />
+
+                  <div>
+                    <LuxButton
+                      label={"Remove"}
+                      onClick={() => remove(index)}
+                      icon={<TrashIcon />}
+                      iconPlacement={"icon-only"}
+                      variant={"link"}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {values.mint_infos.length < availableToUpload && (
+              <LuxButton
+                label="Add Mint Info"
+                size={"small"}
+                type="button"
+                variant="outline"
+                color="secondary"
+                className="mt-4 animated"
+                onClick={() => {
+                  insert(values.mint_infos.length, {
+                    name: "",
+                    image: "",
+                  });
+                }}
+              />
+            )}
+          </div>
+        )}
+      </FieldArray>
+    </div>
+  );
+};
