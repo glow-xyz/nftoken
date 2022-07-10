@@ -40,10 +40,10 @@ export async function createEmptyMintlist({
     anchor.web3.SystemProgram.createAccount({
       fromPubkey: wallet.publicKey,
       newAccountPubkey: mintlistKeypair.publicKey,
-      space: mintlistAccountSize,
+      space: mintlistAccountSize.toNumber(),
       lamports:
         await program.provider.connection.getMinimumBalanceForRentExemption(
-          mintlistAccountSize
+          mintlistAccountSize.toNumber()
         ),
       programId: program.programId,
     });
@@ -119,7 +119,7 @@ export async function getMintlistData({
   // We need to deserialize `mintInfos` manually because they aren't declared in the anchor `Mintlist` type.
 
   const mintInfosBytesOffset = getMintlistAccountSize(0);
-  const mintInfosBuffer = mintlistRawData.slice(mintInfosBytesOffset);
+  const mintInfosBuffer = mintlistRawData.slice(mintInfosBytesOffset.toNumber());
 
   const mintInfos = Array.from(
     { length: mintlistData.numNftsConfigured },
