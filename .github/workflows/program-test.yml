@@ -1,4 +1,4 @@
-name: Test Anchor Program
+name: Anchor Program
 
 on:
   pull_request:
