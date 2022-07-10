@@ -71,23 +71,27 @@ export default function NftPage({
         <div className="columns">
           <div className={"flex-column gap-2"}>
             <div>
-              <Pill label={"Collection"} color={"gray"} />
+              <Pill label={"NFT"} color={"gray"} />
             </div>
 
             <div className="image">
               <SquareImage src={nft.image} size={500} />
             </div>
 
-            <h1>{nft.name ?? "Unknown"}</h1>
+            <h1 className={"mb-0"}>{nft.name ?? "Unknown"}</h1>
           </div>
 
           <div>
             <div>
-              <h2 className="text-secondary">On-Chain Metadata</h2>
+              <h3 className="text-secondary">On-Chain Metadata</h3>
               <ValueList
                 attributes={[
                   { label: "address", value: nft.address },
-                  { label: "collection", value: nft.collection },
+                  {
+                    label: "collection",
+                    value: nft.collection,
+                    type: "collection",
+                  },
                   { label: "holder", value: nft.holder },
                   { label: "delegate", value: nft.delegate },
                   { label: "authority", value: nft.authority },
@@ -101,7 +105,7 @@ export default function NftPage({
             </div>
 
             <div className="mt-4">
-              <h2 className="text-secondary">Off-Chain Metadata</h2>
+              <h3 className="text-secondary">Off-Chain Metadata</h3>
               <ValueList
                 attributes={[
                   { label: "image", value: nft.image },
@@ -134,7 +138,7 @@ export default function NftPage({
         .columns {
           display: grid;
           grid-template-columns: 20rem 1fr;
-          grid-column-gap: 3rem;
+          grid-gap: 2rem;
         }
 
         .traits-empty-state {
