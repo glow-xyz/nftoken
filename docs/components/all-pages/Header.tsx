@@ -11,7 +11,6 @@ import { TabBar } from "./TabBar";
 export const Header = () => {
   const router = useRouter();
   const { user, signOut } = useGlowContext();
-  console.log("user", user);
   const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
