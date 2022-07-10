@@ -22,6 +22,8 @@ export default function App(props: AppProps) {
   return (
     <GlowProvider>
       <NetworkProvider>
+        <SocialHead />
+
         {isDocs ? (
           <DocsPage {...props} />
         ) : (

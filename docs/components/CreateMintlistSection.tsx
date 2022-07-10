@@ -1,11 +1,10 @@
+import { Address, Network } from "@glow-xyz/glow-client";
 import {
   GKeypair,
-  GlowBorsh,
   GPublicKey,
   GTransaction,
   SolanaClient,
 } from "@glow-xyz/solana-client";
-import BN from "bn.js";
 import { Form, Formik, useFormikContext } from "formik";
 import { DateTime } from "luxon";
 import { useRouter } from "next/router";
@@ -22,7 +21,7 @@ import {
 } from "../utils/nft-borsh";
 import { NETWORK_TO_RPC } from "../utils/rpc-types";
 import { uploadJsonToS3 } from "../utils/upload-file";
-import { DateTimePicker } from "./DateTimePicker";
+import { DateTimePicker, roundedTime } from "./DateTimePicker";
 import { SimpleDropZone } from "./forms/SimpleDropZone";
 import { InteractiveWell } from "./InteractiveWell";
 import { LuxSubmitButton } from "./LuxButton";
@@ -47,7 +46,10 @@ export const CreateMintlistSection = () => {
     name: "",
     image: "",
     priceSol: 1,
-    goLiveDate: DateTime.now().toISO(),
+    goLiveDate: roundedTime({
+      intervalMin: 60,
+      startTime: DateTime.now().plus({ days: 1 }).toISO(),
+    }),
     numNftsTotal: 1,
   };
 
@@ -68,41 +70,11 @@ export const CreateMintlistSection = () => {
             json: { name, image },
           });
 
-          console.log([
-            "ix",
-            GlowBorsh.ixDiscriminator({ ix_name: "mintlist_create_v1" }).write(
-              Buffer.alloc(100),
-              0,
-              null
-            ),
-          ]);
-
           const { address: wallet } = await window.glow!.connect();
 
-          const mintlistKeypair = GKeypair.generate();
-          const collectionKeypair = GKeypair.generate();
-
-          const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
-
-          const rpcUrl = NETWORK_TO_RPC[network];
-
-          const { lamports: mintlistAccountLamports } =
-            await SolanaClient.getMinimumBalanceForRentExemption({
-              dataLength: mintlistAccountSize.toNumber(),
-              rpcUrl,
-            });
-
-          const recentBlockhash = await SolanaClient.getRecentBlockhash({
-            rpcUrl,
-          });
-
-          const tx = createMintlistCreateTx({
+          const { tx, mintlist_address } = await createMintlistCreateTx({
             wallet,
-            recentBlockhash,
-            mintlistKeypair,
-            mintlistAccountLamports,
-            mintlistAccountSize,
-            collectionKeypair,
+            network,
             goLiveDate: goLiveDateTime,
             priceSol,
             numNftsTotal,
@@ -117,7 +89,7 @@ export const CreateMintlistSection = () => {
             network,
           });
 
-          await push(`/mintlist/${mintlistKeypair.address}`);
+          await push(`/mintlist/${mintlist_address}`);
         }}
       >
         <Form className={"flex-column gap-4"}>
@@ -188,13 +160,9 @@ export const CreateMintlistSection = () => {
   );
 };
 
-function createMintlistCreateTx({
+const createMintlistCreateTx = async ({
   wallet,
-  recentBlockhash,
-  mintlistKeypair,
-  mintlistAccountLamports,
-  mintlistAccountSize,
-  collectionKeypair,
+  network,
   goLiveDate,
   priceSol,
   numNftsTotal,
@@ -202,42 +170,34 @@ function createMintlistCreateTx({
   collectionMetadataUrl,
 }: {
   wallet: string;
-  recentBlockhash: string;
-  mintlistKeypair: GKeypair;
-  mintlistAccountLamports: string;
-  mintlistAccountSize: BN;
-  collectionKeypair: GKeypair;
+  network: Network;
   goLiveDate: DateTime;
   priceSol: number;
   numNftsTotal: number;
   mintlistMetadataUrl: string;
   collectionMetadataUrl: string;
-}) {
-  console.log({
-    wallet,
-    recentBlockhash,
-    mintlistKeypair,
-    mintlistAccountLamports,
-    mintlistAccountSize,
-    collectionKeypair,
-    goLiveDate,
-    priceSol,
-    numNftsTotal,
-    mintlistMetadataUrl,
-    collectionMetadataUrl,
+}): Promise<{
+  tx: GTransaction.GTransaction;
+  mintlist_address: Address;
+}> => {
+  const mintlistKeypair = GKeypair.generate();
+  const collectionKeypair = GKeypair.generate();
+
+  const mintlistAccountSize = getMintlistAccountSize(numNftsTotal);
+
+  const rpcUrl = NETWORK_TO_RPC[network];
+
+  const { lamports: mintlistAccountLamports } =
+    await SolanaClient.getMinimumBalanceForRentExemption({
+      dataLength: mintlistAccountSize.toNumber(),
+      rpcUrl,
+    });
+
+  const recentBlockhash = await SolanaClient.getRecentBlockhash({
+    rpcUrl,
   });
-  console.log({
-    ix: null,
-    go_live_date: goLiveDate,
-    price: {
-      lamports: String(priceSol * LAMPORTS_PER_SOL),
-    },
-    minting_order: "sequential",
-    num_nfts_total: numNftsTotal,
-    metadata_url: mintlistMetadataUrl,
-    collection_metadata_url: collectionMetadataUrl,
-  });
-  return GTransaction.create({
+
+  const tx = GTransaction.create({
     feePayer: wallet,
     recentBlockhash,
     instructions: [
@@ -245,18 +205,8 @@ function createMintlistCreateTx({
       // the `mintlist` account must be initialized through a separate SystemProgram.createAccount instruction.
       {
         accounts: [
-          // payer
-          {
-            address: wallet,
-            signer: true,
-            writable: true,
-          },
-          // mintlist
-          {
-            address: mintlistKeypair.publicKey.toBase58(),
-            signer: true,
-            writable: true,
-          },
+          { address: wallet, signer: true, writable: true },
+          { address: mintlistKeypair.address, signer: true, writable: true },
         ],
         // SystemProgram
         program: GPublicKey.default.toBase58(),
@@ -273,35 +223,15 @@ function createMintlistCreateTx({
           // Authority
           { address: wallet, signer: true, writable: true },
           // Mintlist
-          {
-            address: mintlistKeypair.address,
-            signer: true,
-            writable: true,
-          },
+          { address: mintlistKeypair.address, signer: true, writable: true },
           // Collection
-          {
-            address: collectionKeypair.address,
-            signer: true,
-            writable: true,
-          },
+          { address: collectionKeypair.address, signer: true, writable: true },
           // Treasury
-          {
-            address: wallet,
-            signer: false,
-            writable: false,
-          },
+          { address: wallet },
           // System Program
-          {
-            address: GPublicKey.default.toString(),
-            signer: false,
-            writable: false,
-          },
+          { address: GPublicKey.nullString },
           // Clock
-          {
-            address: SYSVAR_CLOCK_PUBKEY,
-            signer: false,
-            writable: false,
-          },
+          { address: SYSVAR_CLOCK_PUBKEY },
         ],
         program: NFTOKEN_ADDRESS,
         data_base64: NFTOKEN_MINTLIST_CREATE_IX.toBuffer({
@@ -319,7 +249,9 @@ function createMintlistCreateTx({
     ],
     signers: [mintlistKeypair, collectionKeypair],
   });
-}
+
+  return { tx, mintlist_address: mintlistKeypair.address };
+};
 
 const DatePickerField = ({
   label,

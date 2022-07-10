@@ -164,3 +164,59 @@ export const parseTimeFromString = (userTime: string): Duration | null => {
     return null;
   }
 };
+
+/**
+ * Generate an ISO string of the closest future moment in time
+ * that has number of minutes equal to a multiple of intervalMin.
+ *
+ * @param intervalMin Interval to snap minutes to
+ * @param startTime Start time
+ */
+export function roundedTime({
+  intervalMin,
+  startTime,
+  roundMode = "up",
+}: {
+  intervalMin: number;
+  startTime?: DateLike;
+  roundMode?: "up" | "down";
+}): string {
+  const startDt = startTime ? convertToDt(startTime) : DateTime.now();
+
+  let rounded: number;
+  if (roundMode === "down") {
+    rounded = Math.floor(startDt.minute / intervalMin) * intervalMin;
+  } else {
+    rounded = Math.ceil(startDt.minute / intervalMin) * intervalMin;
+  }
+
+  return startDt
+    .set({ minute: rounded, second: 0, millisecond: 0 })
+    .toUTC()
+    .toISO();
+}
+
+export type DateLike = DateTime | string | Date;
+
+/**
+ * Converts ISO string, JS Date, or DateTime to a DateTime.
+ */
+export const convertToDt = (val: DateLike): DateTime => {
+  if (typeof val === "string") {
+    const dt = DateTime.fromISO(val);
+    if (!dt.isValid) {
+      throw new Error(`Date "${val}" is not valid`);
+    }
+    return dt;
+  }
+
+  if (val instanceof DateTime) {
+    return val;
+  }
+
+  const dt = DateTime.fromJSDate(val);
+  if (!dt.isValid) {
+    throw new Error(`Date "${val}" is not valid`);
+  }
+  return dt;
+};
