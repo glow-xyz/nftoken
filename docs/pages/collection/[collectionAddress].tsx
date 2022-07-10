@@ -2,15 +2,17 @@ import { Network } from "@glow-xyz/glow-client";
 import { Solana } from "@glow-xyz/solana-client";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import React from "react";
 import useSWR, { SWRResponse } from "swr";
-import { ImageCard } from "../../components/ImageCard";
-import { LuxLink } from "../../components/LuxLink";
+import { Pill } from "../../components/mintlist/MintlistStatusPill";
 import { SocialHead } from "../../components/SocialHead";
+import { SquareImage } from "../../components/SquareImage";
 import { ValueList } from "../../components/ValueList";
 import { useCollectionNfts } from "../../hooks/useCollectionNfts";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import { NftGrid } from "../my-nfts";
 
 const useCollection = ({
   collectionAddress,
@@ -92,99 +94,73 @@ export default function CollectionPage({
   return (
     <div>
       <SocialHead subtitle={collection.name} />
-      <div>
-        <div className="collection-badge">Collection</div>
-        <h1>{collection.name}</h1>
-      </div>
+
       <div className="columns">
-        <div>
-          <h2 className="text-secondary">On-Chain Metadata</h2>
-          <ValueList
-            attributes={[
-              { label: "address", value: collection.address },
-              { label: "authority", value: collection.authority },
-              {
-                label: "authority_can_update",
-                value: collection.authority_can_update,
-              },
-              { label: "metadata_url", value: collection.metadata_url },
-            ]}
-          />
+        <div className={"flex-column gap-2"}>
+          <div>
+            <Pill label={"Collection"} color={"gray"} />
+          </div>
+
+          <div className="image">
+            <SquareImage src={collection.image} size={500} />
+          </div>
+
+          <h1>{collection.name}</h1>
         </div>
-        <div className="traits-column">
-          <h2 className="text-secondary">Off-Chain Metadata</h2>
-          <ValueList
-            attributes={[
-              { label: "image", value: collection.image },
-              { label: "description", value: collection.description },
-              ...(collection.traits
-                ? collection.traits.map((trait) => ({
-                    label: trait.trait_type,
-                    value: trait.value,
-                  }))
-                : []),
-            ]}
-          />
+
+        <div>
+          <div>
+            <h2 className="text-secondary">On-Chain Metadata</h2>
+            <ValueList
+              attributes={[
+                { label: "address", value: collection.address },
+                { label: "authority", value: collection.authority },
+                {
+                  label: "authority_can_update",
+                  value: collection.authority_can_update,
+                },
+                { label: "metadata_url", value: collection.metadata_url },
+              ]}
+            />
+          </div>
+          <div className="traits-column">
+            <h2 className="text-secondary">Off-Chain Metadata</h2>
+            <ValueList
+              attributes={[
+                { label: "image", value: collection.image },
+                { label: "description", value: collection.description },
+                ...(collection.traits
+                  ? collection.traits.map((trait) => ({
+                      label: trait.trait_type,
+                      value: trait.value,
+                    }))
+                  : []),
+              ]}
+            />
+          </div>
         </div>
       </div>
 
       {nftsInCollection && (
         <div className="nft-container mt-5">
-          {nftsInCollection.map((nft) => (
-            <LuxLink href={`/nft/${nft.address}`} key={nft.address}>
-              <ImageCard title={nft.name!} image={nft.image} />
-            </LuxLink>
-          ))}
+          <NftGrid nfts={nftsInCollection} />
         </div>
       )}
 
       <style jsx>{`
-        .collection-badge {
-          font-size: var(--small-font-size);
-          font-weight: var(--medium-font-weight);
-          background-color: var(--secondary-bg-color);
-          max-width: max-content;
-          padding: 0.1rem 0.5rem;
-          border-radius: 99rem;
-          margin-left: -0.5rem;
-          margin-bottom: 0.25rem;
-          color: var(--secondary-color);
-        }
-
         .columns {
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-column-gap: 1rem;
         }
 
-        .nft-container {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          grid-column-gap: 1rem;
-          grid-row-gap: 1.5rem;
-        }
-
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
-          .collection-badge {
-            margin-left: 0;
-          }
-
           .columns {
             grid-template-columns: 1fr;
           }
 
-          .nft-container {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
           .traits-column {
             margin-top: 1.5rem;
-          }
-        }
-
-        @media (max-width: ${ResponsiveBreakpoint.small}) {
-          .nft-container {
-            grid-template-columns: 1fr;
           }
         }
       `}</style>
