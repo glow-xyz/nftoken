@@ -4,7 +4,7 @@ title: Creating an NFT
 
 # {% $markdoc.frontmatter.title %}
 
-Here's what the function to create an NFT looks like:
+You can create an NFT in just a couple lines of code with our [@glow-xyz/nftoken-js]() library:
 
 ```ts
 import { constructCreateNftTx } from "@glow-xyz/nftoken-js";
