@@ -12,11 +12,11 @@ Creating an NFT with NFToken costs about 2M Lamports or $0.08.
 
 With Metaplex, this costs about 10M Lamports or $0.32.
 
-### NFToken is Simple and Easy to Understand
+### NFToken is Simple and Easy to Use
 
-A Metaplex NFT with a Collection requires mint, token, metadata, and edition accounts for the NFT and another set for the collection.
+Metaplex requires 4 separate accounts for each NFT. This makes it incredibly difficult to do simple queries like finding all NFTs and owners for a collection. In addition, this complex structure has caused security issues.
 
-An NFToken NFT with a Collection requires two accounts: one for the NFT and one for the collection.
+NFToken is incredibly simple which makes it easy to build on top of and query.
 
 ### NFToken Doesn't Require the Terminal
 
