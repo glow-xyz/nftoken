@@ -14,7 +14,7 @@ importers:
     specifiers:
       '@glow-xyz/beet': 0.3.0
       '@glow-xyz/glow-client': 1.0.3
-      '@glow-xyz/glow-react': 1.0.1
+      '@glow-xyz/glow-react': 1.0.2
       '@glow-xyz/solana-client': 1.0.8
       '@heroicons/react': 1.0.6
       '@luma-team/lux-sass': 0.49.0
@@ -70,7 +70,7 @@ importers:
     dependencies:
       '@glow-xyz/beet': 0.3.0
       '@glow-xyz/glow-client': 1.0.3
-      '@glow-xyz/glow-react': 1.0.1_biqbaboplfbrettd7655fr4n2y
+      '@glow-xyz/glow-react': 1.0.2_biqbaboplfbrettd7655fr4n2y
       '@glow-xyz/solana-client': 1.0.8
       '@heroicons/react': 1.0.6_react@18.2.0
       '@luma-team/lux-sass': 0.49.0
@@ -1530,8 +1530,8 @@ packages:
       zod: 3.17.3
     dev: false
 
-  /@glow-xyz/glow-react/1.0.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-mjbFSvpMOo2siRZf7x99IjwXe6RJMzMwZaiA5gdI404G0VtkM0NUHnU1f4vYX8gMS3Ji5OInA1t9NVyDnNFcaQ==}
+  /@glow-xyz/glow-react/1.0.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-DNnjqQ4sqfPDHyx4TlfkoeRQrXtO8TUsFN9Oexr7G2bSEQqG4OSKm9nVMGh3PKphBb7ANrzEyBXNTSGyupZQbQ==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0
       react-dom: ^17.0.0 || ^18.0.0
