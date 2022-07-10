@@ -8,6 +8,7 @@ import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
 import { LuxLink } from "../components/LuxLink";
 import { useNetworkContext } from "../components/NetworkContext";
 import { Shimmer } from "../components/Shimmer";
+import { SocialHead } from "../components/SocialHead";
 import { getImageUrl } from "../utils/cdn";
 import { NftokenFetcher } from "../utils/NftokenFetcher";
 import { NftokenTypes } from "../utils/NftokenTypes";
@@ -23,10 +24,12 @@ export default function MyNftsPage() {
 
   return (
     <div>
+      <SocialHead subtitle={"My NFTs"} />
+
       <h1>My NFTs</h1>
 
       <div className="flex-center spread mb-3">
-        <div className={"mb-2 text-secondary"}>
+        <div className="text-secondary">
           Find All NFTs in Your Wallet
         </div>
 

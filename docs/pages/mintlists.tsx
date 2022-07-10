@@ -13,6 +13,7 @@ import {
 } from "../components/mintlist/mintlist-utils";
 import { MintlistStatusPill } from "../components/mintlist/MintlistStatusPill";
 import { useNetworkContext } from "../components/NetworkContext";
+import { SocialHead } from "../components/SocialHead";
 import { SquareImage } from "../components/SquareImage";
 import { NftokenFetcher } from "../utils/NftokenFetcher";
 import { NftokenTypes } from "../utils/NftokenTypes";
@@ -27,6 +28,8 @@ export default function MintlistsPage() {
 
   return (
     <div>
+      <SocialHead subtitle={"My Mintlists"} />
+
       <h1>My Mintlists</h1>
 
       <div className={"mb-3 flex-center spread"}>
