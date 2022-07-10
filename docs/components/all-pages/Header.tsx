@@ -1,4 +1,5 @@
 import { GlowSignInButton, useGlowContext } from "@glow-xyz/glow-react";
+import NftokenLogo from "../../icons/NftokenLogo.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { LuxButton } from "../LuxButton";
@@ -145,23 +146,14 @@ const HeaderTabs = () => {
 
 const HeaderLogo = () => {
   return (
-    <LuxLink href="/docs/overview">
-      <img src="/logo.svg" className="logo dark" />
-      <img src="/logo-light.svg" className="logo light" />
+    <LuxLink href="/docs/overview" className={"header-logo flex"}>
+      <NftokenLogo />
 
       <style jsx>{`
-        .logo {
-          display: block;
+        :global(.header-logo svg) {
           height: 1rem;
-          cursor: pointer;
-        }
-
-        :global(body.light) .logo.light {
-          display: none;
-        }
-
-        :global(body.dark) .logo.dark {
-          display: none;
+          width: auto;
+          color: var(--primary-color);
         }
       `}</style>
     </LuxLink>
