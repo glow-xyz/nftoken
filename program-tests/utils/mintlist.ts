@@ -1,3 +1,4 @@
+import { getMintlistAccountSize } from "@glow-xyz/nftoken-js";
 import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
@@ -56,7 +57,7 @@ export async function createEmptyMintlist({
       numNftsTotal,
       mintingOrder,
       metadataUrl: strToArr("random-meta", 96),
-      collectionMetadataUrl: "coll-random-meta"
+      collectionMetadataUrl: "coll-random-meta",
     })
     .accounts({
       collection: collectionKeypair.publicKey,
@@ -136,26 +137,6 @@ export async function getMintlistData({
   mintlistData.mintInfos = mintInfos;
 
   return mintlistData;
-}
-
-export function getMintlistAccountSize(numNftsTotal: number): number {
-  return (
-    8 +
-    1 +
-    32 +
-    32 +
-    8 +
-    8 +
-    1 +
-    32 +
-    96 +
-    8 +
-    4 +
-    4 +
-    4 +
-    // mint_infos
-    numNftsTotal * MINT_INFO_LAYOUT.span
-  );
 }
 
 // TODO: If we want to include larger batches, we will need to update / avoid buffer-layout which is

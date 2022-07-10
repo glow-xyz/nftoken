@@ -192,6 +192,7 @@ importers:
 
   program-tests:
     specifiers:
+      '@glow-xyz/nftoken-js': workspace:*
       '@project-serum/anchor': 0.24.2
       '@project-serum/borsh': 0.2.5
       '@project-serum/serum': 0.13.65
@@ -217,6 +218,7 @@ importers:
       typescript: 4.7.4
       zod: 3.17.3
     dependencies:
+      '@glow-xyz/nftoken-js': link:../nftoken-js
       '@project-serum/anchor': 0.24.2
       '@project-serum/borsh': 0.2.5_@solana+web3.js@1.47.3
       '@project-serum/serum': 0.13.65
