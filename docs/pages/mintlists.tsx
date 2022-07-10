@@ -1,12 +1,10 @@
 import { Network } from "@glow-xyz/glow-client";
 import { useGlowContext } from "@glow-xyz/glow-react";
 import { Solana } from "@glow-xyz/solana-client";
-import { PlusIcon } from "@heroicons/react/solid";
 import { DateTime } from "luxon";
 import React from "react";
 import useSWR from "swr";
 import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
-import { LuxButton } from "../components/LuxButton";
 import { LuxLink } from "../components/LuxLink";
 import { LuxSpinner } from "../components/LuxSpinner";
 import {
@@ -32,7 +30,7 @@ export default function MintlistsPage() {
     <PageLayout secondaryNav={"mintlists"}>
       <h1>My Mintlists</h1>
 
-      <div className={"mb-4 flex-center spread"}>
+      <div className={"mb-3 flex-center spread"}>
         <div className="text-secondary">See mintlists you've created.</div>
 
         <NetworkSwitcher />
@@ -132,7 +130,7 @@ function useMintlists({
   data: NftokenTypes.MintlistInfo[] | undefined;
   error: any;
 } {
-  const swrKey = [wallet, network, 'mintlists'];
+  const swrKey = [wallet, network, "mintlists"];
   const { data, error } = useSWR(swrKey, async () => {
     if (!wallet) {
       return [];

@@ -16,11 +16,12 @@ const TopLevelTabs = [
     href: "/docs/overview",
     match: (href: string) => href.startsWith("/docs"),
   },
+  // TODO: consider nesting everything under dash
   {
     id: TopLevelTab.DASHBOARD,
     title: "Dashboard",
-    href: "/mintlists",
-    match: (href: string) => href.startsWith("/mintlist"), // Matches both /mintlists and /mintlist/[mintlistAddress]
+    href: "/my-nfts",
+    match: (href: string) => !href.startsWith("/docs"),
   },
 ];
 

@@ -28,11 +28,9 @@ type MintInfosFormData = {
 export function MintInfosUploader({
   mintlist,
   network,
-  onSignOut,
 }: {
   mintlist: NftokenTypes.MintlistInfo;
   network: Network;
-  onSignOut: () => void;
 }) {
   const [mode, setMode] = useState<"csv" | "rows">("rows");
   const uploadedMetadataCountRef = useRef(0);

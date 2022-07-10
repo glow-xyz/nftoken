@@ -1,25 +1,14 @@
 import { Network } from "@glow-xyz/glow-client";
 import { useGlowContext } from "@glow-xyz/glow-react";
 import { Solana } from "@glow-xyz/solana-client";
-import { PlusIcon } from "@heroicons/react/solid";
-import classNames from "classnames";
-import { range } from "lodash";
-import { DateTime } from "luxon";
+import range from "lodash/range";
 import React from "react";
 import useSWR from "swr";
 import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
-import { ImageCard } from "../components/ImageCard";
-import { LuxButton } from "../components/LuxButton";
 import { LuxLink } from "../components/LuxLink";
-import {
-  getMintlistStatus,
-  MintlistStatus,
-} from "../components/mintlist/mintlist-utils";
-import { MintlistStatusPill } from "../components/mintlist/MintlistStatusPill";
 import { useNetworkContext } from "../components/NetworkContext";
 import { PageLayout } from "../components/PageLayout";
 import { Shimmer } from "../components/Shimmer";
-import { SquareImage } from "../components/SquareImage";
 import { getImageUrl } from "../utils/cdn";
 import { NftokenFetcher } from "../utils/NftokenFetcher";
 import { NftokenTypes } from "../utils/NftokenTypes";
@@ -37,7 +26,7 @@ export default function MintlistsPage() {
     <PageLayout secondaryNav={"mintlists"}>
       <h1>My NFTs</h1>
 
-      <div className="flex-center spread">
+      <div className="flex-center spread mb-3">
         <div className={"mb-2 text-secondary"}>
           Find All NFTs in Your Wallet
         </div>

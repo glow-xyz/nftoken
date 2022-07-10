@@ -45,11 +45,7 @@ export const MintlistPending = ({ mintlist }: MintlistAndCollection) => {
 
       <div className="mt-4">
         {tab === "configure" && (
-          <MintInfosUploader
-            mintlist={mintlist}
-            network={network}
-            onSignOut={() => console.log("huh")}
-          />
+          <MintInfosUploader mintlist={mintlist} network={network} />
         )}
 
         {tab === "nfts" && <MintlistNftsGrid mintInfos={mintlist.mint_infos} />}
