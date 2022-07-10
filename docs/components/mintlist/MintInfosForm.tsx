@@ -170,14 +170,6 @@ export function MintInfosUploader({
                   rounded
                   color="brand"
                 />
-
-                <LuxButton
-                  label="Disconnect Wallet"
-                  onClick={onSignOut}
-                  color="secondary"
-                  size="small"
-                  variant="link"
-                />
               </div>
             </Form>
           )}

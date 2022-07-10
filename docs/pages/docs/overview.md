@@ -4,7 +4,7 @@ title: Welcome to NFToken
 
 # {% $markdoc.frontmatter.title %}
 
-NFToken is a simple, cheap NFT standard for Solana. 
+NFToken is a simple, cheap NFT standard for Solana.
 
 ### NFToken is 4x Cheaper Than Metaplex
 
@@ -20,17 +20,11 @@ An NFToken NFT with a Collection requires two accounts: one for the NFT and one 
 
 These docs are interactive. That means you can get started without even opening the terminal. You can even create a primary drop (equivalent of Candy Machine) without installing anything.
 
-### Try Creating an NFT
-
-You can try it out right here. Just pick an image to create an NFT.
+### Try It Out
 
 {% create-nft-section /%}
 
-Once you've created your NFT, you'll be able to see it your Glow wallet. 
-
 ## Bonus - The Code
-
-If you want to create an NFT via code, you can see the [code for this page on GitHub](https://github.com/glow-xyz/nftoken/blob/master/docs/components/CreateNftSection.tsx).
 
 Here's what the function to create an NFT looks like:
 
@@ -107,3 +101,5 @@ await window.glow!.signAndSendTransaction({
   network: Network.Mainnet,
 });
 ```
+
+All of the code for this site is Open Source. You can see the [code for this page on GitHub](https://github.com/glow-xyz/nftoken/blob/master/docs/components/CreateNftSection.tsx).

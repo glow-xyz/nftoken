@@ -3,7 +3,7 @@ import React from "react";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import { Footer } from "./all-pages/Footer";
 import { Header } from "./all-pages/Header";
-import { DOC_PAGES, MINTLIST_PAGES } from "./all-pages/navigation-constants";
+import { DOC_PAGES, DASHBOARD_PAGES } from "./all-pages/navigation-constants";
 import { DesktopSecondaryNav } from "./DesktopSecondaryNav";
 import { MobileSecondaryNav } from "./MobileSecondaryNav";
 
@@ -13,7 +13,7 @@ const SecondaryNavToLinks: Record<
   Array<{ href: string; title: string }>
 > = {
   docs: DOC_PAGES,
-  mintlists: MINTLIST_PAGES,
+  mintlists: DASHBOARD_PAGES,
 };
 
 export const PageLayout = ({

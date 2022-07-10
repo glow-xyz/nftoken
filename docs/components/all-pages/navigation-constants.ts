@@ -8,7 +8,9 @@ export const DOC_PAGES = [
   { title: "Changelog", href: "/docs/changelog" },
 ];
 
-export const MINTLIST_PAGES = [
+export const DASHBOARD_PAGES = [
+  { title: "My NFTs", href: "/my-nfts" },
+  { title: "Create an NFT", href: "/create-an-nft" },
   { title: "My Mintlists", href: "/mintlists" },
   { title: "Create a Mintlist", href: "/mintlists/create" },
 ];

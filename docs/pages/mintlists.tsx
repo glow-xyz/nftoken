@@ -8,6 +8,7 @@ import useSWR from "swr";
 import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
 import { LuxButton } from "../components/LuxButton";
 import { LuxLink } from "../components/LuxLink";
+import { LuxSpinner } from "../components/LuxSpinner";
 import {
   getMintlistStatus,
   MintlistStatus,
@@ -25,51 +26,35 @@ export default function MintlistsPage() {
 
   const { network } = useNetworkContext();
 
-  const { data } = useMintlists({ wallet, network });
-  const mintlists = data ?? [];
+  const { data: mintlists } = useMintlists({ wallet, network });
 
   return (
     <PageLayout secondaryNav={"mintlists"}>
       <h1>My Mintlists</h1>
 
-      <div className={"mb-2"}>
-        Below you can find the overview of all the mintlists you created. Click
-        on the mintlist name to go to its details page where you can manage it.
-      </div>
+      <div className={"mb-4 flex-center spread"}>
+        <div className="text-secondary">See mintlists you've created.</div>
 
-      <div className="mb-4">
         <NetworkSwitcher />
-
-        {mintlists.length > 0 && (
-          <>
-            <div className="flex-column gap-4 mt-2 mb-4">
-              {mintlists.map((mintlist) => (
-                <MintlistRow key={mintlist.address} mintlist={mintlist} />
-              ))}
-            </div>
-
-            <LuxButton
-              size={"small"}
-              icon={<PlusIcon />}
-              label="Create New Mintlist"
-              href="/docs/create-a-mintlist"
-            />
-          </>
-        )}
-
-        {mintlists.length === 0 && (
-          <div>
-            <div className="mt-3 mb-2">Create your first Mintlist here:</div>
-
-            <LuxButton
-              size={"small"}
-              icon={<PlusIcon />}
-              label="Create New Mintlist"
-              href="/docs/create-a-mintlist"
-            />
-          </div>
-        )}
       </div>
+
+      {!mintlists && (
+        <div className="p-5 flex-center-center">
+          <LuxSpinner />
+        </div>
+      )}
+
+      {mintlists && mintlists.length > 0 && (
+        <div className="flex-column gap-4 mt-2 mb-4">
+          {mintlists.map((mintlist) => (
+            <MintlistRow key={mintlist.address} mintlist={mintlist} />
+          ))}
+        </div>
+      )}
+
+      {mintlists && mintlists.length === 0 && (
+        <div className={"py-3"}>No mintlists found.</div>
+      )}
     </PageLayout>
   );
 }
@@ -82,34 +67,40 @@ const MintlistRow = ({ mintlist }: { mintlist: NftokenTypes.MintlistInfo }) => {
       href={`/mintlist/${mintlist.address}`}
     >
       <div className={"flex-center gap-3"}>
-        <SquareImage src={mintlist.image} size={80} />
+        <div style={{ width: 80 }}>
+          <SquareImage src={mintlist.image} size={80} />
+        </div>
 
         <div>
           <div className="font-weight-medium text-lg">{mintlist.name}</div>
 
-          <div>
+          <div className={"flex-center gap-2"}>
             <MintlistStatusPill status={status} />
-          </div>
 
-          {status === MintlistStatus.Pending && (
-            <div>{mintlist.mint_infos.length} Mint Infos Configured</div>
-          )}
+            <div className="text-secondary">
+              {status === MintlistStatus.Pending && (
+                <div>{mintlist.mint_infos.length} Mint Infos</div>
+              )}
 
-          {status === MintlistStatus.PreSale && (
-            <div>
-              Sale Starts{" "}
-              {DateTime.fromISO(mintlist.go_live_date).toLocaleString({
-                dateStyle: "medium",
-                timeStyle: "short",
-              })}
+              {status === MintlistStatus.PreSale && (
+                <div>
+                  Sale Starts{" "}
+                  {DateTime.fromISO(mintlist.go_live_date).toLocaleString({
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}
+                </div>
+              )}
+
+              {status === MintlistStatus.ForSale && (
+                <div>{mintlist.num_nfts_redeemed} Mints</div>
+              )}
+
+              {status === MintlistStatus.SaleEnded && (
+                <div>Congratulations!</div>
+              )}
             </div>
-          )}
-
-          {status === MintlistStatus.ForSale && (
-            <div>{mintlist.num_nfts_redeemed} Mints</div>
-          )}
-
-          {status === MintlistStatus.SaleEnded && <div>Congratulations!</div>}
+          </div>
         </div>
       </div>
 
@@ -149,5 +140,6 @@ function useMintlists({
 
     return await NftokenFetcher.getAllMintlists({ wallet, network });
   });
+
   return { data, error };
 }

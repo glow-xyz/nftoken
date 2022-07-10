@@ -1,5 +1,3 @@
-import React from "react";
-import { useGlowContext } from "@glow-xyz/glow-react";
 import {
   GKeypair,
   GlowBorsh,
@@ -7,29 +5,30 @@ import {
   GTransaction,
   SolanaClient,
 } from "@glow-xyz/solana-client";
+import BN from "bn.js";
 import { Form, Formik, useFormikContext } from "formik";
 import { DateTime } from "luxon";
+import { useRouter } from "next/router";
+import React from "react";
 import {
   LAMPORTS_PER_SOL,
   NFTOKEN_ADDRESS,
   SYSVAR_CLOCK_PUBKEY,
 } from "../utils/constants";
+import { getMintlistAccountSize } from "../utils/mintlist";
 import {
   NFTOKEN_MINTLIST_CREATE_IX,
   SYSTEM_CREATE_ACCOUNT_IX,
 } from "../utils/nft-borsh";
-import { LuxInputField } from "./LuxInput";
-import { LuxButton, LuxSubmitButton } from "./LuxButton";
+import { NETWORK_TO_RPC } from "../utils/rpc-types";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { DateTimePicker } from "./DateTimePicker";
-import { LuxInputLabel } from "./LuxInputLabel";
 import { SimpleDropZone } from "./forms/SimpleDropZone";
-import { getMintlistAccountSize } from "../utils/mintlist";
-import BN from "bn.js";
-import { NETWORK_TO_RPC } from "../utils/rpc-types";
 import { InteractiveWell } from "./InteractiveWell";
+import { LuxSubmitButton } from "./LuxButton";
+import { LuxInputField } from "./LuxInput";
+import { LuxInputLabel } from "./LuxInputLabel";
 import { useNetworkContext } from "./NetworkContext";
-import { useRouter } from "next/router";
 
 type FormData = {
   name: string;
@@ -42,7 +41,6 @@ type FormData = {
 export const CreateMintlistSection = () => {
   const { push } = useRouter();
 
-  const { signOut } = useGlowContext();
   const { network } = useNetworkContext();
 
   const initialValues: FormData = {
@@ -153,17 +151,7 @@ export const CreateMintlistSection = () => {
 
           <DatePickerField label="Go Live Date" fieldName="goLiveDate" />
 
-          <div className="flex-center spread">
-            <LuxSubmitButton label="Create Mintlist" />
-
-            <LuxButton
-              label="Disconnect Wallet"
-              onClick={signOut}
-              color="secondary"
-              size="small"
-              variant="link"
-            />
-          </div>
+          <LuxSubmitButton label="Create Mintlist" />
         </Form>
       </Formik>
 

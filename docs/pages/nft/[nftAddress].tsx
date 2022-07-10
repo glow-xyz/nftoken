@@ -69,13 +69,12 @@ export default function NftPage({
 
       <div className="wrapper">
         <div className="columns">
-          {nft.image && (
-            <div className="image">
-              <SquareImage src={nft.image} size={500} alt={nft.name} />
-            </div>
-          )}
+          <div className="image">
+            <SquareImage src={nft.image} size={500} />
+          </div>
+
           <div>
-            <h1>{nft.name}</h1>
+            <h1>{nft.name ?? "Unknown"}</h1>
 
             <div>
               <h2 className="text-secondary">On-Chain Metadata</h2>
