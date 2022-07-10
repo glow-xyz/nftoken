@@ -31,11 +31,12 @@
   },
   "devDependencies": {
     "@solana/web3.js": "1.44.1",
+    "@types/bn.js": "5.1.0",
     "@types/jest": "28.1.2",
     "@types/lodash": "4.14.182",
-    "@types/bn.js": "5.1.0",
     "@types/luxon": "2.3.2",
     "@typescript-eslint/parser": "5.28.0",
+    "@typescript-eslint/eslint-plugin": "5.30.5",
     "esbuild": "0.14.45",
     "esbuild-register": "3.3.3",
     "eslint": "8.18.0",
