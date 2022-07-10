@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install yarn dependencies
-        run: npm install pnpm -g && pnpm install -r nftoken-js
+        run: npm install pnpm -g && pnpm install --filter nftoken-js
       - name: Lint
         run: pnpm --filter nftoken-js run lint
       - name: Typescript Compile (tsc)
