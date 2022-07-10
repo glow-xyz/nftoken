@@ -6,20 +6,20 @@ import {
   GTransaction,
   SolanaClient,
 } from "@glow-xyz/solana-client";
-import { useNetworkContext } from "./NetworkContext";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
-import classNames from "classnames";
-import { Form, Formik, useFormikContext } from "formik";
-import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
+import classNames from "classnames";
+import { Form, Formik } from "formik";
+import { useEffect, useState } from "react";
 import { NFTOKEN_ADDRESS } from "../utils/constants";
 import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
+import { NETWORK_TO_RPC } from "../utils/rpc-types";
 import { uploadJsonToS3 } from "../utils/upload-file";
-import { LuxInputField } from "../components/LuxInput";
-import { LuxButton, LuxSubmitButton } from "../components/LuxButton";
 import { SimpleDropZone } from "./forms/SimpleDropZone";
 import { InteractiveWell } from "./InteractiveWell";
-import { NETWORK_TO_RPC } from "../utils/rpc-types";
+import { LuxSubmitButton } from "./LuxButton";
+import { LuxInputField } from "./LuxInput";
+import { useNetworkContext } from "./NetworkContext";
 
 type FormData = {
   name: string;
@@ -27,7 +27,7 @@ type FormData = {
 };
 
 export const CreateNftSection = () => {
-  const { user, glowDetected, signOut } = useGlowContext();
+  const { user, glowDetected } = useGlowContext();
   const [success, setSuccess] = useState(false);
 
   const initialValues: FormData = { name: "", image: null };
@@ -74,11 +74,7 @@ export const CreateNftSection = () => {
 
   return (
     <div className="create-nft-section">
-      <InteractiveWell
-        title="Live Minting Demo"
-        minimal={success}
-        className="my-3"
-      >
+      <InteractiveWell title="Create an NFT" minimal={success} className="my-3">
         <div className={classNames({ invisible: success })}>
           <Formik
             initialValues={initialValues}
@@ -138,21 +134,13 @@ export const CreateNftSection = () => {
           >
             <Form>
               <div className="mb-4">
-                <LuxInputField label="Name" name="name" required />
+                <LuxInputField label="NFT Name" name="name" required />
               </div>
 
               <SimpleDropZone<FormData> label="NFT Image" fieldName="image" />
 
-              <div className="mt-4 flex-center spread">
-                <SubmitButton />
-
-                <LuxButton
-                  label="Disconnect Wallet"
-                  onClick={signOut}
-                  size="small"
-                  color="secondary"
-                  variant="link"
-                />
+              <div className="mt-4">
+                <LuxSubmitButton label="Create NFT" rounded color="brand" />
               </div>
             </Form>
           </Formik>
@@ -202,19 +190,5 @@ export const CreateNftSection = () => {
         }
       `}</style>
     </div>
-  );
-};
-
-const SubmitButton = () => {
-  const { values } = useFormikContext();
-  const data = values as FormData;
-
-  return (
-    <LuxSubmitButton
-      label="Create NFT"
-      rounded
-      color="brand"
-      disabled={!(data.name && data.image)}
-    />
   );
 };

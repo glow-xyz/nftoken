@@ -1,34 +1,105 @@
 ---
-title: Overview
+title: Welcome to NFToken
 ---
 
 # {% $markdoc.frontmatter.title %}
 
-NFToken is a simple, easy to use NFT standard for the Solana blockchain. With NFToken, you can:
+NFToken is a simple, cheap NFT standard for Solana.
 
-- Create NFTs that represent art or other digital assets
-- Update or freeze the NFTs you have created
-- Organize a group of NFTs into a collection
-- Retrieve NFTs for a wallet
+### NFToken is 4x Cheaper Than Metaplex
 
-## What is an NFT?
+Creating an NFT with NFToken costs 2M Lamports or $0.08. Metaplex costs 10M Lamports or $0.32.
 
-Today the most popular use case for an NFT is to put a piece of digital artwork on chain. Once you have created an NFT, you can prove ownership and easily trade the NFT.
+### NFToken is Simple and Easy to Understand
 
-One of the most popular use cases is for Profile Pictures (or PFPs) where an artist will create a collection of similar NFTs that form a collection. Collectors purchase an NFT that they feel represents them and they use their NFT as their profile photo on social media. CryptoPunks and Bored Ape Yacht Club are both famous PFP collections.
+A Metaplex NFT with a Collection requires mint, token, metadata, and edition accounts for the NFT and another set for the collection.
 
-While digital art is the most common use case today, NFTs can represent any type of digital ownership. Here are some interesting use cases for NFTs today:
+An NFToken NFT with a Collection requires two accounts: one for the NFT and one for the collection.
 
-- A physical art gallery has created NFTs for the art gallery members. With one of their NFTs, you receive free admission to the art gallery events and Discord server.
-- Musicians create NFTs that fractionalize their song royalties. As they get paid royalties for their song, a portion of the proceeds go to their NFT holders.
-- Video games are creating NFTs to represent in-game items. This allows players to bring their in-game items between different games and to easily transfer / sell what they've earned in-game.
+### NFToken Doesn't Require the Terminal
 
-## What is Solana?
+These docs are interactive. That means you can get started without even opening the terminal. You can even create a primary drop (equivalent of Candy Machine) without installing anything.
 
-Bitcoin and Ethereum are the two most popular blockchains. But they have major issues which make NFTs difficult. They are slow, expensive, and consume large amounts of energy to run.
+### Try It Out
 
-Solana is an alternative blockchain designed to fix the problems with Bitcoin and Ethereum. Solana is designed to be:
+{% create-nft-section /%}
 
-- **Fast** — Transactions resolve in a couple seconds. This feels like a credit card transactions in contrast to Bitcoin and Ethereum where transactions take more than 5 minutes.
-- **Cheap** — A Solana transaction typically costs less than $0.01 (5k lamports). With NFToken, creating an NFT costs ~ $0.10 (2.2M lamports / 0.0022 SOL). Bitcoin and Ethereum have transaction fees of more than $10.
-- **Energy Efficient** — Bitcoin consumes more energy than the country of Argentina and Ethereum is close behind. [Solana is extremely efficient](https://solana.com/news/solanas-energy-use-report-march-2022) and uses the amount of energy equivalent to ~ 1,000 American homes.
+## Bonus - The Code
+
+Here's what the function to create an NFT looks like:
+
+```ts
+import { Network } from "@glow-xyz/glow-client";
+import {
+  GKeypair,
+  GPublicKey,
+  GTransaction,
+  SolanaClient,
+} from "@glow-xyz/solana-client";
+
+// This opens the Glow Chrome Extension and give us the current wallet
+const { address: wallet } = await window.glow!.connect();
+
+// We create an account for the NFT by creating a Keypair and then signing
+// the first transaction with that Keypair. That Keypair is not needed and cannot be
+// used after that first transaction.
+const nft_keypair = GKeypair.generate();
+
+// We upload the Metadata about the NFT to S3, but you can also upload it to your own
+// decentralized storage service.
+const { file_url: metadata_url } = await uploadJsonToS3({
+  json: { name, image },
+});
+
+// Every transaction on Solana must include a recent (~ 2 min) blockhash so that the cluster
+// knows that the transaction should be processed.
+const recentBlockhash = await SolanaClient.getRecentBlockhash({
+  rpcUrl: "https://api.mainnet-beta.solana.com",
+});
+
+// Now we create the transaction locally and then encode it in Base64. Once it's in Base64, we can
+// submit it to the Solana cluster to be processed.
+const transaction = GTransaction.create({
+  feePayer: wallet,
+  recentBlockhash,
+  instructions: [
+    {
+      accounts: [
+        // NFT Creator / Authority
+        { address: wallet, signer: true, writable: true },
+        // The initial holder
+        { address: wallet, writable: false, signer: false },
+        // The address of the NFT
+        { address: nft_keypair.address, signer: true, writable: true },
+        // This is the system program
+        {
+          address: GPublicKey.default.toString(),
+          writable: false,
+          signer: false,
+        },
+      ],
+      program: NFTOKEN_ADDRESS,
+      data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
+        ix: null,
+        metadata_url,
+        // If you are the authority of an NFT collection, you can add NFTs to the collection.
+        collection_included: false,
+      }).toString("base64"),
+    },
+  ],
+});
+
+const signedTx = GTransaction.sign({
+  secretKey: nft_keypair.secretKey,
+  gtransaction: transaction,
+});
+
+await window.glow!.signAndSendTransaction({
+  transactionBase64: GTransaction.toBuffer({
+    gtransaction: signedTx,
+  }).toString("base64"),
+  network: Network.Mainnet,
+});
+```
+
+All of the code for this site is Open Source. You can see the [code for this page on GitHub](https://github.com/glow-xyz/nftoken/blob/master/docs/components/CreateNftSection.tsx).

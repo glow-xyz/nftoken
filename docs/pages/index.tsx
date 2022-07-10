@@ -60,10 +60,11 @@ export default function Index() {
         }
 
         .inner {
-          padding: 1.5rem;
           margin: 0 auto;
           width: 100%;
-          max-width: 60rem;
+          
+          max-width: var(--page-max-width);
+          padding: 1.5rem var(--page-horizontal-padding);
 
           /* To visually center. */
           margin-bottom: 4rem;

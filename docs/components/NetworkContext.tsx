@@ -1,9 +1,11 @@
-import { createContext } from "react";
+import { useRouter } from "next/router";
+import React, { createContext } from "react";
 import { Network } from "@glow-xyz/glow-client";
 import { createUseAppContext } from "../utils/context";
 import { usePersistedState } from "../hooks/usePersistedState";
 
 const NETWORK_LOCAL_STORAGE_KEY = "nftoken-docs-network";
+
 type Context = {
   network: Network;
   setNetwork: (network: Network) => void;
@@ -22,6 +24,7 @@ export const NetworkProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const router = useRouter();
   const defaultNetwork: Network = Network.Mainnet;
   const [network, setNetwork] = usePersistedState(
     NETWORK_LOCAL_STORAGE_KEY,
@@ -31,7 +34,7 @@ export const NetworkProvider = ({
   return (
     <NetworkContext.Provider
       value={{
-        network: network as Network,
+        network: (router.query.network || network) as Network,
         setNetwork,
       }}
     >

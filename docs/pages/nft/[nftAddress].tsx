@@ -1,16 +1,16 @@
-import React from "react";
 import { Network } from "@glow-xyz/glow-client";
 import { Solana } from "@glow-xyz/solana-client";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import React from "react";
 import useSWR, { SWRResponse } from "swr";
-import { NftokenFetcher } from "../../utils/NftokenFetcher";
-import { NftokenTypes } from "../../utils/NftokenTypes";
 import { PageLayout } from "../../components/PageLayout";
 import { SocialHead } from "../../components/SocialHead";
-import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { ValueList } from "../../components/ValueList";
 import { SquareImage } from "../../components/SquareImage";
+import { ValueList } from "../../components/ValueList";
+import { NftokenFetcher } from "../../utils/NftokenFetcher";
+import { NftokenTypes } from "../../utils/NftokenTypes";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 const useNft = ({
   nftAddress,
@@ -54,28 +54,27 @@ export default function NftPage({
 
   if (nft === null) {
     return (
-      <PageLayout>
+      <div>
         <SocialHead subtitle="NFT Not Found" />
         <h1 className="text-xl font-weight-medium">
-          We couldn’t find an NFT with this address.
+          We couldn't find an NFT with this address.
         </h1>
-      </PageLayout>
+      </div>
     );
   }
 
   return (
-    <PageLayout>
+    <PageLayout secondaryNav={"mintlists"}>
       <SocialHead subtitle={nft.name} />
 
       <div className="wrapper">
         <div className="columns">
-          {nft.image && (
-            <div className="image">
-              <SquareImage src={nft.image} size={500} alt={nft.name} />
-            </div>
-          )}
+          <div className="image">
+            <SquareImage src={nft.image} size={500} />
+          </div>
+
           <div>
-            <h1>{nft.name}</h1>
+            <h1>{nft.name ?? "Unknown"}</h1>
 
             <div>
               <h2 className="text-secondary">On-Chain Metadata</h2>
@@ -115,10 +114,6 @@ export default function NftPage({
       </div>
 
       <style jsx>{`
-        .wrapper {
-          margin-top: 1.5rem;
-        }
-
         .image {
           display: block;
           width: 100%;

@@ -28,11 +28,9 @@ type MintInfosFormData = {
 export function MintInfosUploader({
   mintlist,
   network,
-  onSignOut,
 }: {
   mintlist: NftokenTypes.MintlistInfo;
   network: Network;
-  onSignOut: () => void;
 }) {
   const [mode, setMode] = useState<"csv" | "rows">("rows");
   const uploadedMetadataCountRef = useRef(0);
@@ -169,14 +167,6 @@ export function MintInfosUploader({
                   }`}
                   rounded
                   color="brand"
-                />
-
-                <LuxButton
-                  label="Disconnect Wallet"
-                  onClick={onSignOut}
-                  color="secondary"
-                  size="small"
-                  variant="link"
                 />
               </div>
             </Form>

@@ -1,9 +1,7 @@
-import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { DateTime } from "luxon";
 import React from "react";
 import { LAMPORTS_PER_SOL } from "../../utils/constants";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { LuxButton } from "../LuxButton";
 import { ImageCard } from "../ImageCard";
 import { ValueList } from "../ValueList";
 import { getMintlistStatus, MintlistAndCollection } from "./mintlist-utils";
@@ -16,18 +14,6 @@ export const MintlistInfoHeader = ({
   const status = getMintlistStatus(mintlist);
   return (
     <div>
-      <div className="navigation">
-        <LuxButton
-          label="My Mintlists"
-          icon={<ChevronLeftIcon />}
-          href="/mintlists"
-          iconPlacement="left"
-          rounded
-          variant="link"
-          color="brand"
-        />
-      </div>
-
       <div className="flex-center gap-2 mb-2">
         <Pill label={"Mintlist"} color={"gray"} />
         <MintlistStatusPill status={status} />
@@ -75,10 +61,6 @@ export const MintlistInfoHeader = ({
       </div>
 
       <style jsx>{`
-        .navigation {
-          margin-bottom: 2rem;
-        }
-
         .columns {
           display: grid;
           grid-template-columns: 20rem 1fr;

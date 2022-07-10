@@ -7,3 +7,9 @@ body.light {
 body.dark {
   @import "node_modules/prism-themes/themes/prism-one-dark";
 }
+
+body {
+  --page-max-width: 60rem;
+  --page-horizontal-padding: 1.5rem;
+  --header-height: 3.2rem;
+}

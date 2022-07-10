@@ -19,7 +19,6 @@ import {
 import { MintlistInfoHeader } from "../../components/mintlist/MintlistInfoHeader";
 import { MintlistPending } from "../../components/mintlist/MintlistPending";
 import { useNetworkContext } from "../../components/NetworkContext";
-import { PageLayout } from "../../components/PageLayout";
 import { SocialHead } from "../../components/SocialHead";
 import { useBoolean } from "../../hooks/useBoolean";
 import {
@@ -44,11 +43,11 @@ export default function MintlistPage() {
 
   if (!data) {
     return (
-      <PageLayout>
+      <div>
         <div className="p-5 flex-center-center">
           <LuxSpinner />
         </div>
-      </PageLayout>
+      </div>
     );
   }
 
@@ -56,7 +55,7 @@ export default function MintlistPage() {
   const status = getMintlistStatus(mintlist);
 
   return (
-    <PageLayout>
+    <div>
       <SocialHead subtitle={data.mintlist.name} />
       <MintlistInfoHeader mintlist={mintlist} collection={collection} />
 
@@ -74,7 +73,7 @@ export default function MintlistPage() {
       )}
 
       {status === MintlistStatus.SaleEnded && <div>Sale Ended TODO</div>}
-    </PageLayout>
+    </div>
   );
 }
 
