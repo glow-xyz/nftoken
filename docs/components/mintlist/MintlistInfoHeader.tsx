@@ -1,4 +1,3 @@
-import { DateTime } from "luxon";
 import React from "react";
 import { LAMPORTS_PER_SOL } from "../../utils/constants";
 import { pluralize } from "../../utils/string";

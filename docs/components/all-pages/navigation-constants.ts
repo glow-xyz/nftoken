@@ -1,5 +1,6 @@
 export const DOC_PAGES = [
   { title: "Welcome", href: "/docs/overview" },
+  { title: "Creating an NFT", href: "/docs/creating-an-nft" },
   { title: "Background", href: "/docs/background" },
   // { title: "Create a Mintlist", href: "/docs/create-a-mintlist" },
   { title: "Technical Details", href: "/docs/technical-details" },
