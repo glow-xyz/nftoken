@@ -30,7 +30,7 @@ export default function MintlistsPage() {
 
   return (
     <PageLayout secondaryNav={"mintlists"}>
-      <h1>Mintlists</h1>
+      <h1>My Mintlists</h1>
 
       <div className={"mb-2"}>
         Below you can find the overview of all the mintlists you created. Click
