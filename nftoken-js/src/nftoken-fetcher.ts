@@ -5,14 +5,14 @@ import bs58 from "bs58";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import pLimit from "p-limit";
-import { NFTOKEN_ADDRESS } from "./constants";
+import { Buffer } from "buffer";
 import {
   NFTOKEN_COLLECTION_ACCOUNT,
   NFTOKEN_MINTLIST_ACCOUNT,
   NFTOKEN_NFT_ACCOUNT,
-} from "./nft-borsh";
-import { NftokenTypes } from "./NftokenTypes";
-import { NETWORK_TO_RPC } from "./rpc-types";
+} from "./nftoken-formats";
+import { NETWORK_TO_RPC, NFTOKEN_ADDRESS } from "./nftoken-txs";
+import { NftokenTypes } from "./nftoken-types";
 
 export namespace NftokenFetcher {
   export const getAllNfts = async ({

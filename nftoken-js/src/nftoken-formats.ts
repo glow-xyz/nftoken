@@ -1,9 +1,8 @@
 import { array, bool, FixedSizeBeet, u32, u8 } from "@glow-xyz/beet";
 import { FixableGlowBorsh, GlowBorsh, Solana } from "@glow-xyz/solana-client";
 import BN from "bn.js";
-import { Buffer } from "buffer";
 import { DateTime } from "luxon";
-import { NftokenTypes } from "./NftokenTypes";
+import { NftokenTypes } from "./nftoken-types";
 
 export const NFTOKEN_NFT_CREATE_IX = new FixableGlowBorsh<{
   ix: null;

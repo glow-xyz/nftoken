@@ -1,19 +1,10 @@
-import { Network } from "@glow-xyz/glow-client";
 import { useGlowContext } from "@glow-xyz/glow-react";
-import {
-  GKeypair,
-  GPublicKey,
-  GTransaction,
-  SolanaClient,
-} from "@glow-xyz/solana-client";
+import { constructCreateNftTx } from "@glow-xyz/nftoken-js";
 import { BadgeCheckIcon } from "@heroicons/react/outline";
 import confetti from "canvas-confetti";
 import classNames from "classnames";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { NFTOKEN_ADDRESS } from "../utils/constants";
-import { NFTOKEN_NFT_CREATE_IX } from "../utils/nft-borsh";
-import { NETWORK_TO_RPC } from "../utils/rpc-types";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { SimpleDropZone } from "./forms/SimpleDropZone";
 import { InteractiveWell } from "./InteractiveWell";
@@ -81,51 +72,19 @@ export const CreateNftSection = () => {
             onSubmit={async ({ name, image }, { resetForm }) => {
               const { address: wallet } = await window.glow!.connect();
 
-              const nft_keypair = GKeypair.generate();
               const { file_url: metadata_url } = await uploadJsonToS3({
                 json: { name, image },
               });
-              const recentBlockhash = await SolanaClient.getRecentBlockhash({
-                rpcUrl: NETWORK_TO_RPC[network],
-              });
 
-              const transaction = GTransaction.create({
-                feePayer: wallet,
-                recentBlockhash,
-                instructions: [
-                  {
-                    accounts: [
-                      // NFT Creator
-                      { address: wallet, signer: true, writable: true },
-                      // Holder
-                      { address: wallet, writable: false, signer: false },
-                      {
-                        address: nft_keypair.address,
-                        signer: true,
-                        writable: true,
-                      },
-                      {
-                        address: GPublicKey.default.toString(),
-                        writable: false,
-                        signer: false,
-                      },
-                    ],
-                    program: NFTOKEN_ADDRESS,
-                    data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
-                      ix: null,
-                      metadata_url,
-                      collection_included: false,
-                    }).toString("base64"),
-                  },
-                ],
-                signers: [nft_keypair],
+              const { transactionBase64 } = await constructCreateNftTx({
+                metadata_url,
+                network,
+                creator: wallet,
               });
 
               await window.glow!.signAndSendTransaction({
-                transactionBase64: GTransaction.toBuffer({
-                  gtransaction: transaction,
-                }).toString("base64"),
-                network: network ?? Network.Mainnet,
+                transactionBase64,
+                network: network,
               });
 
               resetForm({ values: { name: "", image: null } });

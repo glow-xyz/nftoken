@@ -1,3 +1,4 @@
 packages:
   - "docs"
+  - "nftoken-js"
   - "program-tests"

@@ -1,4 +1,5 @@
 import { Network } from "@glow-xyz/glow-client";
+import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "@glow-xyz/nftoken-js";
 import { GTransaction, SolanaClient } from "@glow-xyz/solana-client";
 import { TrashIcon } from "@heroicons/react/outline";
 import { FieldArray, Form, Formik, useFormikContext } from "formik";
@@ -7,7 +8,6 @@ import pLimit from "p-limit";
 import React, { useRef, useState } from "react";
 import FileIcon from "../../icons/feather/FileIcon.svg";
 import { NFTOKEN_ADDRESS } from "../../utils/constants";
-import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "../../utils/nft-borsh";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
 import { toastLoading, toastSuccess } from "../../utils/toast";

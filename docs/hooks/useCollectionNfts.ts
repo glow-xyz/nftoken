@@ -2,7 +2,7 @@ import { Solana } from "@glow-xyz/solana-client";
 import { Network } from "@glow-xyz/glow-client";
 import { NftokenTypes } from "../utils/NftokenTypes";
 import useSWR, { SWRResponse } from "swr";
-import { NftokenFetcher } from "../utils/NftokenFetcher";
+import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 
 export const useCollectionNfts = ({
   collectionAddress,

@@ -15,7 +15,7 @@ import { MintlistStatusPill } from "../components/mintlist/MintlistStatusPill";
 import { useNetworkContext } from "../components/NetworkContext";
 import { SocialHead } from "../components/SocialHead";
 import { SquareImage } from "../components/SquareImage";
-import { NftokenFetcher } from "../utils/NftokenFetcher";
+import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../utils/NftokenTypes";
 
 export default function MintlistsPage() {
