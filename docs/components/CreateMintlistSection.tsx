@@ -1,7 +1,6 @@
 import { Address, Network } from "@glow-xyz/glow-client";
 import {
   GKeypair,
-  GlowBorsh,
   GPublicKey,
   GTransaction,
   SolanaClient,
