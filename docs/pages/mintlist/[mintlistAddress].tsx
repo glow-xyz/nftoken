@@ -44,7 +44,7 @@ export default function MintlistPage() {
 
   if (!data) {
     return (
-      <PageLayout>
+      <PageLayout secondaryNav={'mintlists'}>
         <div className="p-5 flex-center-center">
           <LuxSpinner />
         </div>
@@ -56,7 +56,7 @@ export default function MintlistPage() {
   const status = getMintlistStatus(mintlist);
 
   return (
-    <PageLayout>
+    <PageLayout secondaryNav={'mintlists'}>
       <SocialHead subtitle={data.mintlist.name} />
       <MintlistInfoHeader mintlist={mintlist} collection={collection} />
 

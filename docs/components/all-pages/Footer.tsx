@@ -43,8 +43,8 @@ export const Footer = () => {
         }
 
         .footer-inner {
-          padding: 2rem 1.5rem;
-          max-width: 60rem;
+          max-width: var(--page-max-width);
+          padding: 2rem var(--page-horizontal-padding);
           width: 100%;
           margin: 0 auto;
         }

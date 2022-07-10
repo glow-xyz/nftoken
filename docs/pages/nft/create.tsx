@@ -3,7 +3,7 @@ import { CreateNftSection } from "../../components/CreateNftSection";
 
 export default function CreateNftPage() {
   return (
-    <PageLayout>
+    <PageLayout secondaryNav={null}>
       <CreateNftSection />
     </PageLayout>
   );

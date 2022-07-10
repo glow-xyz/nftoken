@@ -7,7 +7,6 @@ import React from "react";
 import useSWR from "swr";
 import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
 import { LuxButton } from "../components/LuxButton";
-import { MINTLIST_PAGES } from "../components/all-pages/navigation-constants";
 import { LuxLink } from "../components/LuxLink";
 import {
   getMintlistStatus,
@@ -30,51 +29,48 @@ export default function MintlistsPage() {
   const mintlists = data ?? [];
 
   return (
-    <>
-      <PageLayout secondaryNavLinks={MINTLIST_PAGES}>
-        <h1>Mintlists</h1>
+    <PageLayout secondaryNav={"mintlists"}>
+      <h1>Mintlists</h1>
 
-        <div className={"mb-2"}>
-          Below you can find the overview of all the mintlists you created.
-          Click on the mintlist name to go to its details page where you can
-          manage it.
-        </div>
+      <div className={"mb-2"}>
+        Below you can find the overview of all the mintlists you created. Click
+        on the mintlist name to go to its details page where you can manage it.
+      </div>
 
-        <div className="mb-4">
-          <NetworkSwitcher />
+      <div className="mb-4">
+        <NetworkSwitcher />
 
-          {mintlists.length > 0 && (
-            <>
-              <div className="flex-column gap-4 mt-2 mb-4">
-                {mintlists.map((mintlist) => (
-                  <MintlistRow key={mintlist.address} mintlist={mintlist} />
-                ))}
-              </div>
-
-              <LuxButton
-                size={"small"}
-                icon={<PlusIcon />}
-                label="Create New Mintlist"
-                href="/docs/create-a-mintlist"
-              />
-            </>
-          )}
-
-          {mintlists.length === 0 && (
-            <div>
-              <div className="mt-3 mb-2">Create your first Mintlist here:</div>
-
-              <LuxButton
-                size={"small"}
-                icon={<PlusIcon />}
-                label="Create New Mintlist"
-                href="/docs/create-a-mintlist"
-              />
+        {mintlists.length > 0 && (
+          <>
+            <div className="flex-column gap-4 mt-2 mb-4">
+              {mintlists.map((mintlist) => (
+                <MintlistRow key={mintlist.address} mintlist={mintlist} />
+              ))}
             </div>
-          )}
-        </div>
-      </PageLayout>
-    </>
+
+            <LuxButton
+              size={"small"}
+              icon={<PlusIcon />}
+              label="Create New Mintlist"
+              href="/docs/create-a-mintlist"
+            />
+          </>
+        )}
+
+        {mintlists.length === 0 && (
+          <div>
+            <div className="mt-3 mb-2">Create your first Mintlist here:</div>
+
+            <LuxButton
+              size={"small"}
+              icon={<PlusIcon />}
+              label="Create New Mintlist"
+              href="/docs/create-a-mintlist"
+            />
+          </div>
+        )}
+      </div>
+    </PageLayout>
   );
 }
 

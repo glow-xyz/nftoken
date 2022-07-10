@@ -22,6 +22,7 @@ const nextConfig = {
     return config;
   },
   redirects: () => [
+    { source: "/", destination: "/docs/overview", permanent: false },
     { source: "/docs", destination: "/docs/overview", permanent: true },
     { source: "/overview", destination: "/docs/overview", permanent: true },
     {

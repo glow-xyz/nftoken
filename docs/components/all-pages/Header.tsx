@@ -94,8 +94,8 @@ export const Header = () => {
         .header-inner {
           width: 100%;
           margin: 0 auto;
-          max-width: 60rem;
-          padding: 1.5rem;
+          max-width: var(--page-max-width);
+          padding: 1.5rem var(--page-horizontal-padding);
           padding-bottom: 0;
         }
 

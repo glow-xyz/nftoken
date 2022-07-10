@@ -1,30 +1,27 @@
 import { GlowProvider } from "@glow-xyz/glow-react";
 import "@glow-xyz/glow-react/dist/styles.css";
 
-import { NetworkProvider } from "../components/NetworkContext";
-
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons";
+
+import { NetworkProvider } from "../components/NetworkContext";
+
+import { PageLayout } from "../components/PageLayout";
 import { SocialHead } from "../components/SocialHead";
 import "../public/globals.css";
 import "../styles/app.scss";
-
-import { PageLayout } from "../components/PageLayout";
-import { DOC_PAGES } from "../components/all-pages/navigation-constants";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
   const router = useRouter();
 
-  if (router.pathname.startsWith("/docs")) {
-    return <DocsPage {...props} />;
-  }
+  const isDocs = router.pathname.startsWith("/docs");
 
   return (
     <GlowProvider>
       <NetworkProvider>
-        <Component {...pageProps} />
+        {isDocs ? <DocsPage {...props} /> : <Component {...pageProps} />}
       </NetworkProvider>
     </GlowProvider>
   );
@@ -32,16 +29,11 @@ export default function App(props: AppProps) {
 
 const DocsPage = ({ Component, pageProps }: AppProps) => {
   return (
-    <GlowProvider>
-      <NetworkProvider>
-        <SocialHead subtitle={pageProps.markdoc?.frontmatter.title} />
+    <PageLayout secondaryNav={'docs'}>
+      <SocialHead subtitle={pageProps.markdoc?.frontmatter.title} />
+      <Component {...pageProps} />
 
-        <PageLayout secondaryNavLinks={DOC_PAGES}>
-          <Component {...pageProps} />
-
-          <NextPreviousButtons />
-        </PageLayout>
-      </NetworkProvider>
-    </GlowProvider>
+      <NextPreviousButtons />
+    </PageLayout>
   );
 };

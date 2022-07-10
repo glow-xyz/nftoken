@@ -54,17 +54,17 @@ export default function NftPage({
 
   if (nft === null) {
     return (
-      <PageLayout>
+      <PageLayout secondaryNav={"mintlists"}>
         <SocialHead subtitle="NFT Not Found" />
         <h1 className="text-xl font-weight-medium">
-          We couldn’t find an NFT with this address.
+          We couldn't find an NFT with this address.
         </h1>
       </PageLayout>
     );
   }
 
   return (
-    <PageLayout>
+    <PageLayout secondaryNav={"mintlists"}>
       <SocialHead subtitle={nft.name} />
 
       <div className="wrapper">

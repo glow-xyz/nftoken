@@ -1,17 +1,17 @@
-import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
 import { Network } from "@glow-xyz/glow-client";
 import { Solana } from "@glow-xyz/solana-client";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import useSWR, { SWRResponse } from "swr";
-import { NftokenFetcher } from "../../utils/NftokenFetcher";
-import { NftokenTypes } from "../../utils/NftokenTypes";
-import { SocialHead } from "../../components/SocialHead";
-import { PageLayout } from "../../components/PageLayout";
-import { ValueList } from "../../components/ValueList";
-import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { useCollectionNfts } from "../../hooks/useCollectionNfts";
 import { ImageCard } from "../../components/ImageCard";
 import { LuxLink } from "../../components/LuxLink";
+import { PageLayout } from "../../components/PageLayout";
+import { SocialHead } from "../../components/SocialHead";
+import { ValueList } from "../../components/ValueList";
+import { useCollectionNfts } from "../../hooks/useCollectionNfts";
+import { NftokenFetcher } from "../../utils/NftokenFetcher";
+import { NftokenTypes } from "../../utils/NftokenTypes";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 const useCollection = ({
   collectionAddress,
@@ -76,7 +76,7 @@ export default function CollectionPage({
 
   if (collection === null) {
     return (
-      <PageLayout>
+      <PageLayout secondaryNav={"mintlists"}>
         <SocialHead subtitle="Collection Not Found" />
         <h1 className="text-xl font-weight-medium">
           We couldn’t find a collection with this address.
@@ -91,7 +91,7 @@ export default function CollectionPage({
   }
 
   return (
-    <PageLayout>
+    <PageLayout secondaryNav={"mintlists"}>
       <SocialHead subtitle={collection.name} />
       <div>
         <div className="collection-badge">Collection</div>
