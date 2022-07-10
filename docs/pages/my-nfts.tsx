@@ -40,7 +40,7 @@ export default function MyNftsPage() {
   );
 }
 
-const NftLoadingGrid = () => {
+export const NftLoadingGrid = () => {
   return (
     <div className={"nft-grid"}>
       {range(12).map((idx) => (
@@ -76,7 +76,7 @@ const NftLoadingGrid = () => {
   );
 };
 
-const NftGrid = ({ nfts }: { nfts: NftokenTypes.NftInfo[] }) => {
+export const NftGrid = ({ nfts }: { nfts: NftokenTypes.NftInfo[] }) => {
   return (
     <div className={"nft-grid"}>
       {nfts.map((nft) => (

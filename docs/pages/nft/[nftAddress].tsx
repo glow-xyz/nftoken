@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR, { SWRResponse } from "swr";
+import { Pill } from "../../components/mintlist/MintlistStatusPill";
 import { SocialHead } from "../../components/SocialHead";
 import { SquareImage } from "../../components/SquareImage";
 import { ValueList } from "../../components/ValueList";
@@ -68,13 +69,19 @@ export default function NftPage({
 
       <div className="wrapper">
         <div className="columns">
-          <div className="image">
-            <SquareImage src={nft.image} size={500} />
+          <div className={"flex-column gap-2"}>
+            <div>
+              <Pill label={"Collection"} color={"gray"} />
+            </div>
+
+            <div className="image">
+              <SquareImage src={nft.image} size={500} />
+            </div>
+
+            <h1>{nft.name ?? "Unknown"}</h1>
           </div>
 
           <div>
-            <h1>{nft.name ?? "Unknown"}</h1>
-
             <div>
               <h2 className="text-secondary">On-Chain Metadata</h2>
               <ValueList
