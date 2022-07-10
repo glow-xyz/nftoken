@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import { LuxLink } from "./LuxLink";
@@ -8,10 +7,8 @@ export type SecondaryNavLink = { title: string; href: string };
 
 export function DesktopSecondaryNav({
   links,
-  navKey,
 }: {
   links: SecondaryNavLink[];
-  navKey: string;
 }) {
   const router = useRouter();
 
@@ -23,15 +20,7 @@ export function DesktopSecondaryNav({
 
           return (
             <div className="nav-item" key={item.title}>
-              {active && (
-                <motion.div
-                  className="active-highlight"
-                  initial={false}
-                  layout
-                  layoutId={`desktop-nav-highlight-${navKey}`}
-                  transition={{ type: "tween", duration: 0.2 }}
-                />
-              )}
+              {active && <div className="active-highlight" />}
               <LuxLink
                 href={item.href}
                 className={classNames("animated rounded font-weight-medium", {
