@@ -16,18 +16,6 @@ export const MintlistInfoHeader = ({
   const status = getMintlistStatus(mintlist);
   return (
     <div>
-      <div className="navigation">
-        <LuxButton
-          label="My Mintlists"
-          icon={<ChevronLeftIcon />}
-          href="/mintlists"
-          iconPlacement="left"
-          rounded
-          variant="link"
-          color="brand"
-        />
-      </div>
-
       <div className="flex-center gap-2 mb-2">
         <Pill label={"Mintlist"} color={"gray"} />
         <MintlistStatusPill status={status} />
@@ -75,10 +63,6 @@ export const MintlistInfoHeader = ({
       </div>
 
       <style jsx>{`
-        .navigation {
-          margin-bottom: 2rem;
-        }
-
         .columns {
           display: grid;
           grid-template-columns: 20rem 1fr;

@@ -3,6 +3,8 @@ import "@glow-xyz/glow-react/dist/styles.css";
 
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import React from "react";
+import { Toaster } from "react-hot-toast";
 import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons";
 
 import { NetworkProvider } from "../components/NetworkContext";
@@ -22,6 +24,8 @@ export default function App(props: AppProps) {
     <GlowProvider>
       <NetworkProvider>
         {isDocs ? <DocsPage {...props} /> : <Component {...pageProps} />}
+
+        <Toaster />
       </NetworkProvider>
     </GlowProvider>
   );
@@ -29,7 +33,7 @@ export default function App(props: AppProps) {
 
 const DocsPage = ({ Component, pageProps }: AppProps) => {
   return (
-    <PageLayout secondaryNav={'docs'}>
+    <PageLayout secondaryNav={"docs"}>
       <SocialHead subtitle={pageProps.markdoc?.frontmatter.title} />
       <Component {...pageProps} />
 
