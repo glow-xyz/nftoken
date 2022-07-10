@@ -13,7 +13,6 @@ import {
 } from "../components/mintlist/mintlist-utils";
 import { MintlistStatusPill } from "../components/mintlist/MintlistStatusPill";
 import { useNetworkContext } from "../components/NetworkContext";
-import { PageLayout } from "../components/PageLayout";
 import { SquareImage } from "../components/SquareImage";
 import { NftokenFetcher } from "../utils/NftokenFetcher";
 import { NftokenTypes } from "../utils/NftokenTypes";
