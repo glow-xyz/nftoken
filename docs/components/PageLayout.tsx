@@ -43,6 +43,7 @@ export const PageLayout = ({
           <DesktopSecondaryNav
             key={secondaryNav}
             links={SecondaryNavToLinks[secondaryNav]}
+            navKey={secondaryNav}
           />
         )}
 
