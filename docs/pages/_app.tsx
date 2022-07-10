@@ -11,7 +11,6 @@ import { NetworkProvider } from "../components/NetworkContext";
 
 import { PageLayout } from "../components/PageLayout";
 import { SocialHead } from "../components/SocialHead";
-import "../public/globals.css";
 import "../styles/app.scss";
 
 export default function App(props: AppProps) {
