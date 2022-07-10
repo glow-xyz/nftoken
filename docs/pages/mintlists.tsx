@@ -44,7 +44,7 @@ export default function MintlistsPage() {
 
           {mintlists.length > 0 && (
             <>
-              <div className="flex-column gap-4 mt-2">
+              <div className="flex-column gap-4 mt-2 mb-4">
                 {mintlists.map((mintlist) => (
                   <MintlistRow key={mintlist.address} mintlist={mintlist} />
                 ))}

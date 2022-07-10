@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { GlowSignInButton, useGlowContext } from "@glow-xyz/glow-react";
+import { MenuIcon, XIcon } from "@heroicons/react/solid";
+import { animate, stagger } from "motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { animate, stagger } from "motion";
-import { ExternalLinkIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
-import { TabBar } from "./TabBar";
+import { useEffect, useState } from "react";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import { LuxButton } from "../LuxButton";
+import { TabBar } from "./TabBar";
 
 export const Header = () => {
   const router = useRouter();
+  const { user, signOut } = useGlowContext();
+  console.log("user", user);
   const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
@@ -55,14 +59,31 @@ export const Header = () => {
               </a>
             </Link>
           </div>
-          <a
-            href="https://github.com/glow-xyz/nftoken"
-            target="_blank"
-            className="github"
-          >
-            <span>GitHub</span>
-            <ExternalLinkIcon />
-          </a>
+
+          {user ? (
+            <LuxButton
+              label={"Sign Out"}
+              size={"small"}
+              rounded
+              color={"secondary"}
+              onClick={() => {
+                signOut();
+              }}
+            />
+          ) : (
+            <GlowSignInButton
+              render={({ glowDetected, signIn }) => (
+                <LuxButton
+                  label={"Sign In"}
+                  size={"small"}
+                  rounded
+                  color={"brand"}
+                  href={glowDetected ? undefined : "https://glow.app/download"}
+                  onClick={signIn}
+                />
+              )}
+            />
+          )}
         </div>
       </header>
 

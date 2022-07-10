@@ -4,7 +4,7 @@ import {
   GPublicKey,
   GTransaction,
   Solana,
-  SolanaClient
+  SolanaClient,
 } from "@glow-xyz/solana-client";
 import { useRouter } from "next/router";
 import React from "react";
@@ -14,7 +14,7 @@ import { LuxSpinner } from "../../components/LuxSpinner";
 import {
   getMintlistStatus,
   MintlistAndCollection,
-  MintlistStatus
+  MintlistStatus,
 } from "../../components/mintlist/mintlist-utils";
 import { MintlistInfoHeader } from "../../components/mintlist/MintlistInfoHeader";
 import { MintlistPending } from "../../components/mintlist/MintlistPending";
@@ -25,7 +25,7 @@ import { useBoolean } from "../../hooks/useBoolean";
 import {
   NFTOKEN_ADDRESS,
   SYSVAR_CLOCK_PUBKEY,
-  SYSVAR_SLOT_HASHES_PUBKEY
+  SYSVAR_SLOT_HASHES_PUBKEY,
 } from "../../utils/constants";
 import { NFTOKEN_MINTLIST_MINT_NFT_V1 } from "../../utils/nft-borsh";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
@@ -79,9 +79,9 @@ export default function MintlistPage() {
 }
 
 function useMintlist({
-                       address,
-                       network
-                     }: {
+  address,
+  network,
+}: {
   address: Solana.Address;
   network: Network;
 }): {
@@ -98,7 +98,7 @@ function useMintlist({
 
     const collection = await NftokenFetcher.getCollection({
       address: mintlist.collection,
-      network
+      network,
     });
 
     if (!collection) {
@@ -107,7 +107,7 @@ function useMintlist({
 
     return {
       mintlist,
-      collection
+      collection,
     };
   });
 
@@ -115,8 +115,8 @@ function useMintlist({
 }
 
 function MintlistMintNftButton({
-                                 mintlist
-                               }: {
+  mintlist,
+}: {
   mintlist: NftokenTypes.Mintlist;
 }) {
   const { network } = useNetworkContext();
@@ -132,7 +132,7 @@ function MintlistMintNftButton({
         const { address: wallet } = await window.glow!.connect();
 
         const recentBlockhash = await SolanaClient.getRecentBlockhash({
-          rpcUrl: NETWORK_TO_RPC[network]
+          rpcUrl: NETWORK_TO_RPC[network],
         });
 
         const nftKeypair = GKeypair.generate();
@@ -143,49 +143,29 @@ function MintlistMintNftButton({
           instructions: [
             {
               accounts: [
-                // signer
-                {
-                  address: wallet,
-                  signer: true,
-                  writable: true
-                },
-                // nft
+                { address: wallet, signer: true, writable: true },
                 { address: nftKeypair.address, signer: true, writable: true },
-                // mintlist
                 { address: mintlist.address, writable: true },
-                // treasury_sol
-                {
-                  address: mintlist.treasury_sol,
-                  writable: true
-                },
-                // System Program
-                {
-                  address: GPublicKey.default.toBase58()
-                },
-                // Clock Sysvar
-                {
-                  address: SYSVAR_CLOCK_PUBKEY
-                },
-                // SlotHashes
-                {
-                  address: SYSVAR_SLOT_HASHES_PUBKEY
-                }
+                { address: mintlist.treasury_sol, writable: true },
+                { address: GPublicKey.default.toBase58() }, // System Program
+                { address: SYSVAR_CLOCK_PUBKEY },
+                { address: SYSVAR_SLOT_HASHES_PUBKEY },
               ],
               program: NFTOKEN_ADDRESS,
               data_base64: NFTOKEN_MINTLIST_MINT_NFT_V1.toBuffer({
-                ix: null
-              }).toString("base64")
-            }
+                ix: null,
+              }).toString("base64"),
+            },
           ],
-          signers: [nftKeypair]
+          signers: [nftKeypair],
         });
 
         try {
           await window.glow!.signAndSendTransaction({
             transactionBase64: GTransaction.toBuffer({
-              gtransaction: tx
+              gtransaction: tx,
             }).toString("base64"),
-            network: network
+            network: network,
           });
         } catch (err) {
           console.error(err);
