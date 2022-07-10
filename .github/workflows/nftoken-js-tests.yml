@@ -7,16 +7,16 @@ on:
 
 jobs:
   run_nftoken_js_tests:
-    name: Typescript Tests
+    name: Nftoken Tests
     runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
       - name: Install yarn dependencies
-        run: npm install pnpm -g && pnpm install -r docs
+        run: npm install pnpm -g && pnpm install -r nftoken-js
       - name: Lint
-        run: pnpm --filter docs run lint
+        run: pnpm --filter nftoken-js run lint
       - name: Typescript Compile (tsc)
-        run: pnpm --filter docs run tsc
+        run: pnpm --filter nftoken-js run tsc
       - name: Build
-        run: pnpm --filter docs run build
+        run: pnpm --filter nftoken-js run build
