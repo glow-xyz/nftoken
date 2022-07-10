@@ -1,0 +1,22 @@
+name: nftoken-js
+
+on:
+  pull_request:
+    paths:
+      - 'nftoken-js/**'
+
+jobs:
+  run_nftoken_js_tests:
+    name: Typescript Tests
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install yarn dependencies
+        run: npm install pnpm -g && pnpm install -r docs
+      - name: Lint
+        run: pnpm --filter docs run lint
+      - name: Typescript Compile (tsc)
+        run: pnpm --filter docs run tsc
+      - name: Build
+        run: pnpm --filter docs run build
