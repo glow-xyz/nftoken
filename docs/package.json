@@ -9,14 +9,14 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@glow-xyz/beet": "0.3.0",
     "@glow-xyz/glow-client": "1.0.3",
     "@glow-xyz/glow-react": "1.0.1",
-    "@glow-xyz/solana-client": "1.0.7",
+    "@glow-xyz/solana-client": "1.0.8",
     "@heroicons/react": "1.0.6",
     "@luma-team/lux-sass": "0.49.0",
     "@markdoc/markdoc": "0.1.2",
     "@markdoc/next.js": "0.1.4-1",
-    "@metaplex-foundation/beet": "0.2.0",
     "@popperjs/core": "2.11.5",
     "@svgr/webpack": "6.2.1",
     "@types/bn.js": "5.1.0",

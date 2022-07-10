@@ -1,7 +1,6 @@
-import { strict as assert } from "assert";
-import BN from "bn.js";
+import { array, bool, FixedSizeBeet, u32, u8 } from "@glow-xyz/beet";
 import { FixableGlowBorsh, GlowBorsh, Solana } from "@glow-xyz/solana-client";
-import { bool, u8, u32, array, FixedSizeBeet } from "@metaplex-foundation/beet";
+import BN from "bn.js";
 import { Buffer } from "buffer";
 import { DateTime } from "luxon";
 import { NftokenTypes } from "./NftokenTypes";

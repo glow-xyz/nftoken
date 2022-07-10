@@ -2,6 +2,7 @@ import React from "react";
 import { useGlowContext } from "@glow-xyz/glow-react";
 import {
   GKeypair,
+  GlowBorsh,
   GPublicKey,
   GTransaction,
   SolanaClient,
@@ -68,6 +69,15 @@ export const CreateMintlistSection = () => {
           const { file_url: metadata_url } = await uploadJsonToS3({
             json: { name, image },
           });
+
+          console.log([
+            "ix",
+            GlowBorsh.ixDiscriminator({ ix_name: "mintlist_create_v1" }).write(
+              Buffer.alloc(100),
+              0,
+              null
+            ),
+          ]);
 
           const { address: wallet } = await window.glow!.connect();
 
