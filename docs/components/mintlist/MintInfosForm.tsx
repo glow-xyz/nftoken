@@ -3,13 +3,13 @@ import { GTransaction, SolanaClient } from "@glow-app/solana-client";
 import { FieldArray, Form, Formik } from "formik";
 import chunk from "lodash/chunk";
 import pLimit from "p-limit";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import FileIcon from "../../icons/feather/FileIcon.svg";
 import { NFTOKEN_ADDRESS } from "../../utils/constants";
 import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "../../utils/nft-borsh";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
-import { toastError, toastLoading, toastSuccess } from "../../utils/toast";
+import { toastLoading, toastSuccess } from "../../utils/toast";
 import { uploadJsonToS3 } from "../../utils/upload-file";
 import { CsvDropZone } from "../forms/CsvDropZone";
 import { SimpleDropZone } from "../forms/SimpleDropZone";
@@ -37,10 +37,6 @@ export function MintInfosUploader({
 
   const mintInfosContainerRef = useRef<HTMLDivElement>(null);
 
-  const [transactionsToResume, setTransactionsToResume] = useState<
-    string[] | null
-  >(null);
-
   const availableToUpload =
     mintlist.num_nfts_total - mintlist.mint_infos.length;
 
@@ -55,10 +51,6 @@ export function MintInfosUploader({
           initialValues={initialValues}
           onSubmit={async ({ nfts }, { resetForm }) => {
             const { address: wallet } = await window.glow!.connect();
-
-            if (transactionsToResume) {
-              return await sendTransactions(transactionsToResume);
-            }
 
             uploadedMetadataCountRef.current = 0;
 
@@ -130,30 +122,17 @@ export function MintInfosUploader({
               }).toString("base64");
             });
 
-            await sendTransactions(transactionsBase64);
+            try {
+              // @ts-ignore
+              await window.glow!.signAndSendAllTransactions({
+                transactionsBase64,
+                replaceBlockhash: true,
+                network: network,
+              });
 
-            async function sendTransactions(txsBase64: string[]) {
-              try {
-                // @ts-ignore
-                await window.glow!.signAndSendAllTransactions({
-                  transactionsBase64: txsBase64,
-                  replaceBlockhash: true,
-                  network: network,
-                });
-
-                setTransactionsToResume(null);
-
-                resetForm({ values: initialValues });
-              } catch (err: any) {
-                if (err.successful_signatures) {
-                  // resume from the failed tx
-                  const failedTxIndex = err.successful_signatures.length;
-                  setTransactionsToResume(txsBase64.slice(failedTxIndex));
-                }
-
-                toastError("There was an error adding the mint infos");
-                throw err;
-              }
+              resetForm({ values: initialValues });
+            } catch (err) {
+              console.error(err);
             }
           }}
         >
@@ -219,19 +198,9 @@ export function MintInfosUploader({
               </div>
               <div className="mt-4 flex-center spread">
                 <LuxSubmitButton
-                  label={
-                    transactionsToResume
-                      ? `Resume Uploading ${
-                          transactionsToResume.length * MINT_INFOS_PER_TX
-                        } ${pluralize(
-                          "NFT",
-                          transactionsToResume.length * MINT_INFOS_PER_TX
-                        )}`
-                      : `Upload ${values.nfts.length} ${pluralize(
-                          "NFT",
-                          values.nfts.length
-                        )}`
-                  }
+                  label={`Upload ${values.nfts.length} NFT${
+                    values.nfts.length !== 1 ? "s" : ""
+                  }`}
                   rounded
                   color="brand"
                 />
@@ -277,11 +246,4 @@ export function MintInfosUploader({
       `}</style>
     </>
   );
-}
-
-function pluralize(word: string, num: number) {
-  if (num === 1) {
-    return word;
-  }
-  return `${word}s`;
 }
