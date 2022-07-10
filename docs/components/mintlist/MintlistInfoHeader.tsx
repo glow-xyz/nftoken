@@ -1,9 +1,7 @@
-import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { DateTime } from "luxon";
 import React from "react";
 import { LAMPORTS_PER_SOL } from "../../utils/constants";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { LuxButton } from "../LuxButton";
 import { ImageCard } from "../ImageCard";
 import { ValueList } from "../ValueList";
 import { getMintlistStatus, MintlistAndCollection } from "./mintlist-utils";

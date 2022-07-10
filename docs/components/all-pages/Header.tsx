@@ -1,9 +1,8 @@
+import { GlowSignInButton, useGlowContext } from "@glow-xyz/glow-react";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { LuxButton } from "../LuxButton";
 import { LuxLink } from "../LuxLink";
-import { GlowSignInButton, useGlowContext } from "@glow-xyz/glow-react";
 
 enum TopLevelTab {
   DOCS,
