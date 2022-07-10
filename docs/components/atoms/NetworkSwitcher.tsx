@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Network } from "@glow-app/glow-client";
+import { Network } from "@glow-xyz/glow-client";
 import { useNetworkContext, NETWORK_TO_INFO } from "../NetworkContext";
 import { LuxMenu } from "../LuxMenu";
 import { LuxButton } from "../LuxButton";

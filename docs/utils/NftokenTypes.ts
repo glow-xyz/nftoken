@@ -1,4 +1,4 @@
-import { Solana } from "@glow-app/solana-client";
+import { Solana } from "@glow-xyz/solana-client";
 import * as z from "zod";
 
 export const CoerceBooleanZ = z.preprocess(

@@ -1,39 +1,38 @@
-import React from "react";
-import { useGlowContext } from "@glow-app/glow-react";
 import {
   GKeypair,
+  GlowBorsh,
   GPublicKey,
   GTransaction,
   SolanaClient,
-} from "@glow-app/solana-client";
+} from "@glow-xyz/solana-client";
+import BN from "bn.js";
 import { Form, Formik, useFormikContext } from "formik";
 import { DateTime } from "luxon";
+import { useRouter } from "next/router";
+import React from "react";
 import {
   LAMPORTS_PER_SOL,
   NFTOKEN_ADDRESS,
   SYSVAR_CLOCK_PUBKEY,
 } from "../utils/constants";
+import { getMintlistAccountSize } from "../utils/mintlist";
 import {
   NFTOKEN_MINTLIST_CREATE_IX,
   SYSTEM_CREATE_ACCOUNT_IX,
 } from "../utils/nft-borsh";
-import { LuxInputField } from "./LuxInput";
-import { LuxButton, LuxSubmitButton } from "./LuxButton";
+import { NETWORK_TO_RPC } from "../utils/rpc-types";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { DateTimePicker } from "./DateTimePicker";
-import { LuxInputLabel } from "./LuxInputLabel";
 import { SimpleDropZone } from "./forms/SimpleDropZone";
-import { getMintlistAccountSize } from "../utils/mintlist";
-import BN from "bn.js";
-import { NETWORK_TO_RPC } from "../utils/rpc-types";
 import { InteractiveWell } from "./InteractiveWell";
+import { LuxSubmitButton } from "./LuxButton";
+import { LuxInputField } from "./LuxInput";
+import { LuxInputLabel } from "./LuxInputLabel";
 import { useNetworkContext } from "./NetworkContext";
-import { useRouter } from "next/router";
 
 type FormData = {
-  mintlistName: string;
-  collectionName: string;
-  collectionImage: string;
+  name: string;
+  image: string;
   priceSol: number;
   goLiveDate: string;
   numNftsTotal: number;
@@ -42,13 +41,11 @@ type FormData = {
 export const CreateMintlistSection = () => {
   const { push } = useRouter();
 
-  const { signOut } = useGlowContext();
   const { network } = useNetworkContext();
 
   const initialValues: FormData = {
-    mintlistName: "",
-    collectionName: "",
-    collectionImage: "",
+    name: "",
+    image: "",
     priceSol: 1,
     goLiveDate: DateTime.now().toISO(),
     numNftsTotal: 1,
@@ -58,24 +55,27 @@ export const CreateMintlistSection = () => {
     <InteractiveWell title="Live Demo" className="my-3">
       <Formik
         initialValues={initialValues}
-        validateOnMount
         onSubmit={async ({
-          mintlistName,
-          collectionName,
-          collectionImage,
+          name,
+          image,
           priceSol,
           numNftsTotal,
           goLiveDate,
         }) => {
           const goLiveDateTime = DateTime.fromISO(goLiveDate);
 
-          const { file_url: mintlistMetadataUrl } = await uploadJsonToS3({
-            json: { name: mintlistName },
+          const { file_url: metadata_url } = await uploadJsonToS3({
+            json: { name, image },
           });
 
-          const { file_url: collectionMetadataUrl } = await uploadJsonToS3({
-            json: { name: collectionName, image: collectionImage },
-          });
+          console.log([
+            "ix",
+            GlowBorsh.ixDiscriminator({ ix_name: "mintlist_create_v1" }).write(
+              Buffer.alloc(100),
+              0,
+              null
+            ),
+          ]);
 
           const { address: wallet } = await window.glow!.connect();
 
@@ -106,56 +106,40 @@ export const CreateMintlistSection = () => {
             goLiveDate: goLiveDateTime,
             priceSol,
             numNftsTotal,
-            mintlistMetadataUrl,
-            collectionMetadataUrl,
+            mintlistMetadataUrl: metadata_url,
+            collectionMetadataUrl: metadata_url,
           });
 
-          try {
-            await window.glow!.signAndSendTransaction({
-              transactionBase64: GTransaction.toBuffer({
-                gtransaction: tx,
-              }).toString("base64"),
-              network,
-            });
+          await window.glow!.signAndSendTransaction({
+            transactionBase64: GTransaction.toBuffer({
+              gtransaction: tx,
+            }).toString("base64"),
+            network,
+          });
 
-            push(`/mintlist/${mintlistKeypair.address}`);
-          } catch (err) {
-            console.error(err);
-          }
+          await push(`/mintlist/${mintlistKeypair.address}`);
         }}
       >
-        <Form>
-          <div className="mb-4">
+        <Form className={"flex-column gap-4"}>
+          <SimpleDropZone<FormData>
+            label="Image"
+            fieldName="image"
+            size={100}
+          />
+          <LuxInputField
+            label="Name"
+            name="name"
+            placeholder="Fancy Turtles"
+            required
+          />
+
+          <div className={"flex-center gap-2"}>
             <LuxInputField
-              label="Mintlist Name"
-              name="mintlistName"
-              placeholder="Mintlist #1"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <LuxInputField
-              label="Collection Name"
-              name="collectionName"
-              placeholder="Fancy Turtles"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <SimpleDropZone<FormData>
-              label="Collection Avatar"
-              fieldName="collectionImage"
-            />
-          </div>
-          <div className="mb-4">
-            <LuxInputField
-              label="Price (SOL)"
+              label="Mint Price in SOL"
               name="priceSol"
               type="number"
               required
             />
-          </div>
-          <div className="mb-4">
             <LuxInputField
               label="Total Number of NFTs"
               name="numNftsTotal"
@@ -164,20 +148,10 @@ export const CreateMintlistSection = () => {
               required
             />
           </div>
-          <div className="mb-4">
-            <DatePickerField label="Go Live Date" fieldName="goLiveDate" />
-          </div>
 
-          <div className="mt-4 flex-center spread">
-            <SubmitButton />
-            <LuxButton
-              label="Disconnect Wallet"
-              onClick={signOut}
-              color="secondary"
-              size="small"
-              variant="link"
-            />
-          </div>
+          <DatePickerField label="Go Live Date" fieldName="goLiveDate" />
+
+          <LuxSubmitButton label="Create Mintlist" />
         </Form>
       </Formik>
 
@@ -239,6 +213,30 @@ function createMintlistCreateTx({
   mintlistMetadataUrl: string;
   collectionMetadataUrl: string;
 }) {
+  console.log({
+    wallet,
+    recentBlockhash,
+    mintlistKeypair,
+    mintlistAccountLamports,
+    mintlistAccountSize,
+    collectionKeypair,
+    goLiveDate,
+    priceSol,
+    numNftsTotal,
+    mintlistMetadataUrl,
+    collectionMetadataUrl,
+  });
+  console.log({
+    ix: null,
+    go_live_date: goLiveDate,
+    price: {
+      lamports: String(priceSol * LAMPORTS_PER_SOL),
+    },
+    minting_order: "sequential",
+    num_nfts_total: numNftsTotal,
+    metadata_url: mintlistMetadataUrl,
+    collection_metadata_url: collectionMetadataUrl,
+  });
   return GTransaction.create({
     feePayer: wallet,
     recentBlockhash,
@@ -335,7 +333,7 @@ const DatePickerField = ({
   const value = values[fieldName];
 
   return (
-    <>
+    <div>
       <LuxInputLabel text={label} />
       <DateTimePicker
         date={value as string}
@@ -345,19 +343,6 @@ const DatePickerField = ({
         }}
         timezone={undefined}
       />
-    </>
-  );
-};
-
-const SubmitButton = () => {
-  const { values, isValid } = useFormikContext<FormData>();
-
-  return (
-    <LuxSubmitButton
-      label="Create Mintlist"
-      rounded
-      color="brand"
-      disabled={!isValid || !values.collectionImage}
-    />
+    </div>
   );
 };

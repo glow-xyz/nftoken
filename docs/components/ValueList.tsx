@@ -1,5 +1,5 @@
 import React from "react";
-import { Solana } from "@glow-app/solana-client";
+import { Solana } from "@glow-xyz/solana-client";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import { startsWithHttp } from "../utils/social-links";

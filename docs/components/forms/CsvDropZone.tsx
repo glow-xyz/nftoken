@@ -1,15 +1,10 @@
 import Papa from "papaparse";
 import { useDropzone } from "react-dropzone";
-import { ACCEPT_TEXT_PROP, DropZone } from "../LuxDropZone";
 import FileIcon from "../../icons/feather/FileIcon.svg";
-import { NftokenTypes } from "../../utils/NftokenTypes";
-import { useFormikContext } from "formik";
-import * as z from "zod";
 import { toastError } from "../../utils/toast";
+import { ACCEPT_TEXT_PROP, DropZone } from "../LuxDropZone";
 
-export function CsvDropZone({ fieldName }: { fieldName: string }) {
-  const { setFieldValue, setFieldError } = useFormikContext();
-
+export function CsvDropZone({ onDrop }: { onDrop: (rows: any[]) => void }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async (files) => {
       if (!files || files.length === 0) {
@@ -19,29 +14,9 @@ export function CsvDropZone({ fieldName }: { fieldName: string }) {
       Papa.parse(files[0], {
         header: true,
         complete: function ({ data }) {
-          try {
-            z.object({
-              name: z.string(),
-              image: z.string().url(),
-            })
-              .array()
-              .parse(data);
-          } catch (err: unknown) {
-            if (err instanceof z.ZodError) {
-              // TODO: Construct a better error message from ZodError.
-              console.error(err);
-            }
-
-            setFieldError(fieldName, "Invalid CSV data");
-            toastError("Invalid CSV data");
-
-            return;
-          }
-
-          setFieldValue(fieldName, data as NftokenTypes.Metadata[]);
+          onDrop(data);
         },
         error(error: Error) {
-          setFieldError(fieldName, error.message);
           toastError(error.message);
         },
       });

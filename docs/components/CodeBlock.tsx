@@ -63,6 +63,7 @@ export const CodeBlock = ({
         .code-container {
           position: relative;
           overflow: hidden;
+          margin-bottom: 1rem;
         }
 
         .code-container pre {

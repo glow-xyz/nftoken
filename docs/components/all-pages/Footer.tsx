@@ -1,4 +1,5 @@
 import TwitterIcon from "../../icons/Twitter.svg";
+import GitHubIcon from "../../icons/GitHub.svg";
 import { LuxButton } from "../LuxButton";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
@@ -11,16 +12,28 @@ export const Footer = () => {
           <img className="light" src="/glow-logo-light.svg" />
         </a>
 
-        <LuxButton
-          label="Twitter"
-          icon={<TwitterIcon />}
-          href="https://twitter.com/glowwallet"
-          iconPlacement="icon-only"
-          color="twitter"
-          variant="link"
-          rounded
-          size="large"
-        />
+        <div className="flex-center gap-3">
+          <LuxButton
+            label="GitHub"
+            icon={<GitHubIcon />}
+            href="https://github.com/glow-xyz/nftoken"
+            iconPlacement="icon-only"
+            color="primary"
+            variant="link"
+            rounded
+            size="large"
+          />
+          <LuxButton
+            label="Twitter"
+            icon={<TwitterIcon />}
+            href="https://twitter.com/glowwallet"
+            iconPlacement="icon-only"
+            color="twitter"
+            variant="link"
+            rounded
+            size="large"
+          />
+        </div>
       </div>
 
       <style jsx>{`
@@ -30,8 +43,8 @@ export const Footer = () => {
         }
 
         .footer-inner {
-          padding: 2rem 1.5rem;
-          max-width: 60rem;
+          max-width: var(--page-max-width);
+          padding: 2rem var(--page-horizontal-padding);
           width: 100%;
           margin: 0 auto;
         }

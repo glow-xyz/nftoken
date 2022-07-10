@@ -22,13 +22,9 @@ const nextConfig = {
     return config;
   },
   redirects: () => [
+    { source: "/", destination: "/docs/overview", permanent: false },
     { source: "/docs", destination: "/docs/overview", permanent: true },
     { source: "/overview", destination: "/docs/overview", permanent: true },
-    {
-      source: "/create-an-nft",
-      destination: "/docs/create-an-nft",
-      permanent: true,
-    },
     {
       source: "/technical-details",
       destination: "/docs/technical-details",
