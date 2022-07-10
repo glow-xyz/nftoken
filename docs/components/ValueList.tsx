@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import React from "react";
 import { Solana } from "@glow-xyz/solana-client";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
@@ -14,16 +15,17 @@ export const ValueList = ({
   attributes: {
     label: string;
     value: string | number | boolean | null | undefined;
+    type?: "collection";
   }[];
 }) => {
   return (
     <>
       <div className="container">
-        {attributes.map(({ label, value }) => (
+        {attributes.map(({ label, value, type }) => (
           <React.Fragment key={label}>
             <div className="value-container">
               <div className="label">{label}</div>
-              <Value value={value} label={label} />
+              <Value value={value} type={type} />
             </div>
           </React.Fragment>
         ))}
@@ -68,7 +70,7 @@ export const ValueList = ({
   );
 };
 
-const Value = ({ label, value }: { label: string; value: any }) => {
+const Value = ({ value, type }: { value: any; type?: "collection" }) => {
   if (typeof value !== "string") {
     return <div>{JSON.stringify(value)}</div>;
   }
@@ -78,7 +80,7 @@ const Value = ({ label, value }: { label: string; value: any }) => {
       <>
         <div className="solana-address flex-center flex-wrap">
           <SolanaAddress address={value} />
-          {label === "collection" && (
+          {type === "collection" && (
             <LuxButton
               label="View Collection"
               icon={<ArrowRightIcon />}
@@ -102,22 +104,36 @@ const Value = ({ label, value }: { label: string; value: any }) => {
     );
   }
 
-  if (startsWithHttp(value)) {
+  const dt = DateTime.fromISO(value);
+  if (dt.isValid) {
     return (
-      <>
-        <div className="link">
-          <ExternalLink href={value.toString()}>
-            <span>{value.toString()}</span> <ExternalLinkIcon />
-          </ExternalLink>
-        </div>
-
-        <style jsx>{`
-          .link :global(svg) {
-            margin-bottom: 0.2rem; /* For vertical alignment */
-          }
-        `}</style>
-      </>
+      <div title={dt.toISO()}>
+        {dt.toLocaleString({ timeStyle: "short", dateStyle: "short" })}
+      </div>
     );
+  }
+
+  if (startsWithHttp(value)) {
+    try {
+      const url = new URL(value);
+      return (
+        <>
+          <div className="link">
+            <ExternalLink href={value}>
+              <span title={value}>{url.host}</span> <ExternalLinkIcon />
+            </ExternalLink>
+          </div>
+
+          <style jsx>{`
+            .link :global(svg) {
+              margin-bottom: 0.2rem; /* For vertical alignment */
+            }
+          `}</style>
+        </>
+      );
+    } catch {
+      console.log("Error parsing url.");
+    }
   }
 
   return <div>{value}</div>;

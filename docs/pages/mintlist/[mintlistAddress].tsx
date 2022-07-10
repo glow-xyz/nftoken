@@ -1,37 +1,23 @@
 import { Network } from "@glow-xyz/glow-client";
-import {
-  GKeypair,
-  GPublicKey,
-  GTransaction,
-  Solana,
-  SolanaClient,
-} from "@glow-xyz/solana-client";
+import { Solana } from "@glow-xyz/solana-client";
 import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
-import { LuxButton } from "../../components/LuxButton";
 import { LuxSpinner } from "../../components/LuxSpinner";
 import {
   getMintlistStatus,
   MintlistAndCollection,
-  MintlistStatus,
+  MintlistStatus
 } from "../../components/mintlist/mintlist-utils";
+import { MintlistForSale } from "../../components/mintlist/MintlistForSale";
 import { MintlistInfoHeader } from "../../components/mintlist/MintlistInfoHeader";
 import { MintlistPending } from "../../components/mintlist/MintlistPending";
 import { useNetworkContext } from "../../components/NetworkContext";
 import { SocialHead } from "../../components/SocialHead";
-import { useBoolean } from "../../hooks/useBoolean";
 import { usePolling } from "../../hooks/usePolling";
-import {
-  NFTOKEN_ADDRESS,
-  SYSVAR_CLOCK_PUBKEY,
-  SYSVAR_SLOT_HASHES_PUBKEY,
-} from "../../utils/constants";
-import { NFTOKEN_MINTLIST_MINT_NFT_V1 } from "../../utils/nft-borsh";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
-import { NETWORK_TO_RPC } from "../../utils/rpc-types";
 
 // TODO: add server side rendering
 export default function MintlistPage() {
@@ -69,9 +55,7 @@ export default function MintlistPage() {
       )}
 
       {status === MintlistStatus.ForSale && (
-        <div>
-          <MintlistMintNftButton mintlist={mintlist} />
-        </div>
+        <MintlistForSale mintlist={mintlist} />
       )}
 
       {status === MintlistStatus.SaleEnded && <div>Sale Ended TODO</div>}
@@ -94,7 +78,7 @@ const MintlistPresale = ({
   }, 250);
 
   return (
-    <div>
+    <div className={"mt-5"}>
       <div className="flex-center-center mb-4 text-xl">
         Sale Starts at{" "}
         {startAt.toLocaleString({
@@ -176,65 +160,3 @@ function useMintlist({
   return { data, error };
 }
 
-function MintlistMintNftButton({
-  mintlist,
-}: {
-  mintlist: NftokenTypes.Mintlist;
-}) {
-  const { network } = useNetworkContext();
-  const minting = useBoolean();
-
-  return (
-    <LuxButton
-      label="Mint NFT"
-      disabled={minting.value}
-      onClick={async () => {
-        minting.setTrue();
-
-        const { address: wallet } = await window.glow!.connect();
-
-        const recentBlockhash = await SolanaClient.getRecentBlockhash({
-          rpcUrl: NETWORK_TO_RPC[network],
-        });
-
-        const nftKeypair = GKeypair.generate();
-
-        const tx = GTransaction.create({
-          feePayer: wallet,
-          recentBlockhash,
-          instructions: [
-            {
-              accounts: [
-                { address: wallet, signer: true, writable: true },
-                { address: nftKeypair.address, signer: true, writable: true },
-                { address: mintlist.address, writable: true },
-                { address: mintlist.treasury_sol, writable: true },
-                { address: GPublicKey.default.toBase58() }, // System Program
-                { address: SYSVAR_CLOCK_PUBKEY },
-                { address: SYSVAR_SLOT_HASHES_PUBKEY },
-              ],
-              program: NFTOKEN_ADDRESS,
-              data_base64: NFTOKEN_MINTLIST_MINT_NFT_V1.toBuffer({
-                ix: null,
-              }).toString("base64"),
-            },
-          ],
-          signers: [nftKeypair],
-        });
-
-        try {
-          await window.glow!.signAndSendTransaction({
-            transactionBase64: GTransaction.toBuffer({
-              gtransaction: tx,
-            }).toString("base64"),
-            network: network,
-          });
-        } catch (err) {
-          console.error(err);
-        }
-
-        minting.setFalse();
-      }}
-    />
-  );
-}

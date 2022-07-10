@@ -110,7 +110,7 @@ export default function CollectionPage({
 
         <div>
           <div>
-            <h2 className="text-secondary">On-Chain Metadata</h2>
+            <h3 className="text-secondary">On-Chain Metadata</h3>
             <ValueList
               attributes={[
                 { label: "address", value: collection.address },
@@ -124,7 +124,7 @@ export default function CollectionPage({
             />
           </div>
           <div className="traits-column">
-            <h2 className="text-secondary">Off-Chain Metadata</h2>
+            <h3 className="text-secondary">Off-Chain Metadata</h3>
             <ValueList
               attributes={[
                 { label: "image", value: collection.image },
@@ -148,10 +148,14 @@ export default function CollectionPage({
       )}
 
       <style jsx>{`
+        .image {
+          max-width: 500px;
+        }
+
         .columns {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          grid-column-gap: 1rem;
+          grid-gap: 2rem;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.medium}) {
