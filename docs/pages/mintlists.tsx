@@ -27,7 +27,7 @@ export default function MintlistsPage() {
   const { data: mintlists } = useMintlists({ wallet, network });
 
   return (
-    <PageLayout secondaryNav={"mintlists"}>
+    <div>
       <h1>My Mintlists</h1>
 
       <div className={"mb-3 flex-center spread"}>
@@ -53,7 +53,7 @@ export default function MintlistsPage() {
       {mintlists && mintlists.length === 0 && (
         <div className={"py-3"}>No mintlists found.</div>
       )}
-    </PageLayout>
+    </div>
   );
 }
 

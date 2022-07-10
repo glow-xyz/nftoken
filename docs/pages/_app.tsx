@@ -23,7 +23,13 @@ export default function App(props: AppProps) {
   return (
     <GlowProvider>
       <NetworkProvider>
-        {isDocs ? <DocsPage {...props} /> : <Component {...pageProps} />}
+        {isDocs ? (
+          <DocsPage {...props} />
+        ) : (
+          <PageLayout secondaryNav={"mintlists"}>
+            <Component {...pageProps} />
+          </PageLayout>
+        )}
 
         <Toaster />
       </NetworkProvider>

@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import useSWR, { SWRResponse } from "swr";
 import { ImageCard } from "../../components/ImageCard";
 import { LuxLink } from "../../components/LuxLink";
-import { PageLayout } from "../../components/PageLayout";
 import { SocialHead } from "../../components/SocialHead";
 import { ValueList } from "../../components/ValueList";
 import { useCollectionNfts } from "../../hooks/useCollectionNfts";
@@ -76,12 +75,12 @@ export default function CollectionPage({
 
   if (collection === null) {
     return (
-      <PageLayout secondaryNav={"mintlists"}>
+      <div>
         <SocialHead subtitle="Collection Not Found" />
         <h1 className="text-xl font-weight-medium">
           We couldn’t find a collection with this address.
         </h1>
-      </PageLayout>
+      </div>
     );
   }
 
@@ -91,7 +90,7 @@ export default function CollectionPage({
   }
 
   return (
-    <PageLayout secondaryNav={"mintlists"}>
+    <div>
       <SocialHead subtitle={collection.name} />
       <div>
         <div className="collection-badge">Collection</div>
@@ -189,7 +188,7 @@ export default function CollectionPage({
           }
         }
       `}</style>
-    </PageLayout>
+    </div>
   );
 }
 

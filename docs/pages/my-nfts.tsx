@@ -7,14 +7,13 @@ import useSWR from "swr";
 import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
 import { LuxLink } from "../components/LuxLink";
 import { useNetworkContext } from "../components/NetworkContext";
-import { PageLayout } from "../components/PageLayout";
 import { Shimmer } from "../components/Shimmer";
 import { getImageUrl } from "../utils/cdn";
 import { NftokenFetcher } from "../utils/NftokenFetcher";
 import { NftokenTypes } from "../utils/NftokenTypes";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 
-export default function MintlistsPage() {
+export default function MyNftsPage() {
   const { user } = useGlowContext();
   const wallet = user?.address;
 
@@ -23,7 +22,7 @@ export default function MintlistsPage() {
   const { data: nfts } = useNfts({ wallet, network });
 
   return (
-    <PageLayout secondaryNav={"mintlists"}>
+    <div>
       <h1>My NFTs</h1>
 
       <div className="flex-center spread mb-3">
@@ -37,7 +36,7 @@ export default function MintlistsPage() {
       {!nfts && <NftLoadingGrid />}
       {nfts && <NftGrid nfts={nfts} />}
       {nfts && nfts.length === 0 && <div>You don't have any NFTs.</div>}
-    </PageLayout>
+    </div>
   );
 }
 
