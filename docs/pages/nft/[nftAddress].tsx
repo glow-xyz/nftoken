@@ -4,7 +4,6 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR, { SWRResponse } from "swr";
-import { PageLayout } from "../../components/PageLayout";
 import { SocialHead } from "../../components/SocialHead";
 import { SquareImage } from "../../components/SquareImage";
 import { ValueList } from "../../components/ValueList";
@@ -64,7 +63,7 @@ export default function NftPage({
   }
 
   return (
-    <PageLayout secondaryNav={"mintlists"}>
+    <div>
       <SocialHead subtitle={nft.name} />
 
       <div className="wrapper">
@@ -155,7 +154,7 @@ export default function NftPage({
           }
         }
       `}</style>
-    </PageLayout>
+    </div>
   );
 }
 

@@ -8,7 +8,9 @@ NFToken is a simple, cheap NFT standard for Solana.
 
 ### NFToken is 4x Cheaper Than Metaplex
 
-Creating an NFT with NFToken costs 2M Lamports or $0.08. Metaplex costs 10M Lamports or $0.32.
+Creating an NFT with NFToken costs about 2M Lamports or $0.08.
+
+With Metaplex, this costs about 10M Lamports or $0.32.
 
 ### NFToken is Simple and Easy to Understand
 
