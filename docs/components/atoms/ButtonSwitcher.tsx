@@ -20,17 +20,6 @@ type ButtonSwitcherProps<Value extends string | number> = {
   smallSizeBreakpoint?: "always" | "tiny" | "small";
 };
 
-type ButtonSwitcherFieldProps<Value extends string | number> = {
-  className?: string;
-  expand?: boolean;
-  label?: string;
-  name: string;
-  onChange?: (option: SwitcherOption<Value>) => void;
-} & Omit<
-  ButtonSwitcherProps<Value>,
-  "selectedOptionValue" | "setSelectedOption"
->;
-
 export const ButtonSwitcher = <Value extends string | number>({
   className,
   disabled,
