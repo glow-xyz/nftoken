@@ -148,6 +148,7 @@ importers:
       esbuild: 0.14.45
       esbuild-register: 3.3.3
       eslint: 8.18.0
+      eslint-config-prettier: 8.5.0
       eslint-plugin-lodash: 7.4.0
       jest: 28.1.1
       lodash: 4.17.21
@@ -182,6 +183,7 @@ importers:
       esbuild: 0.14.45
       esbuild-register: 3.3.3_esbuild@0.14.45
       eslint: 8.18.0
+      eslint-config-prettier: 8.5.0_eslint@8.18.0
       eslint-plugin-lodash: 7.4.0_eslint@8.18.0
       jest: 28.1.1
       prettier: 2.7.1
@@ -4297,6 +4299,15 @@ packages:
       optionator: 0.8.3
     optionalDependencies:
       source-map: 0.6.1
+    dev: true
+
+  /eslint-config-prettier/8.5.0_eslint@8.18.0:
+    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.18.0
     dev: true
 
   /eslint-config-prettier/8.5.0_eslint@8.19.0:

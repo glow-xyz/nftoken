@@ -39,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "5.30.5",
     "esbuild": "0.14.45",
     "esbuild-register": "3.3.3",
+    "eslint-config-prettier": "8.5.0",
     "eslint": "8.18.0",
     "eslint-plugin-lodash": "7.4.0",
     "jest": "28.1.1",
