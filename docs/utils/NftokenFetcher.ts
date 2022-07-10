@@ -1,5 +1,5 @@
-import { Network } from "@glow-app/glow-client";
-import { Solana, SolanaClient } from "@glow-app/solana-client";
+import { Network } from "@glow-xyz/glow-client";
+import { Solana, SolanaClient } from "@glow-xyz/solana-client";
 import axios from "axios";
 import bs58 from "bs58";
 import sortBy from "lodash/sortBy";
@@ -344,7 +344,7 @@ export namespace NftokenFetcher {
       ...(metadataMap.get(m.metadata_url!) ?? {}),
     }));
 
-    return sortBy(mintlistInfos, "address").reverse();
+    return sortBy(mintlistInfos, "go_live_date").reverse();
   };
 
   export const getMintlist = async ({

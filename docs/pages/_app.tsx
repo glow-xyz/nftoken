@@ -1,5 +1,5 @@
-import { GlowProvider } from "@glow-app/glow-react";
-import "@glow-app/glow-react/dist/styles.css";
+import { GlowProvider } from "@glow-xyz/glow-react";
+import "@glow-xyz/glow-react/dist/styles.css";
 
 import { NetworkProvider } from "../components/NetworkContext";
 

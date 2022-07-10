@@ -1,6 +1,6 @@
 import React from "react";
-import { Network } from "@glow-app/glow-client";
-import { Solana } from "@glow-app/solana-client";
+import { Network } from "@glow-xyz/glow-client";
+import { Solana } from "@glow-xyz/solana-client";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import useSWR, { SWRResponse } from "swr";

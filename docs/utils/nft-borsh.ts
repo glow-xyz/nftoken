@@ -1,7 +1,6 @@
-import { strict as assert } from "assert";
+import { array, bool, FixedSizeBeet, u32, u8 } from "@glow-xyz/beet";
+import { FixableGlowBorsh, GlowBorsh, Solana } from "@glow-xyz/solana-client";
 import BN from "bn.js";
-import { FixableGlowBorsh, GlowBorsh, Solana } from "@glow-app/solana-client";
-import { bool, u8, u32, array, FixedSizeBeet } from "@metaplex-foundation/beet";
 import { Buffer } from "buffer";
 import { DateTime } from "luxon";
 import { NftokenTypes } from "./NftokenTypes";
@@ -186,7 +185,9 @@ const discriminatorU32 = (hex: string): FixedSizeBeet<null, null> => {
   return {
     write: function (buf: Buffer, offset: number) {
       const stringBuf = Buffer.from(hex, "hex");
-      assert.equal(stringBuf.byteLength, 4, `${hex} has invalid byte size`);
+      if (stringBuf.byteLength !== 4) {
+        throw new Error("String length wrong");
+      }
       stringBuf.copy(buf, offset, 0, 4);
     },
 

@@ -1,27 +1,33 @@
+import classNames from "classnames";
 import { getImageUrl } from "../utils/cdn";
 
 export const SquareImage = ({
   src,
+  rounded = true,
   size,
   alt,
 }: {
-  src: string;
+  src: string | null | undefined;
   size: number;
-  alt?: string;
+  rounded?: boolean;
+  alt?: string | null | undefined;
 }) => {
   return (
     <>
-      <img
-        src={getImageUrl({ url: src, width: size, height: size })}
-        alt={alt}
-      />
-
-      <style jsx>{`
-        img {
-          display: block;
-          width: 100%;
-        }
-      `}</style>
+      {src ? (
+        <img
+          className={classNames({ rounded })}
+          src={getImageUrl({ url: src, width: size, height: size })}
+          width={size}
+          height={size}
+          alt={alt ?? undefined}
+        />
+      ) : (
+        <div
+          className={classNames("bg-secondary", { rounded })}
+          style={{ width: size, height: size }}
+        />
+      )}
     </>
   );
 };

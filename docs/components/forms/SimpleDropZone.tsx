@@ -6,7 +6,7 @@ export function SimpleDropZone<Values extends Record<string, unknown>>({
   fieldName,
   size = 200,
 }: {
-  label: string;
+  label?: string;
   fieldName: keyof Values;
   size?: number;
 }) {

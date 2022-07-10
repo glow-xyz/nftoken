@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { getImageUrl } from "../utils/cdn";
 import { useDropzone } from "react-dropzone";
 import { uploadImageToS3 } from "../utils/upload-file";
@@ -11,13 +11,15 @@ import { LuxButton } from "./LuxButton";
 
 export const LuxSimpleDropZone = ({
   label,
+  allowRemoving,
   size,
   shape = "square",
   image,
   setImage,
 }: {
-  label: string;
+  label?: string;
   size: number;
+  allowRemoving?: boolean;
   shape?: "square" | "circle";
   image: string | null;
   setImage: (image: string | null) => void;
@@ -42,7 +44,7 @@ export const LuxSimpleDropZone = ({
   };
 
   return (
-    <>
+    <div>
       <LuxInputLabel text={label} />
       <div
         className="simple-drop-zone-container"
@@ -73,7 +75,7 @@ export const LuxSimpleDropZone = ({
           </div>
         </div>
 
-        {image && (
+        {image && allowRemoving && (
           <div className="remove-button">
             <LuxButton
               label="Remove Image"
@@ -93,6 +95,6 @@ export const LuxSimpleDropZone = ({
           background-color: var(--tertiary-bg-color);
         }
       `}</style>
-    </>
+    </div>
   );
 };

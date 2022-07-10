@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
-import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { motion } from "framer-motion";
+import { LuxButton } from "../LuxButton";
 import { LuxLink } from "../LuxLink";
+import { GlowSignInButton, useGlowContext } from "@glow-xyz/glow-react";
 
 enum TopLevelTab {
   DOCS,
@@ -32,6 +33,7 @@ const TopLevelTabs = [
 
 export const Header = () => {
   const router = useRouter();
+  const { user, signOut } = useGlowContext();
 
   return (
     <>
@@ -42,14 +44,31 @@ export const Header = () => {
               <img src="/logo.svg" className="logo dark" />
               <img src="/logo-light.svg" className="logo light" />
             </LuxLink>
-            <a
-              href="https://github.com/glow-xyz/nftoken"
-              target="_blank"
-              className="github"
-            >
-              <span>GitHub</span>
-              <ExternalLinkIcon />
-            </a>
+
+            {user ? (
+              <LuxButton
+                label={"Sign Out"}
+                size={"small"}
+                rounded
+                color={"secondary"}
+                onClick={() => {
+                  signOut();
+                }}
+              />
+            ) : (
+              <GlowSignInButton
+                render={({ glowDetected, signIn }) => (
+                  <LuxButton
+                    label={"Sign In"}
+                    size={"small"}
+                    rounded
+                    color={"brand"}
+                    href={glowDetected ? undefined : "https://glow.app/download"}
+                    onClick={signIn}
+                  />
+                )}
+              />
+            )}
           </div>
 
           <div className="site-nav">

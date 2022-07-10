@@ -1,4 +1,4 @@
-import { Network } from "@glow-app/glow-client";
+import { Network } from "@glow-xyz/glow-client";
 
 export const NETWORK_TO_RPC: Record<Network, string> = {
   [Network.Mainnet]: "https://api.mainnet-beta.solana.com",
