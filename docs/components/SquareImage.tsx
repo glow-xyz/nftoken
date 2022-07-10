@@ -10,7 +10,7 @@ export const SquareImage = ({
   src: string | null | undefined;
   size: number;
   rounded?: boolean;
-  alt?: string;
+  alt?: string | null | undefined;
 }) => {
   return (
     <>
@@ -18,7 +18,9 @@ export const SquareImage = ({
         <img
           className={classNames({ rounded })}
           src={getImageUrl({ url: src, width: size, height: size })}
-          alt={alt}
+          width={size}
+          height={size}
+          alt={alt ?? undefined}
         />
       ) : (
         <div
@@ -26,13 +28,6 @@ export const SquareImage = ({
           style={{ width: size, height: size }}
         />
       )}
-
-      <style jsx>{`
-        img {
-          display: block;
-          width: 100%;
-        }
-      `}</style>
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { Network } from "@glow-xyz/glow-client";
 import { useGlowContext } from "@glow-xyz/glow-react";
 import { Solana } from "@glow-xyz/solana-client";
+import { PlusIcon } from "@heroicons/react/solid";
 import { DateTime } from "luxon";
 import React from "react";
 import useSWR from "swr";
@@ -32,26 +33,45 @@ export default function MintlistsPage() {
       <PageLayout>
         <h1>Mintlists</h1>
 
-        <p>
+        <div className={"mb-2"}>
           Below you can find the overview of all the mintlists you created.
           Click on the mintlist name to go to its details page where you can
           manage it.
-        </p>
+        </div>
 
         <div className="mb-4">
           <NetworkSwitcher />
 
-          <div className="flex-column gap-4 mt-2">
-            {mintlists.map((mintlist) => (
-              <MintlistRow key={mintlist.address} mintlist={mintlist} />
-            ))}
-          </div>
-        </div>
+          {mintlists.length > 0 && (
+            <>
+              <div className="flex-column gap-4 mt-2">
+                {mintlists.map((mintlist) => (
+                  <MintlistRow key={mintlist.address} mintlist={mintlist} />
+                ))}
+              </div>
 
-        <LuxButton
-          label="New Mintlist"
-          href="/docs/create-a-mintlist"
-        />
+              <LuxButton
+                size={"small"}
+                icon={<PlusIcon />}
+                label="Create New Mintlist"
+                href="/docs/create-a-mintlist"
+              />
+            </>
+          )}
+
+          {mintlists.length === 0 && (
+            <div>
+              <div className="mt-3 mb-2">Create your first Mintlist here:</div>
+
+              <LuxButton
+                size={"small"}
+                icon={<PlusIcon />}
+                label="Create New Mintlist"
+                href="/docs/create-a-mintlist"
+              />
+            </div>
+          )}
+        </div>
       </PageLayout>
     </>
   );
@@ -60,7 +80,10 @@ export default function MintlistsPage() {
 const MintlistRow = ({ mintlist }: { mintlist: NftokenTypes.MintlistInfo }) => {
   const status = getMintlistStatus(mintlist);
   return (
-    <LuxLink className="mintlist-row rounded animated" href={`/mintlist/${mintlist.address}`}>
+    <LuxLink
+      className="mintlist-row rounded animated"
+      href={`/mintlist/${mintlist.address}`}
+    >
       <div className={"flex-center gap-3"}>
         <SquareImage src={mintlist.image} size={80} />
 

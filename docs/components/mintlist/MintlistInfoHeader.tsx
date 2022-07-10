@@ -37,7 +37,7 @@ export const MintlistInfoHeader = ({
 
       <div className="columns mb-4">
         <div className="collection">
-          <ImageCard image={collection.image} title={null} size={200} />
+          <ImageCard image={collection.image} title={null} size={300} />
         </div>
 
         <div>

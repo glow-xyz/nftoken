@@ -38,10 +38,13 @@ export function ImageCard({
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
+            width: ${size}px;
+            height: ${size}px;
           }
 
           .placeholder {
-            width: 100%;
+            width: ${size}px;
+            height: ${size}px;
             aspect-ratio: 1;
             background-color: var(--gray-30);
           }
