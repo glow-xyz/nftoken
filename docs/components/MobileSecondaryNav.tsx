@@ -8,27 +8,36 @@ export function MobileSecondaryNav({ links }: { links: SecondaryNavLink[] }) {
   const router = useRouter();
   return (
     <div className="nav-container bg-secondary">
-      {links.map((item) => {
-        return (
-          <div className="nav-item" key={item.title}>
-            <LuxLink
-              href={item.href}
-              className={classNames("font-weight-medium", {
-                current: router.pathname === item.href,
-              })}
-            >
-              {item.title}
-            </LuxLink>
-          </div>
-        );
-      })}
+      <div className="scrolly-container">
+        {links.map((item) => {
+          return (
+            <div className="nav-item" key={item.title}>
+              <LuxLink
+                href={item.href}
+                className={classNames("font-weight-medium", {
+                  current: router.pathname === item.href,
+                })}
+              >
+                {item.title}
+              </LuxLink>
+            </div>
+          );
+        })}
+      </div>
 
       <style jsx>{`
         .nav-container {
           display: none;
           border-bottom: 1px solid var(--divider-color);
-          overflow-x: scroll;
           min-height: 0;
+          width: 100%;
+          overflow: auto;
+        }
+
+        .scrolly-container {
+          display: flex;
+          width: auto;
+          min-width: min-content;
         }
 
         @media (max-width: ${ResponsiveBreakpoint.small}) {
