@@ -8,13 +8,26 @@ const StatusToDisplay: Record<MintlistStatus, string> = {
   [MintlistStatus.SaleEnded]: "Sale Ended",
 };
 
+const StatusToColor: Record<MintlistStatus, PillColor> = {
+  [MintlistStatus.Pending]: "yellow",
+  [MintlistStatus.PreSale]: "blue",
+  [MintlistStatus.ForSale]: "green",
+  [MintlistStatus.SaleEnded]: "barney",
+};
+
 export const MintlistStatusPill = ({ status }: { status: MintlistStatus }) => {
+  return <Pill label={StatusToDisplay[status]} color={StatusToColor[status]} />;
+};
+
+type PillColor = "barney" | "blue" | "yellow" | "green" | "gray";
+
+export const Pill = ({ label, color }: { label: string; color: PillColor }) => {
   return (
-    <div className={classNames("mintlist-pill", status)}>
-      {StatusToDisplay[status]}
+    <div className={classNames("pill", `pill-${color}`)}>
+      {label}
 
       <style jsx>{`
-        .mintlist-pill {
+        .pill {
           white-space: nowrap;
           border-radius: 100px;
           display: inline-flex;
@@ -25,24 +38,29 @@ export const MintlistStatusPill = ({ status }: { status: MintlistStatus }) => {
           font-size: var(--small-pill-font-size);
         }
 
-        .for-sale {
+        .pill-green {
           color: var(--success-color);
           background-color: var(--success-pale-bg-color);
         }
 
-        .pre-sale {
+        .pill-barney {
           color: var(--barney);
           background-color: var(--pale-barney);
         }
 
-        .pending {
+        .pill-yellow {
           color: var(--warning-color);
           background-color: var(--warning-pale-bg-color);
         }
 
-        .sale-ended {
+        .pill-blue {
           color: var(--blue);
           background-color: var(--pale-blue);
+        }
+
+        .pill-gray {
+          color: var(--gray);
+          background-color: var(--pale-gray);
         }
       `}</style>
     </div>

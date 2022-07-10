@@ -24,7 +24,7 @@ export const getMintlistStatus = (
     return MintlistStatus.PreSale;
   }
 
-  if (mintlist.num_nfts_redeemed < mintlist.num_nfts_redeemed) {
+  if (mintlist.num_nfts_redeemed < mintlist.num_nfts_total) {
     return MintlistStatus.ForSale;
   }
 

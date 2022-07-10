@@ -10,7 +10,7 @@ export function ImageCard({
   linkInfo,
 }: {
   image: string | undefined;
-  title: string;
+  title: string | null;
   size?: number;
   subtitle?: ReactNode;
   linkInfo?: { href: string; query?: any };
