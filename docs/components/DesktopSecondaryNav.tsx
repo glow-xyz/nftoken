@@ -17,31 +17,33 @@ export function DesktopSecondaryNav({
 
   return (
     <div className="nav-container">
-      {links.map((item) => {
-        const active = router.pathname === item.href;
+      <div className="nav-inner">
+        {links.map((item) => {
+          const active = router.pathname === item.href;
 
-        return (
-          <div className="nav-item" key={item.title}>
-            {active && (
-              <motion.div
-                className="active-highlight"
-                initial={false}
-                layout
-                layoutId={`desktop-nav-highlight-${navKey}`}
-                transition={{ type: "tween", duration: 0.2 }}
-              />
-            )}
-            <LuxLink
-              href={item.href}
-              className={classNames("animated rounded font-weight-medium", {
-                current: router.pathname === item.href,
-              })}
-            >
-              {item.title}
-            </LuxLink>
-          </div>
-        );
-      })}
+          return (
+            <div className="nav-item" key={item.title}>
+              {active && (
+                <motion.div
+                  className="active-highlight"
+                  initial={false}
+                  layout
+                  layoutId={`desktop-nav-highlight-${navKey}`}
+                  transition={{ type: "tween", duration: 0.2 }}
+                />
+              )}
+              <LuxLink
+                href={item.href}
+                className={classNames("animated rounded font-weight-medium", {
+                  current: router.pathname === item.href,
+                })}
+              >
+                {item.title}
+              </LuxLink>
+            </div>
+          );
+        })}
+      </div>
 
       <style jsx>{`
         .nav-item :global(a) {
@@ -75,6 +77,11 @@ export function DesktopSecondaryNav({
 
         .nav-container {
           display: block;
+        }
+
+        .nav-inner {
+          position: sticky;
+          top: calc(2rem + var(--header-height));
         }
 
         @media (max-width: ${ResponsiveBreakpoint.small}) {

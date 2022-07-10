@@ -115,7 +115,7 @@ const HeaderTabs = () => {
       <style jsx>{`
         .site-nav {
           height: 100%;
-          min-height: 3.2rem;
+          min-height: var(--header-height);
         }
 
         .site-nav :global(a) {
