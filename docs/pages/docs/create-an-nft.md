@@ -33,13 +33,13 @@ If you want to create an NFT via code, you can see the [code for this page on Gi
 Here's what the function to create an NFT looks like:
 
 ```ts
-import { Network } from "@glow-app/glow-client";
+import { Network } from "@glow-xyz/glow-client";
 import {
   GKeypair,
   GPublicKey,
   GTransaction,
   SolanaClient,
-} from "@glow-app/solana-client";
+} from "@glow-xyz/solana-client";
 
 // This opens the Glow Chrome Extension and give us the current wallet
 const { address: wallet } = await window.glow!.connect();

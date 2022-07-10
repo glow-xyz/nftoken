@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { Network } from "@glow-app/glow-client";
-import { Solana } from "@glow-app/solana-client";
+import { Network } from "@glow-xyz/glow-client";
+import { Solana } from "@glow-xyz/solana-client";
 import useSWR, { SWRResponse } from "swr";
 import { NftokenFetcher } from "../../utils/NftokenFetcher";
 import { NftokenTypes } from "../../utils/NftokenTypes";
@@ -10,7 +10,7 @@ import { PageLayout } from "../../components/PageLayout";
 import { ValueList } from "../../components/ValueList";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { useCollectionNfts } from "../../hooks/useCollectionNfts";
-import { NftCard } from "../../components/NftCard";
+import { ImageCard } from "../../components/ImageCard";
 import { LuxLink } from "../../components/LuxLink";
 
 const useCollection = ({
@@ -133,7 +133,7 @@ export default function CollectionPage({
         <div className="nft-container mt-5">
           {nftsInCollection.map((nft) => (
             <LuxLink href={`/nft/${nft.address}`} key={nft.address}>
-              <NftCard title={nft.name!} image={nft.image} />
+              <ImageCard title={nft.name!} image={nft.image} />
             </LuxLink>
           ))}
         </div>

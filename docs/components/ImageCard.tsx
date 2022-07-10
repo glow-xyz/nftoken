@@ -2,7 +2,7 @@ import { LuxLink } from "./LuxLink";
 import { SquareImage } from "./SquareImage";
 import { ReactNode } from "react";
 
-export function NftCard({
+export function ImageCard({
   image,
   title,
   subtitle,
@@ -10,7 +10,7 @@ export function NftCard({
   linkInfo,
 }: {
   image: string | undefined;
-  title: string;
+  title: string | null;
   size?: number;
   subtitle?: ReactNode;
   linkInfo?: { href: string; query?: any };
@@ -38,10 +38,13 @@ export function NftCard({
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
+            width: ${size}px;
+            height: ${size}px;
           }
 
           .placeholder {
-            width: 100%;
+            width: ${size}px;
+            height: ${size}px;
             aspect-ratio: 1;
             background-color: var(--gray-30);
           }

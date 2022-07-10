@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Network } from "@glow-app/glow-client";
+import { Network } from "@glow-xyz/glow-client";
 import { createUseAppContext } from "../utils/context";
 import { usePersistedState } from "../hooks/usePersistedState";
 

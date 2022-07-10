@@ -19,7 +19,7 @@ const TABS = [Tab.Configure, Tab.Nfts];
 
 export const MintlistPending = ({ mintlist }: MintlistAndCollection) => {
   const { network } = useNetworkContext();
-  const [tab, setTab] = useState<Tab>(Tab.Nfts);
+  const [tab, setTab] = useState<Tab>(Tab.Configure);
 
   return (
     <div>
@@ -52,13 +52,7 @@ export const MintlistPending = ({ mintlist }: MintlistAndCollection) => {
           />
         )}
 
-        {tab === "nfts" && (
-          <MintlistNftsGrid
-            mintInfos={mintlist.mint_infos}
-            collection={mintlist.collection}
-            network={network}
-          />
-        )}
+        {tab === "nfts" && <MintlistNftsGrid mintInfos={mintlist.mint_infos} />}
       </div>
     </div>
   );
