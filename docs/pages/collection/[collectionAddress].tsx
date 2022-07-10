@@ -9,7 +9,7 @@ import { SocialHead } from "../../components/SocialHead";
 import { SquareImage } from "../../components/SquareImage";
 import { ValueList } from "../../components/ValueList";
 import { useCollectionNfts } from "../../hooks/useCollectionNfts";
-import { NftokenFetcher } from "../../utils/NftokenFetcher";
+import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { NftGrid } from "../my-nfts";

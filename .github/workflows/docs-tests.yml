@@ -1,4 +1,4 @@
-name: Test Docs
+name: Docs
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install yarn dependencies
-        run: npm install pnpm -g && pnpm install -r docs
+        run: npm install pnpm -g && pnpm install -r docs && pnpm run --filter nftoken-js build
       - name: Lint
         run: pnpm --filter docs run lint
       - name: Typescript Compile (tsc)

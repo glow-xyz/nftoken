@@ -1,0 +1,13 @@
+{
+  "git": {
+    "commitMessage": "[nftoken-js]: Release v${version}",
+    "tagName": "nftoken-js-v${version}"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "`@glow-xyz/nftoken-js` v${version}`"
+  },
+  "npm": {
+    "access": "public"
+  }
+}

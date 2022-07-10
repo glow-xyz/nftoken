@@ -10,7 +10,7 @@ import { useNetworkContext } from "../components/NetworkContext";
 import { Shimmer } from "../components/Shimmer";
 import { SocialHead } from "../components/SocialHead";
 import { getImageUrl } from "../utils/cdn";
-import { NftokenFetcher } from "../utils/NftokenFetcher";
+import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../utils/NftokenTypes";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 

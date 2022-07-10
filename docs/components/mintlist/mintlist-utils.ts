@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import useSWR from "swr";
-import { NftokenFetcher } from "../../utils/NftokenFetcher";
+import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 
 export const MINT_INFOS_PER_TX = 1;

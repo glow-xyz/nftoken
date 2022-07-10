@@ -1,10 +1,23 @@
----
-title: Creating an NFT
----
+# `@glow-xyz/nftoken-js`
 
-# {% $markdoc.frontmatter.title %}
+The `@glow-xyz/nftoken-js` gives you a client to interact with the NFToken program. This makes it easy to create and manage NFTs, collections and mintlists.
 
-You can create an NFT in just a couple lines of code with our [@glow-xyz/nftoken-js](https://www.npmjs.com/package/@glow-xyz/nftoken-js) library:
+## Installing
+
+```sh
+# npm
+npm install @glow-xyz/nftoken-js
+
+# yarn
+yarn add @glow-xyz/nftoken-js
+
+# pnpm
+pnpm install @glow-xyz/nftoken-js
+```
+
+## Creating an NFT
+
+You can create an NFT in just a couple lines of code:
 
 ```ts
 import { constructCreateNftTx } from "@glow-xyz/nftoken-js";
@@ -27,5 +40,3 @@ await window.glow!.signAndSendTransaction({
   network: network,
 });
 ```
-
-All of the code for this site is Open Source. You can see the [code for this page on GitHub](https://github.com/glow-xyz/nftoken/blob/master/docs/components/CreateNftSection.tsx).

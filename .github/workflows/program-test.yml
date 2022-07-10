@@ -1,4 +1,4 @@
-name: Test Anchor Program
+name: Anchor Program
 
 on:
   pull_request:
@@ -30,7 +30,7 @@ jobs:
       - name: Check solana config
         run: solana config get
       - name: Install yarn dependencies
-        run: npm install pnpm -g && pnpm install
+        run: npm install pnpm -g && pnpm install -r docs && pnpm run --filter nftoken-js build
       - name: Build
         run: anchor build
       - name: Lint

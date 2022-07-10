@@ -16,7 +16,7 @@ import { MintlistPending } from "../../components/mintlist/MintlistPending";
 import { useNetworkContext } from "../../components/NetworkContext";
 import { SocialHead } from "../../components/SocialHead";
 import { usePolling } from "../../hooks/usePolling";
-import { NftokenFetcher } from "../../utils/NftokenFetcher";
+import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 
 // TODO: add server side rendering

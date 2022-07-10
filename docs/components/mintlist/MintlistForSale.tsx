@@ -13,7 +13,7 @@ import {
   SYSVAR_CLOCK_PUBKEY,
   SYSVAR_SLOT_HASHES_PUBKEY,
 } from "../../utils/constants";
-import { NFTOKEN_MINTLIST_MINT_NFT_V1 } from "../../utils/nft-borsh";
+import { NFTOKEN_MINTLIST_MINT_NFT_V1 } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { NETWORK_TO_RPC } from "../../utils/rpc-types";
 import { LuxButton } from "../LuxButton";
