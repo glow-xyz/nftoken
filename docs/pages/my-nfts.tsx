@@ -123,7 +123,7 @@ const NftCell = ({ nft }: { nft: NftokenTypes.NftInfo }) => {
   return (
     <LuxLink
       key={nft.address}
-      className={"nft-cell"}
+      className={"nft-cell rounded"}
       href={`/nft/${nft.address}`}
       query={{ network }}
     >
@@ -147,6 +147,12 @@ const NftCell = ({ nft }: { nft: NftokenTypes.NftInfo }) => {
           color: inherit;
           display: grid;
           grid-template-rows: max-content 1fr;
+          margin: -0.5rem;
+          padding: 0.5rem;
+        }
+
+        :global(a.nft-cell:hover) {
+          background-color: var(--hover-bg-color);
         }
 
         .nft-image {
@@ -167,7 +173,7 @@ function useNfts({
   data: NftokenTypes.NftInfo[] | undefined;
   error: any;
 } {
-  const swrKey = [wallet, network];
+  const swrKey = [wallet, network, "nfts"];
   const { data, error } = useSWR(swrKey, async () => {
     if (!wallet) {
       return [];

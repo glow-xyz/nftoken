@@ -132,7 +132,7 @@ function useMintlists({
   data: NftokenTypes.MintlistInfo[] | undefined;
   error: any;
 } {
-  const swrKey = [wallet, network];
+  const swrKey = [wallet, network, 'mintlists'];
   const { data, error } = useSWR(swrKey, async () => {
     if (!wallet) {
       return [];
