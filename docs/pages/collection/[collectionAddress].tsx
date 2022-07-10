@@ -4,8 +4,6 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR, { SWRResponse } from "swr";
-import { ImageCard } from "../../components/ImageCard";
-import { LuxLink } from "../../components/LuxLink";
 import { Pill } from "../../components/mintlist/MintlistStatusPill";
 import { SocialHead } from "../../components/SocialHead";
 import { SquareImage } from "../../components/SquareImage";
