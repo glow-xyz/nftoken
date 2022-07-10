@@ -40,3 +40,5 @@ target/
 .anchor
 
 docs/.obsidian
+
+.turbo/
