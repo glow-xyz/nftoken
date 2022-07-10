@@ -25,7 +25,7 @@ export default function App(props: AppProps) {
         {isDocs ? (
           <DocsPage {...props} />
         ) : (
-          <PageLayout secondaryNav={"mintlists"}>
+          <PageLayout secondaryNav={"dashboard"}>
             <Component {...pageProps} />
           </PageLayout>
         )}

@@ -3,17 +3,17 @@ import React from "react";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import { Footer } from "./all-pages/Footer";
 import { Header } from "./all-pages/Header";
-import { DOC_PAGES, DASHBOARD_PAGES } from "./all-pages/navigation-constants";
+import { DASHBOARD_PAGES, DOC_PAGES } from "./all-pages/navigation-constants";
 import { DesktopSecondaryNav } from "./DesktopSecondaryNav";
 import { MobileSecondaryNav } from "./MobileSecondaryNav";
 
-type SecondaryNavType = "docs" | "mintlists";
+type SecondaryNavType = "docs" | "dashboard";
 const SecondaryNavToLinks: Record<
   SecondaryNavType,
   Array<{ href: string; title: string }>
 > = {
   docs: DOC_PAGES,
-  mintlists: DASHBOARD_PAGES,
+  dashboard: DASHBOARD_PAGES,
 };
 
 export const PageLayout = ({
@@ -21,7 +21,7 @@ export const PageLayout = ({
   secondaryNav,
 }: {
   children: React.ReactNode;
-  secondaryNav: "docs" | "mintlists" | null;
+  secondaryNav: "docs" | "dashboard" | null;
 }) => {
   return (
     <div className="page">
@@ -43,7 +43,6 @@ export const PageLayout = ({
           <DesktopSecondaryNav
             key={secondaryNav}
             links={SecondaryNavToLinks[secondaryNav]}
-            navKey={secondaryNav}
           />
         )}
 
