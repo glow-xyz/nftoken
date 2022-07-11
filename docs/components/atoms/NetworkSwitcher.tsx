@@ -3,7 +3,7 @@ import { Network } from "@glow-xyz/glow-client";
 import { useNetworkContext, NETWORK_TO_INFO } from "../NetworkContext";
 import { LuxMenu } from "../LuxMenu";
 import { LuxButton } from "../LuxButton";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import ChevronDownIcon from "@luma-team/lux-icons/feather/chevron-down.svg";
 
 export const NetworkSwitcher = () => {
   const [open, setOpen] = useState(false);
