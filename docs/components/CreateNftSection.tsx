@@ -12,6 +12,7 @@ import { LuxButton, LuxSubmitButton } from "./LuxButton";
 import { LuxInputField } from "./LuxInput";
 import { useNetworkContext } from "./NetworkContext";
 import RepeatIcon from "@luma-team/lux-icons/feather/repeat.svg";
+import { getImageUrl } from "../utils/cdn";
 
 type FormData = {
   name: string;
@@ -19,20 +20,20 @@ type FormData = {
 };
 
 const RANDOM_IMAGES = [
-  "https://images.unsplash.com/photo-1624628639856-100bf817fd35",
-  "https://images.unsplash.com/photo-1615756257997-2bad02de466d",
-  "https://images.unsplash.com/photo-1654002729150-89a0ca7f4be0",
-  "https://images.unsplash.com/photo-1617791160536-598cf32026fb",
-  "https://images.unsplash.com/photo-1538113300105-e51e4560b4aa",
-  "https://images.unsplash.com/photo-1637666505754-7416ebd70cbf",
-  "https://images.unsplash.com/photo-1611262588019-db6cc2032da3",
-  "https://images.unsplash.com/photo-1630857453903-0386bfb0d990",
-  "https://images.unsplash.com/photo-1599508704512-2f19efd1e35f",
-  "https://images.unsplash.com/photo-1651925757999-4d6d94adbde4",
-  "https://images.unsplash.com/photo-1651741304929-71bcb4d17c92",
-  "https://images.unsplash.com/photo-1650983248860-8747c75e6836",
-  "https://images.unsplash.com/photo-1654859869130-fd0a2aa5539b",
-  "https://images.unsplash.com/photo-1653853033251-e1b76495f688",
+  "https://cdn.lu.ma/misc/q5/91ba5e56-babb-432a-a410-c57304ba6c3c",
+  "https://cdn.lu.ma/misc/x9/60422311-9905-4210-bc69-4c3f58a2fe54",
+  "https://cdn.lu.ma/misc/d8/70a9baa3-96a8-4cc3-970f-e9641278e323",
+  "https://cdn.lu.ma/misc/er/12cb4c0c-7384-4065-9896-0a814726c62d",
+  "https://cdn.lu.ma/misc/l1/04fe984f-e126-4881-8024-aa356a8b4e14",
+  "https://cdn.lu.ma/misc/oy/c6a32dde-d21f-41c6-a544-ae7e2215f499",
+  "https://cdn.lu.ma/misc/1x/c254117d-a97e-4290-a519-58293cbeb508",
+  "https://cdn.lu.ma/misc/rm/31d3dca5-a17e-4a4c-b166-f963acfba9fb",
+  "https://cdn.lu.ma/misc/sm/942145b9-6bbf-4176-a68e-f3f42ec99d85",
+  "https://cdn.lu.ma/misc/jz/7f54e0f2-6254-41fd-8cb3-9183ddea5db9",
+  "https://cdn.lu.ma/misc/rj/48e8cb75-0ea7-4e45-a7a2-e415a10093ae",
+  "https://cdn.lu.ma/misc/um/6b8e292b-00a0-459b-b086-eec4a47c40cb",
+  "https://cdn.lu.ma/misc/du/d1da3fba-12ee-42c2-8622-99605a68d4bd",
+  "https://cdn.lu.ma/misc/mh/865ae152-e2f5-4928-b00b-70e57eaa2d2b",
 ];
 
 export const CreateNftSection = () => {
@@ -198,9 +199,11 @@ const NftImageUpload = () => {
             }
           }
 
-          const url =
-            RANDOM_IMAGES[randomIndex.current] +
-            "?height=1000&width=1000&fit=crop";
+          const url = getImageUrl({
+            url: RANDOM_IMAGES[randomIndex.current],
+            width: 1000,
+            height: 1000,
+          });
 
           setFieldValue("image", url);
         }}
