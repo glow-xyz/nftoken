@@ -173,7 +173,7 @@ export const CreateNftSection = () => {
 const NftImageUpload = () => {
   const { setFieldValue } = useFormikContext();
 
-  let randomIndex = useRef<number | null>(null);
+  const randomIndex = useRef<number | null>(null);
 
   return (
     <div>
