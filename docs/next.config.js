@@ -29,7 +29,6 @@ const nextConfig = {
     return config;
   },
   redirects: () => [
-    { source: "/", destination: "/docs/overview", permanent: false },
     { source: "/docs", destination: "/docs/overview", permanent: true },
     { source: "/overview", destination: "/docs/overview", permanent: true },
     {
@@ -41,6 +40,12 @@ const nextConfig = {
     { source: "/changelog", destination: "/docs/changelog", permanent: true },
   ],
   rewrites: () => ({
+    beforeFiles: [
+      {
+        source: "/",
+        destination: "https://early-phone-157685.framer.app/",
+      },
+    ],
     // `fallback` allows us to only rewrite if the path doesn’t exist.
     fallback: [{ source: "/docs/:slug", destination: "/docs/overview" }],
   }),
