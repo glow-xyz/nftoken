@@ -1,8 +1,8 @@
 import { DateTime } from "luxon";
 import React from "react";
 import { Solana } from "@glow-xyz/solana-client";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
-import { ArrowRightIcon } from "@heroicons/react/solid";
+import ExternalLinkIcon from "@luma-team/lux-icons/ExternalLink.svg";
+import ArrowRightIcon from "@luma-team/lux-icons/feather/arrow-right.svg";
 import { startsWithHttp } from "../utils/social-links";
 import { SolanaAddress } from "./SolanaAddress";
 import { ExternalLink } from "./ExternalLink";
