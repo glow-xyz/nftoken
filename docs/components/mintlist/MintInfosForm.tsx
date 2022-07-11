@@ -1,7 +1,7 @@
 import { Network } from "@glow-xyz/glow-client";
 import { NFTOKEN_MINTLIST_ADD_MINT_INFOS_V1 } from "@glow-xyz/nftoken-js";
 import { GTransaction, SolanaClient } from "@glow-xyz/solana-client";
-import { TrashIcon } from "@heroicons/react/outline";
+import TrashIcon from "@luma-team/lux-icons/feather/trash-2.svg";
 import { FieldArray, Form, Formik, useFormikContext } from "formik";
 import chunk from "lodash/chunk";
 import pLimit from "p-limit";
