@@ -1,4 +1,5 @@
 const withMarkdoc = require("@markdoc/next.js");
+const path = require("node:path");
 
 /**
  * @type {import('next').NextConfig}
@@ -10,7 +11,13 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.svg$/,
       issuer: /\.tsx?$/,
-      include: [options.dir],
+      include: [
+        options.dir,
+        path.resolve(
+          __dirname,
+          "../node_modules/.pnpm/@luma-team+lux-icons@0.43.0/"
+        ),
+      ],
       use: [
         "next-swc-loader",
         {
