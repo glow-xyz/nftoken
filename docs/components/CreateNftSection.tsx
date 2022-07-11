@@ -3,19 +3,37 @@ import { constructCreateNftTx } from "@glow-xyz/nftoken-js";
 import TickFilledIcon from "@luma-team/lux-icons/glow/TickFilled.svg";
 import confetti from "canvas-confetti";
 import classNames from "classnames";
-import { Form, Formik } from "formik";
-import { useEffect, useState } from "react";
+import { Form, Formik, useFormikContext } from "formik";
+import { useState, useEffect, useRef } from "react";
 import { uploadJsonToS3 } from "../utils/upload-file";
 import { SimpleDropZone } from "./forms/SimpleDropZone";
 import { InteractiveWell } from "./InteractiveWell";
-import { LuxSubmitButton } from "./LuxButton";
+import { LuxButton, LuxSubmitButton } from "./LuxButton";
 import { LuxInputField } from "./LuxInput";
 import { useNetworkContext } from "./NetworkContext";
+import RepeatIcon from "@luma-team/lux-icons/feather/repeat.svg";
 
 type FormData = {
   name: string;
   image: string | null;
 };
+
+const RANDOM_IMAGES = [
+  "https://images.unsplash.com/photo-1624628639856-100bf817fd35",
+  "https://images.unsplash.com/photo-1615756257997-2bad02de466d",
+  "https://images.unsplash.com/photo-1654002729150-89a0ca7f4be0",
+  "https://images.unsplash.com/photo-1617791160536-598cf32026fb",
+  "https://images.unsplash.com/photo-1538113300105-e51e4560b4aa",
+  "https://images.unsplash.com/photo-1637666505754-7416ebd70cbf",
+  "https://images.unsplash.com/photo-1611262588019-db6cc2032da3",
+  "https://images.unsplash.com/photo-1630857453903-0386bfb0d990",
+  "https://images.unsplash.com/photo-1599508704512-2f19efd1e35f",
+  "https://images.unsplash.com/photo-1651925757999-4d6d94adbde4",
+  "https://images.unsplash.com/photo-1651741304929-71bcb4d17c92",
+  "https://images.unsplash.com/photo-1650983248860-8747c75e6836",
+  "https://images.unsplash.com/photo-1654859869130-fd0a2aa5539b",
+  "https://images.unsplash.com/photo-1653853033251-e1b76495f688",
+];
 
 export const CreateNftSection = () => {
   const { user, glowDetected } = useGlowContext();
@@ -96,7 +114,7 @@ export const CreateNftSection = () => {
                 <LuxInputField label="NFT Name" name="name" required />
               </div>
 
-              <SimpleDropZone<FormData> label="NFT Image" fieldName="image" />
+              <NftImageUpload />
 
               <div className="mt-4">
                 <LuxSubmitButton label="Create NFT" rounded color="brand" />
@@ -148,6 +166,45 @@ export const CreateNftSection = () => {
           width: 1.25rem;
         }
       `}</style>
+    </div>
+  );
+};
+
+const NftImageUpload = () => {
+  const { setFieldValue } = useFormikContext();
+
+  let randomIndex = useRef<number | null>(null);
+
+  return (
+    <div>
+      <SimpleDropZone<FormData> label="NFT Image" fieldName="image" />
+      <LuxButton
+        label="Random Image"
+        variant="link"
+        size="small"
+        color="secondary"
+        icon={<RepeatIcon />}
+        className="mt-2"
+        onClick={() => {
+          if (randomIndex.current === null) {
+            randomIndex.current = Math.floor(
+              Math.random() * RANDOM_IMAGES.length
+            );
+          } else {
+            randomIndex.current++;
+
+            if (randomIndex.current >= RANDOM_IMAGES.length) {
+              randomIndex.current = 0;
+            }
+          }
+
+          const url =
+            RANDOM_IMAGES[randomIndex.current] +
+            "?height=1000&width=1000&fit=crop";
+
+          setFieldValue("image", url);
+        }}
+      />
     </div>
   );
 };
