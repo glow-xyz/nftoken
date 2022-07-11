@@ -1,6 +1,6 @@
 import { useGlowContext } from "@glow-xyz/glow-react";
 import { constructCreateNftTx } from "@glow-xyz/nftoken-js";
-import { BadgeCheckIcon } from "@heroicons/react/outline";
+import TickFilledIcon from "@luma-team/lux-icons/glow/TickFilled.svg";
 import confetti from "canvas-confetti";
 import classNames from "classnames";
 import { Form, Formik } from "formik";
@@ -111,9 +111,9 @@ export const CreateNftSection = () => {
           })}
         >
           <div className="success-icon text-success">
-            <BadgeCheckIcon />
+            <TickFilledIcon />
           </div>
-          <p className="font-weight-medium text-success mb-0 text-center text-lg">
+          <p className="mt-1 mb-0 font-weight-medium text-success text-center text-lg">
             <span>Your NFT has been minted!</span>
           </p>
         </div>
@@ -144,8 +144,8 @@ export const CreateNftSection = () => {
         }
 
         .success-icon :global(svg) {
-          height: 1.5rem;
-          width: 1.5rem;
+          height: 1.25rem;
+          width: 1.25rem;
         }
       `}</style>
     </div>
