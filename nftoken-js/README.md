@@ -22,7 +22,7 @@ You can create an NFT in just a couple lines of code:
 ```ts
 import { constructCreateNftTx } from "@glow-xyz/nftoken-js";
 
-// This opens the Glow Chrome Extension and give us the current wallet
+// This opens the Glow Browser Extension and give us the current wallet
 const { address: wallet } = await window.glow!.connect();
 
 // This is the location where you have uploaded Metadata about the NFT. This can be in Arweave, IPFS, S3,
