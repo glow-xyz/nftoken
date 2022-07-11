@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from "@heroicons/react/outline";
+import ChevronRightIcon from "@luma-team/lux-icons/feather/chevron-right.svg";
 import { SocialHead } from "../components/SocialHead";
 import { LuxButton } from "../components/LuxButton";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
@@ -62,7 +62,7 @@ export default function Index() {
         .inner {
           margin: 0 auto;
           width: 100%;
-          
+
           max-width: var(--page-max-width);
           padding: 1.5rem var(--page-horizontal-padding);
 

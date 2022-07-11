@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import copy from "copy-to-clipboard";
 import { animate } from "motion";
-import { ClipboardIcon, CheckIcon } from "@heroicons/react/outline";
+import ClipboardIcon from "@luma-team/lux-icons/feather/clipboard.svg";
+import CheckIcon from "@luma-team/lux-icons/feather/check.svg";
 
 import prism from "prismjs";
 import "prismjs/components/prism-typescript";
@@ -19,8 +20,8 @@ export const CodeBlock = ({
     ? prism.highlight(content, prism.languages[language], language)
     : content;
 
-  const copyIcon = useRef<SVGSVGElement | null>(null);
-  const successIcon = useRef<SVGSVGElement | null>(null);
+  const copyIcon = useRef<HTMLDivElement | null>(null);
+  const successIcon = useRef<HTMLDivElement | null>(null);
 
   const [copied, setCopied] = useState(false);
 
@@ -54,8 +55,12 @@ export const CodeBlock = ({
         />
 
         <button className="copy-button" onClick={handleCopy}>
-          <ClipboardIcon ref={copyIcon} />
-          <CheckIcon ref={successIcon} />
+          <div ref={copyIcon}>
+            <ClipboardIcon />
+          </div>
+          <div ref={successIcon}>
+            <CheckIcon />
+          </div>
         </button>
       </div>
 
@@ -93,7 +98,7 @@ export const CodeBlock = ({
           opacity: 1;
         }
 
-        button :global(svg) {
+        button > :global(div) {
           color: var(--primary-color);
           grid-column: 1;
           grid-row: 1;

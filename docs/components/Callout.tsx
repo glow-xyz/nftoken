@@ -1,11 +1,11 @@
 import React from "react";
-import { LightBulbIcon } from "@heroicons/react/outline";
+import WarningIcon from "@luma-team/lux-icons/glow/Warning.svg";
 
 export const Callout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div className="callout">
-        <LightBulbIcon />
+        <WarningIcon />
         <div>{children}</div>
       </div>
 

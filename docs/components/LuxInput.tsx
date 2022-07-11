@@ -14,7 +14,8 @@ import React, {
 } from "react";
 
 import { LumaInputProps, LumaInputWrapper } from "./_LumaInputWrapper";
-import { CheckIcon, XIcon } from "@heroicons/react/outline";
+import CheckIcon from "@luma-team/lux-icons/feather/check.svg";
+import XIcon from "@luma-team/lux-icons/feather/x.svg";
 import { LuxSpinner } from "./LuxSpinner";
 
 export const LuxInput = forwardRef(

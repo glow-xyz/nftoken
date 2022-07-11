@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 import { useIsMounted } from "../hooks/useIsMounted";
-import { XIcon } from "@heroicons/react/solid";
+import CloseIcon from "@luma-team/lux-icons/feather/x.svg";
 import {
   FRAMER_BOUNCE_TRANSITION,
   FRAMER_EASE,
@@ -142,7 +142,7 @@ const LuxModalHeader = ({
         className="btn close flex-center-center animated"
         onClick={onHide}
       >
-        <XIcon />
+        <CloseIcon />
       </button>
     </div>
   );

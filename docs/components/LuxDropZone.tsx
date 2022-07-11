@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import React from "react";
 import { LuxSpinner } from "../components/LuxSpinner";
+import ImageIcon from "@luma-team/lux-icons/feather/image.svg";
 import { DropzoneInputProps, DropzoneRootProps } from "react-dropzone";
-import { PhotographIcon } from "@heroicons/react/outline";
 
 export const DropZone = ({
-  icon = <PhotographIcon />,
+  icon = <ImageIcon />,
   label,
   sublabel,
   isDragActive,

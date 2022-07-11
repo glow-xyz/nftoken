@@ -14,7 +14,6 @@
     "@glow-xyz/glow-react": "1.0.2",
     "@glow-xyz/nftoken-js": "workspace:*",
     "@glow-xyz/solana-client": "1.0.8",
-    "@heroicons/react": "1.0.6",
     "@luma-team/lux-icons": "^0.43.0",
     "@luma-team/lux-sass": "0.51.0",
     "@markdoc/markdoc": "0.1.2",

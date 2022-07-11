@@ -19,7 +19,6 @@ importers:
       '@glow-xyz/glow-react': 1.0.2
       '@glow-xyz/nftoken-js': workspace:*
       '@glow-xyz/solana-client': 1.0.8
-      '@heroicons/react': 1.0.6
       '@luma-team/lux-icons': ^0.43.0
       '@luma-team/lux-sass': 0.51.0
       '@markdoc/markdoc': 0.1.2
@@ -77,7 +76,6 @@ importers:
       '@glow-xyz/glow-react': 1.0.2_biqbaboplfbrettd7655fr4n2y
       '@glow-xyz/nftoken-js': link:../nftoken-js
       '@glow-xyz/solana-client': 1.0.8
-      '@heroicons/react': 1.0.6_react@18.2.0
       '@luma-team/lux-icons': 0.43.0
       '@luma-team/lux-sass': 0.51.0
       '@markdoc/markdoc': 0.1.2
@@ -1603,14 +1601,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
-
-  /@heroicons/react/1.0.6_react@18.2.0:
-    resolution: {integrity: sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==}
-    peerDependencies:
-      react: '>= 16'
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.9.5:
@@ -5120,7 +5110,7 @@ packages:
       mute-stream: 0.0.8
       ora: 6.1.2
       run-async: 2.4.1
-      rxjs: 7.5.5
+      rxjs: 7.5.6
       string-width: 5.1.2
       strip-ansi: 7.0.1
       through: 2.3.8
@@ -7083,8 +7073,8 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
 
-  /rxjs/7.5.5:
-    resolution: {integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==}
+  /rxjs/7.5.6:
+    resolution: {integrity: sha512-dnyv2/YsXhnm461G+R/Pe5bWP41Nm6LBXEYWI6eiFP4fiwx6WRI/CD0zbdVAudd9xwLEF2IDcKXLHit0FYjUzw==}
     dependencies:
       tslib: 2.4.0
     dev: true
@@ -7811,7 +7801,7 @@ packages:
     dev: true
 
   /unpipe/1.0.0:
-    resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
+    resolution: {integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=}
     engines: {node: '>= 0.8'}
     dev: true
 
