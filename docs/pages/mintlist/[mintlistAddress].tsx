@@ -16,7 +16,7 @@ import { MintlistPending } from "../../components/mintlist/MintlistPending";
 import { MintlistSaleEnded } from "../../components/mintlist/MintlistSaleEnded";
 import { useNetworkContext } from "../../components/NetworkContext";
 import { SocialHead } from "../../components/SocialHead";
-import { MintlistPresale } from "./MintlistPresale";
+import { MintlistPresale } from "../../components/mintlist/MintlistPresale";
 
 // TODO: add server side rendering
 export default function MintlistPage() {
