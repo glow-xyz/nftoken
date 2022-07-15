@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { ResponsiveBreakpoint } from "../utils/style-constants";
-import { LuxLink } from "./LuxLink";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import { LuxLink } from "../atoms/LuxLink";
 
 export type SecondaryNavLink = { title: string; href: string };
 

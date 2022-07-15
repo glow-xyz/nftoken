@@ -3,11 +3,11 @@ import React from "react";
 import { Solana } from "@glow-xyz/solana-client";
 import ExternalLinkIcon from "@luma-team/lux-icons/ExternalLink.svg";
 import ArrowRightIcon from "@luma-team/lux-icons/feather/arrow-right.svg";
-import { startsWithHttp } from "../utils/social-links";
+import { startsWithHttp } from "../../utils/social-links";
 import { SolanaAddress } from "./SolanaAddress";
 import { ExternalLink } from "./ExternalLink";
 import { LuxButton } from "./LuxButton";
-import { ResponsiveBreakpoint } from "../utils/style-constants";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 export const ValueList = ({
   attributes,

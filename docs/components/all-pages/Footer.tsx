@@ -1,6 +1,6 @@
 import TwitterIcon from "../../icons/Twitter.svg";
 import GitHubIcon from "../../icons/GitHub.svg";
-import { LuxButton } from "../LuxButton";
+import { LuxButton } from "../atoms/LuxButton";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
 
 export const Footer = () => {

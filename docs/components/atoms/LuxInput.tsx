@@ -1,6 +1,6 @@
-import { ETHEREUM_ADDRESS_REGEX } from "../utils/ethereum";
-import { isValidEmail } from "../utils/email";
-import { normalizeUrl } from "../utils/social-links";
+import { ETHEREUM_ADDRESS_REGEX } from "../../utils/ethereum";
+import { isValidEmail } from "../../utils/email";
+import { normalizeUrl } from "../../utils/social-links";
 
 import classNames from "classnames";
 import { Field, FieldProps, getIn, useFormikContext } from "formik";

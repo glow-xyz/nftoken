@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import { useNetworkContext } from "../NetworkContext";
+import { useNetworkContext } from "../atoms/NetworkContext";
 import { MintInfosUploader } from "./MintInfosForm";
 import { MintlistAndCollection } from "./mintlist-utils";
 import { MintlistNftsGrid } from "./MintlistNftsGrid";

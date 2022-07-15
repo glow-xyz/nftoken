@@ -7,10 +7,10 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import { NextPreviousButtons } from "../components/all-pages/NextPreviousButtons";
 
-import { NetworkProvider } from "../components/NetworkContext";
+import { NetworkProvider } from "../components/atoms/NetworkContext";
 
-import { PageLayout } from "../components/PageLayout";
-import { SocialHead } from "../components/SocialHead";
+import { PageLayout } from "../components/all-pages/PageLayout";
+import { SocialHead } from "../components/all-pages/SocialHead";
 import "../styles/app.scss";
 
 export default function App(props: AppProps) {

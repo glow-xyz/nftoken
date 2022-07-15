@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useBoolean } from "../../hooks/useBoolean";
 import { NftokenTypes } from "../../utils/NftokenTypes";
-import { LuxButton } from "../LuxButton";
-import { useNetworkContext } from "../NetworkContext";
+import { LuxButton } from "../atoms/LuxButton";
+import { useNetworkContext } from "../atoms/NetworkContext";
 
 export const MintlistSaleEnded = ({
   mintlist,

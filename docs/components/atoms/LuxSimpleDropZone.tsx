@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { getImageUrl } from "../utils/cdn";
+import { getImageUrl } from "../../utils/cdn";
 import { useDropzone } from "react-dropzone";
-import { uploadImageToS3 } from "../utils/upload-file";
+import { uploadImageToS3 } from "../../utils/upload-file";
 import { ACCEPT_IMAGE_PROP } from "./LuxDropZone";
 import { LuxInputLabel } from "./LuxInputLabel";
 import ArrowUpIcon from "@luma-team/lux-icons/feather/arrow-up.svg";

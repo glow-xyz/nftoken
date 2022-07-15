@@ -1,6 +1,6 @@
 import React from "react";
 import { NftokenTypes } from "../../utils/NftokenTypes";
-import { ImageCard } from "../ImageCard";
+import { ImageCard } from "../atoms/ImageCard";
 import { useMintInfos } from "./mintlist-utils";
 
 export function MintlistNftsGrid({

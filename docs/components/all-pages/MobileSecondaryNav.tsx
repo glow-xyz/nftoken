@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { ResponsiveBreakpoint } from "../utils/style-constants";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
 import { SecondaryNavLink } from "./DesktopSecondaryNav";
-import { LuxLink } from "./LuxLink";
+import { LuxLink } from "../atoms/LuxLink";
 
 export function MobileSecondaryNav({ links }: { links: SecondaryNavLink[] }) {
   const router = useRouter();

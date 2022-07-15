@@ -1,7 +1,7 @@
 /* Use this file to export your Markdoc nodes */
 
-import { Heading } from "../components/Heading";
-import { CodeBlock } from "../components/CodeBlock";
+import { Heading } from "../components/markdoc-atoms/Heading";
+import { CodeBlock } from "../components/markdoc-atoms/CodeBlock";
 import { Tag } from "@markdoc/markdoc";
 
 export const heading = {

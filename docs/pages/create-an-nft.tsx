@@ -1,6 +1,6 @@
 import React from "react";
-import { CreateNftSection } from "../components/CreateNftSection";
-import { SocialHead } from "../components/SocialHead";
+import { CreateNftSection } from "../components/nft/CreateNftSection";
+import { SocialHead } from "../components/all-pages/SocialHead";
 
 export default function CreateAnNftPage() {
   return (

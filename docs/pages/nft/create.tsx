@@ -1,4 +1,4 @@
-import { CreateNftSection } from "../../components/CreateNftSection";
+import { CreateNftSection } from "../../components/nft/CreateNftSection";
 
 export default function CreateNftPage() {
   return (

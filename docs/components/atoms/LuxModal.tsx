@@ -3,13 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-import { useIsMounted } from "../hooks/useIsMounted";
+import { useIsMounted } from "../../hooks/useIsMounted";
 import CloseIcon from "@luma-team/lux-icons/feather/x.svg";
 import {
   FRAMER_BOUNCE_TRANSITION,
   FRAMER_EASE,
   FRAMER_TRANSITION,
-} from "../utils/framer";
+} from "../../utils/framer";
 
 type ModalVariant = "regular" | "compact" | "lux-alert" | "sticky-footer";
 type RenderProps =

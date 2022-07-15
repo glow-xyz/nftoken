@@ -1,14 +1,16 @@
 import { Network } from "@glow-xyz/glow-client";
 import { useGlowContext } from "@glow-xyz/glow-react";
+import GlowIcon from "@luma-team/lux-icons/glow/GlowCoin.svg";
 import { Solana } from "@glow-xyz/solana-client";
 import range from "lodash/range";
 import React from "react";
 import useSWR from "swr";
+import { LuxEmptyState } from "../components/atoms/LuxEmptyState";
 import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
-import { LuxLink } from "../components/LuxLink";
-import { useNetworkContext } from "../components/NetworkContext";
-import { Shimmer } from "../components/Shimmer";
-import { SocialHead } from "../components/SocialHead";
+import { LuxLink } from "../components/atoms/LuxLink";
+import { useNetworkContext } from "../components/atoms/NetworkContext";
+import { Shimmer } from "../components/atoms/Shimmer";
+import { SocialHead } from "../components/all-pages/SocialHead";
 import { getImageUrl } from "../utils/cdn";
 import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../utils/NftokenTypes";
@@ -29,16 +31,27 @@ export default function MyNftsPage() {
       <h1>My NFTs</h1>
 
       <div className="flex-center spread mb-3">
-        <div className="text-secondary">
-          Find All NFTs in Your Wallet
-        </div>
+        <div className="text-secondary">Find All NFTs in Your Wallet</div>
 
         <NetworkSwitcher />
       </div>
 
+      {!user && (
+        <LuxEmptyState
+          icon={<GlowIcon />}
+          title={"Welcome"}
+          desc={"Sign In with glow at the top right."}
+        />
+      )}
       {!nfts && <NftLoadingGrid />}
       {nfts && <NftGrid nfts={nfts} />}
-      {nfts && nfts.length === 0 && <div>You don't have any NFTs.</div>}
+      {user && nfts && nfts.length === 0 && (
+        <LuxEmptyState
+          icon={<GlowIcon />}
+          title={"No NFTs... Yet"}
+          desc={"You can create an NFT, try it out."}
+        />
+      )}
     </div>
   );
 }

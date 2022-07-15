@@ -1,7 +1,7 @@
 import ChevronLeftIcon from "@luma-team/lux-icons/feather/chevron-left.svg";
 import ChevronRightIcon from "@luma-team/lux-icons/feather/chevron-right.svg";
 import { useRouter } from "next/router";
-import { LuxButton } from "../LuxButton";
+import { LuxButton } from "../atoms/LuxButton";
 import { DOC_PAGES } from "./navigation-constants";
 
 export const NextPreviousButtons = () => {

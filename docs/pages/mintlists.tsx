@@ -1,20 +1,22 @@
 import { Network } from "@glow-xyz/glow-client";
+import GlowIcon from "@luma-team/lux-icons/glow/GlowCoin.svg";
 import { useGlowContext } from "@glow-xyz/glow-react";
 import { Solana } from "@glow-xyz/solana-client";
 import { DateTime } from "luxon";
 import React from "react";
 import useSWR from "swr";
+import { LuxEmptyState } from "../components/atoms/LuxEmptyState";
 import { NetworkSwitcher } from "../components/atoms/NetworkSwitcher";
-import { LuxLink } from "../components/LuxLink";
-import { LuxSpinner } from "../components/LuxSpinner";
+import { LuxLink } from "../components/atoms/LuxLink";
+import { LuxSpinner } from "../components/atoms/LuxSpinner";
 import {
   getMintlistStatus,
   MintlistStatus,
 } from "../components/mintlist/mintlist-utils";
 import { MintlistStatusPill } from "../components/mintlist/MintlistStatusPill";
-import { useNetworkContext } from "../components/NetworkContext";
-import { SocialHead } from "../components/SocialHead";
-import { SquareImage } from "../components/SquareImage";
+import { useNetworkContext } from "../components/atoms/NetworkContext";
+import { SocialHead } from "../components/all-pages/SocialHead";
+import { SquareImage } from "../components/atoms/SquareImage";
 import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../utils/NftokenTypes";
 
@@ -52,8 +54,20 @@ export default function MintlistsPage() {
         </div>
       )}
 
-      {mintlists && mintlists.length === 0 && (
-        <div className={"py-3"}>No mintlists found.</div>
+      {user && mintlists && mintlists.length === 0 && (
+        <LuxEmptyState
+          icon={<GlowIcon />}
+          title={"No Mintlists... Yet"}
+          desc={"You can create an Mintlist, try it out."}
+        />
+      )}
+
+      {!user && (
+        <LuxEmptyState
+          icon={<GlowIcon />}
+          title={"Welcome"}
+          desc={"Sign In with glow at the top right."}
+        />
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { toastSuccess } from "../utils/toast";
+import { toastSuccess } from "../../utils/toast";
 
 const ShowAddress = ({
   address,
