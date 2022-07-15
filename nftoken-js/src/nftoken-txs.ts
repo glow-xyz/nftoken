@@ -204,8 +204,7 @@ export const constructCloseMintlistTx = async ({
           { address: mintlist, writable: true },
           { address: wallet, signer: true, writable: true },
         ],
-        // SystemProgram
-        program: GPublicKey.default.toBase58(),
+        program: NFTOKEN_ADDRESS,
         data_base64: NFTOKEN_MINTLIST_CLOSE_IX.toBuffer({
           ix: null,
         }).toString("base64"),

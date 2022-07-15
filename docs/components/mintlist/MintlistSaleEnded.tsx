@@ -1,4 +1,5 @@
 import { constructCloseMintlistTx } from "@glow-xyz/nftoken-js";
+import { useRouter } from "next/router";
 import React from "react";
 import { useBoolean } from "../../hooks/useBoolean";
 import { NftokenTypes } from "../../utils/NftokenTypes";
@@ -12,6 +13,7 @@ export const MintlistSaleEnded = ({
 }) => {
   const { network } = useNetworkContext();
   const close = useBoolean();
+  const router = useRouter();
 
   return (
     <div className="mt-5">
@@ -42,6 +44,7 @@ export const MintlistSaleEnded = ({
                 transactionBase64,
                 network,
               });
+              await router.push('/mintlists')
             } catch (err) {
               console.error(err);
             }
