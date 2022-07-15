@@ -1,41 +1,40 @@
-import { constructMintNftTx } from "@glow-xyz/nftoken-js";
+import { constructCloseMintlistTx } from "@glow-xyz/nftoken-js";
 import React from "react";
 import { useBoolean } from "../../hooks/useBoolean";
-import { LAMPORTS_PER_SOL } from "../../utils/constants";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 import { LuxButton } from "../LuxButton";
 import { useNetworkContext } from "../NetworkContext";
 
-export const MintlistForSale = ({
+export const MintlistSaleEnded = ({
   mintlist,
 }: {
-  mintlist: NftokenTypes.Mintlist;
+  mintlist: NftokenTypes.MintlistInfo;
 }) => {
   const { network } = useNetworkContext();
-  const minting = useBoolean();
-  const feeString =
-    parseInt(mintlist.price.lamports) / LAMPORTS_PER_SOL + " SOL";
+  const close = useBoolean();
 
   return (
     <div className="mt-5">
-      <div className="text-xl flex-column flex-center-center gap-3 mb-3 font-weight-medium">
-        <div>This Mintlist is now For Sale.</div>
+      <div className="text-xl flex-column flex-center-center gap-3 mb-3">
+        <div>This Mintlist has sold out.</div>
 
-        <div>You can mint an NFT for {feeString}</div>
+        <div>
+          You can close the Mintlist and return the rent to your wallet.
+        </div>
       </div>
 
       <div className="flex-center-center">
         <LuxButton
-          label="Mint NFT"
-          disabled={minting.value}
+          label="Close Mintlist"
+          disabled={close.value}
           onClick={async () => {
-            minting.setTrue();
+            close.setTrue();
 
             const { address: wallet } = await window.glow!.connect();
-            const { transactionBase64 } = await constructMintNftTx({
+            const { transactionBase64 } = await constructCloseMintlistTx({
               wallet,
               network,
-              mintlist,
+              mintlist: mintlist.address,
             });
 
             try {
@@ -47,7 +46,7 @@ export const MintlistForSale = ({
               console.error(err);
             }
 
-            minting.setFalse();
+            close.setFalse();
           }}
         />
       </div>

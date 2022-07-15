@@ -69,6 +69,12 @@ export const NFTOKEN_MINTLIST_CREATE_IX = new FixableGlowBorsh<{
   ],
 });
 
+export const NFTOKEN_MINTLIST_CLOSE_IX = new FixableGlowBorsh<{
+  ix: null;
+}>({
+  fields: [["ix", GlowBorsh.ixDiscriminator({ ix_name: "mintlist_close_v1" })]],
+});
+
 export const NFTOKEN_MINTLIST_ACCOUNT = new FixableGlowBorsh<{
   discriminator: null;
   version: number;
