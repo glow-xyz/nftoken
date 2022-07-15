@@ -1,6 +1,5 @@
 import * as anchor from "@project-serum/anchor";
 import { BN, web3 } from "@project-serum/anchor";
-import assert from "assert";
 import { createEmptyMintlist, getMintlistData } from "./utils/mintlist";
 import {
   arrayToStr,
@@ -49,11 +48,10 @@ describe("mintlist_add_mint_infos", () => {
       mintlistPubkey: mintlistAddress,
     });
 
-    assert.equal(mintlistData.mintInfos.length, batchSize);
+    expect(mintlistData.mintInfos.length).toBe(batchSize);
 
     for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
-      assert.deepEqual(
-        mintInfo.metadataUrl,
+      expect(mintInfo.metadataUrl).toEqual(
         arrayToStr(mintInfos1[i].metadataUrl)
       );
     }
@@ -90,17 +88,15 @@ describe("mintlist_add_mint_infos", () => {
       mintlistPubkey: mintlistAddress,
     });
 
-    assert.equal(mintlistData.mintInfos.length, batchSize * 2);
+    expect(mintlistData.mintInfos.length).toEqual(batchSize * 2);
 
     for (const [i, mintInfo] of mintlistData.mintInfos.entries()) {
       if (i < batchSize) {
-        assert.deepEqual(
-          mintInfo.metadataUrl,
+        expect(mintInfo.metadataUrl).toEqual(
           arrayToStr(mintInfos1[i].metadataUrl)
         );
       } else if (i < batchSize * 2) {
-        assert.deepEqual(
-          mintInfo.metadataUrl,
+        expect(mintInfo.metadataUrl).toEqual(
           arrayToStr(mintInfos2[i - batchSize].metadataUrl)
         );
       }

@@ -27,7 +27,6 @@
     "@types/lodash": "4.14.182",
     "@typescript-eslint/eslint-plugin": "5.30.5",
     "@typescript-eslint/parser": "5.30.5",
-    "assert": "2.0.0",
     "axios": "0.27.2",
     "bignumber.js": "9.0.2",
     "buffer": "6.0.3",
