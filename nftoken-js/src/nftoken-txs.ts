@@ -9,10 +9,13 @@ import {
 import { DateTime } from "luxon";
 import { getMintlistAccountSize } from "./mintlist";
 import {
+  NFTOKEN_MINTLIST_CLOSE_IX,
   NFTOKEN_MINTLIST_CREATE_IX,
+  NFTOKEN_MINTLIST_MINT_NFT_V1,
   NFTOKEN_NFT_CREATE_IX,
   SYSTEM_CREATE_ACCOUNT_IX,
 } from "./nftoken-formats";
+import { NftokenTypes } from "./nftoken-types";
 
 export const NFTOKEN_ADDRESS: Solana.Address =
   "nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL";
@@ -172,5 +175,98 @@ export const constructCreateMintlistTx = async ({
   };
 };
 
+export const constructCloseMintlistTx = async ({
+  wallet,
+  network,
+  mintlist,
+}: {
+  wallet: Address;
+  network: Network;
+  mintlist: Address;
+}): Promise<{
+  gtransaction: GTransaction.GTransaction;
+  transactionBase64: string;
+}> => {
+  const rpcUrl = NETWORK_TO_RPC[network];
+
+  const recentBlockhash = await SolanaClient.getRecentBlockhash({
+    rpcUrl,
+  });
+
+  const tx = GTransaction.create({
+    feePayer: wallet,
+    recentBlockhash,
+    instructions: [
+      // Due to the 10kb limit on the size of accounts that can be initialized via CPI,
+      // the `mintlist` account must be initialized through a separate SystemProgram.createAccount instruction.
+      {
+        accounts: [
+          { address: mintlist, writable: true },
+          { address: wallet, signer: true, writable: true },
+        ],
+        program: NFTOKEN_ADDRESS,
+        data_base64: NFTOKEN_MINTLIST_CLOSE_IX.toBuffer({
+          ix: null,
+        }).toString("base64"),
+      },
+    ],
+    signers: [],
+  });
+
+  return {
+    gtransaction: tx,
+    transactionBase64: GTransaction.toBuffer({ gtransaction: tx }).toString(
+      "base64"
+    ),
+  };
+};
+
+export const constructMintNftTx = async ({
+  wallet,
+  network,
+  mintlist,
+}: {
+  wallet: Address;
+  network: Network;
+  mintlist: NftokenTypes.Mintlist;
+}) => {
+  const recentBlockhash = await SolanaClient.getRecentBlockhash({
+    rpcUrl: NETWORK_TO_RPC[network],
+  });
+
+  const nftKeypair = GKeypair.generate();
+
+  const gtransaction = GTransaction.create({
+    feePayer: wallet,
+    recentBlockhash,
+    instructions: [
+      {
+        accounts: [
+          { address: wallet, signer: true, writable: true },
+          { address: nftKeypair.address, signer: true, writable: true },
+          { address: mintlist.address, writable: true },
+          { address: mintlist.treasury_sol, writable: true },
+          { address: GPublicKey.default.toBase58() }, // System Program
+          { address: SYSVAR_CLOCK_PUBKEY },
+          { address: SYSVAR_SLOT_HASHES_PUBKEY },
+        ],
+        program: NFTOKEN_ADDRESS,
+        data_base64: NFTOKEN_MINTLIST_MINT_NFT_V1.toBuffer({
+          ix: null,
+        }).toString("base64"),
+      },
+    ],
+    signers: [nftKeypair],
+  });
+
+  return {
+    gtransaction,
+    transactionBase64: GTransaction.toBuffer({ gtransaction }).toString(
+      "base64"
+    ),
+  };
+};
+
 const LAMPORTS_PER_SOL = 1_000_000_000;
 const SYSVAR_CLOCK_PUBKEY = "SysvarC1ock11111111111111111111111111111111";
+const SYSVAR_SLOT_HASHES_PUBKEY = "SysvarS1otHashes111111111111111111111111111";

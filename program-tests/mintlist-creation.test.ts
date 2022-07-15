@@ -1,6 +1,5 @@
 import * as anchor from "@project-serum/anchor";
 import { BN, web3 } from "@project-serum/anchor";
-import assert from "assert";
 import { createEmptyMintlist } from "./utils/mintlist";
 import { program } from "./utils/test-utils";
 
@@ -22,17 +21,20 @@ describe("mintlist_create", () => {
       program,
     });
 
-    assert.equal(mintlistData.version, 1);
-    assert.deepEqual(mintlistData.authority, provider.wallet.publicKey);
-    assert.deepEqual(mintlistData.treasurySol, treasuryKeypair.publicKey);
-    assert.deepEqual(mintlistData.goLiveDate.toNumber(), goLiveDate.toNumber());
-    assert.equal(
-      mintlistData.priceLamports.toNumber(),
+    expect(mintlistData.version).toBe(1);
+    expect(mintlistData.authority.toBase58()).toBe(
+      provider.wallet.publicKey.toBase58()
+    );
+    expect(mintlistData.treasurySol.toBase58()).toBe(
+      treasuryKeypair.publicKey.toBase58()
+    );
+    expect(mintlistData.goLiveDate.toNumber()).toBe(goLiveDate.toNumber());
+    expect(mintlistData.priceLamports.toNumber()).toBe(
       priceLamports.toNumber()
     );
-    assert.deepEqual(mintlistData.numNftsTotal, numNftsTotal);
-    assert.deepEqual(mintlistData.numNftsRedeemed, 0);
-    assert.deepEqual(mintlistData.mintingOrder, { sequential: {} });
-    assert(mintlistData.createdAt.toNumber() <= Date.now() / 1000);
+    expect(mintlistData.numNftsTotal).toBe(numNftsTotal);
+    expect(mintlistData.numNftsRedeemed).toBe(0);
+    expect(mintlistData.mintingOrder).toEqual({ sequential: {} });
+    expect(mintlistData.createdAt.toNumber() <= Date.now() / 1000).toBeTruthy();
   });
 });

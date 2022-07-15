@@ -1,5 +1,4 @@
 import { getMintlistAccountSize } from "@glow-xyz/nftoken-js";
-import assert from "assert";
 import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes, IDL } from "../../target/types/nftoken";
@@ -103,14 +102,13 @@ export async function getMintlistData({
   program: Program<NftokenTypes>;
   mintlistPubkey: PublicKey;
 }): Promise<MintlistData> {
-  const mintlistRawData = await program.provider.connection
-    .getAccountInfo(mintlistPubkey)
-    .then((accountInfo) => accountInfo?.data);
-  assert(
-    mintlistRawData,
-    `Cannot find Mintlist account with address ${mintlistPubkey.toBase58()}.`
+  const mintlistAccount = await program.provider.connection.getAccountInfo(
+    mintlistPubkey
   );
 
+  expect(mintlistAccount?.data).toBeTruthy();
+
+  const mintlistRawData = mintlistAccount!.data;
   const mintlistData = program.coder.accounts.decode(
     "MintlistAccount",
     mintlistRawData
@@ -119,7 +117,9 @@ export async function getMintlistData({
   // We need to deserialize `mintInfos` manually because they aren't declared in the anchor `Mintlist` type.
 
   const mintInfosBytesOffset = getMintlistAccountSize(0);
-  const mintInfosBuffer = mintlistRawData.slice(mintInfosBytesOffset.toNumber());
+  const mintInfosBuffer = mintlistRawData.slice(
+    mintInfosBytesOffset.toNumber()
+  );
 
   const mintInfos = Array.from(
     { length: mintlistData.numNftsConfigured },

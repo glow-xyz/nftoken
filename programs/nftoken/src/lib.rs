@@ -4,6 +4,7 @@ use crate::ix_collection_create::*;
 use crate::ix_collection_update::*;
 use crate::ix_collection_update_authority::*;
 use crate::ix_mintlist_add_mint_infos::*;
+use crate::ix_mintlist_close::*;
 use crate::ix_mintlist_create::*;
 use crate::ix_mintlist_mint_nft::*;
 use crate::ix_nft_burn::*;
@@ -23,6 +24,7 @@ pub mod ix_collection_create;
 pub mod ix_collection_update;
 pub mod ix_collection_update_authority;
 pub mod ix_mintlist_add_mint_infos;
+pub mod ix_mintlist_close;
 pub mod ix_mintlist_create;
 pub mod ix_mintlist_mint_nft;
 pub mod ix_nft_burn;
@@ -114,5 +116,9 @@ pub mod nftoken {
 
     pub fn mintlist_mint_nft_v1(ctx: Context<MintlistMintNft>) -> Result<()> {
         return mintlist_mint_nft_inner(ctx);
+    }
+
+    pub fn mintlist_close_v1(ctx: Context<MintlistClose>) -> Result<()> {
+        return mintlist_close_inner(ctx);
     }
 }
