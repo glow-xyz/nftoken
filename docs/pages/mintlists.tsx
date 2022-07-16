@@ -66,7 +66,7 @@ export default function MintlistsPage() {
         <LuxEmptyState
           icon={<GlowIcon />}
           title={"Welcome"}
-          desc={"Sign In with glow at the top right."}
+          desc={"Sign In with Glow at the top right."}
         />
       )}
     </div>
