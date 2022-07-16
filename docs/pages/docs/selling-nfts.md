@@ -18,7 +18,7 @@ A Mintlist costs a bit of SOL to set up, around 0.6 SOL for a Mintlist with 1,00
 
 ## Configuring a Mintlist
 
-![Mintlist States](/mintlist-states-light.png)
+{% picture light="/mintlist-states-light.png" dark="/mintlist-states-dark.png" /%}
 
 When you create a Mintlist, it will be in the `Pending` state. It will hold information about the collection and how much NFTs will cost, but it doesn't hold the NFT data.
 
