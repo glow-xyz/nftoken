@@ -1,3 +1,4 @@
+import { Picture } from "../components/markdoc-atoms/Picture";
 import { CreateNftSection } from "../components/nft/CreateNftSection";
 import { CreateMintlistSection } from "../components/mintlist/CreateMintlistSection";
 import { Callout } from "../components/markdoc-atoms/Callout";
@@ -20,6 +21,13 @@ export default {
   ["modal-test"]: {
     render: ModalTest,
     attributes: {},
+  },
+  ["picture"]: {
+    render: Picture,
+    attributes: {
+      light: String,
+      dark: String
+    },
   },
   ["attribute-table"]: {
     render: AttributeTable,

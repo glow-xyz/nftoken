@@ -69,3 +69,8 @@ body.dark code:not(pre code) {
 strong {
   color: var(--primary-color);
 }
+
+article img {
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
