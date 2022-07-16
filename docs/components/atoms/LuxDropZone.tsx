@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import { LuxSpinner } from "../components/LuxSpinner";
+import { LuxSpinner } from "./LuxSpinner";
 import ImageIcon from "@luma-team/lux-icons/feather/image.svg";
 import { DropzoneInputProps, DropzoneRootProps } from "react-dropzone";
 

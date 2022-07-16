@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import React, { createContext } from "react";
 import { Network } from "@glow-xyz/glow-client";
-import { createUseAppContext } from "../utils/context";
-import { usePersistedState } from "../hooks/usePersistedState";
+import { createUseAppContext } from "../../utils/context";
+import { usePersistedState } from "../../hooks/usePersistedState";
 
 const NETWORK_LOCAL_STORAGE_KEY = "nftoken-docs-network";
 

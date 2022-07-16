@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { getImageUrl } from "../utils/cdn";
+import { getImageUrl } from "../../utils/cdn";
 
 export const SquareImage = ({
   src,

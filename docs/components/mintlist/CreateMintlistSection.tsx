@@ -3,14 +3,14 @@ import { Form, Formik, useFormikContext } from "formik";
 import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 import React from "react";
-import { uploadJsonToS3 } from "../utils/upload-file";
-import { DateTimePicker, roundedTime } from "./DateTimePicker";
-import { SimpleDropZone } from "./forms/SimpleDropZone";
-import { InteractiveWell } from "./InteractiveWell";
-import { LuxSubmitButton } from "./LuxButton";
-import { LuxInputField } from "./LuxInput";
-import { LuxInputLabel } from "./LuxInputLabel";
-import { useNetworkContext } from "./NetworkContext";
+import { uploadJsonToS3 } from "../../utils/upload-file";
+import { DateTimePicker, roundedTime } from "../atoms/DateTimePicker";
+import { SimpleDropZone } from "../forms/SimpleDropZone";
+import { InteractiveWell } from "../nft/InteractiveWell";
+import { LuxSubmitButton } from "../atoms/LuxButton";
+import { LuxInputField } from "../atoms/LuxInput";
+import { LuxInputLabel } from "../atoms/LuxInputLabel";
+import { useNetworkContext } from "../atoms/NetworkContext";
 
 type FormData = {
   name: string;
@@ -37,7 +37,7 @@ export const CreateMintlistSection = () => {
   };
 
   return (
-    <InteractiveWell title="Live Demo" className="my-3">
+    <InteractiveWell title="Create a Mintlist" className="my-3">
       <Formik
         initialValues={initialValues}
         onSubmit={async ({

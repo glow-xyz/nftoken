@@ -1,4 +1,4 @@
-import { startsWithHttp } from "../utils/social-links";
+import { startsWithHttp } from "../../utils/social-links";
 import React from "react";
 
 export const ExternalLink = React.forwardRef(

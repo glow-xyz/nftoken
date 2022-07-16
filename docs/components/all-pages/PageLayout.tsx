@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import React from "react";
-import { ResponsiveBreakpoint } from "../utils/style-constants";
-import { Footer } from "./all-pages/Footer";
-import { Header } from "./all-pages/Header";
-import { DASHBOARD_PAGES, DOC_PAGES } from "./all-pages/navigation-constants";
+import { ResponsiveBreakpoint } from "../../utils/style-constants";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { DASHBOARD_PAGES, DOC_PAGES } from "./navigation-constants";
 import { DesktopSecondaryNav } from "./DesktopSecondaryNav";
 import { MobileSecondaryNav } from "./MobileSecondaryNav";
 

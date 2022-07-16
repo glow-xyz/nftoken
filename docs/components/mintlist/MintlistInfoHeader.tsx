@@ -2,8 +2,8 @@ import React from "react";
 import { LAMPORTS_PER_SOL } from "../../utils/constants";
 import { pluralize } from "../../utils/string";
 import { ResponsiveBreakpoint } from "../../utils/style-constants";
-import { ImageCard } from "../ImageCard";
-import { ValueList } from "../ValueList";
+import { ImageCard } from "../atoms/ImageCard";
+import { ValueList } from "../atoms/ValueList";
 import {
   getMintlistStatus,
   MintlistAndCollection,

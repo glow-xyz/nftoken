@@ -15,9 +15,9 @@ import { uploadJsonToS3 } from "../../utils/upload-file";
 import { ButtonSwitcher } from "../atoms/ButtonSwitcher";
 import { CsvDropZone } from "../forms/CsvDropZone";
 import { SimpleDropZone } from "../forms/SimpleDropZone";
-import { InteractiveWell } from "../InteractiveWell";
-import { LuxButton, LuxSubmitButton } from "../LuxButton";
-import { LuxInputField } from "../LuxInput";
+import { InteractiveWell } from "../nft/InteractiveWell";
+import { LuxButton, LuxSubmitButton } from "../atoms/LuxButton";
+import { LuxInputField } from "../atoms/LuxInput";
 import { MINT_INFOS_PER_TX } from "./mintlist-utils";
 
 const OFFCHAIN_METADATA_UPLOAD_TOAST_ID = "uploading-nfts-metadata";

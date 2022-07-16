@@ -1,4 +1,4 @@
-import { startsWithHttp } from "../utils/social-links";
+import { startsWithHttp } from "../../utils/social-links";
 import classNames from "classnames";
 import isEmpty from "lodash/isEmpty";
 import qs from "query-string";

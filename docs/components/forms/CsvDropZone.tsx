@@ -2,7 +2,7 @@ import Papa from "papaparse";
 import { useDropzone } from "react-dropzone";
 import FileIcon from "../../icons/feather/FileIcon.svg";
 import { toastError } from "../../utils/toast";
-import { ACCEPT_TEXT_PROP, DropZone } from "../LuxDropZone";
+import { ACCEPT_TEXT_PROP, DropZone } from "../atoms/LuxDropZone";
 
 export function CsvDropZone({ onDrop }: { onDrop: (rows: any[]) => void }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

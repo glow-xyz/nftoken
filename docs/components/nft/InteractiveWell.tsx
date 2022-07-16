@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useGlowContext, GlowSignInButton } from "@glow-xyz/glow-react";
-import { NetworkSwitcher } from "./atoms/NetworkSwitcher";
+import { NetworkSwitcher } from "../atoms/NetworkSwitcher";
 
 export const InteractiveWell = ({
   title,

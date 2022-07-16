@@ -5,14 +5,14 @@ import confetti from "canvas-confetti";
 import classNames from "classnames";
 import { Form, Formik, useFormikContext } from "formik";
 import { useState, useEffect, useRef } from "react";
-import { uploadJsonToS3 } from "../utils/upload-file";
-import { SimpleDropZone } from "./forms/SimpleDropZone";
+import { uploadJsonToS3 } from "../../utils/upload-file";
+import { SimpleDropZone } from "../forms/SimpleDropZone";
 import { InteractiveWell } from "./InteractiveWell";
-import { LuxButton, LuxSubmitButton } from "./LuxButton";
-import { LuxInputField } from "./LuxInput";
-import { useNetworkContext } from "./NetworkContext";
+import { LuxButton, LuxSubmitButton } from "../atoms/LuxButton";
+import { LuxInputField } from "../atoms/LuxInput";
+import { useNetworkContext } from "../atoms/NetworkContext";
 import RepeatIcon from "@luma-team/lux-icons/feather/repeat.svg";
-import { getImageUrl } from "../utils/cdn";
+import { getImageUrl } from "../../utils/cdn";
 
 type FormData = {
   name: string;

@@ -2,7 +2,7 @@ import { DateTime, Duration } from "luxon";
 import React, { useMemo } from "react";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getTimezoneIana, TimezoneIana } from "../utils/timezone";
+import { getTimezoneIana, TimezoneIana } from "../../utils/timezone";
 
 export const DateTimePicker = ({
   date,

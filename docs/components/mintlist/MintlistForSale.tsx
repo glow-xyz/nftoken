@@ -3,8 +3,8 @@ import React from "react";
 import { useBoolean } from "../../hooks/useBoolean";
 import { LAMPORTS_PER_SOL } from "../../utils/constants";
 import { NftokenTypes } from "../../utils/NftokenTypes";
-import { LuxButton } from "../LuxButton";
-import { useNetworkContext } from "../NetworkContext";
+import { LuxButton } from "../atoms/LuxButton";
+import { useNetworkContext } from "../atoms/NetworkContext";
 
 export const MintlistForSale = ({
   mintlist,

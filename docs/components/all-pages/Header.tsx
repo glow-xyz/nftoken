@@ -2,8 +2,8 @@ import { GlowSignInButton, useGlowContext } from "@glow-xyz/glow-react";
 import NftokenLogo from "../../icons/NftokenLogo.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { LuxButton } from "../LuxButton";
-import { LuxLink } from "../LuxLink";
+import { LuxButton } from "../atoms/LuxButton";
+import { LuxLink } from "../atoms/LuxLink";
 
 enum TopLevelTab {
   DOCS,

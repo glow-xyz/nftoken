@@ -4,7 +4,7 @@ import { Solana } from "@glow-xyz/solana-client";
 import { useRouter } from "next/router";
 import React from "react";
 import useSWR from "swr";
-import { LuxSpinner } from "../../components/LuxSpinner";
+import { LuxSpinner } from "../../components/atoms/LuxSpinner";
 import {
   getMintlistStatus,
   MintlistAndCollection,
@@ -14,8 +14,8 @@ import { MintlistForSale } from "../../components/mintlist/MintlistForSale";
 import { MintlistInfoHeader } from "../../components/mintlist/MintlistInfoHeader";
 import { MintlistPending } from "../../components/mintlist/MintlistPending";
 import { MintlistSaleEnded } from "../../components/mintlist/MintlistSaleEnded";
-import { useNetworkContext } from "../../components/NetworkContext";
-import { SocialHead } from "../../components/SocialHead";
+import { useNetworkContext } from "../../components/atoms/NetworkContext";
+import { SocialHead } from "../../components/all-pages/SocialHead";
 import { MintlistPresale } from "../../components/mintlist/MintlistPresale";
 
 // TODO: add server side rendering

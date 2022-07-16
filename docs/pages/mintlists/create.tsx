@@ -1,6 +1,6 @@
 import React from "react";
-import { CreateMintlistSection } from "../../components/CreateMintlistSection";
-import { SocialHead } from "../../components/SocialHead";
+import { CreateMintlistSection } from "../../components/mintlist/CreateMintlistSection";
+import { SocialHead } from "../../components/all-pages/SocialHead";
 
 export default function CreateMintlistPage() {
   return (

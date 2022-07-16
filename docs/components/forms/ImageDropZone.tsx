@@ -2,7 +2,7 @@ import { useFormikContext, getIn } from "formik";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import classNames from "classnames";
-import { ACCEPT_IMAGE_PROP, DropZone } from "../LuxDropZone";
+import { ACCEPT_IMAGE_PROP, DropZone } from "../atoms/LuxDropZone";
 import { uploadImageToS3 } from "../../utils/upload-file";
 import { getImageUrl } from "../../utils/cdn";
 

@@ -1,6 +1,6 @@
 import ChevronRightIcon from "@luma-team/lux-icons/feather/chevron-right.svg";
-import { SocialHead } from "../components/SocialHead";
-import { LuxButton } from "../components/LuxButton";
+import { SocialHead } from "../components/all-pages/SocialHead";
+import { LuxButton } from "../components/atoms/LuxButton";
 import { ResponsiveBreakpoint } from "../utils/style-constants";
 import { Footer } from "../components/all-pages/Footer";
 

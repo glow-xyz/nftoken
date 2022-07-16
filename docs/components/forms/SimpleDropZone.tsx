@@ -1,5 +1,5 @@
 import { useFormikContext, getIn } from "formik";
-import { LuxSimpleDropZone } from "../LuxSimpleDropZone";
+import { LuxSimpleDropZone } from "../atoms/LuxSimpleDropZone";
 
 export function SimpleDropZone<Values extends Record<string, unknown>>({
   label,

@@ -1,5 +1,5 @@
-import { LuxButton } from "../LuxButton";
-import { LuxModalContainer } from "../LuxModal";
+import { LuxButton } from "../atoms/LuxButton";
+import { LuxModalContainer } from "../atoms/LuxModal";
 import { useState } from "react";
 
 export const ModalTest = () => {
