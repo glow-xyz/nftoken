@@ -38,7 +38,7 @@ NFT Accounts store the data for the NFT.
 
 The `address` of the account is the ID of the NFT. This is a unique identifier.
 
-{% attribute-table title="NFT Account Attributes" %}
+{% attribute-table title="NFT Account Data" %}
 {% attribute-row attribute="authority" type="Pubkey" %}
 When the NFT is created, the `authority` is set to the creator. The creator can transfer the `authority` to another account.
 {% /attribute-row %}
@@ -68,7 +68,7 @@ Collection Accounts store the data for the Collection. An NFT belongs to a colle
 
 The `address` of the account is the ID of the Collection. This is a unique identifier.
 
-{% attribute-table title="Collection" %}
+{% attribute-table title="Collection Account Data" %}
 {% attribute-row attribute="authority" type="Pubkey" %}
 When the collection is created, the `authority` is set to the creator.
 {% /attribute-row %}
