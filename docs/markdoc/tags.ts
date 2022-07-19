@@ -1,9 +1,13 @@
+import { LoomEmbed } from "../components/markdoc-atoms/LoomEmbed";
 import { Picture } from "../components/markdoc-atoms/Picture";
 import { CreateNftSection } from "../components/nft/CreateNftSection";
 import { CreateMintlistSection } from "../components/mintlist/CreateMintlistSection";
 import { Callout } from "../components/markdoc-atoms/Callout";
 import { ModalTest } from "../components/test/ModalTest";
-import { AttributeTable, AttributeRow } from "../components/markdoc-atoms/AttributeTable";
+import {
+  AttributeTable,
+  AttributeRow,
+} from "../components/markdoc-atoms/AttributeTable";
 
 export default {
   ["create-nft-section"]: {
@@ -26,7 +30,13 @@ export default {
     render: Picture,
     attributes: {
       light: String,
-      dark: String
+      dark: String,
+    },
+  },
+  ["loom-embed"]: {
+    render: LoomEmbed,
+    attributes: {
+      url: String,
     },
   },
   ["attribute-table"]: {
