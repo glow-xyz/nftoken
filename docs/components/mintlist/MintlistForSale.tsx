@@ -1,3 +1,4 @@
+import { useGlowContext } from "@glow-xyz/glow-react";
 import { constructMintNftTx } from "@glow-xyz/nftoken-js";
 import React from "react";
 import { useBoolean } from "../../hooks/useBoolean";
@@ -12,6 +13,7 @@ export const MintlistForSale = ({
   mintlist: NftokenTypes.Mintlist;
 }) => {
   const { network } = useNetworkContext();
+  const { glowDetected } = useGlowContext();
   const minting = useBoolean();
   const feeString =
     parseInt(mintlist.price.lamports) / LAMPORTS_PER_SOL + " SOL";
@@ -25,31 +27,39 @@ export const MintlistForSale = ({
       </div>
 
       <div className="flex-center-center">
-        <LuxButton
-          label="Mint NFT"
-          disabled={minting.value}
-          onClick={async () => {
-            minting.setTrue();
+        {glowDetected ? (
+          <LuxButton
+            label="Mint NFT"
+            disabled={minting.value}
+            onClick={async () => {
+              minting.setTrue();
 
-            const { address: wallet } = await window.glow!.connect();
-            const { transactionBase64 } = await constructMintNftTx({
-              wallet,
-              network,
-              mintlist,
-            });
-
-            try {
-              await window.glow!.signAndSendTransaction({
-                transactionBase64,
+              const { address: wallet } = await window.glow!.connect();
+              const { transactionBase64 } = await constructMintNftTx({
+                wallet,
                 network,
+                mintlist,
               });
-            } catch (err) {
-              console.error(err);
-            }
 
-            minting.setFalse();
-          }}
-        />
+              try {
+                await window.glow!.signAndSendTransaction({
+                  transactionBase64,
+                  network,
+                });
+              } catch (err) {
+                console.error(err);
+              }
+
+              minting.setFalse();
+            }}
+          />
+        ) : (
+          <LuxButton
+            label={"Download Glow"}
+            color={"brand"}
+            href={"https://glow.app/download"}
+          />
+        )}
       </div>
     </div>
   );
