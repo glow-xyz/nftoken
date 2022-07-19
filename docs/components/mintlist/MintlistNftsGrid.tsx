@@ -15,10 +15,7 @@ export function MintlistNftsGrid({
   }
 
   return (
-    <div
-      className="flex flex-wrap gap-3"
-      style={{ justifyContent: "space-between" }}
-    >
+    <div className="grid-container">
       {mintInfosHydrated.map((mintInfo) => (
         <ImageCard
           key={mintInfo.metadata_url}
@@ -34,6 +31,15 @@ export function MintlistNftsGrid({
           }
         />
       ))}
+
+      <style jsx>{`
+        .grid-container {
+          display: grid;
+          /* Creates as many columns as possible that are at least 10rem wide. */
+          grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+          grid-gap: 1rem;
+        }
+      `}</style>
     </div>
   );
 }
