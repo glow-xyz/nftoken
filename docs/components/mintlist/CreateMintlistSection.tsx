@@ -92,6 +92,7 @@ export const CreateMintlistSection = () => {
               label="Mint Price in SOL"
               name="priceSol"
               type="number"
+              inputProps={{ step: "0.00001" }}
               required
             />
             <LuxInputField

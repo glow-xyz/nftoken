@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { NftokenFetcher } from "@glow-xyz/nftoken-js";
 import { NftokenTypes } from "../../utils/NftokenTypes";
 
-export const MINT_INFOS_PER_TX = 1;
+export const MINT_INFOS_PER_TX = 10;
 
 export enum MintlistStatus {
   Pending = "pending",
