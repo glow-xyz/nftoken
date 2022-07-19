@@ -16,6 +16,10 @@ The Mintlist account holds information about the new NFTs on chain so that new c
 
 A Mintlist costs a bit of SOL to set up, around 0.6 SOL for a Mintlist with 1,000 NFTs, but at any point you can close the Mintlist to receive that SOL back in your wallet. So from start to end it's a free process for the NFT project creator.
 
+## Video Overview
+
+{% loom-embed url="https://www.loom.com/embed/af3d7478223b49b88a8b443065ee2ab0" /%}
+
 ## Configuring a Mintlist
 
 {% picture light="/mintlist-states-light.png" dark="/mintlist-states-dark.png" /%}

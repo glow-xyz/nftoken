@@ -95,13 +95,13 @@ export const MintlistInfoHeader = ({
                   value: mintlist.go_live_date,
                 },
                 {
-                  label: "price",
+                  label: "Price",
                   value:
                     parseInt(mintlist.price.lamports) / LAMPORTS_PER_SOL +
                     " SOL",
                 },
                 {
-                  label: "minting_order",
+                  label: "Minting Order",
                   value: mintlist.minting_order,
                 },
                 {
