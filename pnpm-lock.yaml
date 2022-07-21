@@ -133,7 +133,7 @@ importers:
     specifiers:
       '@glow-xyz/beet': 0.3.0
       '@glow-xyz/glow-client': 1.0.3
-      '@glow-xyz/solana-client': 1.0.10
+      '@glow-xyz/solana-client': 1.0.11
       '@solana/web3.js': 1.44.1
       '@types/bn.js': 5.1.0
       '@types/jest': 28.1.2
@@ -163,7 +163,7 @@ importers:
     dependencies:
       '@glow-xyz/beet': 0.3.0
       '@glow-xyz/glow-client': 1.0.3
-      '@glow-xyz/solana-client': 1.0.10
+      '@glow-xyz/solana-client': 1.0.11
       axios: 0.27.2
       bn.js: 5.2.1
       bs58: 5.0.0
@@ -1576,8 +1576,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@glow-xyz/solana-client/1.0.10:
-    resolution: {integrity: sha512-144NJtB5leXazd4opINZEI4OPUli9FkC1uWi0kxHNEwpfmIJQCMNMJXmbjsHzvjxXmcQSvfF/vMbSaB/zsS9xg==}
+  /@glow-xyz/solana-client/1.0.11:
+    resolution: {integrity: sha512-HGRHZvP3Lqbp9y+XfWwaWN4OIJUSEM1EiHv6X7wwFvjMEsrddAm8K4FqoP1SBpQJNdXxPFGuTRNUTvAIPYo/FA==}
     dependencies:
       '@glow-xyz/beet': 0.3.0
       '@solana/web3.js': 1.44.1
