@@ -132,8 +132,8 @@ importers:
   nftoken-js:
     specifiers:
       '@glow-xyz/beet': 0.3.0
-      '@glow-xyz/glow-client': 1.0.3
-      '@glow-xyz/solana-client': 1.0.8
+      '@glow-xyz/glow-client': 1.0.4
+      '@glow-xyz/solana-client': 1.0.11
       '@solana/web3.js': 1.44.1
       '@types/bn.js': 5.1.0
       '@types/jest': 28.1.2
@@ -162,8 +162,8 @@ importers:
       zod: 3.17.3
     dependencies:
       '@glow-xyz/beet': 0.3.0
-      '@glow-xyz/glow-client': 1.0.3
-      '@glow-xyz/solana-client': 1.0.8
+      '@glow-xyz/glow-client': 1.0.4
+      '@glow-xyz/solana-client': 1.0.11
       axios: 0.27.2
       bn.js: 5.2.1
       bs58: 5.0.0
@@ -1557,6 +1557,17 @@ packages:
       zod: 3.17.3
     dev: false
 
+  /@glow-xyz/glow-client/1.0.4:
+    resolution: {integrity: sha512-3CtNfU3bniyesk5oUqrENYgvSbr9DZS5EmVWjzMtU3pOfITSlwvwxAOX58UagpzTVjQsHaPArINx5qTqP/RbgA==}
+    dependencies:
+      bs58: 5.0.0
+      buffer: 6.0.3
+      eventemitter3: 4.0.7
+      luxon: 2.4.0
+      tweetnacl: 1.0.3
+      zod: 3.17.3
+    dev: false
+
   /@glow-xyz/glow-react/1.0.2_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-DNnjqQ4sqfPDHyx4TlfkoeRQrXtO8TUsFN9Oexr7G2bSEQqG4OSKm9nVMGh3PKphBb7ANrzEyBXNTSGyupZQbQ==}
     peerDependencies:
@@ -1568,6 +1579,31 @@ packages:
       classnames: 2.3.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@glow-xyz/solana-client/1.0.11:
+    resolution: {integrity: sha512-HGRHZvP3Lqbp9y+XfWwaWN4OIJUSEM1EiHv6X7wwFvjMEsrddAm8K4FqoP1SBpQJNdXxPFGuTRNUTvAIPYo/FA==}
+    dependencies:
+      '@glow-xyz/beet': 0.3.0
+      '@solana/web3.js': 1.44.1
+      axios: 0.27.2
+      bignumber.js: 9.0.2
+      bn.js: 5.2.1
+      bs58: 5.0.0
+      buffer: 6.0.3
+      js-sha256: 0.9.0
+      lodash: 4.17.21
+      luxon: 2.4.0
+      p-limit: 3.0.1
+      rimraf: 3.0.2
+      tweetnacl: 1.0.3
+      zod: 3.17.3
     transitivePeerDependencies:
       - bufferutil
       - debug
