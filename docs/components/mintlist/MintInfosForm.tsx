@@ -184,8 +184,8 @@ const DropCsvSection = ({ onDrop }: { onDrop: () => void }) => {
       <CsvDropZone
         onDrop={(rows) => {
           const newMintInfos = rows.map((row) => ({
-            name: row.name,
-            image: row.image,
+            name: row.name?.trim(),
+            image: row.image?.trim(),
           }));
           setValues((values) => {
             return {
