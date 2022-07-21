@@ -120,15 +120,17 @@ export namespace NftokenFetcher {
   };
 
   export const getNftsInCollection = async ({
-    network,
     collection,
+    ...params
   }: {
-    network: Network;
     collection: Solana.Address;
-  }): Promise<NftokenTypes.NftInfo[]> => {
+  } & (
+    | { network: Network; rpcUrl?: undefined }
+    | { rpcUrl: string; network?: undefined }
+  )): Promise<NftokenTypes.NftInfo[]> => {
     const accounts = await SolanaClient.getProgramAccounts({
       program: NFTOKEN_ADDRESS,
-      rpcUrl: NETWORK_TO_RPC[network],
+      rpcUrl: params.rpcUrl ?? NETWORK_TO_RPC[params.network],
       filters: [
         {
           memcmp: {
