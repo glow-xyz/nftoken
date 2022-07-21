@@ -132,7 +132,7 @@ importers:
   nftoken-js:
     specifiers:
       '@glow-xyz/beet': 0.3.0
-      '@glow-xyz/glow-client': 1.0.3
+      '@glow-xyz/glow-client': 1.0.4
       '@glow-xyz/solana-client': 1.0.11
       '@solana/web3.js': 1.44.1
       '@types/bn.js': 5.1.0
@@ -162,7 +162,7 @@ importers:
       zod: 3.17.3
     dependencies:
       '@glow-xyz/beet': 0.3.0
-      '@glow-xyz/glow-client': 1.0.3
+      '@glow-xyz/glow-client': 1.0.4
       '@glow-xyz/solana-client': 1.0.11
       axios: 0.27.2
       bn.js: 5.2.1
@@ -1548,6 +1548,17 @@ packages:
 
   /@glow-xyz/glow-client/1.0.3:
     resolution: {integrity: sha512-affSxLT3HJ0K4N5IEL7slUsgL8LcqM15d3wDmbvPmEdf2tpUrmI1kv37FmNAzU+8jL7OhMahJdaMK+r3rrr6KA==}
+    dependencies:
+      bs58: 5.0.0
+      buffer: 6.0.3
+      eventemitter3: 4.0.7
+      luxon: 2.4.0
+      tweetnacl: 1.0.3
+      zod: 3.17.3
+    dev: false
+
+  /@glow-xyz/glow-client/1.0.4:
+    resolution: {integrity: sha512-3CtNfU3bniyesk5oUqrENYgvSbr9DZS5EmVWjzMtU3pOfITSlwvwxAOX58UagpzTVjQsHaPArINx5qTqP/RbgA==}
     dependencies:
       bs58: 5.0.0
       buffer: 6.0.3
