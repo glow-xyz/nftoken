@@ -1,6 +1,6 @@
 [package]
 name = "nftoken"
-version = "1.0.1"
+version = "1.0.2"
 description = "A new, simple NFT standard for Solana"
 edition = "2021"
 authors = ["Victor Pontis <victor@glow.app"]
