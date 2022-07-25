@@ -1,0 +1,27 @@
+[package]
+name = "marketplace"
+version = "1.0.1"
+description = "A marketplace for the NFToken project"
+edition = "2021"
+authors = ["Victor Pontis <victor@glow.app"]
+license = "MIT"
+repository = "https://github.com/glow-xyz/nftoken"
+readme = "../../README.md"
+
+[profile.release]
+overflow-checks = true
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "marketplace"
+
+[features]
+no-entrypoint = []
+cpi = ["no-entrypoint"]
+
+[dependencies]
+anchor-lang = "0.24.2"
+anchor-spl = "0.24.2"
+arrayref = "0.3.6"
+borsh = { version = "0.9", features = ["const-generics"] }
+nftoken = { path = "../nftoken", features = ["cpi"] }

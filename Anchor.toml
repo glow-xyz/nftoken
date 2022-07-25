@@ -4,6 +4,7 @@ wallet = "~/.config/solana/id.json"
 
 [programs.localnet]
 nftoken = "nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL"
+marketplace = "mkHj4viTkniLuS5gyC7fgHc5ia9ZVTGzHcTeLoJ4WfE"
 
 [scripts]
 test = "pnpm --filter program-tests exec jest"

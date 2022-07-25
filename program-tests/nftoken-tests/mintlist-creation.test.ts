@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { BN, web3 } from "@project-serum/anchor";
-import { createEmptyMintlist } from "./utils/mintlist";
-import { program } from "./utils/test-utils";
+import { createEmptyMintlist } from "../utils/mintlist";
+import { nftokenProgram } from "../utils/test-utils";
 
 describe("mintlist_create", () => {
   const provider = anchor.AnchorProvider.env();
@@ -18,7 +18,7 @@ describe("mintlist_create", () => {
       goLiveDate,
       priceLamports,
       numNftsTotal,
-      program,
+      program: nftokenProgram,
     });
 
     expect(mintlistData.version).toBe(1);
