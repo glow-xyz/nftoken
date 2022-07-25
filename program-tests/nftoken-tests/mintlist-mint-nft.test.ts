@@ -7,8 +7,8 @@ import {
   createEmptyMintlist,
   createMintlistWithInfos,
   getMintlistData,
-} from "./utils/mintlist";
-import { arrayToStr, DEFAULT_KEYPAIR, program } from "./utils/test-utils";
+} from "../utils/mintlist";
+import { arrayToStr, DEFAULT_KEYPAIR, nftokenProgram } from "../utils/test-utils";
 
 describe("mintlist_mint_nft", () => {
   const provider = anchor.AnchorProvider.env();
@@ -25,12 +25,12 @@ describe("mintlist_mint_nft", () => {
       goLiveDate,
       priceLamports,
       numNftsTotal,
-      program,
+      program: nftokenProgram,
     });
 
     const mintInfos = [createMintInfoArg(0)];
 
-    await program.methods
+    await nftokenProgram.methods
       .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos })
       .accounts({
         mintlist: mintlistAddress,
@@ -42,7 +42,7 @@ describe("mintlist_mint_nft", () => {
     const signer = DEFAULT_KEYPAIR.publicKey;
 
     // Mint an NFT!
-    const sig = await program.methods
+    const sig = await nftokenProgram.methods
       .mintlistMintNftV1()
       .accounts({
         mintlist: mintlistAddress,
@@ -63,10 +63,10 @@ describe("mintlist_mint_nft", () => {
     console.log("Mintlist Mint NFT sig:", sig);
 
     const data = await getMintlistData({
-      program: program,
+      program: nftokenProgram,
       mintlistPubkey: mintlistAddress,
     });
-    const nft = await program.account.nftAccount.fetch(nftKeypair.publicKey);
+    const nft = await nftokenProgram.account.nftAccount.fetch(nftKeypair.publicKey);
 
     expect(data.mintInfos[0].minted).toEqual(true);
     expect(nft.metadataUrl).toEqual(arrayToStr(mintInfos[0].metadataUrl));
@@ -82,7 +82,7 @@ describe("mintlist_mint_nft", () => {
         treasury: treasuryKeypair.publicKey,
         goLiveDate,
         priceLamports,
-        program,
+        program: nftokenProgram,
         mintingOrder: "random",
       });
 
@@ -92,7 +92,7 @@ describe("mintlist_mint_nft", () => {
       const nftKeypair = Keypair.generate();
 
       // Mint an NFT!
-      await program.methods
+      await nftokenProgram.methods
         .mintlistMintNftV1()
         .accounts({
           mintlist: mintlistPubkey,
@@ -115,7 +115,7 @@ describe("mintlist_mint_nft", () => {
     //       test that the first 10 NFTs out of 10k are not the first 10 sequentially
     //       this has odds of 1/(10k^10) so it won't make tests flaky
     await getMintlistData({
-      program: program,
+      program: nftokenProgram,
       mintlistPubkey: mintlistPubkey,
     });
 

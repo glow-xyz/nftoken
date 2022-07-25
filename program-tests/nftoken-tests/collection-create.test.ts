@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
-import { createCollection } from "./utils/create-collection";
-import { DEFAULT_KEYPAIR, program } from "./utils/test-utils";
+import { createCollection } from "../utils/create-collection";
+import { DEFAULT_KEYPAIR, nftokenProgram } from "../utils/test-utils";
 
 describe("ix_collection_create", () => {
   const provider = anchor.AnchorProvider.env();
@@ -19,7 +19,7 @@ describe("ix_collection_create", () => {
 
     const tx = new Transaction();
     tx.add(
-      await program.methods
+      await nftokenProgram.methods
         .collectionCreateV1({ metadataUrl })
         .accounts({
           collection: collection_keypair.publicKey,
@@ -29,7 +29,7 @@ describe("ix_collection_create", () => {
         .instruction()
     );
     tx.add(
-      await program.methods
+      await nftokenProgram.methods
         .nftCreateV1({ metadataUrl, collectionIncluded: true })
         .accounts({
           nft: nft_keypair.publicKey,
@@ -53,7 +53,7 @@ describe("ix_collection_create", () => {
     );
 
     try {
-      await program.provider.send?.(tx, [collection_keypair]);
+      await nftokenProgram.provider.send?.(tx, [collection_keypair]);
     } catch (e: any) {
       console.error("Logs", e.logs);
       expect(false).toBe(true);

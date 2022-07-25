@@ -7,14 +7,14 @@ import {
   generateAlphaNumericString,
   logNft,
   NftokenIdlType,
-  program,
+  nftokenProgram,
 } from "./test-utils";
 
 export const createNft = async ({
   metadata_url: _metadata_url,
   holder,
   verbose,
-  client = program,
+  client = nftokenProgram,
 }: {
   metadata_url?: string;
   holder?: PublicKey | null;
@@ -67,7 +67,7 @@ export const updateNft = async ({
   metadataUrl: _metadataUrl,
   isFrozen,
   authorityCanUpdate,
-  client = program,
+  client = nftokenProgram,
 }: {
   nft_pubkey: PublicKey;
   authority: PublicKey;

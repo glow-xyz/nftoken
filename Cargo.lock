@@ -734,6 +734,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "marketplace"
+version = "1.0.1"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "arrayref",
+ "borsh",
+ "nftoken",
+]
+
+[[package]]
 name = "memchr"
 version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

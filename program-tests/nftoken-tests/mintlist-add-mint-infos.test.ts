@@ -1,12 +1,12 @@
 import * as anchor from "@project-serum/anchor";
 import { BN, web3 } from "@project-serum/anchor";
-import { createEmptyMintlist, getMintlistData } from "./utils/mintlist";
+import { createEmptyMintlist, getMintlistData } from "../utils/mintlist";
 import {
   arrayToStr,
   generateAlphaNumericString,
-  program,
+  nftokenProgram,
   strToArr,
-} from "./utils/test-utils";
+} from "../utils/test-utils";
 
 describe("mintlist_add_mint_infos", () => {
   const provider = anchor.AnchorProvider.env();
@@ -23,7 +23,7 @@ describe("mintlist_add_mint_infos", () => {
       goLiveDate,
       priceLamports,
       numNftsTotal,
-      program,
+      program: nftokenProgram,
     });
 
     // TODO: If we want to include larger batches, we will need to update / avoid buffer-layout which is
@@ -35,7 +35,7 @@ describe("mintlist_add_mint_infos", () => {
       return createMintInfoArg(i);
     });
 
-    await program.methods
+    await nftokenProgram.methods
       .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos: mintInfos1 })
       .accounts({
         mintlist: mintlistAddress,
@@ -44,7 +44,7 @@ describe("mintlist_add_mint_infos", () => {
       .rpc();
 
     let mintlistData = await getMintlistData({
-      program: program,
+      program: nftokenProgram,
       mintlistPubkey: mintlistAddress,
     });
 
@@ -63,7 +63,7 @@ describe("mintlist_add_mint_infos", () => {
     });
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .mintlistAddMintInfosV1({ currentNftCount: 0, mintInfos: mintInfos2 })
         .accounts({
           mintlist: mintlistAddress,
@@ -72,7 +72,7 @@ describe("mintlist_add_mint_infos", () => {
         .rpc();
     }).rejects.toThrow();
 
-    await program.methods
+    await nftokenProgram.methods
       .mintlistAddMintInfosV1({
         currentNftCount: mintInfos1.length,
         mintInfos: mintInfos2,
@@ -84,7 +84,7 @@ describe("mintlist_add_mint_infos", () => {
       .rpc();
 
     mintlistData = await getMintlistData({
-      program: program,
+      program: nftokenProgram,
       mintlistPubkey: mintlistAddress,
     });
 

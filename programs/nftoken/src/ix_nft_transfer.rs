@@ -37,7 +37,6 @@ pub struct NftTransfer<'info> {
     #[account(mut)]
     pub nft: Account<'info, NftAccount>,
 
-    #[account(mut)]
     pub signer: Signer<'info>,
 
     /// CHECK: this can be any type

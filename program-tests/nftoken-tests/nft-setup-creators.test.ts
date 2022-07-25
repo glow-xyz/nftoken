@@ -2,9 +2,9 @@ import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import { Buffer } from "buffer";
-import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createNft, updateNft } from "./utils/create-nft";
-import { DEFAULT_KEYPAIR, program } from "./utils/test-utils";
+import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
+import { createNft, updateNft } from "../utils/create-nft";
+import { DEFAULT_KEYPAIR, nftokenProgram } from "../utils/test-utils";
 
 describe("nft_setup_creators", () => {
   const provider = anchor.AnchorProvider.env();
@@ -32,10 +32,10 @@ describe("nft_setup_creators", () => {
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
-      program.programId
+      nftokenProgram.programId
     );
 
-    await program.methods
+    await nftokenProgram.methods
       .nftSetupCreatorsV1({
         royaltyBasisPoints: 500,
         creators,
@@ -67,7 +67,7 @@ describe("nft_setup_creators", () => {
 
     const onchain = await fetchNftCreators({
       pubkey: nft_creators_pubkey,
-      program,
+      program: nftokenProgram,
     });
     expect(onchain.creators[0].address.toBase58()).toEqual(
       creator1.publicKey.toBase58()
@@ -104,11 +104,11 @@ describe("nft_setup_creators", () => {
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
-      program.programId
+      nftokenProgram.programId
     );
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
@@ -159,11 +159,11 @@ describe("nft_setup_creators", () => {
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
-      program.programId
+      nftokenProgram.programId
     );
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
@@ -207,10 +207,10 @@ describe("nft_setup_creators", () => {
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
-      program.programId
+      nftokenProgram.programId
     );
 
-    await program.methods
+    await nftokenProgram.methods
       .nftSetupCreatorsV1({
         royaltyBasisPoints: 500,
         creators,
@@ -231,7 +231,7 @@ describe("nft_setup_creators", () => {
       .rpc();
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
@@ -268,11 +268,11 @@ describe("nft_setup_creators", () => {
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
-      program.programId
+      nftokenProgram.programId
     );
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
@@ -317,11 +317,11 @@ describe("nft_setup_creators", () => {
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
-      program.programId
+      nftokenProgram.programId
     );
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
@@ -355,11 +355,11 @@ describe("nft_setup_creators", () => {
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
-      program.programId
+      nftokenProgram.programId
     );
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,
@@ -381,7 +381,7 @@ describe("nft_setup_creators", () => {
     }).rejects.toThrow();
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .nftSetupCreatorsV1({
           royaltyBasisPoints: 500,
           creators,

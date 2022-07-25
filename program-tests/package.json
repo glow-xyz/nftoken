@@ -18,11 +18,12 @@
     "tsc": "tsc"
   },
   "dependencies": {
+    "@glow-xyz/nftoken-js": "workspace:*",
+    "@glow-xyz/solana-client": "^1.0.11",
     "@project-serum/anchor": "0.24.2",
     "@project-serum/borsh": "0.2.5",
     "@project-serum/serum": "0.13.65",
     "@solana/web3.js": "1.47.3",
-    "@glow-xyz/nftoken-js": "workspace:*",
     "@types/jest": "28.1.4",
     "@types/lodash": "4.14.182",
     "@typescript-eslint/eslint-plugin": "5.30.5",

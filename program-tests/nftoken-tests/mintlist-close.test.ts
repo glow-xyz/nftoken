@@ -1,8 +1,8 @@
 import * as anchor from "@project-serum/anchor";
 import { BN, web3 } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
-import { createEmptyMintlist } from "./utils/mintlist";
-import { program } from "./utils/test-utils";
+import { createEmptyMintlist } from "../utils/mintlist";
+import { nftokenProgram } from "../utils/test-utils";
 
 describe("mintlist_close", () => {
   const provider = anchor.AnchorProvider.env();
@@ -19,12 +19,12 @@ describe("mintlist_close", () => {
       goLiveDate,
       priceLamports,
       numNftsTotal,
-      program,
+      program: nftokenProgram,
     });
 
     const { wallet } = anchor.AnchorProvider.local();
 
-    await program.methods
+    await nftokenProgram.methods
       .mintlistCloseV1()
       .accounts({
         mintlist: mintlistAddress,
@@ -33,7 +33,7 @@ describe("mintlist_close", () => {
       .signers([])
       .rpc();
 
-    const mintlistAccount = await program.provider.connection.getAccountInfo(
+    const mintlistAccount = await nftokenProgram.provider.connection.getAccountInfo(
       new PublicKey(mintlistAddress)
     );
     expect(mintlistAccount).toBeNull();

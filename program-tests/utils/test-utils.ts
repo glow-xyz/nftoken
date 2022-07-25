@@ -3,6 +3,10 @@ import {
   Nftoken as _NftokenIdlType,
   IDL as _NftokenIdl,
 } from "../../target/types/nftoken";
+import {
+  Marketplace as _MarketplaceIdlType,
+  IDL as _MarketplaceIdl,
+} from "../../target/types/marketplace";
 import * as anchor from "@project-serum/anchor";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { Buffer } from "buffer";
@@ -10,11 +14,20 @@ import { Buffer } from "buffer";
 export const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
 export type Base58 = string;
 
-export const program = anchor.workspace.Nftoken as Program<_NftokenIdlType>;
-
 export const NftokenIdl = _NftokenIdl;
 export type NftokenIdlType = _NftokenIdlType;
-export const PROGRAM_ID = "nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL";
+export const NFTOKEN_ADDRESS = "nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL";
+
+export const nftokenProgram = anchor.workspace
+  .Nftoken as Program<_NftokenIdlType>;
+
+export const MarketplaceIdl = _MarketplaceIdl;
+export type MarketplaceIdlType = _MarketplaceIdlType;
+export const MARKETPLACE_ADDRESS =
+  "mkHj4viTkniLuS5gyC7fgHc5ia9ZVTGzHcTeLoJ4WfE";
+
+export const marketplaceProgram = anchor.workspace
+  .Marketplace as Program<_MarketplaceIdlType>;
 
 // Anchor uses `nodewallet.ts` when testing to find and use a wallet. It automatically signs
 // transactions with this keypair.

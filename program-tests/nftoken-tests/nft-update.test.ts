@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
-import { createNft, updateNft } from "./utils/create-nft";
-import { DEFAULT_KEYPAIR } from "./utils/test-utils";
+import { createNft, updateNft } from "../utils/create-nft";
+import { DEFAULT_KEYPAIR } from "../utils/test-utils";
 
 describe("update NFT", () => {
   // Configure the client to use the local cluster.

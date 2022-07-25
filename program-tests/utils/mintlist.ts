@@ -3,7 +3,7 @@ import * as anchor from "@project-serum/anchor";
 import { BN, Program, web3 } from "@project-serum/anchor";
 import { Nftoken as NftokenTypes, IDL } from "../../target/types/nftoken";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
-import { createMintInfoArg } from "../mintlist-add-mint-infos.test";
+import { createMintInfoArg } from "../nftoken-tests/mintlist-add-mint-infos.test";
 import { IdlCoder } from "./IdlCoder";
 import { arrayToStr, strToArr } from "./test-utils";
 

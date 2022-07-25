@@ -6,14 +6,14 @@ import {
   generateAlphaNumericString,
   logCollection,
   NftokenIdlType,
-  program,
+  nftokenProgram,
 } from "./test-utils";
 
 export const createCollection = async ({
   metadata_url: _metadata_url,
   authority_keypair = DEFAULT_KEYPAIR,
   verbose,
-  client = program,
+  client = nftokenProgram,
 }: {
   metadata_url?: string;
   authority_keypair?: Keypair;
@@ -39,7 +39,7 @@ export const createCollection = async ({
     .signers([collection_keypair, authority_keypair])
     .rpc();
 
-  const fetched_collection = await program.account.collectionAccount.fetch(
+  const fetched_collection = await nftokenProgram.account.collectionAccount.fetch(
     collection_keypair.publicKey
   );
   if (verbose) {

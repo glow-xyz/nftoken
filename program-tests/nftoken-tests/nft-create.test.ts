@@ -1,16 +1,16 @@
 import * as anchor from "@project-serum/anchor";
 import { AnchorProvider, Program } from "@project-serum/anchor";
 import { Keypair, SystemProgram } from "@solana/web3.js";
-import { createCollection } from "./utils/create-collection";
-import { createNft } from "./utils/create-nft";
-import { KeypairWallet } from "./utils/KeypairWallet";
+import { createCollection } from "../utils/create-collection";
+import { createNft } from "../utils/create-nft";
+import { KeypairWallet } from "../utils/KeypairWallet";
 import {
   DEFAULT_KEYPAIR,
   NftokenIdl,
   NULL_PUBKEY_STRING,
-  program,
-  PROGRAM_ID,
-} from "./utils/test-utils";
+  nftokenProgram,
+  NFTOKEN_ADDRESS,
+} from "../utils/test-utils";
 
 describe("ix_nft_create", () => {
   const provider = anchor.AnchorProvider.env();
@@ -19,7 +19,7 @@ describe("ix_nft_create", () => {
   test("mints an NFT", async () => {
     const authority = DEFAULT_KEYPAIR.publicKey;
     const { nft_pubkey } = await createNft({});
-    const nft = await program.account.nftAccount.fetch(nft_pubkey);
+    const nft = await nftokenProgram.account.nftAccount.fetch(nft_pubkey);
 
     expect(nft.authority.toBase58()).toEqual(authority.toBase58());
     expect(nft.holder.toBase58()).toEqual(authority.toBase58());
@@ -31,7 +31,7 @@ describe("ix_nft_create", () => {
     const authority = DEFAULT_KEYPAIR.publicKey;
     const holder = Keypair.generate().publicKey;
     const { nft_pubkey } = await createNft({ holder });
-    const nft = await program.account.nftAccount.fetch(nft_pubkey);
+    const nft = await nftokenProgram.account.nftAccount.fetch(nft_pubkey);
 
     expect(nft.authority.toBase58()).toEqual(authority.toBase58());
     expect(nft.holder.toBase58()).toEqual(holder.toBase58());
@@ -46,7 +46,7 @@ describe("ix_nft_create", () => {
 
     const nftKeypair = Keypair.generate();
 
-    await program.methods
+    await nftokenProgram.methods
       .nftCreateV1({
         metadataUrl: nft_metadata_url,
         collectionIncluded: true, // collection_included
@@ -72,7 +72,7 @@ describe("ix_nft_create", () => {
       .signers([nftKeypair])
       .rpc();
 
-    const nft = await program.account.nftAccount.fetch(nftKeypair.publicKey);
+    const nft = await nftokenProgram.account.nftAccount.fetch(nftKeypair.publicKey);
     expect(nft.collection.toBase58()).toEqual(
       collection_keypair.publicKey.toBase58()
     );
@@ -85,9 +85,9 @@ describe("ix_nft_create", () => {
     // will error if that signature isn't necessary.
     const newClient = new Program(
       NftokenIdl,
-      PROGRAM_ID,
+      NFTOKEN_ADDRESS,
       new AnchorProvider(
-        program.provider.connection,
+        nftokenProgram.provider.connection,
         new KeypairWallet(authority_keypair),
         {}
       )
@@ -109,7 +109,7 @@ describe("ix_nft_create", () => {
     const nftKeypair = Keypair.generate();
 
     await expect(async () => {
-      await program.methods
+      await nftokenProgram.methods
         .nftCreateV1({
           metadataUrl: nft_metadata_url,
           collectionIncluded: true, // collection_included
@@ -136,7 +136,7 @@ describe("ix_nft_create", () => {
         .rpc();
     }).rejects.toThrow();
 
-    await program.methods
+    await nftokenProgram.methods
       .nftCreateV1({
         metadataUrl: nft_metadata_url,
         collectionIncluded: true, // collection_included
