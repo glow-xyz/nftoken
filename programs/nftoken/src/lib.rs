@@ -8,7 +8,8 @@ use crate::ix_mintlist_close::*;
 use crate::ix_mintlist_create::*;
 use crate::ix_mintlist_mint_nft::*;
 use crate::ix_nft_burn::*;
-use crate::ix_nft_create::*;
+use crate::ix_nft_create_v1::*;
+use crate::ix_nft_create_v2::*;
 use crate::ix_nft_set_collection::*;
 use crate::ix_nft_set_delegate::*;
 use crate::ix_nft_setup_creators::*;
@@ -28,7 +29,8 @@ pub mod ix_mintlist_close;
 pub mod ix_mintlist_create;
 pub mod ix_mintlist_mint_nft;
 pub mod ix_nft_burn;
-pub mod ix_nft_create;
+pub mod ix_nft_create_v1;
+pub mod ix_nft_create_v2;
 pub mod ix_nft_set_collection;
 pub mod ix_nft_set_delegate;
 pub mod ix_nft_setup_creators;
@@ -43,8 +45,12 @@ declare_id!("nftokf9qcHSYkVSP3P2gUMmV6d4AwjMueXgUu43HyLL");
 pub mod nftoken {
     use super::*;
 
-    pub fn nft_create_v1(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<()> {
-        return nft_create_inner(ctx, args);
+    pub fn nft_create_v1(ctx: Context<NftCreateV1Context>, args: NftCreateArgs) -> Result<()> {
+        return nft_create_inner_v1(ctx, args);
+    }
+
+    pub fn nft_create_v2(ctx: Context<NftCreateV2Context>, args: NftCreateArgs) -> Result<()> {
+        return nft_create_inner_v2(ctx, args);
     }
 
     pub fn nft_update_v1(ctx: Context<NftUpdate>, args: NftUpdateArgs) -> Result<()> {

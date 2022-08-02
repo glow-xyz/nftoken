@@ -1,14 +1,15 @@
 use crate::account_types::*;
 use crate::errors::*;
+use crate::ix_nft_create_v1::NftCreateArgs;
 use anchor_lang::prelude::*;
 
-/// # Create NFT
+/// # Create NFT v2
 ///
-/// This sets the current `authority == signer` so this is useful if you are creating
-/// NFTs that you will be the manager of.
+/// The only intended difference between V1 and V2 is that V2 lets you specify a payer for the
+/// rent of the NFT account.
 ///
-/// If you want to let other people mint your NFTs, you should use the `Mintlist` feature.
-pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<()> {
+/// TODO: refactor out a function that is shared with both v1 and v2
+pub fn nft_create_inner_v2(ctx: Context<NftCreateV2Context>, args: NftCreateArgs) -> Result<()> {
     let nft = &mut ctx.accounts.nft;
 
     if args.collection_included {
@@ -54,21 +55,17 @@ pub fn nft_create_inner(ctx: Context<NftCreate>, args: NftCreateArgs) -> Result<
 ///                            in the future this could be the `mint_authority`
 #[derive(Accounts)]
 #[instruction(args: NftCreateArgs)]
-pub struct NftCreate<'info> {
-    #[account(mut)]
+pub struct NftCreateV2Context<'info> {
     pub authority: Signer<'info>,
 
     /// CHECK: this can be any type we want
     pub holder: AccountInfo<'info>,
 
-    #[account(init, payer = authority, space = NFT_BASE_ACCOUNT_SIZE + args.metadata_url.len())]
+    #[account(mut)]
+    pub payer: Signer<'info>,
+
+    #[account(init, payer = payer, space = NFT_BASE_ACCOUNT_SIZE + args.metadata_url.len())]
     pub nft: Account<'info, NftAccount>,
 
     pub system_program: Program<'info, System>,
-}
-
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
-pub struct NftCreateArgs {
-    pub metadata_url: String,
-    pub collection_included: bool,
 }
