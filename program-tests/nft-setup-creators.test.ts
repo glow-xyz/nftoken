@@ -3,7 +3,7 @@ import { Program } from "@project-serum/anchor";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import { Buffer } from "buffer";
 import { Nftoken as NftokenTypes } from "../target/types/nftoken";
-import { createNft, updateNft } from "./utils/create-nft";
+import { createNftV2, updateNft } from "./utils/create-nft";
 import { DEFAULT_KEYPAIR, program } from "./utils/test-utils";
 
 describe("nft_setup_creators", () => {
@@ -28,7 +28,7 @@ describe("nft_setup_creators", () => {
     ];
     const primaryCreator = DEFAULT_KEYPAIR.publicKey;
 
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
@@ -100,7 +100,7 @@ describe("nft_setup_creators", () => {
     ];
     const primaryCreator = DEFAULT_KEYPAIR.publicKey;
 
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
@@ -155,7 +155,7 @@ describe("nft_setup_creators", () => {
     ];
     const primaryCreator = DEFAULT_KEYPAIR.publicKey;
 
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
@@ -203,7 +203,7 @@ describe("nft_setup_creators", () => {
     ];
     const primaryCreator = DEFAULT_KEYPAIR.publicKey;
 
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
@@ -264,7 +264,7 @@ describe("nft_setup_creators", () => {
       },
     ];
 
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],
@@ -306,7 +306,7 @@ describe("nft_setup_creators", () => {
     ];
 
     const primaryCreator = DEFAULT_KEYPAIR.publicKey;
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     await updateNft({
       nft_pubkey,
@@ -351,7 +351,7 @@ describe("nft_setup_creators", () => {
     ];
 
     const primaryCreator = DEFAULT_KEYPAIR.publicKey;
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const [nft_creators_pubkey] = PublicKey.findProgramAddressSync(
       [Buffer.from("creators"), nft_pubkey.toBuffer()],

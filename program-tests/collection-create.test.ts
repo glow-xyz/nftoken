@@ -30,7 +30,7 @@ describe("ix_collection_create", () => {
     );
     tx.add(
       await program.methods
-        .nftCreateV1({ metadataUrl, collectionIncluded: true })
+        .nftCreateV2({ metadataUrl, collectionIncluded: true })
         .accounts({
           nft: nft_keypair.publicKey,
           authority,

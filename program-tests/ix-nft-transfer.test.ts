@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { Keypair } from "@solana/web3.js";
-import { createNft, updateNft } from "./utils/create-nft";
+import { createNftV2, updateNft } from "./utils/create-nft";
 import { DEFAULT_KEYPAIR, program } from "./utils/test-utils";
 
 describe("transfer nft", () => {
@@ -9,7 +9,7 @@ describe("transfer nft", () => {
   anchor.setProvider(provider);
 
   test("creates and transfers an NFT (as creator)", async () => {
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const recipient = Keypair.generate().publicKey;
     const signer = DEFAULT_KEYPAIR.publicKey;
@@ -41,7 +41,7 @@ describe("transfer nft", () => {
   });
 
   test("cannot transfer frozen NFT", async () => {
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
     const signer = DEFAULT_KEYPAIR.publicKey;
 
     // Freeze the NFT

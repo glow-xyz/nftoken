@@ -6,6 +6,7 @@ import {
 import * as anchor from "@project-serum/anchor";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { Buffer } from "buffer";
+import { KeypairWallet } from "./KeypairWallet";
 
 export const NULL_PUBKEY_STRING = "11111111111111111111111111111111";
 export type Base58 = string;
@@ -107,4 +108,24 @@ export const logCollection = (coll: CollectionAccount | null) => {
       )
     );
   }
+};
+
+export const airdropSol = async ({ keypair }: { keypair: Keypair }) => {
+  // We create a newClient since Program implicitly signs with the DEFAULT_KEYPAIR and web3.js
+  // will error if that signature isn't necessary.
+  const newClient = new Program(
+    NftokenIdl,
+    PROGRAM_ID,
+    new anchor.AnchorProvider(
+      program.provider.connection,
+      new KeypairWallet(keypair),
+      {}
+    )
+  );
+
+  const airdropSig = await newClient.provider.connection.requestAirdrop(
+    keypair.publicKey,
+    anchor.web3.LAMPORTS_PER_SOL
+  );
+  await newClient.provider.connection.confirmTransaction(airdropSig);
 };
