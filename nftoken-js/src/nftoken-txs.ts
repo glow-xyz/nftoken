@@ -12,7 +12,7 @@ import {
   NFTOKEN_MINTLIST_CLOSE_IX,
   NFTOKEN_MINTLIST_CREATE_IX,
   NFTOKEN_MINTLIST_MINT_NFT_V1,
-  NFTOKEN_NFT_CREATE_IX,
+  NFTOKEN_NFT_CREATE_V2_IX,
   SYSTEM_CREATE_ACCOUNT_IX,
 } from "./nftoken-formats";
 import { NftokenTypes } from "./nftoken-types";
@@ -30,11 +30,13 @@ export const constructCreateNftTx = async ({
   metadata_url,
   creator,
   holder,
+  payer,
   network,
 }: {
   metadata_url: string;
   creator: Solana.Address;
   holder?: Solana.Address | null;
+  payer?: Solana.Address | null;
   network: Network;
 }): Promise<{
   gtransaction: GTransaction.GTransaction;
@@ -53,11 +55,12 @@ export const constructCreateNftTx = async ({
         accounts: [
           { address: creator, signer: true, writable: true },
           { address: holder || creator, signer: false },
+          { address: payer || creator, signer: true },
           { address: nft_keypair.address, signer: true, writable: true },
           { address: GPublicKey.nullString },
         ],
         program: NFTOKEN_ADDRESS,
-        data_base64: NFTOKEN_NFT_CREATE_IX.toBuffer({
+        data_base64: NFTOKEN_NFT_CREATE_V2_IX.toBuffer({
           ix: null,
           metadata_url,
           collection_included: false,

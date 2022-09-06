@@ -4,13 +4,25 @@ import BN from "bn.js";
 import { DateTime } from "luxon";
 import { NftokenTypes } from "./nftoken-types";
 
-export const NFTOKEN_NFT_CREATE_IX = new FixableGlowBorsh<{
+export const NFTOKEN_NFT_CREATE_V1_IX = new FixableGlowBorsh<{
   ix: null;
   metadata_url: string;
   collection_included: boolean;
 }>({
   fields: [
     ["ix", GlowBorsh.ixDiscriminator({ ix_name: "nft_create_v1" })],
+    ["metadata_url", FixableGlowBorsh.utf8String],
+    ["collection_included", bool],
+  ],
+});
+
+export const NFTOKEN_NFT_CREATE_V2_IX = new FixableGlowBorsh<{
+  ix: null;
+  metadata_url: string;
+  collection_included: boolean;
+}>({
+  fields: [
+    ["ix", GlowBorsh.ixDiscriminator({ ix_name: "nft_create_v2" })],
     ["metadata_url", FixableGlowBorsh.utf8String],
     ["collection_included", bool],
   ],
