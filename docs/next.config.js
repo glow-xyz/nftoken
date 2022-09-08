@@ -43,7 +43,7 @@ const nextConfig = {
     beforeFiles: [
       {
         source: "/",
-        destination: "https://early-phone-157685.framer.app/",
+        destination: "/docs/overview",
       },
     ],
     // `fallback` allows us to only rewrite if the path doesn’t exist.
