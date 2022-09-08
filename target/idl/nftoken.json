@@ -1,0 +1,875 @@
+{
+  "version": "1.0.1",
+  "name": "nftoken",
+  "instructions": [
+    {
+      "name": "nftCreateV1",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "holder",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "NftCreateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "nftCreateV2",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "holder",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "NftCreateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "nftUpdateV1",
+      "accounts": [
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "NftUpdateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "nftTransferV1",
+      "accounts": [
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recipient",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "nftSetDelegateV1",
+      "accounts": [
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "holder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "delegate",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "nftUnsetDelegateV1",
+      "accounts": [
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "nftSetCollectionV1",
+      "accounts": [
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "nftUnsetCollectionV1",
+      "accounts": [
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "nftBurnV1",
+      "accounts": [
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "holder",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "nftSetupCreatorsV1",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftCreators",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "NftSetupCreatorsArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "collectionCreateV1",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CollectionCreateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "collectionUpdateV1",
+      "accounts": [
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CollectionUpdateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "collectionUpdateAuthorityV1",
+      "accounts": [
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newAuthority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mintlistCreateV1",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintlist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasurySol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "MintlistCreateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mintlistAddMintInfosV1",
+      "accounts": [
+        {
+          "name": "mintlist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "MintlistAddMintInfosArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mintlistMintNftV1",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nft",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintlist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasurySol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "slothashes",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mintlistCloseV1",
+      "accounts": [
+        {
+          "name": "mintlist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CollectionAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "authorityCanUpdate",
+            "type": "bool"
+          },
+          {
+            "name": "unused1",
+            "type": "u8"
+          },
+          {
+            "name": "unused2",
+            "type": "u8"
+          },
+          {
+            "name": "unused3",
+            "type": "u8"
+          },
+          {
+            "name": "unused4",
+            "type": "u8"
+          },
+          {
+            "name": "metadataUrl",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "holder",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "authorityCanUpdate",
+            "type": "bool"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "delegate",
+            "type": "publicKey"
+          },
+          {
+            "name": "hasCreators",
+            "type": "bool"
+          },
+          {
+            "name": "isFrozen",
+            "type": "bool"
+          },
+          {
+            "name": "unused1",
+            "type": "u8"
+          },
+          {
+            "name": "unused2",
+            "type": "u8"
+          },
+          {
+            "name": "unused3",
+            "type": "u8"
+          },
+          {
+            "name": "metadataUrl",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftCreatorsAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "nft",
+            "type": "publicKey"
+          },
+          {
+            "name": "royaltyBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "creators",
+            "type": {
+              "vec": {
+                "defined": "NftSecondaryCreator"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintlistAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasurySol",
+            "type": "publicKey"
+          },
+          {
+            "name": "goLiveDate",
+            "type": "i64"
+          },
+          {
+            "name": "priceLamports",
+            "type": "u64"
+          },
+          {
+            "name": "mintingOrder",
+            "type": {
+              "defined": "MintingOrder"
+            }
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "metadataUrl",
+            "type": {
+              "array": [
+                "u8",
+                96
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "numNftsTotal",
+            "type": "u32"
+          },
+          {
+            "name": "numNftsRedeemed",
+            "type": "u32"
+          },
+          {
+            "name": "numNftsConfigured",
+            "type": "u32"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "NftSecondaryCreator",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "basisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "verified",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "minted",
+            "type": "bool"
+          },
+          {
+            "name": "metadataUrl",
+            "type": {
+              "array": [
+                "u8",
+                96
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintInfoArg",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "metadataUrl",
+            "type": {
+              "array": [
+                "u8",
+                96
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionCreateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "metadataUrl",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionUpdateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "metadataUrl",
+            "type": "string"
+          },
+          {
+            "name": "authorityCanUpdate",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintlistAddMintInfosArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "currentNftCount",
+            "type": "u32"
+          },
+          {
+            "name": "mintInfos",
+            "type": {
+              "vec": {
+                "defined": "MintInfoArg"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintlistCreateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "metadataUrl",
+            "type": {
+              "array": [
+                "u8",
+                96
+              ]
+            }
+          },
+          {
+            "name": "collectionMetadataUrl",
+            "type": "string"
+          },
+          {
+            "name": "goLiveDate",
+            "type": "i64"
+          },
+          {
+            "name": "priceLamports",
+            "type": "u64"
+          },
+          {
+            "name": "numNftsTotal",
+            "type": "u32"
+          },
+          {
+            "name": "mintingOrder",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftCreateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "metadataUrl",
+            "type": "string"
+          },
+          {
+            "name": "collectionIncluded",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftSetupCreatorsArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "royaltyBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "creators",
+            "type": {
+              "vec": {
+                "defined": "NftSecondaryCreator"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftUpdateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "metadataUrl",
+            "type": "string"
+          },
+          {
+            "name": "authorityCanUpdate",
+            "type": "bool"
+          },
+          {
+            "name": "isFrozen",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintingOrder",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Sequential"
+          },
+          {
+            "name": "Random"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "DelegateUnauthorized",
+      "msg": "You don't have permission to delegate this NFT"
+    },
+    {
+      "code": 6001,
+      "name": "Unauthorized",
+      "msg": "You are not authorized to perform this action"
+    },
+    {
+      "code": 6002,
+      "name": "MintlistAccountTooSmall",
+      "msg": "`mintlist` account is too small"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidMintingOrder",
+      "msg": "Invalid `minting_order`. Must be one of `sequential` or `random`"
+    },
+    {
+      "code": 6004,
+      "name": "TooManyMintInfos",
+      "msg": "Too many `mint_infos`"
+    }
+  ]
+}
