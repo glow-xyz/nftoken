@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { Keypair } from "@solana/web3.js";
-import { createNft } from "./utils/create-nft";
+import { createNftV2 } from "./utils/create-nft";
 import { DEFAULT_KEYPAIR, program } from "./utils/test-utils";
 
 describe("ix_nft_burn", () => {
@@ -9,7 +9,7 @@ describe("ix_nft_burn", () => {
   anchor.setProvider(provider);
 
   test("burns an NFT successfully", async () => {
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const holder = DEFAULT_KEYPAIR.publicKey;
     await program.methods
@@ -27,7 +27,7 @@ describe("ix_nft_burn", () => {
   });
 
   test("cannot burn someone else's NFT", async () => {
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
     const holder = DEFAULT_KEYPAIR.publicKey;
 
     const recipient = Keypair.generate().publicKey;

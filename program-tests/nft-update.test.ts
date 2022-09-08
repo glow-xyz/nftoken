@@ -1,5 +1,5 @@
 import * as anchor from "@project-serum/anchor";
-import { createNft, updateNft } from "./utils/create-nft";
+import { createNftV2, updateNft } from "./utils/create-nft";
 import { DEFAULT_KEYPAIR } from "./utils/test-utils";
 
 describe("update NFT", () => {
@@ -10,7 +10,7 @@ describe("update NFT", () => {
   const signer = DEFAULT_KEYPAIR.publicKey;
 
   test("properly updates metadata", async () => {
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
     await updateNft({
       nft_pubkey,
       authority: signer,
@@ -20,7 +20,7 @@ describe("update NFT", () => {
   });
 
   test("doesn't allow update if !authority_can_update", async () => {
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     await updateNft({
       nft_pubkey,

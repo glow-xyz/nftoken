@@ -1,5 +1,5 @@
 import { Program } from "@project-serum/anchor";
-import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
+import { Keypair, PublicKey, Signer, SystemProgram } from "@solana/web3.js";
 import { Nftoken as NftokenTypes } from "../../target/types/nftoken";
 import {
   Base58,
@@ -10,7 +10,7 @@ import {
   program,
 } from "./test-utils";
 
-export const createNft = async ({
+export const createNftV1 = async ({
   metadata_url: _metadata_url,
   holder,
   verbose,
@@ -43,6 +43,64 @@ export const createNft = async ({
       systemProgram: SystemProgram.programId,
     })
     .signers([nftKeypair])
+    .rpc()
+    .catch((e) => {
+      console.error(e);
+      throw e;
+    });
+
+  const nftResult = await client.account.nftAccount.fetch(nftKeypair.publicKey);
+  if (verbose) {
+    logNft(nftResult);
+  }
+
+  return {
+    signature,
+    nft_pubkey: nftKeypair.publicKey,
+    nft_keypair: nftKeypair,
+  };
+};
+
+export const createNftV2 = async ({
+  metadata_url: _metadata_url,
+  authority,
+  holder,
+  payer,
+  verbose,
+  client = program,
+  extraSigners = [],
+}: {
+  metadata_url?: string;
+  authority?: PublicKey | null;
+  holder?: PublicKey | null;
+  payer?: PublicKey | null;
+  verbose?: boolean;
+  client?: Program<NftokenIdlType>;
+  extraSigners?: Array<Signer>;
+}): Promise<{
+  signature: Base58;
+  nft_pubkey: PublicKey;
+  nft_keypair: Keypair;
+}> => {
+  const metadata_url = _metadata_url || generateAlphaNumericString(16);
+
+  const nftKeypair = Keypair.generate();
+
+  const creator = DEFAULT_KEYPAIR.publicKey;
+
+  const signature = await client.methods
+    .nftCreateV2({
+      metadataUrl: metadata_url,
+      collectionIncluded: false, // collection_included
+    })
+    .accounts({
+      nft: nftKeypair.publicKey,
+      authority: authority ?? creator,
+      holder: holder ?? creator,
+      payer: payer ?? creator,
+      systemProgram: SystemProgram.programId,
+    })
+    .signers([nftKeypair, ...extraSigners])
     .rpc()
     .catch((e) => {
       console.error(e);

@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { Keypair } from "@solana/web3.js";
-import { createNft } from "./utils/create-nft";
+import { createNftV2 } from "./utils/create-nft";
 import {
   DEFAULT_KEYPAIR,
   logNft,
@@ -14,7 +14,7 @@ describe("delegate", () => {
   anchor.setProvider(provider);
 
   test("delegates and undelegates an NFT", async () => {
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
 
     const delegate_keypair = Keypair.generate();
     const signer = DEFAULT_KEYPAIR.publicKey;

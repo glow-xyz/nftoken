@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { createCollection } from "./utils/create-collection";
-import { createNft } from "./utils/create-nft";
+import { createNftV2 } from "./utils/create-nft";
 import {
   DEFAULT_KEYPAIR,
   logNft,
@@ -14,7 +14,7 @@ describe("set / unset NFT collection", () => {
   anchor.setProvider(provider);
 
   test("set / unset NFT collection", async () => {
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV2({});
     const { collection_keypair } = await createCollection({});
 
     const signer = DEFAULT_KEYPAIR.publicKey;

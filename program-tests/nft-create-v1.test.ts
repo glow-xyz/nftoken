@@ -2,9 +2,10 @@ import * as anchor from "@project-serum/anchor";
 import { AnchorProvider, Program } from "@project-serum/anchor";
 import { Keypair, SystemProgram } from "@solana/web3.js";
 import { createCollection } from "./utils/create-collection";
-import { createNft } from "./utils/create-nft";
+import { createNftV1 } from "./utils/create-nft";
 import { KeypairWallet } from "./utils/KeypairWallet";
 import {
+  airdropSol,
   DEFAULT_KEYPAIR,
   NftokenIdl,
   NULL_PUBKEY_STRING,
@@ -12,13 +13,13 @@ import {
   PROGRAM_ID,
 } from "./utils/test-utils";
 
-describe("ix_nft_create", () => {
+describe("ix_nft_create_v1", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
   test("mints an NFT", async () => {
     const authority = DEFAULT_KEYPAIR.publicKey;
-    const { nft_pubkey } = await createNft({});
+    const { nft_pubkey } = await createNftV1({});
     const nft = await program.account.nftAccount.fetch(nft_pubkey);
 
     expect(nft.authority.toBase58()).toEqual(authority.toBase58());
@@ -30,7 +31,7 @@ describe("ix_nft_create", () => {
   test("mints an NFT to a different holder", async () => {
     const authority = DEFAULT_KEYPAIR.publicKey;
     const holder = Keypair.generate().publicKey;
-    const { nft_pubkey } = await createNft({ holder });
+    const { nft_pubkey } = await createNftV1({ holder });
     const nft = await program.account.nftAccount.fetch(nft_pubkey);
 
     expect(nft.authority.toBase58()).toEqual(authority.toBase58());
@@ -93,11 +94,7 @@ describe("ix_nft_create", () => {
       )
     );
 
-    const airdropSig = await newClient.provider.connection.requestAirdrop(
-      authority_keypair.publicKey,
-      anchor.web3.LAMPORTS_PER_SOL
-    );
-    await newClient.provider.connection.confirmTransaction(airdropSig);
+    await airdropSol({ keypair: authority_keypair });
 
     const { authority, collection_keypair } = await createCollection({
       authority_keypair,

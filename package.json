@@ -13,6 +13,6 @@
     "deploy": "anchor build && solana program deploy --max-len 10000000 --url devnet -k ~/sol-keys/nautBp55wm3oQSCu6278BmXg1kk5UfLwsuPnt3KUSkX.json target/deploy/nftoken.so",
     "deploy:mainnet": "anchor build && solana program deploy --max-len 10000000 --url mainnet-beta -k ~/sol-keys/nautBp55wm3oQSCu6278BmXg1kk5UfLwsuPnt3KUSkX.json target/deploy/nftoken.so",
     "test": "anchor test --skip-lint",
-    "test:fast": "ANCHOR_PROVIDER_URL=http://127.0.0.1:8899 ANCHOR_WALLET=/Users/victor/.config/solana/id.json pnpm --filter program-tests exec jest"
+    "test:fast": "ANCHOR_PROVIDER_URL=http://127.0.0.1:8899 ANCHOR_WALLET=~/.config/solana/id.json pnpm --filter program-tests exec jest"
   }
 }
